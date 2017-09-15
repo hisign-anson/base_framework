@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>cn.hisign</groupId>
-            <artifactId>server-sys</artifactId>
+            <artifactId>server-sys-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

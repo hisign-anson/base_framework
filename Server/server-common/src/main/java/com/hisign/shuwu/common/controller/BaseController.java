@@ -1,4 +1,4 @@
-package com.hisign.shuwu.web.controller;
+package com.hisign.shuwu.common.controller;
 
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.butils.JsonResultUtil;

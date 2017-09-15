@@ -1,39 +1,27 @@
-package com.hisign.shuwu.web.controller.sys;
+package com.hisign.shuwu.sys.rest;
 
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.hisign.shuwu.common.constant.Constants;
 import com.hisign.shuwu.common.model.JsonResult;
-import com.hisign.shuwu.common.util.ExcelUtils;
-import com.hisign.shuwu.common.util.JsonResultUtil;
-import com.hisign.shuwu.common.util.ListUtils;
-import com.hisign.shuwu.common.util.Md5Helper;
-import com.hisign.shuwu.common.util.PingYinUtil;
+import com.hisign.shuwu.common.util.*;
 import com.hisign.shuwu.sys.api.model.SysRole;
 import com.hisign.shuwu.sys.api.model.SysUser;
 import com.hisign.shuwu.sys.api.model.SysUserInfo;
 import com.hisign.shuwu.sys.api.model.SysUserRole;
 import com.hisign.shuwu.sys.api.service.SysRoleService;
 import com.hisign.shuwu.sys.api.service.SysUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/sys/user")
 @RestController

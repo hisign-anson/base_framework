@@ -1,33 +1,21 @@
-package com.hisign.shuwu.web.controller.sys;
+package com.hisign.shuwu.sys.rest;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import com.alibaba.fastjson.JSON;
+import com.hisign.shuwu.common.model.JsonResult;
+import com.hisign.shuwu.common.util.JsonResultUtil;
+import com.hisign.shuwu.sys.api.model.*;
+import com.hisign.shuwu.sys.api.service.SysRoleService;
+import com.hisign.shuwu.sys.api.service.SysUserService;
+import jodd.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.util.StringUtil;
-import com.hisign.shuwu.common.model.JsonResult;
-import com.hisign.shuwu.common.util.JsonResultUtil;
-import com.hisign.shuwu.sys.api.model.SysModule;
-import com.hisign.shuwu.sys.api.model.SysPermission;
-import com.hisign.shuwu.sys.api.model.SysRole;
-import com.hisign.shuwu.sys.api.model.SysRolePermis;
-import com.hisign.shuwu.sys.api.model.SysUser;
-import com.hisign.shuwu.sys.api.service.SysRoleService;
-import com.hisign.shuwu.sys.api.service.SysUserService;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/sys/role")

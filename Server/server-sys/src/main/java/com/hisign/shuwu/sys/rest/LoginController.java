@@ -1,38 +1,23 @@
-package com.hisign.shuwu.web.controller.sys;
-
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+package com.hisign.shuwu.sys.rest;
 
 import com.alibaba.druid.util.StringUtils;
 import com.hisign.shuwu.common.constant.Constants;
 import com.hisign.shuwu.common.model.JsonResult;
 import com.hisign.shuwu.common.util.Md5Helper;
 import com.hisign.shuwu.common.util.RsaHelper;
-import com.hisign.shuwu.sys.api.model.Index;
-import com.hisign.shuwu.sys.api.model.SysCommonDict;
-import com.hisign.shuwu.sys.api.model.SysModule;
-import com.hisign.shuwu.sys.api.model.SysParam;
-import com.hisign.shuwu.sys.api.model.SysUser;
-import com.hisign.shuwu.sys.api.service.SysDictService;
-import com.hisign.shuwu.sys.api.service.SysLogService;
-import com.hisign.shuwu.sys.api.service.SysModuleService;
-import com.hisign.shuwu.sys.api.service.SysParameterService;
-import com.hisign.shuwu.sys.api.service.SysUserService;
+import com.hisign.shuwu.sys.api.model.*;
+import com.hisign.shuwu.sys.api.service.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**

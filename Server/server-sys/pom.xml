@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>server-sys</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <name>server-sys</name>
     <url>http://maven.apache.org</url>

@@ -1,23 +1,16 @@
-package com.hisign.shuwu.web.controller.sys;
-
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+package com.hisign.shuwu.sys.rest;
 
 import com.hisign.shuwu.common.constant.Constants;
 import com.hisign.shuwu.common.model.JsonResult;
 import com.hisign.shuwu.common.util.JsonResultUtil;
 import com.hisign.shuwu.sys.api.model.SysModule;
 import com.hisign.shuwu.sys.api.service.SysModuleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @RequestMapping("/sys")
 @RestController

@@ -1,22 +1,5 @@
-package com.hisign.shuwu.web.controller.sys;
+package com.hisign.shuwu.sys.rest;
 
-
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.hisign.shuwu.common.model.JsonResult;
 import com.hisign.shuwu.common.util.JsonResultUtil;
@@ -24,6 +7,15 @@ import com.hisign.shuwu.sys.api.model.SysCommonDict;
 import com.hisign.shuwu.sys.api.model.SysDict;
 import com.hisign.shuwu.sys.api.model.TreeModel;
 import com.hisign.shuwu.sys.api.service.SysDictService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 系统字典控件控制器

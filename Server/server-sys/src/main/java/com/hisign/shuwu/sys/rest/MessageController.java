@@ -1,27 +1,4 @@
-package com.hisign.shuwu.web.controller.sys;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+package com.hisign.shuwu.sys.rest;
 
 import com.hisign.bfun.benum.BaseEnum.ConditionEnum;
 import com.hisign.bfun.benum.BaseEnum.DESCEnum;
@@ -29,14 +6,12 @@ import com.hisign.bfun.benum.BaseEnum.IsBTEnum;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.Conditions.Criteria;
 import com.hisign.bfun.bmodel.JsonResult;
-import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.shuwu.common.constant.CommonEnums.ErrorEnum;
 import com.hisign.shuwu.common.constant.Constants.IsDel;
-import com.hisign.shuwu.common.constant.Constants.MessageLevel;
 import com.hisign.shuwu.common.constant.Constants.MessageStatus;
 import com.hisign.shuwu.common.constant.Constants.MessageType;
 import com.hisign.shuwu.common.constant.Constants.ReceiveMessageType;
-import com.hisign.shuwu.common.util.JsonResultUtil;
+import com.hisign.shuwu.common.controller.BaseController;
 import com.hisign.shuwu.common.util.ListUtils;
 import com.hisign.shuwu.common.util.StringUtils;
 import com.hisign.shuwu.sys.api.model.Message;
@@ -47,11 +22,26 @@ import com.hisign.shuwu.sys.api.model.SysOrgInfo;
 import com.hisign.shuwu.sys.api.service.MessageService;
 import com.hisign.shuwu.sys.api.service.ReceiveBoxService;
 import com.hisign.shuwu.sys.api.service.SysOrgInfoService;
-import com.hisign.shuwu.web.controller.BaseController;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/sys/message")
-public class MessageController extends BaseController{
+public class MessageController extends BaseController {
 	
 	private Logger logger = LoggerFactory.getLogger(MessageController.class);
 	

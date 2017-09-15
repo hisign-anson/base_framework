@@ -1,19 +1,14 @@
-package com.hisign.shuwu.web.controller.sys;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+package com.hisign.shuwu.sys.rest;
 
 import com.hisign.shuwu.common.model.JsonResult;
 import com.hisign.shuwu.common.model.UploadFile;
 import com.hisign.shuwu.common.tfs.FileUploadToolkits;
 import com.hisign.shuwu.common.util.JsonResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequestMapping("/sys/file")
 @RestController
