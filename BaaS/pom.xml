@@ -6,6 +6,11 @@
     <artifactId>BaaS</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <parent>
+        <artifactId>baseFramework</artifactId>
+        <groupId>cn.hisign</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
     <name>BaaS</name>
     <url>http://maven.apache.org</url>

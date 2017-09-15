@@ -7,7 +7,7 @@
     <groupId>cn.hisign</groupId>
     <artifactId>baseFramework</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
 
     <modules>
         <module>Baas</module>

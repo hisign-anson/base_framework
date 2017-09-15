@@ -6,6 +6,11 @@
     <artifactId>Server</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <parent>
+        <artifactId>baseFramework</artifactId>
+        <groupId>cn.hisign</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
     <modules>
         <module>common</module>
