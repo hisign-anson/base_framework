@@ -8,10 +8,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.hisign</groupId>
-    <artifactId>server-common</artifactId>
+    <artifactId>common</artifactId>
     <packaging>jar</packaging>
 
-    <name>server-common</name>
+    <name>common</name>
     <url>http://maven.apache.org</url>
 
     <properties>
