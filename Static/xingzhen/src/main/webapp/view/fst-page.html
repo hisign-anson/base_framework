@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>首页</title>
+<link rel="stylesheet" href="../../css/base.css">
+<link rel="stylesheet" href="../../css/fst-page.css">
+</head>
+<body>
+	<div class="index-content">
+		<div class="index-wrapper">
+			<div class="wrapper clearfix">
+				<div class="public-style public-width graph-compare">
+					<h2 class="title">制式枪支痕迹录入情况(当月)</h2>
+					<div id="chart-ajkytb"></div>
+				</div>
+				<div class="public-style-top public-width graph-compare">
+					<h2 class="title">建档信息趋势分析</h2>
+					<div id="chart-jdqs"></div>
+				</div>
+
+				<div class="public-style-top public-width graph-compare">
+					<h2 class="title">用户访问量统计(前5名)</h2>
+					<div id="chart-zxsj"></div>
+				</div>
+
+				<div class="public-style my-apps">
+					<h2 class="title">快速入口</h2>
+					<ul class="workbench-public myapps-list clearfix">
+					<li>
+						<a id="hjjd-href" href="#" onclick="hjjdHref()"> <img
+							id="u68_img" src="../img/firstPage/u1.png" />
+							<p style="text-align:center;">
+								<span>痕迹建档</span>
+							</p>
+						</a>
+						</li>
+						<li>
+						<a id="qzcx-href" href="#" onclick="qzcxHref()"> <img
+							id="u70_img" src="../img/firstPage/u2.png" />
+							<p style="text-align:center;">
+								<span>枪支查询</span>
+							</p>
+						</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="wrapper clearfix">
+				<div class="public-style-south public-width-left">
+					<h2 class="title">最新建档信息（24小时内）</h2>
+					<div class="content-wrapper clearfix">
+							<div class="roll-wrap" id="roll-wrap">
+								<ul id="scropUl">
+									<li> </li>
+									<li> </li>
+									<li> </li>
+									<li> </li>
+									<li> </li>
+									<li> </li>
+									<li> </li>
+									<li> </li>
+									<li> </li>
+									<li> </li>
+
+								</ul>
+							</div>
+					</div>
+
+				</div>
+				<div class="public-style-south system-navigation">
+					<h2 class="title">导航系统</h2>
+					<div>
+						<a href="#"> <img
+							src="../img/firstPage/u138.png" /> <span>现勘平台</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+<script src="../js/base.js"></script>
+<script src="../js/fst-page.js"></script>
+<script type="text/javascript">
+var qzjdLimit = top.ops['into-gun-add'];//枪支建档模块权限
+var qzglLimit = top.ops['into-gun-mgr'];//枪支管理模块权限
+if (qzjdLimit != 1){
+	$('#hjjd-href').addClass('hideplus');
+}
+if (qzglLimit != 1){
+	$('#qzcx-href').addClass('hideplus');
+}
+
+            var hjjdHref = function(){
+				window.location.href=(getViewPath('hjjd/zsjzjd.html'));
+				changeSidebarStyle('hjjd-zsjzjd');
+			}
+			
+			var qzcxHref = function(){
+				window.location.href=(getViewPath('qzgl/gun_mgr.html'));
+				changeSidebarStyle('gun-mgr-zsqzgl');
+			}
+</script>
+
+</html>

@@ -1,0 +1,10 @@
+<%_.each(data, function(item){%>
+<div>
+    <a href="#" data-id="<%=item.id%>" msgId="<%=item.msgId%>" class="noticeOne">
+        <span class="icon-notice ml15 vam"></span><i class="animate-up"></i><i class="animate-middle"></i><i class="animate-down"></i>
+        <span class="text-record ml15" title="<%=item.rev1%>"><%=item.rev1%></span>
+        <span class="span-time"><%=rangeUtil.formatDate(item.createDate,'yyyy-MM-dd hh:mm')%></span>
+    </a>
+</div>
+<%})%>
+

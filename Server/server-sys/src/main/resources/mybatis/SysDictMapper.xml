@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hisign.shuwu.sys.mapper.SysDictMapper" >
+
+
+  <select id="querySingleDictByRoot" parameterType="java.lang.String" resultType="com.hisign.shuwu.sys.api.model.SysDict" >
+      select
+        dict_key as key,
+        root_key as root,
+        dict_value1 as value
+      from sys_dict
+      where open_flag = '1'
+      and PARENT_KEY = #{root}
+      order by dict_Key
+  </select>
+    
+    <select id="queryMultiDictByRoot" parameterType="java.lang.String" resultType="com.hisign.shuwu.sys.api.model.SysDict" >
+      select
+        dict_key as key,
+        root_key as root,
+        dict_value1 as value,
+        parent_key as parentKey
+      from sys_dict
+      where open_flag = '1'
+      and root_key = #{root}
+      and dict_key != root_key
+      order by dict_Key
+    </select>
+
+    <select id="queryDictByKey" parameterType="com.hisign.shuwu.sys.api.model.SysDict" resultType="com.hisign.shuwu.sys.api.model.SysDict" >
+        select
+            dict_key as key,
+            root_key as root,
+            dict_value1 as value,
+            parent_key as parentKey
+        from sys_dict
+        where open_flag = '1'
+        and root_key = #{root}
+        and dict_key = #{key}
+        and rownum = 1
+    </select>
+
+    <select id="queryDictListByKeys" parameterType="com.hisign.shuwu.sys.api.model.SysDict" resultType="com.hisign.shuwu.sys.api.model.SysDict" >
+        select
+            dict_key as key,
+            root_key as root,
+            dict_value1 as value,
+            parent_key as parentKey
+        from sys_dict
+        where open_flag = '1'
+        and root_key = #{root}
+        and dict_key in
+        <foreach collection="keys" item="key" index="index"  open="(" close=")" separator=",">
+            #{key}
+        </foreach>
+    </select>
+
+
+    <select id="queryDictListByCondition" parameterType="com.hisign.shuwu.sys.api.model.SysDict" resultType="com.hisign.shuwu.sys.api.model.SysDict" >
+       select * from (
+        select
+        dict_key as key,
+        root_key as root,
+        dict_value1 as value,
+        parent_key as parentKey,
+        dict_py as py
+        from sys_dict
+        where open_flag = '1'
+        and root_key = #{root}
+        and dict_key != root_key
+        <if test="queryType != null and queryType == 1 ">
+            and dict_key like #{queryString}||'%'
+        </if>
+        <if test="queryType != null and queryType == 2 ">
+            and dict_py like '%'|| #{queryString}||'%'
+        </if>
+        <if test="queryType != null and queryType == 3 ">
+            and dict_value1 like '%'|| #{queryString}||'%'
+        </if>
+        order by dict_key
+        ) where rownum <![CDATA[<=]]> 100
+    </select>
+
+    <select id="findCommDictList"  parameterType="java.util.HashMap" resultType="com.hisign.shuwu.sys.api.model.SysCommonDict" >
+        select
+        c.id as id,
+        s.dict_key as key,
+        decode(c.dict_type,'1', c.reserver2 ,s.dict_value1) as name,
+        s.dict_value1 as value,
+        c.reserver1 as pId,
+        decode(c.dict_type,'1', 'true' ,'false') as isParent
+        from sys_dict_common c
+        left join sys_dict s
+        on c.sys_dict_id = s.id
+        where c.user_id = #{userId, jdbcType=VARCHAR}
+        and c.root_key = #{rootKey, jdbcType=VARCHAR}
+        order by dict_type desc,c.create_datetime
+    </select>
+
+    <select id="findDictInfoForCommonDict" parameterType="java.util.HashMap" resultType="com.hisign.shuwu.sys.api.model.SysDict" >
+        select
+        ID as id,
+        DICT_KEY as dictKey,
+        DICT_VALUE1 as dictValue1,
+        PARENT_KEY as parentKey,
+        ROOT_KEY as rootKey
+        from SYS_DICT
+        where DICT_KEY = #{dictKey, jdbcType=VARCHAR}
+        and ROOT_KEY = #{rootKey, jdbcType=VARCHAR}
+        and id not in (
+        select sys_dict_id from sys_dict_common
+        where user_id= #{userId, jdbcType=VARCHAR}
+        and root_key = #{rootKey, jdbcType=VARCHAR}
+        <if test="groupId != null and groupId != ''" >
+            and reserver1 = #{groupId, jdbcType=VARCHAR}
+        </if>
+        <if test="groupId == null or groupId == ''" >
+            and reserver1 is null
+        </if>
+        )
+        and rownum=1
+    </select>
+
+    <delete id="deleteCommon" parameterType="java.lang.String">
+        delete from sys_dict_common where id=#{id, jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertCommon" parameterType="java.util.HashMap">
+        insert into sys_dict_common (
+        ID,
+        USER_ID,
+        SYS_DICT_ID,
+        ROOT_KEY,
+        DICT_TYPE,
+        CREATE_USER,
+        CREATE_DATETIME
+        ) values (
+        sys_guid(),
+        #{userId, jdbcType=VARCHAR},
+        #{id, jdbcType=VARCHAR},
+        #{root, jdbcType=VARCHAR},
+        '0',
+        #{userId, jdbcType=VARCHAR},
+        sysdate
+        )
+    </insert>
+    <select id="checkExitByKey" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1) from sys_dict where DICT_KEY=#{key} and ROOT_KEY =#{root}
+    <if test="parentKey !=null and parentKey !='' ">
+    and PARENT_KEY = #{parentKey}
+    </if>
+    </select>
+    <insert id="insertDict" parameterType="com.hisign.shuwu.sys.api.model.SysDict">
+	    INSERT INTO SYS_DICT (
+			ID,
+			DICT_KEY,
+			PARENT_KEY,
+			ROOT_KEY,
+			DICT_VALUE1,
+			DICT_SORT,
+			DICT_PY,
+			OPEN_FLAG,
+			REMARK,
+			CREATE_DATE,
+			MODIFY_DATE
+		)
+		VALUES
+		( 
+		  sys_guid(), 
+		  #{key, jdbcType=VARCHAR},
+		  #{parentKey, jdbcType=VARCHAR},
+		  #{root, jdbcType=VARCHAR},
+		  #{value, jdbcType=VARCHAR},
+		  #{sort, jdbcType=DECIMAL},
+		  #{py, jdbcType=VARCHAR},
+		  #{openFlag, jdbcType=VARCHAR},
+		  #{remark, jdbcType=VARCHAR},
+		  sysdate,
+		  sysdate
+		)
+    </insert>
+    
+    <update id="updateDict" parameterType="com.hisign.shuwu.sys.api.model.SysDict">
+      UPDATE SYS_DICT set 
+      DICT_KEY=#{key, jdbcType=VARCHAR},
+      PARENT_KEY=#{parentKey, jdbcType=VARCHAR},
+      ROOT_KEY=#{root, jdbcType=VARCHAR},
+      DICT_VALUE1=#{value, jdbcType=VARCHAR},
+      DICT_SORT=#{sort, jdbcType=DECIMAL},
+      DICT_PY=#{py, jdbcType=VARCHAR},
+      OPEN_FLAG=#{openFlag, jdbcType=VARCHAR},
+      REMARK=#{remark, jdbcType=VARCHAR}
+      WHERE ID = #{id, jdbcType=VARCHAR}
+    </update>
+
+    <insert id="addDictGroup" parameterType="java.util.HashMap">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            SELECT sys_guid() from DUAL
+        </selectKey>
+        insert into sys_dict_common (
+        ID,
+        USER_ID,
+        SYS_DICT_ID,
+        ROOT_KEY,
+        DICT_TYPE,
+        reserver1,
+        reserver2,
+        CREATE_USER,
+        CREATE_DATETIME
+        ) values (
+        #{id, jdbcType=VARCHAR},
+        #{userId, jdbcType=VARCHAR},
+        '0',
+        #{rootKey, jdbcType=VARCHAR},
+        '1',
+        '',
+        #{groupName, jdbcType=VARCHAR},
+        #{userId, jdbcType=VARCHAR},
+        sysdate
+        )
+    </insert>
+
+    <insert id="addCommonDict" parameterType="java.util.HashMap">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            SELECT sys_guid() from DUAL
+        </selectKey>
+        insert into sys_dict_common (
+        ID,
+        USER_ID,
+        SYS_DICT_ID,
+        ROOT_KEY,
+        DICT_TYPE,
+        reserver1,
+        reserver2,
+        CREATE_USER,
+        CREATE_DATETIME
+        ) values (
+        #{id, jdbcType=VARCHAR},
+        #{userId, jdbcType=VARCHAR},
+        #{dictId, jdbcType=VARCHAR},
+        #{rootKey, jdbcType=VARCHAR},
+        '0',
+        #{groupId, jdbcType=VARCHAR},
+        '',
+        #{userId, jdbcType=VARCHAR},
+        sysdate
+        )
+    </insert>
+
+    <delete id="deleteCommDictById" parameterType="java.lang.String">
+        delete from sys_dict_common where id=#{groupId, jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteDictInGroup" parameterType="java.lang.String">
+        delete from sys_dict_common where reserver1=#{groupId, jdbcType=VARCHAR}
+    </delete>
+
+    <update id="renameDictGroup" parameterType="java.util.HashMap">
+        update sys_dict_common set reserver2 = #{groupName, jdbcType=VARCHAR} where ID = #{groupId, jdbcType=VARCHAR}
+    </update>
+
+    <select id="getGuid"  resultType="java.lang.String" >
+        SELECT sys_guid() AS id FROM DUAL
+    </select>
+
+    <select id="initDictForGXSDM" parameterType="java.lang.String" resultType="com.hisign.shuwu.sys.api.model.SysDict" >
+         select
+            dict_key as key,
+            root_key as root,
+            dict_value1 as value,
+            parent_key as parentKey,
+            dict_py as py from SYS_DICT
+               start with DICT_KEY = #{userUnit} and ROOT_KEY='GXSDM'
+               connect by prior DICT_KEY=PARENT_KEY and ROOT_KEY='GXSDM'
+    </select>
+    
+    <select id="getDictListByParentKey" parameterType="com.hisign.shuwu.sys.api.model.SysDict" resultType="com.hisign.shuwu.sys.api.model.SysDict">
+       select p.* from(
+	    select
+	      rownum,rownum as rn,a.* from (
+	      select
+	          ID as id,
+	          DICT_KEY as key,
+	          PARENT_KEY as parentKey,
+	          ROOT_KEY as root,
+	          DICT_VALUE1 as value,
+	          DICT_SORT as sort,
+	          DICT_PY as py,
+	          OPEN_FLAG as openFlag,
+	          REMARK as remark
+	        from SYS_DICT where 
+	        <choose>
+	          <when test="parentKey !=null and parentKey !='' ">
+	            PARENT_KEY =#{parentKey}
+	          </when>
+	          <otherwise>
+	           PARENT_KEY is NULL
+	          </otherwise>
+	        </choose>
+	        order by DICT_SORT ASC
+	      ) a
+	      <if test="end !=null and end !=0">
+	        where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+	      </if>
+	      ) p
+	    <if test="begin !=null and begin !=0">
+	      where rn >= #{begin,jdbcType=INTEGER}
+	    </if>
+    </select>
+    <select id="getDictListByRootKey" parameterType="com.hisign.shuwu.sys.api.model.SysDict" resultType="com.hisign.shuwu.sys.api.model.SysDict">
+       select p.* from(
+	    select
+	      rownum,rownum as rn,a.* from (
+	      select
+	          ID as id,
+	          DICT_KEY as key,
+	          PARENT_KEY as parentKey,
+	          ROOT_KEY as root,
+	          DICT_VALUE1 as value,
+	          DICT_SORT as sort,
+	          DICT_PY as py,
+	          OPEN_FLAG as openFlag,
+	          REMARK as remark
+	        from SYS_DICT where 
+	        <choose>
+	          <when test="root !=null and root !='' ">
+	            ROOT_KEY =#{root}
+	          </when>
+	          <otherwise>
+	           ROOT_KEY is NULL
+	          </otherwise>
+	        </choose>
+	        order by DICT_SORT ASC
+	      ) a
+	      <if test="end !=null and end !=0">
+	        where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+	      </if>
+	      ) p
+	    <if test="begin !=null and begin !=0">
+	      where rn >= #{begin,jdbcType=INTEGER}
+	    </if>
+    </select>
+    <select id="selectById" parameterType="java.lang.String"  resultType="com.hisign.shuwu.sys.api.model.SysDict">
+         select
+	          ID as id,
+	          DICT_KEY as key,
+	          PARENT_KEY as parentKey,
+	          ROOT_KEY as root,
+	          DICT_VALUE1 as value,
+	          DICT_SORT as sort,
+	          DICT_PY as py,
+	          OPEN_FLAG as openFlag,
+	          REMARK as remark
+	        from SYS_DICT where ID=#{id}
+    </select>
+    <select id="getDictCountByParentKey" parameterType="java.lang.String" resultType="java.lang.Integer">
+            select
+	          count(1)
+	        from SYS_DICT where 
+	        <choose>
+	          <when test="key !=null and key !='' ">
+	            PARENT_KEY =#{key}
+	          </when>
+	          <otherwise>
+	           PARENT_KEY is NULL
+	          </otherwise>
+	        </choose>
+    </select>
+    
+    <delete id="delDictByKey" parameterType="java.lang.String">
+       DELETE FROM SYS_DICT s where s.ROOT_KEY=#{rootKey} AND s.ID IN(SELECT s.ID FROM SYS_DICT S START WITH S.DICT_KEY=#{key} CONNECT BY PRIOR DICT_KEY = PARENT_KEY)
+    </delete>
+    <delete id="delDictById" parameterType="java.lang.String">
+       DELETE FROM SYS_DICT s where s.ID=#{id} 
+    </delete>
+    
+
+</mapper>

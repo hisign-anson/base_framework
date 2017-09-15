@@ -1,0 +1,214 @@
+.guns-screen {
+    border: 1px solid #888888;
+    padding: 20px;
+    position: relative;
+}
+.guns-screen-form {
+    margin:10px 0;
+}
+.guns-screen-form-checked {
+    height:24px;
+    line-height:24px;
+    margin-right:20px;
+}
+.guns-screen-form label {
+    width:110px;
+    font-size:16px;
+    float:left;
+    height:24px;
+    line-height:24px;
+}
+.guns-screen-form > div {
+    float: left;
+}
+.guns-screen-form input[type="radio"] {
+    vertical-align: 0;
+}
+.guns-screen-form input[type="text"] {
+    height:24px;
+}
+.guns-screen-form-btn {
+    position:absolute;
+    right: 30px;
+    top: 30px;
+}
+ .guns-screen-form-btn button {
+    background: #169bd5;
+    color: #fff;
+    border: 1px solid #169bd5;
+    border-radius: 4px;
+    padding: 5px 15px;
+    margin-left:20px;
+}
+
+.guns-result-tab {
+    padding: 10px;
+}
+.guns-result-tab span{
+    background:url("../img/guns/tab.png");
+    display:inline-block;
+    height:28px;
+    width:40px;
+    cursor:pointer;
+}
+.guns-result-tab .tab2 {
+    background-position:-40px 0;
+}
+
+
+.guns-screen {
+    border: 1px solid #888888;
+    padding: 20px;
+    position: relative;
+}
+.guns-screen-form {
+    margin:10px 0;
+}
+.guns-screen-form-checked {
+    height:24px;
+    line-height:24px;
+    margin-right:20px;
+}
+.guns-screen-form label {
+    font-weight: bold;
+    width:110px;
+    font-size:16px;
+    float:left;
+    height:24px;
+    line-height:24px;
+}
+.guns-screen-form > div {
+    float: left;
+}
+.guns-screen-form input[type="radio"] {
+    vertical-align: 0;
+}
+.guns-screen-form input[type="text"] {
+    height:24px;
+}
+.guns-screen-form-btn {
+    position:absolute;
+    right: 30px;
+    top: 30px;
+}
+.guns-screen-form-btn button {
+    background: #169bd5;
+    color: #fff;
+    border: 1px solid #169bd5;
+    border-radius: 4px;
+    padding: 5px 15px;
+    margin-left:20px;
+}
+
+.gun-img-wrap>p{
+    margin-bottom: 5px;
+    visibility: hidden;
+}
+.gun-img-wrap:hover>p{
+    visibility: visible;
+}
+.guns-result-tab {
+    padding: 10px;
+}
+.guns-result-tab span{
+    background:url("../img/guns/tab.png");
+    display:inline-block;
+    height:28px;
+    width:40px;
+    cursor:pointer;
+}
+.guns-result-tab .tab2 {
+    background-position:-40px 0;
+}
+
+.guns-result {
+    padding:2px 2px 2px 2px;
+    border: 1px solid #d9d9d9;
+}
+.guns-lists li {
+    float:left;
+    padding-left: 40px;
+    width:18%;
+    margin: 20px 1% 0;
+}
+.guns-lists li img {
+    margin-bottom: 10px;
+    cursor:pointer;
+    box-shadow: 3px 3px 3px #555;
+}
+.guns-lists li img:hover{
+    transform: scale(1.2);
+}
+.guns-lists li p {
+    height:16px;
+    line-height:16px;
+}
+.page-content ul{
+    float: right;
+    margin: 10px 40px 10px 0;
+}
+.page-content li {
+    float:left;
+    padding: 0 3px;
+    cursor:pointer;
+}
+.guns-lists li{
+  height:240px;
+  overflow:hidden;
+}
+.guns-lists li img{
+  height:130px;
+  width:130px;
+}
+
+.body-agent {
+    padding:5px;
+    margin:0 auto;
+    width:100%;
+    background:#fff;
+}
+.gun-info {
+    border:1px #666666 solid;
+    padding:10px;
+}
+.gun-info img {
+    cursor:pointer;
+}
+.info-one {
+    margin:5px 0;
+    width:32%;
+    float:left;
+    font-size:10px;
+}
+.info-one label {
+    display:inline-block;
+    width:100px;
+    font-weight:bold;
+}
+.gun-info-pic {
+    margin-top:2px;
+    border: 1px solid #666;
+}
+.gun-info-pic .gun-info-pic-title {
+    padding: 10px;
+    background-color: rgba(204, 204, 204, 1);
+    font-size:13px;
+    border-bottom: 1px solid #666;
+}
+.gun-info-pic-box {
+    padding-top: 10px;
+}
+.gun-info-pic-box li {
+    margin: 10px 0;
+    float: left;
+    width:25%;
+    text-align:center;
+}
+.gun-info-pic-box li img {
+    width:200px;
+    height:150px;
+    cursor:pointer;
+}
+.gun-info-pic-box li p {
+    padding:10px 0;
+} 

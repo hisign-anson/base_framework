@@ -1,0 +1,110 @@
+<div class="col-panel-block daiban">
+    <h3 class="col-panel-header"><i class="left-line"></i>待办任务</h3>
+    <div class="col-panel-body">
+        <div class="num-info expense">
+            <!--<h6><i class="icon-list-ul adorn-icon"></i>开支申请</h6>-->
+            <h6><a style="background-color: #22A0E2" href="javascript:void(0)">财</a>开支申请</h6>
+            <ul class="num-info-ul">
+                <li class="li-submit">
+                    <a href="#" modelNo="C0101" en="1" status="0,-1,-2,-3,-4" data-expense="expenseApplyTask" class="expenseApplyTask">
+                        <span class="status-span">
+                            <span><%=data.finance.submit%></span>
+                            <span><span class="icon-span icon-edit-btn"></span>待提交</span>
+                        </span>
+                    </a>
+                </li>
+                <%if(top.opsMap && top.opsMap.get('task_exes_audit') && top.opsMap.get('task_exes_audit') == 1){%>
+                <li class="li-audit">
+                    <a href="#" modelNo="C0101" en="2" status="1,2,3,4" data-expense="expenseApplyTask"  class="expenseApplyTask">
+                        <span class="status-span">
+                            <span><%=data.finance.approval%></span>
+                            <span><span class="icon-span icon-audit-btn"></span>待审核</span>
+                        </span>
+                    </a>
+                </li>
+                <%}%>
+
+            </ul>
+        </div>
+        <div class="num-info car">
+            <h6><a style="background-color: #FF8C00" href="javascript:void(0)">车</a>用车申请</h6>
+            <ul class="num-info-ul">
+                <li class="li-submit">
+                    <a href="#" modelNo="0101" en="1" status="0,-1,-2,-3,-4" data-car="carApplyTask" class="carApplyTask">
+                        <span class="status-span">
+                            <span><%=data.car.submit%></span>
+                            <span><span class="icon-span icon-edit-btn"></span>待提交</span>
+                        </span>
+                    </a>
+                </li>
+
+                <%if(top.opsMap && top.opsMap.get('task_car_audit') && top.opsMap.get('task_car_audit') == 1){%>
+                <li class="li-audit">
+                    <a href="#"  modelNo="0101" en="2" status="1,2,3,4" data-car="carApplyTask" class="carApplyTask">
+                        <span class="status-span">
+                            <span><%=data.car.approval%></span>
+                            <span><span class="icon-span icon-audit-btn"></span>待审核</span>
+                        </span>
+                    </a>
+                </li>
+                <%}%>
+                
+                <%if(top.opsMap && top.opsMap.get('task_car_assign') && top.opsMap.get('task_car_assign') == 1){%>
+                <li class="li-carAssign">
+                    <a href="#"  modelNo="0101" en="2" status="5" data-car="carApplyTask"  class="carApplyTask">
+                        <span class="status-span">
+                            <span><%=data.car.assign%></span>
+                            <span><span class="icon-span icon-carAssign-btn"></span>待派车</span>
+                        </span>
+                    </a>
+                </li>
+                <%}%>
+                
+                <%if(top.opsMap && top.opsMap.get('task_car_back') && top.opsMap.get('task_car_back') == 1){%>
+                <li class="li-carBack">
+                    <a href="#"  modelNo="0101" en="2" status="6" data-car="carApplyTask"  class="carApplyTask">
+                        <span class="status-span">
+                            <span><%=data.car.back%></span>
+                            <span><span class="icon-span icon-carBack-btn"></span>待回车</span>
+                        </span>
+                    </a>
+                </li>
+                <%}%>
+            </ul>
+        </div>
+        <div class="num-info item">
+            <h6><a style="background-color: #20B7B0" href="javascript:void(0)">物</a>物品申领</h6>
+            <ul class="num-info-ul">
+                <li class="li-submit">
+                    <a href="#" modelNo="itemApply" en="1" status="0" data-item="itemApplyTask" class="itemApplyTask">
+                        <span class="status-span">
+                            <span><%=data.item.submit%></span>
+                            <span><span class="icon-span icon-edit-btn"></span>待提交</span>
+                        </span>
+                    </a>
+                </li>
+                <%if(top.opsMap && top.opsMap.get('task_item_audit') && top.opsMap.get('task_item_audit') == 1){%>
+                <li class="li-audit">
+                    <a href="#" modelNo="itemApply" en="2" status="1,3,4,5" data-item="itemApplyTask" class="itemApplyTask">
+                        <span class="status-span">
+                            <span><%=data.item.approval%></span>
+                            <span><span class="icon-span icon-audit-btn"></span>待审核</span>
+                        </span>
+                    </a>
+                </li>
+                <%}%>
+                <%if(top.opsMap && top.opsMap.get('task_item_reg') && top.opsMap.get('task_item_reg') == 1){%>
+                <li class="li-get">
+                    <a href="#" modelNo="itemApply" en="2" status="6" data-item="itemApplyTask" class="itemApplyTask">
+                        <span class="status-span">
+                            <span><%=data.item.get%></span>
+                            <span><span class="icon-span icon-reg-btn"></span>待领取</span>
+                        </span>
+                    </a>
+                </li>
+                <%}%>
+            </ul>
+        </div>
+    </div>
+</div>
+

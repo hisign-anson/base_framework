@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.shuwu.sys.mapper.SysUserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.hisign.shuwu.sys.api.model.SysUserInfo">
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+    <result column="SEX" jdbcType="DECIMAL" property="sex" />
+    <result column="CID" jdbcType="VARCHAR" property="cid" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="AVATAR" jdbcType="VARCHAR" property="avatar" />
+    <result column="POST" jdbcType="VARCHAR" property="post" />
+    <result column="POST_NAME" jdbcType="VARCHAR" property="postName" />
+    <result column="BIRTH" jdbcType="TIMESTAMP" property="birth" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="CREATE_PID" jdbcType="VARCHAR" property="createPid" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="MODIFY_PID" jdbcType="VARCHAR" property="modifyPid" />
+    <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    o.USER_ID, o.USER_NAME, o.ORG_ID, o.SEX, o.CID, o.PHONE, o.AVATAR, o.POST, o.BIRTH, o.ADDRESS, 
+    o.NOTE, o.STATUS, o.CREATE_PID, o.CREATE_TIME, o.MODIFY_PID, o.MODIFY_TIME
+  </sql>
+  <sql id="where_condition">
+     AND  o.STATUS IN(0,1)
+      <if test="users != null and users.size()>0 ">
+      AND o.USER_ID IN 
+       <foreach collection="users" item="item" open="(" close=")" separator=",">
+       	#{item}
+       </foreach>
+      </if>
+      <if test="userName != null and userName !='' ">
+       AND  o.USER_NAME  like '%'||#{userName,jdbcType=VARCHAR}||'%' escape '\'
+      </if>
+      <if test="isChoose !=null and isChoose ==1 ">
+      AND o.USER_ID NOT IN (SELECT s.USER_ID from SYS_USER s where s.USER_ID IS NOT NULL)
+      </if>
+      <if test="orgId != null and orgId !='' ">
+       AND o.ORG_ID IN(SELECT ORG_ID FROM SYS_ORGANIZATION S  START WITH S.ORG_ID=#{orgId,jdbcType=VARCHAR} CONNECT BY PRIOR ORG_ID = SUPER_ID )
+      </if>
+      <if test="orgName != null and orgName !='' ">
+       AND o.ORG_NAME = #{orgName,jdbcType=VARCHAR}
+      </if>
+      <if test="sex != null">
+       AND o.SEX = #{sex,jdbcType=DECIMAL}
+      </if>
+      <if test="cid != null and cid !='' ">
+       AND o.CID = #{cid,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+      AND  o.STATUS = #{status,jdbcType=DECIMAL}
+      </if>
+      <if test="phone != null and phone !='' ">
+       AND o.PHONE = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="post != null and post !='' ">
+       AND o.POST = #{post,jdbcType=VARCHAR}
+      </if>
+  </sql>
+   <sql id="orderBy" >
+        order by
+        <choose> 
+           <when test="sortName !=null and sortName !=''"> 
+              ${sortName} 
+              <choose>
+                 <when test="sortOrder !=null and sortOrder !=''">
+                    ${sortOrder}
+                 </when>
+                 <otherwise> DESC</otherwise>
+              </choose>
+           </when>
+           <otherwise>
+             CREATE_TIME DESC
+           </otherwise>
+        </choose>
+  </sql>
+  
+  <select id="selectByKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    ,o.ORG_NAME,
+    get_dictValue_by_dictKey('FLDZWDM',o.POST) as POST_NAME
+    from SYS_USER_INFO o
+    where o.USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="queryListByCondition" parameterType="com.hisign.shuwu.sys.api.model.SysUserInfo" resultMap="BaseResultMap">
+	    select p.* from(
+	    select
+	      rownum,rownum as rn,a.* from (
+	      select t.* from (
+	        select
+	          <include refid="Base_Column_List" />
+	          ,(CASE when T1.SUPER_NAME IS not null THEN T1.SUPER_NAME||'/'||o.ORG_NAME ELSE o.ORG_NAME END) as ORG_NAME
+	        from SYS_USER_INFO o 
+	         LEFT JOIN (
+				SELECT s.ORG_NAME,s.ORG_ID,(SELECT o.ORG_NAME from SYS_ORGANIZATION o where o.ORG_ID=s.SUPER_ID) as SUPER_NAME FROM SYS_ORGANIZATION s
+				)t1 on (T1.ORG_ID=o.ORG_ID)
+	        where 1=1
+	        <include refid="where_condition" />
+	       ) t
+	        <include refid="orderBy" />
+	      ) a
+	      <if test="end !=null and end !=0">
+	        where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+	      </if>
+	      ) p
+	    <if test="begin !=null and begin !=0">
+	      where rn >= #{begin,jdbcType=INTEGER}
+	    </if>
+  </select>
+  
+  <select id="queryCountByCondition" parameterType="com.hisign.shuwu.sys.api.model.SysUserInfo" resultType="java.lang.Integer">
+        select
+          count(1)
+        from SYS_USER_INFO o where 1=1
+        <include refid="where_condition" />
+  </select>
+  
+  <delete id="deleteByKey" parameterType="java.lang.String">
+    delete from SYS_USER_INFO
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.hisign.shuwu.sys.api.model.SysUserInfo">
+  	<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="userId">
+        SELECT sys_guid() from DUAL
+    </selectKey>
+    insert into SYS_USER_INFO (USER_ID, USER_NAME, ORG_ID, 
+      ORG_NAME, SEX, CID, PHONE, 
+      AVATAR, POST, BIRTH, 
+      ADDRESS, NOTE, STATUS, 
+      CREATE_PID, CREATE_TIME, MODIFY_PID, 
+      MODIFY_TIME)
+    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, 
+      #{orgName,jdbcType=VARCHAR}, #{sex,jdbcType=DECIMAL}, #{cid,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{avatar,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{birth,jdbcType=TIMESTAMP}, 
+      #{address,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
+      #{createPid,jdbcType=VARCHAR}, sysdate, #{modifyPid,jdbcType=VARCHAR}, 
+      sysdate)
+  </insert>
+  
+  <insert id="batchInsert">
+  	insert into SYS_USER_INFO (USER_ID, USER_NAME, ORG_ID, 
+      ORG_NAME, SEX, CID, PHONE, 
+      AVATAR, POST, BIRTH, 
+      ADDRESS, NOTE, STATUS, 
+      CREATE_PID, CREATE_TIME, MODIFY_PID, 
+      MODIFY_TIME)
+    values 
+  	<foreach collection="list" item="item" index="index" separator="," > 
+  		(
+	     sys_guid(), #{userName,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, 
+	     #{orgName,jdbcType=VARCHAR}, #{sex,jdbcType=DECIMAL}, #{cid,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+	     #{avatar,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{birth,jdbcType=TIMESTAMP}, 
+	     #{address,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
+	     #{createPid,jdbcType=VARCHAR}, sysdate, #{modifyPid,jdbcType=VARCHAR}, 
+	     sysdate
+	     )
+  	</foreach>
+  </insert>
+  
+  <update id="update" parameterType="com.hisign.shuwu.sys.api.model.SysUserInfo">
+    update SYS_USER_INFO
+    set USER_NAME = #{userName,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=DECIMAL},
+      CID = #{cid,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      AVATAR = #{avatar,jdbcType=VARCHAR},
+      POST = #{post,jdbcType=VARCHAR},
+      BIRTH = #{birth,jdbcType=TIMESTAMP},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      MODIFY_PID = #{modifyPid,jdbcType=VARCHAR},
+      MODIFY_TIME = sysdate
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateNotNull" parameterType="com.hisign.shuwu.sys.api.model.SysUserInfo">
+    update SYS_USER_INFO
+    <trim prefix="SET" suffixOverrides=",">
+    	<if test="userName !=null and userName!='' ">
+    		 USER_NAME = #{userName,jdbcType=VARCHAR},
+    	</if>
+    	<if test="orgId !=null and orgId!='' ">
+    		 ORG_ID = #{orgId,jdbcType=VARCHAR},
+    	</if>
+    	<if test="orgName !=null and orgName!='' ">
+    		 ORG_NAME = #{orgName,jdbcType=VARCHAR},
+    	</if>
+    	<if test="sex !=null">
+    		 SEX = #{sex,jdbcType=DECIMAL},
+    	</if>
+    	<if test="cid !=null and cid !='' ">
+    		 CID = #{cid,jdbcType=VARCHAR},
+    	</if>
+    	<if test="phone !=null and phone !='' ">
+    		 PHONE = #{phone,jdbcType=VARCHAR},
+    	</if>
+    	<if test="avatar !=null and avatar !='' ">
+    		AVATAR = #{avatar,jdbcType=VARCHAR},
+    	</if>
+    	<if test="post !=null and post!='' ">
+    		  POST = #{post,jdbcType=VARCHAR},
+    	</if>
+    	<if test="birth !=null">
+    		 BIRTH = #{birth,jdbcType=TIMESTAMP},
+    	</if>
+    	<if test="address !=null and address !='' ">
+    		 ADDRESS = #{address,jdbcType=VARCHAR},
+    	</if>
+    	<if test="note !=null and note !='' ">
+    		 NOTE = #{note,jdbcType=VARCHAR},
+    	</if>
+    	<if test="status !=null ">
+    		 STATUS = #{status,jdbcType=DECIMAL},
+    	</if>
+    	<if test="modifyPid !=null and modifyPid !='' ">
+    		MODIFY_PID = #{modifyPid,jdbcType=VARCHAR},
+    	</if>
+    	MODIFY_TIME = sysdate
+    </trim>
+    where CID = #{cid,jdbcType=VARCHAR}
+  </update>
+</mapper>

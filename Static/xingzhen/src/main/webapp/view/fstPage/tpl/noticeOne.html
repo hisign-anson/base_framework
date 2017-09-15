@@ -1,0 +1,27 @@
+<div class="panel-header">
+    <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+    <!--<h5  class="modal-title"><%=data.message.subject%></h5>-->
+    <div class="panel-tool">
+        <a href="javascript:void(0);" class="panel-tool-close" data-dismiss="modal" aria-hidden="true"></a>
+    </div>
+    <div  class="panel-title">通知公告</div>
+</div>
+<div class="modal-body" >
+    <h3 class="my-title"><%=data.message.subject%></h3>
+    <div class="my-common text-center">
+        <span class="common-text">发布人：</span><span class="common-text"><%=data.receiverName%></span>
+        <span class="common-text">发布时间：</span><span class="common-text"><%=data.createDate%></span>
+    </div>
+    <!--<div class="hide{senderUnit}"><span>发件人单位：</span><span class="tcolor"><%=data.senderUnit%></span></div>-->
+    <div class="my-content"><%=data.message.content%></div>
+
+    <div class="my-common" id="noticeRev1" ><span class="common-text">附件：</span><span class="common-text"><a href="<%=top.ftpServer%><%=data.message.rev1%>" download="<%=data.message.rev1%>"><%=data.message.rev1%></a></span></div>
+</div>
+
+
+
+
+
+
+
+

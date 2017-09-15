@@ -1,0 +1,24 @@
+<%_.each(data, function(item,i){%>
+ <div>
+     <a href="#" data-id="<%=item.id%>" msg-id="<%=obj[i].id%>" msg-type="<%=obj[i].type%>" class="new-column">
+         <%if(obj[i].type == 1){%>
+         <span class="icon-decoration expense-decoration"></span>
+         <%}else if(obj[i].type == 2){%>
+         <span class="icon-decoration car-decoration"></span>
+         <%}else if(obj[i].type == 3){%>
+         <span class="icon-decoration item-decoration"></span>
+         <%}else if(obj[i].type == 4){%>
+         <span class="icon-decoration itemSum-decoration"></span>
+         <%}%>
+         <span class="text-record">
+            <span data-grade="newsGrade" class=""><%=obj[i].applyLevel%></span>
+            <%=obj[i].prefix%>
+            <span class="blue-link"><%=obj[i].applyNo%></span>
+             <%=obj[i].suffix%>
+             
+         </span>
+         <span class="span-time"><%=rangeUtil.formatDate(data[i].createDate,'yyyy-MM-dd hh:mm')%></span>
+     </a>
+ </div>
+<%})%>
+

@@ -1,0 +1,22 @@
+<%_.each(data, function(item){%>
+<div>
+    <a href="<%=top.ftpServer%><%=item.rev1%>" id="<%=item.id%>" download="<%=item.rev1%>"  class="tableOne">
+        <% var fileType = item.content.substring(item.content.indexOf("."));%>
+        <%if(fileType == ".xls" || fileType == ".xlsx"){%>
+            <span class="icon-file-excel ml15 vam"></span>
+        <%}else if (fileType == ".doc" || fileType == ".docx"){%>
+            <span class="icon-file-word ml15 vam"></span>
+        <%}else if (fileType == ".txt"){%>
+            <span class="icon-file-txt ml15 vam"></span>
+        <%}else if (fileType == ".pdf"){%>
+            <span class="icon-file-pdf ml15 vam"></span>
+        <%}else if (fileType == ".ppt" || fileType == ".pptx"){%>
+            <span class="icon-file-powerpoint ml15 vam"></span>
+        <%}else if (fileType == ".jpg" || fileType == ".jpeg" || fileType == ".png" || fileType == ".gif" || fileType == ".bmp" || fileType == ".tiff"){%>
+            <span class="icon-file-image ml15 vam"></span>
+        <%}%>
+        <span class="text-record ml10" title="<%=item.content%>"><%=item.content%></span>
+        <span class="span-time"><%=rangeUtil.formatDate(item.createDate,'yyyy-MM-dd hh:mm')%></span>
+    </a>
+</div>
+<%})%>

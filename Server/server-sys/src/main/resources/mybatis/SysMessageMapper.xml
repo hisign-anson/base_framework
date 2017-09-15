@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hisign.shuwu.sys.mapper.SysMessageMapper" >
+
+    <select id="findSysMessageByFilter" parameterType="com.hisign.shuwu.sys.api.model.SysMessage" resultType="com.hisign.shuwu.sys.api.model.SysMessage">
+        select p.* from(
+        select
+            rownum,rownum as rn,a.* from (
+                select  r.id as receiveId,
+                        r.sender_name as senderName,
+                        r.sender_id as senderId,
+                        get_dictValue_by_dictKey('GXSDM',r.sender_unit) as senderUnit,
+                        r.msg_state as msgState,
+                        r.msg_id as msgId,
+                        t.id as id,
+                        t.subject as subject,
+                        t.content as content,
+                        get_dictValue_by_dictKey('XXLXDM',t.type) as msgType,
+                        get_dictValue_by_dictKey('XXDJDM',t.msg_level) as msgLevel,
+                        to_char(t.create_date, 'yyyy-MM-dd hh24:mi:ss') as msgDateStr,
+                        t.create_date as createDate,
+                        t.tslb as tslb,
+                        t.att_id as attId
+                from sys_message t ,sys_receive_box r
+        where 1=1
+            and t.id = r.msg_id
+            and (r.receiver_id = #{receiverId,jdbcType=VARCHAR} 
+              <if test="techId !=null and techId !='' ">
+                or r.receiver_id = #{techId,jdbcType=VARCHAR}
+              </if>
+            )
+            and r.del = '0'
+        <if test="msgState != null and msgState != ''">
+            and r.msg_state =  #{msgState,jdbcType=VARCHAR}
+        </if>
+        <if test="msgLevel != null and msgLevel != ''">
+            and t.msg_level =  #{msgLevel,jdbcType=VARCHAR}
+        </if>
+        <if test="msgVest != null and msgVest != ''">
+            and t.msg_vest =  #{msgVest,jdbcType=VARCHAR}
+        </if>
+        <if test="msgType != null and msgType != ''">
+            and t.type =  #{msgType,jdbcType=VARCHAR}
+        </if>
+        <if test="senderName != null and senderName != ''">
+            and r.sender_name like '%' || #{senderName,jdbcType=VARCHAR} || '%'
+        </if>
+        <if test="content != null and content != ''">
+            and t.content like '%' || #{content,jdbcType=VARCHAR} || '%'
+        </if>
+        <if test="noTslbSql != null and noTslbSql != ''">
+            and t.tslb not in ${noTslbSql}
+        </if>
+        <if test="msgDateBegin!=null and msgDateBegin!=''">
+            and t.create_date >= to_date(#{msgDateBegin},'yyyy-mm-dd')
+        </if>
+        <if test="msgDateEnd!=null and msgDateEnd!=''">
+            and t.create_date <![CDATA[<]]> to_date(#{msgDateEnd},'yyyy-mm-dd')+1
+        </if>
+        ) a
+        <if test="end != 0 and end !=null">
+        where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+        </if>
+        ) p
+        <if test="begin != 0 and begin !=null">
+        where rn >= #{begin,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="findSysMessageByFilterForCount"
+            parameterType="com.hisign.shuwu.sys.api.model.SysMessage"
+            resultType="java.lang.Integer">
+        select
+          count(1)
+        from sys_message t ,sys_receive_box r
+        where 1=1
+            and t.id = r.msg_id
+            and (r.receiver_id = #{receiverId,jdbcType=VARCHAR} or r.receiver_id = #{techId,jdbcType=VARCHAR})
+            and r.del = '0'
+        <if test="msgState != null and msgState != ''">
+            and r.msg_state =  #{msgState,jdbcType=VARCHAR}
+        </if>
+        <if test="msgLevel != null and msgLevel != ''">
+            and t.msg_level =  #{msgLevel,jdbcType=VARCHAR}
+        </if>
+        <if test="msgVest != null and msgVest != ''">
+            and t.msg_vest =  #{msgVest,jdbcType=VARCHAR}
+        </if>
+        <if test="msgType != null and msgType != ''">
+            and t.type =  #{msgType,jdbcType=VARCHAR}
+        </if>
+        <if test="senderName != null and senderName != ''">
+            and r.sender_name like '%' || #{senderName,jdbcType=VARCHAR} || '%'
+        </if>
+        <if test="content != null and content != ''">
+            and t.content like '%' || #{content,jdbcType=VARCHAR} || '%'
+        </if>
+        <if test="noTslbSql != null and noTslbSql != ''">
+            and t.tslb not in ${noTslbSql}
+        </if>
+        <if test="msgDateBegin!=null and msgDateBegin!=''">
+            and t.create_date >= to_date(#{msgDateBegin},'yyyy-mm-dd')
+        </if>
+        <if test="msgDateEnd!=null and msgDateEnd!=''">
+            and t.create_date <![CDATA[<]]> to_date(#{msgDateEnd},'yyyy-mm-dd')+1
+        </if>
+
+    </select>
+
+    <select id="findSysMessage"
+            parameterType="java.lang.String"
+            resultType="com.hisign.shuwu.sys.api.model.SysMessage">
+        select  r.id as receiveId,
+                r.sender_name as senderName,
+                get_dictValue_by_dictKey('XXZTDM',r.msg_state) as msgState,
+                r.msg_id as msgId,
+                t.id as id,
+                t.subject as subject,
+                t.content as content,
+                get_dictValue_by_dictKey('XXLXDM',t.type) as msgType,
+                get_dictValue_by_dictKey('XXDJDM',t.msg_level) as msgLevel,
+                to_char(t.create_date, 'yyyy-MM-dd hh24:mi:ss') as msgDateStr
+        from sys_message t
+        left join sys_receive_box r
+        on t.id = r.msg_id
+        where t.id = #{id,jdbcType=VARCHAR}
+        and rownum = 1
+    </select>
+
+    <delete id="deleteSysMessageById"
+            parameterType="java.lang.String">
+        delete from sys_message t where t.id=#{id,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteSysReceiveByMsgId"
+            parameterType="java.lang.String">
+        delete from sys_receive_box t where t.msg_id=#{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="deleteSysReceiveByUser"
+            parameterType="com.hisign.shuwu.sys.api.model.SysMessage">
+        update sys_receive_box t
+        set t.del = '1',
+        t.modify_pid = #{modifyPid,jdbcType=VARCHAR},
+        t.modify_date = sysdate
+        where t.msg_id = #{id,jdbcType=VARCHAR}
+        and (t.receiver_id = #{receiverId,jdbcType=VARCHAR} or t.receiver_id = #{techId,jdbcType=VARCHAR})
+    </update>
+
+    <update id="setSysMessageRead" parameterType="com.hisign.shuwu.sys.api.model.SysMessage">
+        update sys_receive_box t
+        set t.msg_state = '2',
+            t.modify_pid = #{modifyPid,jdbcType=VARCHAR},
+            t.modify_date = sysdate
+        where t.msg_id = #{id,jdbcType=VARCHAR}
+          and (t.receiver_id = #{receiverId,jdbcType=VARCHAR} or t.receiver_id = #{techId,jdbcType=VARCHAR})
+    </update>
+
+    <insert id="insertSysMessage" parameterType="com.hisign.shuwu.sys.api.model.SysMessage">
+        insert into sys_message(
+                id,
+                subject,
+                content,
+                type,
+                msg_level,
+                del,
+                secrecy,
+                create_pid,
+                modify_pid,
+                msg_vest,
+                tslb,
+                <if test = "attId != null and attId != ''">
+                att_id,
+                </if>
+                modify_date,
+                create_date
+            )values(
+                #{id            ,jdbcType=VARCHAR},
+                #{subject       ,jdbcType=VARCHAR},
+                #{content       ,jdbcType=VARCHAR},
+                '2',
+                '2',
+                '0',
+                '0',
+                #{createPid ,jdbcType=VARCHAR},
+                #{modifyPid ,jdbcType=VARCHAR},
+                '3',
+                #{tslb   ,jdbcType=VARCHAR},
+                <if test = "attId != null and attId != ''">
+                	#{attId},
+                </if>
+                sysdate,
+                sysdate
+        )
+    </insert>
+
+    <insert id="insertSysReceiverBox"
+            parameterType="com.hisign.shuwu.sys.api.model.SysMessage">
+            insert into sys_receive_box(
+                    id,
+                    msg_id,
+                    sender_name,
+                    sender_id,
+                    receiver_name,
+                    receiver_id,
+                    msg_state,
+                    del,
+                    secrecy,
+                    create_pid,
+                    modify_pid,
+                    create_date,
+                    modify_date
+                )values(
+                    sys_guid(),
+                    #{msgId,jdbcType=VARCHAR},
+                    #{senderName,jdbcType=VARCHAR},
+                    #{senderId,jdbcType=VARCHAR},
+                    #{receiverName,jdbcType=VARCHAR},
+                    #{receiverId,jdbcType=VARCHAR},
+                    '1',
+                    '0',
+                    '0',
+                    #{createPid ,jdbcType=VARCHAR},
+                    #{modifyPid ,jdbcType=VARCHAR},
+                    sysdate,
+                    sysdate
+            )
+    </insert>
+
+    <select id="findZnxxMessage"
+            parameterType="com.hisign.shuwu.sys.api.model.SysMessage"
+            resultType="com.hisign.shuwu.sys.api.model.SysMessage">
+        select
+            rownum,
+            t.id as id,
+            t.subject as subject,
+            t.content as content,
+            get_dictValue_by_dictKey('XXLXDM',t.type) as msgType,
+            get_dictValue_by_dictKey('XXDJDM',t.msg_level) as msgLevel,
+            to_char(t.create_date, 'yyyy-MM-dd hh24:mi:ss') as msgDateStr,
+            t.create_date as createDate,
+            t.tslb as tslb,
+            t.att_id as attId
+        from sys_message t
+        where t.att_id = #{attId,jdbcType=VARCHAR}
+          and t.tslb = #{tslb,jdbcType=VARCHAR}
+          order by t.create_date desc
+    </select>
+
+    <select id="findZnxxReceivers"
+            parameterType="com.hisign.shuwu.sys.api.model.SysMessage"
+            resultType="com.hisign.shuwu.sys.api.model.SysMessage">
+        select
+            r.id as receiveId,
+            r.sender_name as senderName,
+            r.sender_id as senderId,
+            get_dictValue_by_dictKey('GXSDM',r.sender_unit) as senderUnit,
+            r.msg_state as msgState,
+            r.msg_id as msgId,
+            r.receiver_id as receiverId,
+            r.receiver_name as receiverName
+        from sys_receive_box r
+        where 1=1
+        and r.msg_id = #{msgId,jdbcType=VARCHAR}
+    </select>
+
+</mapper>
