@@ -7,6 +7,8 @@ import com.hisign.shuwu.common.model.JsonResult;
 import com.hisign.shuwu.sys.api.model.SysCommonDict;
 import com.hisign.shuwu.sys.api.model.SysDict;
 import com.hisign.shuwu.sys.api.model.TreeModel;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -14,6 +16,7 @@ import com.hisign.shuwu.sys.api.model.TreeModel;
  *
  * 2017年3月29日
  */
+@FeignClient(name = "sysService")
 public interface SysDictService {
 
     /**
@@ -21,14 +24,18 @@ public interface SysDictService {
      * @param root 字典类型
      * @return
      */
-    public List<SysDict> querySingleDictByRoot(String root);
+    @RequestMapping(value = "/querySingleDictByRoot", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysDict> querySingleDictByRoot(@RequestParam(value = "root") String root);
 
     /**
      * 多级字典查询
      * @param root 字典类型
      * @return
      */
-    public List<SysDict> queryMultiDictByRoot(String root);
+    @RequestMapping(value = "/queryMultiDictByRoot", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysDict> queryMultiDictByRoot(@RequestParam(value = "root") String root);
 
     /**
      * 根据字典代码查询字典信息
@@ -36,7 +43,9 @@ public interface SysDictService {
      * @param key 字典代码
      * @return
      */
-    public SysDict queryDictByKey(String root, String key);
+    @RequestMapping(value = "/queryDictByKey", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public SysDict queryDictByKey(@RequestParam(value = "root") String root, @RequestParam(value = "key") String key);
 
     /**
      * 根据多个字典代码(使用英文逗号分隔)查询字典信息
@@ -44,7 +53,9 @@ public interface SysDictService {
      * @param keys 字典代码字符串
      * @return
      */
-    public List<SysDict> queryDictListByKeys(String root, String keys);
+    @RequestMapping(value = "/queryDictListByKeys", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysDict> queryDictListByKeys(@RequestParam(value = "root") String root, @RequestParam(value = "keys") String keys);
 
     /**
      * 字典查询
@@ -53,7 +64,9 @@ public interface SysDictService {
      * @param queryString 查询条件
      * @return
      */
-    public List<SysDict> queryDictListByCondition(String root, String queryType, String queryString);
+    @RequestMapping(value = "/queryDictListByCondition", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysDict> queryDictListByCondition(@RequestParam(value = "root") String root, @RequestParam(value = "queryType") String queryType, @RequestParam(value = "queryString") String queryString);
 
     /**
      * 查询常用字典
@@ -61,42 +74,56 @@ public interface SysDictService {
      * @param rootKey
      * @return
      */
-    public List<SysCommonDict> findCommDictList(String userId, String rootKey);
+    @RequestMapping(value = "/findCommDictList", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysCommonDict> findCommDictList(@RequestParam(value = "userId") String userId, @RequestParam(value = "rootKey") String rootKey);
 
     /**
      * 删除常用字典
      * @return
      */
-    public int deleteCommon(String id);
+    @RequestMapping(value = "/deleteCommon", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public int deleteCommon(@RequestParam(value = "id") String id);
 
     /**
      * 插入常用字典
      */
-    public int insertCommon(Map<String, String> node);
+    @RequestMapping(value = "/insertCommon", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public int insertCommon(@RequestBody Map<String, String> node);
 
     /**
      * 新建组
      */
-    String addDictGroup(Map<String, String> map);
+    @RequestMapping(value = "/addDictGroup", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String addDictGroup(@RequestBody Map<String, String> map);
 
     /**
      * 根据id删除常用节点
      * @param groupId
      */
-    void deleteCommDictById(String groupId);
+    @RequestMapping(value = "/deleteCommDictById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public void deleteCommDictById(@RequestParam(value = "groupId") String groupId);
 
     /**
      * 根据id删除常用组
      * @param groupId
      */
-    void deleteDictInGroup(String groupId);
+    @RequestMapping(value = "/deleteDictInGroup", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public void deleteDictInGroup(@RequestParam(value = "groupId") String groupId);
 
     /**
      * 修改组名
      * @param groupId
      * @param groupName
      */
-    void renameDictGroup(String groupId, String groupName);
+    @RequestMapping(value = "/renameDictGroup", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public void renameDictGroup(@RequestParam(value = "groupId") String groupId, @RequestParam(value = "groupName") String groupName);
 
     /**
      * 新增常用项
@@ -107,12 +134,16 @@ public interface SysDictService {
      * @return
      * @throws Exception
      */
-    String addCommDict(String rootKey, String dictKey, String groupId, String userId) throws Exception;
+    @RequestMapping(value = "/addCommDict", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String addCommDict(@RequestParam(value = "rootKey") String rootKey, @RequestParam(value = "dictKey") String dictKey, @RequestParam(value = "groupId") String groupId, @RequestParam(value = "userId") String userId) throws Exception;
 
     /**
      * 获取guid()
      * @return
      */
+    @RequestMapping(value = "/getGuid", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
     public String getGuid();
 
     /**
@@ -121,24 +152,44 @@ public interface SysDictService {
      * @return
      * @throws Exception
      */
-    public List<SysCommonDict> initDictForGXSDM(String userUnit) throws Exception;
+    @RequestMapping(value = "/initDictForGXSDM", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysCommonDict> initDictForGXSDM(@RequestParam(value = "userUnit") String userUnit) throws Exception;
 
-	public List<SysDict> getDictListByParentKey(SysDict sysDict);
-	
-	public List<SysDict> getDictListByRootKey(SysDict sysDict);
+    @RequestMapping(value = "/getDictListByParentKey", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysDict> getDictListByParentKey(@RequestBody SysDict sysDict);
 
-	public int getDictCountByParentKey(SysDict sysDict);
+    @RequestMapping(value = "/getDictListByRootKey", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysDict> getDictListByRootKey(@RequestBody SysDict sysDict);
 
-	public List<TreeModel> getDictTreeByParentKey(SysDict sysDict);
+    @RequestMapping(value = "/getDictCountByParentKey", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public int getDictCountByParentKey(@RequestBody SysDict sysDict);
 
-	public void delDictByKey(String key, String rootKey);
+    @RequestMapping(value = "/getDictTreeByParentKey", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<TreeModel> getDictTreeByParentKey(@RequestBody SysDict sysDict);
 
-	public void delDictById(String id);
+    @RequestMapping(value = "/delDictByKey", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public void delDictByKey(@RequestParam(value = "key") String key, @RequestParam(value = "rootKey") String rootKey);
 
-	public SysDict getDictById(String id);
+    @RequestMapping(value = "/delDictById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public void delDictById(@RequestParam(value = "id") String id);
 
-	public JsonResult addDict(SysDict sysDict);
+    @RequestMapping(value = "/getDictById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public SysDict getDictById(@RequestParam(value = "id") String id);
 
-	public JsonResult updateDict(SysDict sysDict);
+    @RequestMapping(value = "/addDict", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonResult addDict(@RequestBody SysDict sysDict);
+
+    @RequestMapping(value = "/updateDict", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonResult updateDict(@RequestBody SysDict sysDict);
 
 }

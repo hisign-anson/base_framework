@@ -1,4 +1,4 @@
-package com.hisign.shuwu.sys.rest;
+package com.hisign.shuwu.sys.controller;
 
 import com.hisign.bfun.benum.BaseEnum.ConditionEnum;
 import com.hisign.bfun.benum.BaseEnum.DESCEnum;
@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class MessageController extends BaseController {
 	private Logger logger = LoggerFactory.getLogger(MessageController.class);
 	
 	@Autowired
+	@Resource(name = "messageService")
 	private MessageService messageService;
 	
 	@Autowired

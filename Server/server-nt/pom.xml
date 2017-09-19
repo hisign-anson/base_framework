@@ -16,6 +16,11 @@
     <dependencies>
         <dependency>
             <groupId>cn.hisign</groupId>
+            <artifactId>run-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hisign</groupId>
             <artifactId>server-nt-api</artifactId>
             <version>${project.version}</version>
         </dependency>

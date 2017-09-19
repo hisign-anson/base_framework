@@ -2213,7 +2213,7 @@ function after(count, callback, err_cb) {
         }
         --proxy.count
 
-        // after first error, rest are passed to err_cb
+        // after first error, controller are passed to err_cb
         if (err) {
             bail = true
             callback(err)

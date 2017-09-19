@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>Baas</module>
+        <!--<module>Baas</module>-->
         <module>Server</module>
         <module>Static</module>
     </modules>

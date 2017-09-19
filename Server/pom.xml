@@ -19,6 +19,7 @@
         <module>server-nt</module>
         <module>server-nt/server-nt-api</module>
         <module>run-server</module>
+        <module>server-test</module>
     </modules>
 
     <name>Server</name>
@@ -67,11 +68,11 @@
         </dependency>
 
         <!-- 热部署工具 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-devtools</artifactId>-->
+            <!--<optional>true</optional>-->
+        <!--</dependency>-->
 
         <!--api-->
         <dependency>
@@ -155,7 +156,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
+            <!--<exclusions>-->
                 <!--<exclusion>-->
                 <!--<groupId>org.springframework.boot</groupId>-->
                 <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
@@ -164,7 +165,7 @@
                     <!--<groupId>org.springframework.boot</groupId>-->
                     <!--<artifactId>spring-boot-starter-logging</artifactId>-->
                 <!--</exclusion>-->
-            </exclusions>
+            <!--</exclusions>-->
         </dependency>
 
         <!-- springcloud -->
@@ -181,14 +182,18 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
                 <!--<exclusion>-->
-                    <!--<groupId>org.slf4j</groupId>-->
-                    <!--<artifactId>log4j-over-slf4j</artifactId>-->
+                <!--<groupId>org.slf4j</groupId>-->
+                <!--<artifactId>log4j-over-slf4j</artifactId>-->
                 <!--</exclusion>-->
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
 
         <!-- test -->

@@ -3033,7 +3033,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	     * If value1 is not null, then return value1, otherwise judget rest of values.
+	     * If value1 is not null, then return value1, otherwise judget controller of values.
 	     * @memberOf module:zrender/core/util
 	     * @return {*} Final value
 	     */
@@ -29080,7 +29080,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Some sector is constrained by minAngle
 	            // Rest sectors needs recalculate angle
 	            if (restAngle < PI2) {
-	                // Average the angle if rest angle is not enough after all angles is
+	                // Average the angle if controller angle is not enough after all angles is
 	                // Constrained by minAngle
 	                if (restAngle <= 1e-3) {
 	                    var angle = PI2 / data.count();

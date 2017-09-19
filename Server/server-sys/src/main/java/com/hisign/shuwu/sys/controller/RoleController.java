@@ -1,4 +1,4 @@
-package com.hisign.shuwu.sys.rest;
+package com.hisign.shuwu.sys.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.hisign.shuwu.common.model.JsonResult;

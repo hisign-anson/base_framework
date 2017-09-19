@@ -1,4 +1,4 @@
-package com.hisign.shuwu.sys.rest;
+package com.hisign.shuwu.sys.controller;
 
 import com.hisign.shuwu.common.model.JsonResult;
 import com.hisign.shuwu.common.model.UploadFile;

@@ -50,7 +50,7 @@ import com.hisign.shuwu.sys.mapper.MessageMapper;
  * 《系统消息》 业务逻辑服务类
  * @author 何建辉
  *
- */ 
+ */
 @Service("messageService")
 public class MessageServiceImpl extends BaseServiceImpl<Message, String> implements MessageService{
 	private Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
