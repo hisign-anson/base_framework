@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.hisign.shuwu.sys.mapper.ReceiveBoxMapper">
-	<resultMap type="com.hisign.shuwu.sys.api.model.ReceiveBox" id="BaseResultMap">
+<mapper namespace="com.hisign.framework.sys.mapper.ReceiveBoxMapper">
+	<resultMap type="com.hisign.framework.sys.api.model.ReceiveBox" id="BaseResultMap">
       <result column="ID" property="id" jdbcType="VARCHAR"/>
       <result column="MSG_ID" property="msgId" jdbcType="VARCHAR"/>
       <result column="SENDER_NAME" property="senderName" jdbcType="VARCHAR"/>
@@ -88,7 +88,7 @@
         MSG_CONTENT
     </sql>
     
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.shuwu.sys.api.model.ReceiveBox">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.sys.api.model.ReceiveBox">
     	<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
         SELECT sys_guid() from DUAL
     	</selectKey>
@@ -137,7 +137,7 @@
         )
     </insert>
     
-    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.shuwu.sys.api.model.ReceiveBox">
+    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.sys.api.model.ReceiveBox">
     <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
         SELECT sys_guid() from DUAL
     </selectKey>
@@ -319,7 +319,7 @@
 	</insert>
 	
     <!-- 更新 -->
-    <update id="update" parameterType="com.hisign.shuwu.sys.api.model.ReceiveBox">
+    <update id="update" parameterType="com.hisign.framework.sys.api.model.ReceiveBox">
         UPDATE sys_receive_box
         <trim prefix="SET" suffixOverrides=",">
 		    MSG_ID=#{msgId},
@@ -346,7 +346,7 @@
         ID = #{id,jdbcType=VARCHAR}
     </update>
 	
-    <update id="updateNotNull" parameterType="com.hisign.shuwu.sys.api.model.ReceiveBox">
+    <update id="updateNotNull" parameterType="com.hisign.framework.sys.api.model.ReceiveBox">
         UPDATE sys_receive_box
         <trim prefix="SET" suffixOverrides=",">
             <if test="msgId!=null  and msgId != '' ">
@@ -454,7 +454,7 @@
         and rownum = 1 
     </select>
     
-    <select id="findByEntity" parameterType="com.hisign.shuwu.sys.api.model.ReceiveBox" resultMap="BaseResultMap">
+    <select id="findByEntity" parameterType="com.hisign.framework.sys.api.model.ReceiveBox" resultMap="BaseResultMap">
         SELECT  
 	    <include refid="Base_Column_List" />
         FROM sys_receive_box 

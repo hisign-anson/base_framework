@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hisign.shuwu.sys.mapper.SysParameterMapper" >
-	<select id="findSysConfigList"  resultType="com.hisign.shuwu.sys.api.model.SysParam">
+<mapper namespace="com.hisign.framework.sys.mapper.SysParameterMapper" >
+	<select id="findSysConfigList"  resultType="com.hisign.framework.sys.api.model.SysParam">
 			SELECT t.*,rownum FROM (
 				SELECT
 					ID 			 	AS id,
@@ -23,7 +23,7 @@
 				WHERE 1=1 and hide_flag = '0' order by to_number(param_sort) nulls last) t
 	</select>
 
-	<select id="findSysParamConfigList"  resultType="com.hisign.shuwu.sys.api.model.SysParamConfig">
+	<select id="findSysParamConfigList"  resultType="com.hisign.framework.sys.api.model.SysParamConfig">
 		SELECT t.*,rownum FROM (
 		SELECT
 		ID 			 	AS id,
@@ -39,7 +39,7 @@
 		WHERE 1=1 ORDER BY SEQ) t
 	</select>
 
-	<insert id="insertSysParameter" parameterType="com.hisign.shuwu.sys.api.model.SysParam" >
+	<insert id="insertSysParameter" parameterType="com.hisign.framework.sys.api.model.SysParam" >
 		INSERT INTO SYS_PARAMETER(
 			ID,
 			CHINESE_NAME,
@@ -79,7 +79,7 @@
        </foreach>
 	</update>
 
-	<update id="updateSysParameterConfig" parameterType="com.hisign.shuwu.sys.api.model.SysParam" >
+	<update id="updateSysParameterConfig" parameterType="com.hisign.framework.sys.api.model.SysParam" >
 		UPDATE SYS_PARAMETER SET
 	    <if test="value != null and value != ''">
 	          VALUE = #{value,jdbcType=VARCHAR},
@@ -134,7 +134,7 @@
 		FROM SYS_PARAMETER
 		WHERE 1=1 AND ENGLISH_NAME = #{englishName} AND CONFIG_ID = #{configId}
 	</select>
-	<select id="findSysParameterById" parameterType="java.lang.String"  resultType="com.hisign.shuwu.sys.api.model.SysParam" >
+	<select id="findSysParameterById" parameterType="java.lang.String"  resultType="com.hisign.framework.sys.api.model.SysParam" >
 	     SELECT
 					ID 			 	AS id,
 					CHINESE_NAME 	AS chineseName,
@@ -149,7 +149,7 @@
 				FROM SYS_PARAMETER
 		WHERE ID=#{id}
 	</select>
-	<select id="getParamByName" parameterType="java.lang.String"  resultType="com.hisign.shuwu.sys.api.model.SysParam">
+	<select id="getParamByName" parameterType="java.lang.String"  resultType="com.hisign.framework.sys.api.model.SysParam">
 			SELECT
 					ID 			 	AS id,
 					CHINESE_NAME 	AS chineseName,

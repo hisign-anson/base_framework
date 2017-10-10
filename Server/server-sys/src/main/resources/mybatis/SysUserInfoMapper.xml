@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hisign.shuwu.sys.mapper.SysUserInfoMapper">
-  <resultMap id="BaseResultMap" type="com.hisign.shuwu.sys.api.model.SysUserInfo">
+<mapper namespace="com.hisign.framework.sys.mapper.SysUserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.hisign.framework.sys.api.model.SysUserInfo">
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
     <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
     <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
@@ -88,7 +88,7 @@
     where o.USER_ID = #{userId,jdbcType=VARCHAR}
   </select>
   
-   <select id="queryListByCondition" parameterType="com.hisign.shuwu.sys.api.model.SysUserInfo" resultMap="BaseResultMap">
+   <select id="queryListByCondition" parameterType="com.hisign.framework.sys.api.model.SysUserInfo" resultMap="BaseResultMap">
 	    select p.* from(
 	    select
 	      rownum,rownum as rn,a.* from (
@@ -114,7 +114,7 @@
 	    </if>
   </select>
   
-  <select id="queryCountByCondition" parameterType="com.hisign.shuwu.sys.api.model.SysUserInfo" resultType="java.lang.Integer">
+  <select id="queryCountByCondition" parameterType="com.hisign.framework.sys.api.model.SysUserInfo" resultType="java.lang.Integer">
         select
           count(1)
         from SYS_USER_INFO o where 1=1
@@ -126,7 +126,7 @@
     where USER_ID = #{userId,jdbcType=VARCHAR}
   </delete>
   
-  <insert id="insert" parameterType="com.hisign.shuwu.sys.api.model.SysUserInfo">
+  <insert id="insert" parameterType="com.hisign.framework.sys.api.model.SysUserInfo">
   	<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="userId">
         SELECT sys_guid() from DUAL
     </selectKey>
@@ -164,7 +164,7 @@
   	</foreach>
   </insert>
   
-  <update id="update" parameterType="com.hisign.shuwu.sys.api.model.SysUserInfo">
+  <update id="update" parameterType="com.hisign.framework.sys.api.model.SysUserInfo">
     update SYS_USER_INFO
     set USER_NAME = #{userName,jdbcType=VARCHAR},
       ORG_ID = #{orgId,jdbcType=VARCHAR},
@@ -183,7 +183,7 @@
     where USER_ID = #{userId,jdbcType=VARCHAR}
   </update>
   
-  <update id="updateNotNull" parameterType="com.hisign.shuwu.sys.api.model.SysUserInfo">
+  <update id="updateNotNull" parameterType="com.hisign.framework.sys.api.model.SysUserInfo">
     update SYS_USER_INFO
     <trim prefix="SET" suffixOverrides=",">
     	<if test="userName !=null and userName!='' ">

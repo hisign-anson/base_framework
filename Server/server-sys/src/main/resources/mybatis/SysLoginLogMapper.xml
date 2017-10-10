@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hisign.shuwu.sys.mapper.SysLoginLogMapper" >
-    <select id="findSysLoginLogList" parameterType="com.hisign.shuwu.sys.api.model.SysLoginLog" resultType="com.hisign.shuwu.sys.api.model.SysLoginLog">
+<mapper namespace="com.hisign.framework.sys.mapper.SysLoginLogMapper" >
+    <select id="findSysLoginLogList" parameterType="com.hisign.framework.sys.api.model.SysLoginLog" resultType="com.hisign.framework.sys.api.model.SysLoginLog">
         select * from (
             select t.*,rownum as rn
                 from (
@@ -43,7 +43,7 @@
             where p.rn <![CDATA[>=]]>#{begin}
     </select>
 
-    <select id="findSysLoginLogListForCount" parameterType="com.hisign.shuwu.sys.api.model.SysLoginLog" resultType="java.lang.Integer">
+    <select id="findSysLoginLogListForCount" parameterType="com.hisign.framework.sys.api.model.SysLoginLog" resultType="java.lang.Integer">
         select
         count(1)
         from sys_online_log

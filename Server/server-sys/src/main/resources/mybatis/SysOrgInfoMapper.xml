@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hisign.shuwu.sys.mapper.SysOrgInfoMapper">
-  <resultMap id="BaseResultMap" type="com.hisign.shuwu.sys.api.model.SysOrgInfo">
+<mapper namespace="com.hisign.framework.sys.mapper.SysOrgInfoMapper">
+  <resultMap id="BaseResultMap" type="com.hisign.framework.sys.api.model.SysOrgInfo">
     <id column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
     <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
     <result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
@@ -73,7 +73,7 @@
     from SYS_ORGANIZATION T
     where ORG_ID = #{orgId,jdbcType=VARCHAR}
   </select>
-  <select id="queryListByCondition" parameterType="com.hisign.shuwu.sys.api.model.SysOrgInfo" resultMap="BaseResultMap">
+  <select id="queryListByCondition" parameterType="com.hisign.framework.sys.api.model.SysOrgInfo" resultMap="BaseResultMap">
 	    select p.* from(
 	    select
 	      rownum,rownum as rn,a.* from (
@@ -93,7 +93,7 @@
 	      where rn >= #{begin,jdbcType=INTEGER}
 	    </if>
   </select>
-  <select id="queryCountByCondition" parameterType="com.hisign.shuwu.sys.api.model.SysOrgInfo" resultType="java.lang.Integer">
+  <select id="queryCountByCondition" parameterType="com.hisign.framework.sys.api.model.SysOrgInfo" resultType="java.lang.Integer">
         select
           count(1)
         from SYS_ORGANIZATION where 1=1
@@ -107,7 +107,7 @@
     delete from SYS_ORGANIZATION
     where ORG_ID = #{orgId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.hisign.shuwu.sys.api.model.SysOrgInfo">
+  <insert id="insert" parameterType="com.hisign.framework.sys.api.model.SysOrgInfo">
     insert into SYS_ORGANIZATION (ORG_ID, ORG_NAME, ORG_CODE, ORG_LEVEL,
       SUPER_ID, STATUS, PINYIN, 
       FIRST_LETTER, SHORTENED_NAME, CREATE_PID, 
@@ -120,7 +120,7 @@
       )
   </insert>
   
-  <update id="update" parameterType="com.hisign.shuwu.sys.api.model.SysOrgInfo">
+  <update id="update" parameterType="com.hisign.framework.sys.api.model.SysOrgInfo">
     update SYS_ORGANIZATION
     set ORG_NAME = #{orgName,jdbcType=VARCHAR},
       ORG_CODE = #{orgCode,jdbcType=VARCHAR},

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hisign.shuwu.sys.mapper.SysRoleMapper" >
+<mapper namespace="com.hisign.framework.sys.mapper.SysRoleMapper" >
     <select id="findSysRoleListByUserId"
             parameterType="java.lang.String"
-            resultType="com.hisign.shuwu.sys.api.model.SysRole" >
+            resultType="com.hisign.framework.sys.api.model.SysRole" >
         select
             sr.ID as id,
             sr.ROLE_NAME as roleName,
@@ -18,7 +18,7 @@
 
 
     <select id="findAllRole"
-            resultType="com.hisign.shuwu.sys.api.model.SysRole">
+            resultType="com.hisign.framework.sys.api.model.SysRole">
         select
             ID as key,
             ROLE_NAME as value
@@ -28,14 +28,14 @@
     </select>
     
     <select id="findRoleByRoleName" parameterType="java.lang.String"
-            resultType="com.hisign.shuwu.sys.api.model.SysRole">
+            resultType="com.hisign.framework.sys.api.model.SysRole">
         select
             *
         from SYS_ROLE
         where OPEN_FLAG =  '1' AND ROLE_NAME = #{roleName}
     </select>
 
-    <select id="findSysRoleByFilter" parameterType="com.hisign.shuwu.sys.api.model.SysRole" resultType="com.hisign.shuwu.sys.api.model.SysRole">
+    <select id="findSysRoleByFilter" parameterType="com.hisign.framework.sys.api.model.SysRole" resultType="com.hisign.framework.sys.api.model.SysRole">
         select p.* from(
         select
             rownum,rownum as rn,a.* from (
@@ -69,7 +69,7 @@
         </if>
     </select>
 
-    <select id="findSysRoleByFilterForCount" parameterType="com.hisign.shuwu.sys.api.model.SysRole" resultType="java.lang.Integer">
+    <select id="findSysRoleByFilterForCount" parameterType="com.hisign.framework.sys.api.model.SysRole" resultType="java.lang.Integer">
         select
           count(1)
         from SYS_ROLE
@@ -107,7 +107,7 @@
         delete from SYS_USER_ROLE where ROLE_ID=#{id,jdbcType=VARCHAR}
     </delete>
 
-    <select id="findSysRoleById" parameterType="java.lang.String"  resultType="com.hisign.shuwu.sys.api.model.SysRole">
+    <select id="findSysRoleById" parameterType="java.lang.String"  resultType="com.hisign.framework.sys.api.model.SysRole">
         select
             rownum,
             ID as id,
@@ -124,7 +124,7 @@
        select count(1) from  SYS_ROLE where ROLE_NAME=#{roleName,jdbcType=VARCHAR}
     </select>
 
-    <insert id="insertSysRole" parameterType="com.hisign.shuwu.sys.api.model.SysRole">
+    <insert id="insertSysRole" parameterType="com.hisign.framework.sys.api.model.SysRole">
         insert into SYS_ROLE
         (
             ID,
@@ -149,7 +149,7 @@
         )
     </insert>
 
-    <update id="updateSysRoleById" parameterType="com.hisign.shuwu.sys.api.model.SysRole">
+    <update id="updateSysRoleById" parameterType="com.hisign.framework.sys.api.model.SysRole">
         UPDATE SYS_ROLE SET
             ROLE_NAME = #{roleName,jdbcType=VARCHAR},
             ROLE_NO = #{roleNo,jdbcType=VARCHAR},
@@ -161,8 +161,8 @@
     </update>
 
     <select id="findUserRoleByUserRoleId"
-            parameterType="com.hisign.shuwu.sys.api.model.SysUserRole"
-            resultType="com.hisign.shuwu.sys.api.model.SysUserRole">
+            parameterType="com.hisign.framework.sys.api.model.SysUserRole"
+            resultType="com.hisign.framework.sys.api.model.SysUserRole">
         <![CDATA[
 		select
 			ID as id,
@@ -173,7 +173,7 @@
     </select>
 
     <insert id="insertSysUserRole"
-            parameterType="com.hisign.shuwu.sys.api.model.SysUserRole">
+            parameterType="com.hisign.framework.sys.api.model.SysUserRole">
         insert into SYS_USER_ROLE
         (
             ID,
@@ -200,7 +200,7 @@
     </delete>
 
     <select id="findALLSysModule"
-            resultType="com.hisign.shuwu.sys.api.model.SysModule">
+            resultType="com.hisign.framework.sys.api.model.SysModule">
 		select
 			ID as id,
 			MODULE_NO as moduleNo,
@@ -214,7 +214,7 @@
 
     <select id="findSysPermissionListByFilter"
             parameterType="java.lang.String"
-            resultType="com.hisign.shuwu.sys.api.model.SysPermission">
+            resultType="com.hisign.framework.sys.api.model.SysPermission">
          select
              P.ID as id,
              P.MODULE_ID as moduleId,
@@ -234,8 +234,8 @@
     </select>
 
     <select id="findSysRolePermisListByFilter"
-            parameterType="com.hisign.shuwu.sys.api.model.SysRolePermis"
-            resultType="com.hisign.shuwu.sys.api.model.SysRolePermis">
+            parameterType="com.hisign.framework.sys.api.model.SysRolePermis"
+            resultType="com.hisign.framework.sys.api.model.SysRolePermis">
         select
             ID as id,
             ROLE_ID as roleId,
@@ -252,7 +252,7 @@
 
     <select id="findSysModuleByParentId"
             parameterType="java.lang.String"
-            resultType="com.hisign.shuwu.sys.api.model.SysModule">
+            resultType="com.hisign.framework.sys.api.model.SysModule">
         <![CDATA[
 		select
             ID as id,

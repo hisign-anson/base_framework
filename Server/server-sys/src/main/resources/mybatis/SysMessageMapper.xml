@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hisign.shuwu.sys.mapper.SysMessageMapper" >
+<mapper namespace="com.hisign.framework.sys.mapper.SysMessageMapper" >
 
-    <select id="findSysMessageByFilter" parameterType="com.hisign.shuwu.sys.api.model.SysMessage" resultType="com.hisign.shuwu.sys.api.model.SysMessage">
+    <select id="findSysMessageByFilter" parameterType="com.hisign.framework.sys.api.model.SysMessage" resultType="com.hisign.framework.sys.api.model.SysMessage">
         select p.* from(
         select
             rownum,rownum as rn,a.* from (
@@ -68,7 +68,7 @@
     </select>
 
     <select id="findSysMessageByFilterForCount"
-            parameterType="com.hisign.shuwu.sys.api.model.SysMessage"
+            parameterType="com.hisign.framework.sys.api.model.SysMessage"
             resultType="java.lang.Integer">
         select
           count(1)
@@ -109,7 +109,7 @@
 
     <select id="findSysMessage"
             parameterType="java.lang.String"
-            resultType="com.hisign.shuwu.sys.api.model.SysMessage">
+            resultType="com.hisign.framework.sys.api.model.SysMessage">
         select  r.id as receiveId,
                 r.sender_name as senderName,
                 get_dictValue_by_dictKey('XXZTDM',r.msg_state) as msgState,
@@ -138,7 +138,7 @@
     </delete>
 
     <update id="deleteSysReceiveByUser"
-            parameterType="com.hisign.shuwu.sys.api.model.SysMessage">
+            parameterType="com.hisign.framework.sys.api.model.SysMessage">
         update sys_receive_box t
         set t.del = '1',
         t.modify_pid = #{modifyPid,jdbcType=VARCHAR},
@@ -147,7 +147,7 @@
         and (t.receiver_id = #{receiverId,jdbcType=VARCHAR} or t.receiver_id = #{techId,jdbcType=VARCHAR})
     </update>
 
-    <update id="setSysMessageRead" parameterType="com.hisign.shuwu.sys.api.model.SysMessage">
+    <update id="setSysMessageRead" parameterType="com.hisign.framework.sys.api.model.SysMessage">
         update sys_receive_box t
         set t.msg_state = '2',
             t.modify_pid = #{modifyPid,jdbcType=VARCHAR},
@@ -156,7 +156,7 @@
           and (t.receiver_id = #{receiverId,jdbcType=VARCHAR} or t.receiver_id = #{techId,jdbcType=VARCHAR})
     </update>
 
-    <insert id="insertSysMessage" parameterType="com.hisign.shuwu.sys.api.model.SysMessage">
+    <insert id="insertSysMessage" parameterType="com.hisign.framework.sys.api.model.SysMessage">
         insert into sys_message(
                 id,
                 subject,
@@ -195,7 +195,7 @@
     </insert>
 
     <insert id="insertSysReceiverBox"
-            parameterType="com.hisign.shuwu.sys.api.model.SysMessage">
+            parameterType="com.hisign.framework.sys.api.model.SysMessage">
             insert into sys_receive_box(
                     id,
                     msg_id,
@@ -228,8 +228,8 @@
     </insert>
 
     <select id="findZnxxMessage"
-            parameterType="com.hisign.shuwu.sys.api.model.SysMessage"
-            resultType="com.hisign.shuwu.sys.api.model.SysMessage">
+            parameterType="com.hisign.framework.sys.api.model.SysMessage"
+            resultType="com.hisign.framework.sys.api.model.SysMessage">
         select
             rownum,
             t.id as id,
@@ -248,8 +248,8 @@
     </select>
 
     <select id="findZnxxReceivers"
-            parameterType="com.hisign.shuwu.sys.api.model.SysMessage"
-            resultType="com.hisign.shuwu.sys.api.model.SysMessage">
+            parameterType="com.hisign.framework.sys.api.model.SysMessage"
+            resultType="com.hisign.framework.sys.api.model.SysMessage">
         select
             r.id as receiveId,
             r.sender_name as senderName,

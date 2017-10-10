@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.hisign.shuwu.sys.mapper.MessageMapper">
-	<resultMap type="com.hisign.shuwu.sys.api.model.Message" id="BaseResultMap">
+<mapper namespace="com.hisign.framework.sys.mapper.MessageMapper">
+	<resultMap type="com.hisign.framework.sys.api.model.Message" id="BaseResultMap">
       <result column="ID" property="id" jdbcType="VARCHAR"/>
       <result column="SUBJECT" property="subject" jdbcType="VARCHAR"/>
       <result column="CONTENT" property="content" jdbcType="VARCHAR"/>
@@ -84,7 +84,7 @@
         ATT_ID
     </sql>
     
-    <insert id="insert"  parameterType="com.hisign.shuwu.sys.api.model.Message">
+    <insert id="insert"  parameterType="com.hisign.framework.sys.api.model.Message">
         INSERT INTO sys_message (
 		    ID,
 		    SUBJECT,
@@ -126,7 +126,7 @@
         )
     </insert>
     
-    <insert id="insertNotNull"  parameterType="com.hisign.shuwu.sys.api.model.Message">
+    <insert id="insertNotNull"  parameterType="com.hisign.framework.sys.api.model.Message">
     insert into sys_message
     <trim prefix="(" suffix=")" suffixOverrides=",">
 	    <if test="id!=null  and id != '' ">
@@ -281,7 +281,7 @@
 	</insert>
 	
     <!-- 更新 -->
-    <update id="update" parameterType="com.hisign.shuwu.sys.api.model.Message">
+    <update id="update" parameterType="com.hisign.framework.sys.api.model.Message">
         UPDATE sys_message
         <trim prefix="SET" suffixOverrides=",">
 		    SUBJECT=#{subject},
@@ -306,7 +306,7 @@
         ID = #{id,jdbcType=VARCHAR}
     </update>
 	
-    <update id="updateNotNull" parameterType="com.hisign.shuwu.sys.api.model.Message">
+    <update id="updateNotNull" parameterType="com.hisign.framework.sys.api.model.Message">
         UPDATE sys_message
         <trim prefix="SET" suffixOverrides=",">
             <if test="subject!=null  and subject != '' ">
@@ -399,7 +399,7 @@
         and rownum = 1 
     </select>
     
-    <select id="findByEntity" parameterType="com.hisign.shuwu.sys.api.model.Message" resultMap="BaseResultMap">
+    <select id="findByEntity" parameterType="com.hisign.framework.sys.api.model.Message" resultMap="BaseResultMap">
         SELECT  
 	    <include refid="Base_Column_List" />
         FROM sys_message 

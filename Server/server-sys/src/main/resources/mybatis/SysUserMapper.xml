@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hisign.shuwu.sys.mapper.SysUserMapper" >
-  <resultMap id="BaseResultMap" type="com.hisign.shuwu.sys.api.model.SysUser" >
+<mapper namespace="com.hisign.framework.sys.mapper.SysUserMapper" >
+  <resultMap id="BaseResultMap" type="com.hisign.framework.sys.api.model.SysUser" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="username" property="userName" jdbcType="VARCHAR" />
     <result column="password" property="userPwd" jdbcType="VARCHAR" />
@@ -56,7 +56,7 @@
     </if>
     
   </sql>
-  <select id="getUserListByRoleNo" resultType="com.hisign.shuwu.sys.api.model.SysUser" parameterType="java.lang.String">
+  <select id="getUserListByRoleNo" resultType="com.hisign.framework.sys.api.model.SysUser" parameterType="java.lang.String">
     SELECT T1.USER_ID as userId,T2.USER_NAME as trueName,T2.USER_ID AS id,T2.USERNAME as userName from (
 	SELECT UR.USER_ID  from SYS_ROLE r,
 	SYS_USER_ROLE ur where r.ID=UR.ROLE_ID and r.OPEN_FLAG=1 and  r.ROLE_NO = #{roleNo,jdbcType=VARCHAR}
@@ -66,14 +66,14 @@
 	</if>
 	) t2 where T1.USER_ID=T2."ID" 
   </select>
-  <select id="findSysUserListByFilter" parameterType="com.hisign.shuwu.sys.api.model.SysUser" resultMap="BaseResultMap">
+  <select id="findSysUserListByFilter" parameterType="com.hisign.framework.sys.api.model.SysUser" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from sys_user
     <include refid="select_By_Filter_For_Where" />
   </select>
 
-  <select id="findSysUserListByFilterForCount" parameterType="com.hisign.shuwu.sys.api.model.SysUser" resultType="java.lang.Integer">
+  <select id="findSysUserListByFilterForCount" parameterType="com.hisign.framework.sys.api.model.SysUser" resultType="java.lang.Integer">
     select
     <include refid="ForCount" />
     from sys_user
@@ -88,7 +88,7 @@
     where t.username = #{userName,jdbcType=VARCHAR}
   </select>
   
-  <select id="findSysUserById" resultType="com.hisign.shuwu.sys.api.model.SysUser" parameterType="java.lang.String" >
+  <select id="findSysUserById" resultType="com.hisign.framework.sys.api.model.SysUser" parameterType="java.lang.String" >
     select
       ID as id,
       USERNAME as userName,
@@ -114,7 +114,7 @@
     where ID = #{userId,jdbcType=VARCHAR}
   </select>
 
-  <select id="findSysUserListByUserFilter" parameterType="com.hisign.shuwu.sys.api.model.SysUser" resultType="com.hisign.shuwu.sys.api.model.SysUser">
+  <select id="findSysUserListByUserFilter" parameterType="com.hisign.framework.sys.api.model.SysUser" resultType="com.hisign.framework.sys.api.model.SysUser">
     select p.* from(
     select
       rownum,rownum as rn,a.* from (
@@ -171,7 +171,7 @@
     </if>
   </select>
 
-  <select id="findSysUserListByUserFilterForCount" parameterType="com.hisign.shuwu.sys.api.model.SysUser" resultType="java.lang.Integer">
+  <select id="findSysUserListByUserFilterForCount" parameterType="com.hisign.framework.sys.api.model.SysUser" resultType="java.lang.Integer">
     select
       count(1)
     from
@@ -206,7 +206,7 @@
     delete from SYS_USER_ROLE where USER_ID=#{userId,jdbcType=VARCHAR}
   </delete>
 
-  <select id="findSysUserRoleListByFilter" parameterType="com.hisign.shuwu.sys.api.model.SysUser" resultType="com.hisign.shuwu.sys.api.model.SysUser">
+  <select id="findSysUserRoleListByFilter" parameterType="com.hisign.framework.sys.api.model.SysUser" resultType="com.hisign.framework.sys.api.model.SysUser">
     select
       ID as id,
       ROLE_ID as roleId,
@@ -226,7 +226,7 @@
   <select id="checkExistByUserName" parameterType="java.lang.String" resultType="java.lang.Integer">
    select COUNT(1) from SYS_USER WHERE USERNAME= #{userName,jdbcType=VARCHAR}
   </select>
-  <insert id="insertSysUserRole" parameterType="com.hisign.shuwu.sys.api.model.SysUserRole">
+  <insert id="insertSysUserRole" parameterType="com.hisign.framework.sys.api.model.SysUserRole">
     insert into SYS_USER_ROLE
     (
       ID,
@@ -261,7 +261,7 @@
   </insert>
 
 
-  <update id="updateSysUserById" parameterType="com.hisign.shuwu.sys.api.model.SysUser">
+  <update id="updateSysUserById" parameterType="com.hisign.framework.sys.api.model.SysUser">
     UPDATE SYS_USER SET
     USERNAME = #{userName,jdbcType=VARCHAR},
     <if test="newPassword != null and newPassword != ''">
@@ -294,7 +294,7 @@
   </update>
 
 
-  <insert id="insertSysUser" parameterType="com.hisign.shuwu.sys.api.model.SysUser">
+  <insert id="insertSysUser" parameterType="com.hisign.framework.sys.api.model.SysUser">
     insert into SYS_USER
     (
       ID,
@@ -337,7 +337,7 @@
     )
   </insert>
 
-  <select id="findUserListByRoleId" parameterType="java.lang.String" resultType="com.hisign.shuwu.sys.api.model.SysUser">
+  <select id="findUserListByRoleId" parameterType="java.lang.String" resultType="com.hisign.framework.sys.api.model.SysUser">
     select
       su.ID as id,
       su.USERNAME as userName,
@@ -367,7 +367,7 @@
   </update>
 
   <insert id="addUserToken"
-          parameterType="com.hisign.shuwu.sys.api.model.SysUserToken">
+          parameterType="com.hisign.framework.sys.api.model.SysUserToken">
     insert into SYS_USER_TOKEN
     (
       ID,
@@ -400,7 +400,7 @@
   </delete>
 
 
-  <update id="updatePassword" parameterType="com.hisign.shuwu.sys.api.model.SysUser">
+  <update id="updatePassword" parameterType="com.hisign.framework.sys.api.model.SysUser">
     UPDATE SYS_USER SET
       PASSWORD = #{newPassword,jdbcType=VARCHAR},
       MODIFY_PID = #{userName,jdbcType=VARCHAR},
