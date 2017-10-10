@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hisign.shuwu.sys.mapper.SysModuleMapper" >
-    <select id="findAllModuleList"  resultType="com.hisign.shuwu.sys.api.model.SysModule">
+<mapper namespace="com.hisign.framework.sys.mapper.SysModuleMapper" >
+    <select id="findAllModuleList"  resultType="com.hisign.framework.sys.api.model.SysModule">
        	SELECT
 			ID                    AS id,
 			MODULE_NO             AS moduleNo,
@@ -20,7 +20,7 @@
 		ORDER BY to_number(SORT) nulls LAST
     </select>
 
-    <select id="findSysModuleInfoById" parameterType="java.lang.String" resultType="com.hisign.shuwu.sys.api.model.SysModule">
+    <select id="findSysModuleInfoById" parameterType="java.lang.String" resultType="com.hisign.framework.sys.api.model.SysModule">
         SELECT
                M.ID 			                 AS moduleId,
 		 	   P.ID 			                 AS permissionId,
@@ -66,7 +66,7 @@
                     WHERE p.module_id = #{id})
     </delete>
 
-    <insert id="insertModule" parameterType="com.hisign.shuwu.sys.api.model.SysModule">
+    <insert id="insertModule" parameterType="com.hisign.framework.sys.api.model.SysModule">
         INSERT INTO sys_module
         (
             ID,
@@ -111,7 +111,7 @@
         )
     </insert>
 
-    <insert id="insertPermission" parameterType="com.hisign.shuwu.sys.api.model.SysModule">
+    <insert id="insertPermission" parameterType="com.hisign.framework.sys.api.model.SysModule">
         INSERT INTO SYS_PERMISSION
         (
             ID,
@@ -136,7 +136,7 @@
         )
     </insert>
 
-    <insert id="insertResource" parameterType="com.hisign.shuwu.sys.api.model.SysModule">
+    <insert id="insertResource" parameterType="com.hisign.framework.sys.api.model.SysModule">
         INSERT INTO SYS_RESOURCE
         (
             ID,
@@ -159,7 +159,7 @@
         )
     </insert>
 
-    <insert id="insertPermisRes" parameterType="com.hisign.shuwu.sys.api.model.SysModule">
+    <insert id="insertPermisRes" parameterType="com.hisign.framework.sys.api.model.SysModule">
 			INSERT INTO SYS_PERMIS_RES
 			(
 				ID,
@@ -186,7 +186,7 @@
         DELETE FROM sys_module m WHERE m.id = #{id}
     </delete>
 
-    <update id="upDateModuleInfo" parameterType="com.hisign.shuwu.sys.api.model.SysModule">
+    <update id="upDateModuleInfo" parameterType="com.hisign.framework.sys.api.model.SysModule">
         UPDATE SYS_MODULE SET
         <if test="title != null and title != ''">
             TITLE=#{title},
@@ -223,7 +223,7 @@
         WHERE ID = #{moduleId}
     </update>
 
-    <update id="updatePermission" parameterType="com.hisign.shuwu.sys.api.model.SysModule">
+    <update id="updatePermission" parameterType="com.hisign.framework.sys.api.model.SysModule">
         UPDATE SYS_PERMISSION SET
           NAME=id,
         <if test="permissionDescription != null and permissionDescription != ''">
@@ -239,7 +239,7 @@
         WHERE ID = #{permissionId}
     </update>
 
-    <update id="updatePermisRes" parameterType="com.hisign.shuwu.sys.api.model.SysModule">
+    <update id="updatePermisRes" parameterType="com.hisign.framework.sys.api.model.SysModule">
         UPDATE SYS_PERMIS_RES SET
         <if test="updateUser != null and updateUser != ''">
           MODIFY_PID = #{updateUser},
@@ -248,7 +248,7 @@
         WHERE ID = #{permisResId}
     </update>
 
-    <update id="updateResource" parameterType="com.hisign.shuwu.sys.api.model.SysModule">
+    <update id="updateResource" parameterType="com.hisign.framework.sys.api.model.SysModule">
         UPDATE SYS_RESOURCE SET
         <if test="title != null and title != ''">
           NAME=#{title},
@@ -290,7 +290,7 @@
         DELETE FROM sys_permission p WHERE p.module_id = #{id} AND p.permission_flag = '1'
     </delete>
 
-    <select id="findSysModuleInfoByModuleId" parameterType="java.lang.String" resultType="com.hisign.shuwu.sys.api.model.SysModule">
+    <select id="findSysModuleInfoByModuleId" parameterType="java.lang.String" resultType="com.hisign.framework.sys.api.model.SysModule">
 		SELECT M.ID 			             AS moduleId,
 		       M.TITLE			             AS title,
 		       M.DESCRIPTION 	             AS description,
@@ -311,7 +311,7 @@
         SELECT sys_guid() AS id FROM DUAL
     </select>
 
-    <select id="findLogUserPower" parameterType="java.lang.String" resultType="com.hisign.shuwu.sys.api.model.SysModule">
+    <select id="findLogUserPower" parameterType="java.lang.String" resultType="com.hisign.framework.sys.api.model.SysModule">
         SELECT M.ID                         AS moduleId,
                M.PARENT_ID                  AS parentId,
                M.TITLE                      AS title,
@@ -344,7 +344,7 @@
             ORDER BY to_number(SORT) nulls LAST
     </select>
 
-    <select id="findLogUserPowerLimt" parameterType="java.lang.String" resultType="com.hisign.shuwu.sys.api.model.SysModule">
+    <select id="findLogUserPowerLimt" parameterType="java.lang.String" resultType="com.hisign.framework.sys.api.model.SysModule">
         SELECT
             M.TITLE                      AS title,
             M.SORT                       AS sort,
