@@ -6,6 +6,7 @@ import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
+import org.springframework.web.bind.annotation.*;
 
 public interface BaseService<T,PK> {
 	
@@ -16,7 +17,9 @@ public interface BaseService<T,PK> {
 	 *            
 	 * @return id 
 	 */
-	public abstract JsonResult add(T entity) throws BusinessException;
+	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract JsonResult add(@RequestBody T entity) throws BusinessException;
 
 	/**
 	 * @category 为空的不添加，效率最高 
@@ -24,7 +27,9 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月11日 下午9:55:59
 	 */
-	public abstract JsonResult addNotNull(T entity) throws BusinessException;
+	@RequestMapping(value = "/addNotNull", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract JsonResult addNotNull(@RequestBody T entity) throws BusinessException;
 
 	/**
 	 * 批量保存对象
@@ -33,7 +38,9 @@ public interface BaseService<T,PK> {
 	 *            
 	 * @return id 
 	 */
-	public abstract JsonResult add(List<T> list) throws BusinessException;
+	@RequestMapping(value = "/addList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract JsonResult add(@RequestBody List<T> list) throws BusinessException;
 	
 	/**
 	 * 根据主键更新对象
@@ -42,7 +49,9 @@ public interface BaseService<T,PK> {
 	 *            
 	 * @return int 
 	 */
-	public abstract JsonResult update(T entity) throws BusinessException;
+	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract JsonResult update(@RequestBody T entity) throws BusinessException;
 
 	/**
 	 * @category 更新不为空的值 效率最高 
@@ -50,7 +59,9 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月11日 下午9:58:43
 	 */
-	public abstract JsonResult updateNotNull(T entity) throws BusinessException;
+	@RequestMapping(value = "/updateNotNull", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract JsonResult updateNotNull(@RequestBody T entity) throws BusinessException;
 	
 	/**
 	 * @category 更新不为空的值 效率最高 
@@ -58,7 +69,9 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月11日 下午9:58:43
 	 */
-	public abstract JsonResult updateBatch(List<T> entity) throws BusinessException;
+	@RequestMapping(value = "/updateBatch", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract JsonResult updateBatch(@RequestBody List<T> entity) throws BusinessException;
 
 	/**
 	 * @category 自定义更新 
@@ -66,7 +79,9 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	public abstract JsonResult update(UpdateParams params) throws BusinessException;
+	@RequestMapping(value = "/updateParams", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract JsonResult update(@RequestBody UpdateParams params) throws BusinessException;
 
 	/**
 	 * @category 根据主键删除，慎用
@@ -74,7 +89,9 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	public abstract JsonResult delById(PK id) throws BusinessException;
+	@RequestMapping(value = "/delById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract JsonResult delById(@RequestBody PK id) throws BusinessException;
 
 	/**
 	 * @category 根据主键批量删除，慎用
@@ -82,7 +99,9 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月14日 下午4:50:14
 	 */
-	public abstract JsonResult delByIds(List<PK> ids) throws BusinessException;
+	@RequestMapping(value = "/delByIds", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract JsonResult delByIds(@RequestBody List<PK> ids) throws BusinessException;
 
 	/**
 	 * @category 自定义删除，慎用 
@@ -90,7 +109,9 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月14日 下午4:54:06
 	 */
-	public abstract JsonResult delBy(Conditions conditions) throws BusinessException;
+	@RequestMapping(value = "/delBy", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract JsonResult delBy(@RequestBody Conditions conditions) throws BusinessException;
 
 	/**
 	 * @category 根据主键查询
@@ -98,7 +119,9 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	public abstract T getById(PK id);
+	@RequestMapping(value = "/getById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract T getById(@RequestBody PK id);
 	
 	/**
 	 * @category 根据主键查询
@@ -106,7 +129,9 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	public abstract T getByEntity(T entity);
+	@RequestMapping(value = "/getByEntity", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract T getByEntity(@RequestBody T entity);
 
 	/**
 	 * @category 自定义查询
@@ -114,7 +139,9 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	public abstract List<T> getList(Conditions conditions);
+	@RequestMapping(value = "/getList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract List<T> getList(@RequestBody Conditions conditions);
 
 	/**
 	 * @category 自定义查询
@@ -122,7 +149,9 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	public abstract T getBy(Conditions conditions);
+	@RequestMapping(value = "/getBy", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract T getBy(@RequestBody Conditions conditions);
 	
 	/**
 	 * @category 获取数量 
@@ -130,7 +159,9 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月18日 下午2:21:02
 	 */
-	public abstract Long getCount(Conditions conditions);
+	@RequestMapping(value = "/getCount", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract Long getCount(@RequestBody Conditions conditions);
 
 	/**
 	 * @category 分页 
@@ -139,6 +170,8 @@ public interface BaseService<T,PK> {
 	 * @return
 	 * @time 2016年10月14日 下午8:13:05
 	 */
-	public abstract JsonResult getPage(Conditions conditions);
+	@RequestMapping(value = "/getPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public abstract JsonResult getPage(@RequestBody Conditions conditions);
 
 }

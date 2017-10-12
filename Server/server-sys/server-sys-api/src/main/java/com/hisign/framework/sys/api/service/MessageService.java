@@ -17,19 +17,19 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "sysService")
 public interface MessageService extends BaseService<Message, String>{
 
-	@RequestMapping(value = "/delByMessages", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/delByMessages", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public JsonResult delByMessages(@RequestBody String[] ids) throws BusinessException;
 
-	@RequestMapping(value = "/publishMsg", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/publishMsg", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public JsonResult publishMsg(@RequestParam(value = "id") String id, @RequestParam(value = "publishId") String publishId, @RequestParam(value = "publishName") String publishName, @RequestBody List<String> orgIds) throws BusinessException;
 
-	@RequestMapping(value = "/saveAndPush", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/saveAndPush", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public JsonResult saveAndPush(@RequestBody Message message) throws BusinessException;
 
-	@RequestMapping(value = "/updateAndPush", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/updateAndPush", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public JsonResult updateAndPush(@RequestBody Message message) throws BusinessException;
 
