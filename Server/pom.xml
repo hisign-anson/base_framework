@@ -18,6 +18,8 @@
         <module>server-sys/server-sys-api</module>
         <module>server-nt</module>
         <module>server-nt/server-nt-api</module>
+        <module>server-xz</module>
+        <module>server-xz/server-xz-api</module>
         <module>run-server</module>
         <module>server-test</module>
     </modules>

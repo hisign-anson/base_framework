@@ -26,14 +26,12 @@ public class ReceiveBoxRest extends BaseRest<ReceiveBox, String, ReceiveBoxServi
 
     @Override
     @RequestMapping(value = "/setRead", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
     public JsonResult setRead(String[] ids) throws BusinessException {
         return baseService.setRead(ids);
     }
 
     @Override
     @RequestMapping(value = "/delMsg", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
     public JsonResult delMsg(String[] ids) throws BusinessException {
         return baseService.delMsg(ids);
     }

@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hisign.framework.xz.mapper.TaskMapper">
+	<resultMap type="com.hisign.framework.xz.entity.Task" id="BaseResultMap">
+      <result column="ID" property="id" jdbcType="VARCHAR"/>
+      <result column="TASK_NAME" property="taskName" jdbcType="VARCHAR"/>
+      <result column="TASK_CONTENT" property="taskContent" jdbcType="VARCHAR"/>
+      <result column="GROUPID" property="groupid" jdbcType="VARCHAR"/>
+      <result column="PGROUPID" property="pgroupid" jdbcType="VARCHAR"/>
+      <result column="BCRWID" property="bcrwid" jdbcType="VARCHAR"/>
+      <result column="YJRWID" property="yjrwid" jdbcType="VARCHAR"/>
+      <result column="FQR" property="fqr" jdbcType="VARCHAR"/>
+      <result column="JSR_LXFS" property="jsrLxfs" jdbcType="VARCHAR"/>
+      <result column="JSR" property="jsr" jdbcType="VARCHAR"/>
+      <result column="FQ_TIME" property="fqTime" jdbcType="TIMESTAMP"/>
+      <result column="FKJZ_TIME" property="fkjzTime" jdbcType="TIMESTAMP"/>
+      <result column="LXFS" property="lxfs" jdbcType="VARCHAR"/>
+      <result column="FKZT" property="fkzt" jdbcType="VARCHAR"/>
+      <result column="FK_TIME" property="fkTime" jdbcType="TIMESTAMP"/>
+      <result column="CBZT" property="cbzt" jdbcType="VARCHAR"/>
+      <result column="QSZT" property="qszt" jdbcType="VARCHAR"/>
+      <result column="QS_TIME" property="qsTime" jdbcType="TIMESTAMP"/>
+      <result column="YJZT" property="yjzt" jdbcType="VARCHAR"/>
+      <result column="YJ_TIME" property="yjTime" jdbcType="TIMESTAMP"/>
+      <result column="QRZT" property="qrzt" jdbcType="VARCHAR"/>
+      <result column="QR_TIME" property="qrTime" jdbcType="TIMESTAMP"/>
+      <result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
+      <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP"/>
+      <result column="DEPARMENTCODE" property="deparmentcode" jdbcType="VARCHAR"/>
+      <result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
+      <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<sql id="Conditions_Where_Clause">
+ 	  <foreach collection="oredCriteria" open="where" item="o" separator="or">
+	   <if test="o.valid">
+	    (
+	     <trim suffixOverrides="and">
+	     <foreach collection="o.criteriaWithoutValue" item="oc" separator="and">${oc} and </foreach>
+	     <foreach collection="o.criteriaWithSingleValue" item="os">${os.condition} #{os.val} and </foreach>
+	     <foreach collection="o.criteriaWithBetweenValue" item="ob">${ob.condition} #{ob.val[0]} and #{ob.val[1]} and</foreach>
+	     <foreach collection="o.criteriaWithListValue" item="ol">${ol.condition}
+	       <foreach collection="ol.val" open="(" close=")" item="olv" separator=",">#{olv}</foreach>
+	     </foreach>
+	     </trim>
+	    )
+	   </if>
+ 	  </foreach>
+	</sql>
+	
+	<sql id="Update_Conditions_Where_Clause">
+	 <if test="conditions!=null">
+ 	  <foreach collection="conditions.oredCriteria" open="where" item="o" separator="or">
+	   <if test="o.valid">
+	    (
+	     <trim suffixOverrides="and">
+	     <foreach collection="o.criteriaWithoutValue" item="oc" separator="and">${oc} and </foreach>
+	     <foreach collection="o.criteriaWithSingleValue" item="os">${os.condition} #{os.val} and </foreach>
+	     <foreach collection="o.criteriaWithBetweenValue" item="ob">${ob.condition} #{ob.val[0]} and #{ob.val[1]} and</foreach>
+	     <foreach collection="o.criteriaWithListValue" item="ol">${ol.condition}
+	       <foreach collection="ol.val" open="(" close=")" item="olv" separator=",">#{olv}</foreach>
+	     </foreach>
+	     </trim>
+	    )
+	   </if>
+ 	  </foreach>
+     </if>
+	</sql>
+	
+    <sql id="Base_Column_List">
+        ID,
+        TASK_NAME,
+        TASK_CONTENT,
+        GROUPID,
+        PGROUPID,
+        BCRWID,
+        YJRWID,
+        FQR,
+        JSR_LXFS,
+        JSR,
+        FQ_TIME,
+        FKJZ_TIME,
+        LXFS,
+        FKZT,
+        FK_TIME,
+        CBZT,
+        QSZT,
+        QS_TIME,
+        YJZT,
+        YJ_TIME,
+        QRZT,
+        QR_TIME,
+        CREATOR,
+        CREATETIME,
+        DEPARMENTCODE,
+        LASTUPDATETIME,
+        DELETEFLAG
+    </sql>
+    
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.entity.Task">
+    	<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+        SELECT sys_guid() from DUAL
+    	</selectKey>
+        INSERT INTO t_task (
+		    ID,
+		    TASK_NAME,
+		    TASK_CONTENT,
+		    GROUPID,
+		    PGROUPID,
+		    BCRWID,
+		    YJRWID,
+		    FQR,
+		    JSR_LXFS,
+		    JSR,
+		    FQ_TIME,
+		    FKJZ_TIME,
+		    LXFS,
+		    FKZT,
+		    FK_TIME,
+		    CBZT,
+		    QSZT,
+		    QS_TIME,
+		    YJZT,
+		    YJ_TIME,
+		    QRZT,
+		    QR_TIME,
+		    CREATOR,
+		    CREATETIME,
+		    DEPARMENTCODE,
+		    LASTUPDATETIME,
+		    DELETEFLAG
+        ) VALUES (
+		    #{id,jdbcType=VARCHAR},
+		    #{taskName,jdbcType=VARCHAR},
+		    #{taskContent,jdbcType=VARCHAR},
+		    #{groupid,jdbcType=VARCHAR},
+		    #{pgroupid,jdbcType=VARCHAR},
+		    #{bcrwid,jdbcType=VARCHAR},
+		    #{yjrwid,jdbcType=VARCHAR},
+		    #{fqr,jdbcType=VARCHAR},
+		    #{jsrLxfs,jdbcType=VARCHAR},
+		    #{jsr,jdbcType=VARCHAR},
+		    #{fqTime,jdbcType=TIMESTAMP},
+		    #{fkjzTime,jdbcType=TIMESTAMP},
+		    #{lxfs,jdbcType=VARCHAR},
+		    #{fkzt,jdbcType=VARCHAR},
+		    #{fkTime,jdbcType=TIMESTAMP},
+		    #{cbzt,jdbcType=VARCHAR},
+		    #{qszt,jdbcType=VARCHAR},
+		    #{qsTime,jdbcType=TIMESTAMP},
+		    #{yjzt,jdbcType=VARCHAR},
+		    #{yjTime,jdbcType=TIMESTAMP},
+		    #{qrzt,jdbcType=VARCHAR},
+		    #{qrTime,jdbcType=TIMESTAMP},
+		    #{creator,jdbcType=VARCHAR},
+		    #{createtime,jdbcType=TIMESTAMP},
+		    #{deparmentcode,jdbcType=VARCHAR},
+		    #{lastupdatetime,jdbcType=TIMESTAMP},
+		    #{deleteflag,jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.entity.Task">
+    <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+        SELECT sys_guid() from DUAL
+    </selectKey>
+    insert into t_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+	    <if test="id !=null  and id != '' ">
+	    ID,
+	    </if>
+	    <if test="taskName !=null  and taskName != '' ">
+	    TASK_NAME,
+	    </if>
+	    <if test="taskContent !=null  and taskContent != '' ">
+	    TASK_CONTENT,
+	    </if>
+	    <if test="groupid !=null  and groupid != '' ">
+	    GROUPID,
+	    </if>
+	    <if test="pgroupid !=null  and pgroupid != '' ">
+	    PGROUPID,
+	    </if>
+	    <if test="bcrwid !=null  and bcrwid != '' ">
+	    BCRWID,
+	    </if>
+	    <if test="yjrwid !=null  and yjrwid != '' ">
+	    YJRWID,
+	    </if>
+	    <if test="fqr !=null  and fqr != '' ">
+	    FQR,
+	    </if>
+	    <if test="jsrLxfs !=null  and jsrLxfs != '' ">
+	    JSR_LXFS,
+	    </if>
+	    <if test="jsr !=null  and jsr != '' ">
+	    JSR,
+	    </if>
+	    <if test="fqTime !=null ">
+	    FQ_TIME,
+	    </if>
+	    <if test="fkjzTime !=null ">
+	    FKJZ_TIME,
+	    </if>
+	    <if test="lxfs !=null  and lxfs != '' ">
+	    LXFS,
+	    </if>
+	    <if test="fkzt !=null  and fkzt != '' ">
+	    FKZT,
+	    </if>
+	    <if test="fkTime !=null ">
+	    FK_TIME,
+	    </if>
+	    <if test="cbzt !=null  and cbzt != '' ">
+	    CBZT,
+	    </if>
+	    <if test="qszt !=null  and qszt != '' ">
+	    QSZT,
+	    </if>
+	    <if test="qsTime !=null ">
+	    QS_TIME,
+	    </if>
+	    <if test="yjzt !=null  and yjzt != '' ">
+	    YJZT,
+	    </if>
+	    <if test="yjTime !=null ">
+	    YJ_TIME,
+	    </if>
+	    <if test="qrzt !=null  and qrzt != '' ">
+	    QRZT,
+	    </if>
+	    <if test="qrTime !=null ">
+	    QR_TIME,
+	    </if>
+	    <if test="creator !=null  and creator != '' ">
+	    CREATOR,
+	    </if>
+	    <if test="createtime !=null ">
+	    CREATETIME,
+	    </if>
+	    <if test="deparmentcode !=null  and deparmentcode != '' ">
+	    DEPARMENTCODE,
+	    </if>
+	    <if test="lastupdatetime !=null ">
+	    LASTUPDATETIME,
+	    </if>
+	    <if test="deleteflag !=null  and deleteflag != '' ">
+	    DELETEFLAG
+	    </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+     	<if test="id !=null  and id != '' ">
+	    #{id,jdbcType=VARCHAR},
+	    </if>
+     	<if test="taskName !=null  and taskName != '' ">
+	    #{taskName,jdbcType=VARCHAR},
+	    </if>
+     	<if test="taskContent !=null  and taskContent != '' ">
+	    #{taskContent,jdbcType=VARCHAR},
+	    </if>
+     	<if test="groupid !=null  and groupid != '' ">
+	    #{groupid,jdbcType=VARCHAR},
+	    </if>
+     	<if test="pgroupid !=null  and pgroupid != '' ">
+	    #{pgroupid,jdbcType=VARCHAR},
+	    </if>
+     	<if test="bcrwid !=null  and bcrwid != '' ">
+	    #{bcrwid,jdbcType=VARCHAR},
+	    </if>
+     	<if test="yjrwid !=null  and yjrwid != '' ">
+	    #{yjrwid,jdbcType=VARCHAR},
+	    </if>
+     	<if test="fqr !=null  and fqr != '' ">
+	    #{fqr,jdbcType=VARCHAR},
+	    </if>
+     	<if test="jsrLxfs !=null  and jsrLxfs != '' ">
+	    #{jsrLxfs,jdbcType=VARCHAR},
+	    </if>
+     	<if test="jsr !=null  and jsr != '' ">
+	    #{jsr,jdbcType=VARCHAR},
+	    </if>
+     	<if test="fqTime !=null ">
+	    #{fqTime,jdbcType=TIMESTAMP},
+	    </if>
+     	<if test="fkjzTime !=null ">
+	    #{fkjzTime,jdbcType=TIMESTAMP},
+	    </if>
+     	<if test="lxfs !=null  and lxfs != '' ">
+	    #{lxfs,jdbcType=VARCHAR},
+	    </if>
+     	<if test="fkzt !=null  and fkzt != '' ">
+	    #{fkzt,jdbcType=VARCHAR},
+	    </if>
+     	<if test="fkTime !=null ">
+	    #{fkTime,jdbcType=TIMESTAMP},
+	    </if>
+     	<if test="cbzt !=null  and cbzt != '' ">
+	    #{cbzt,jdbcType=VARCHAR},
+	    </if>
+     	<if test="qszt !=null  and qszt != '' ">
+	    #{qszt,jdbcType=VARCHAR},
+	    </if>
+     	<if test="qsTime !=null ">
+	    #{qsTime,jdbcType=TIMESTAMP},
+	    </if>
+     	<if test="yjzt !=null  and yjzt != '' ">
+	    #{yjzt,jdbcType=VARCHAR},
+	    </if>
+     	<if test="yjTime !=null ">
+	    #{yjTime,jdbcType=TIMESTAMP},
+	    </if>
+     	<if test="qrzt !=null  and qrzt != '' ">
+	    #{qrzt,jdbcType=VARCHAR},
+	    </if>
+     	<if test="qrTime !=null ">
+	    #{qrTime,jdbcType=TIMESTAMP},
+	    </if>
+     	<if test="creator !=null  and creator != '' ">
+	    #{creator,jdbcType=VARCHAR},
+	    </if>
+     	<if test="createtime !=null ">
+	    #{createtime,jdbcType=TIMESTAMP},
+	    </if>
+     	<if test="deparmentcode !=null  and deparmentcode != '' ">
+	    #{deparmentcode,jdbcType=VARCHAR},
+	    </if>
+     	<if test="lastupdatetime !=null ">
+	    #{lastupdatetime,jdbcType=TIMESTAMP},
+	    </if>
+     	<if test="deleteflag !=null  and deleteflag != '' ">
+	    #{deleteflag,jdbcType=VARCHAR}
+	    </if>
+    </trim>
+  </insert>
+	
+	<insert id="batchInsert" parameterType="java.util.List">
+		INSERT INTO t_task (
+		   	ID,
+		   	TASK_NAME,
+		   	TASK_CONTENT,
+		   	GROUPID,
+		   	PGROUPID,
+		   	BCRWID,
+		   	YJRWID,
+		   	FQR,
+		   	JSR_LXFS,
+		   	JSR,
+		   	FQ_TIME,
+		   	FKJZ_TIME,
+		   	LXFS,
+		   	FKZT,
+		   	FK_TIME,
+		   	CBZT,
+		   	QSZT,
+		   	QS_TIME,
+		   	YJZT,
+		   	YJ_TIME,
+		   	QRZT,
+		   	QR_TIME,
+		   	CREATOR,
+		   	CREATETIME,
+		   	DEPARMENTCODE,
+		   	LASTUPDATETIME,
+		   	DELETEFLAG
+        ) 
+		<foreach collection="list" open="(" close=")" item="item" index="index" separator="union all" > 
+			 select
+		    #{item.id,jdbcType=VARCHAR},
+		    #{item.taskName,jdbcType=VARCHAR},
+		    #{item.taskContent,jdbcType=VARCHAR},
+		    #{item.groupid,jdbcType=VARCHAR},
+		    #{item.pgroupid,jdbcType=VARCHAR},
+		    #{item.bcrwid,jdbcType=VARCHAR},
+		    #{item.yjrwid,jdbcType=VARCHAR},
+		    #{item.fqr,jdbcType=VARCHAR},
+		    #{item.jsrLxfs,jdbcType=VARCHAR},
+		    #{item.jsr,jdbcType=VARCHAR},
+		    #{item.fqTime,jdbcType=TIMESTAMP},
+		    #{item.fkjzTime,jdbcType=TIMESTAMP},
+		    #{item.lxfs,jdbcType=VARCHAR},
+		    #{item.fkzt,jdbcType=VARCHAR},
+		    #{item.fkTime,jdbcType=TIMESTAMP},
+		    #{item.cbzt,jdbcType=VARCHAR},
+		    #{item.qszt,jdbcType=VARCHAR},
+		    #{item.qsTime,jdbcType=TIMESTAMP},
+		    #{item.yjzt,jdbcType=VARCHAR},
+		    #{item.yjTime,jdbcType=TIMESTAMP},
+		    #{item.qrzt,jdbcType=VARCHAR},
+		    #{item.qrTime,jdbcType=TIMESTAMP},
+		    #{item.creator,jdbcType=VARCHAR},
+		    #{item.createtime,jdbcType=TIMESTAMP},
+		    #{item.deparmentcode,jdbcType=VARCHAR},
+		    #{item.lastupdatetime,jdbcType=TIMESTAMP},
+		    #{item.deleteflag,jdbcType=VARCHAR}
+	        from dual
+		</foreach> 
+	</insert>
+	
+    <!-- 更新 -->
+    <update id="update" parameterType="com.hisign.framework.xz.entity.Task">
+        UPDATE t_task
+        <trim prefix="SET" suffixOverrides=",">
+		    TASK_NAME=#{taskName,jdbcType=VARCHAR},
+		    TASK_CONTENT=#{taskContent,jdbcType=VARCHAR},
+		    GROUPID=#{groupid,jdbcType=VARCHAR},
+		    PGROUPID=#{pgroupid,jdbcType=VARCHAR},
+		    BCRWID=#{bcrwid,jdbcType=VARCHAR},
+		    YJRWID=#{yjrwid,jdbcType=VARCHAR},
+		    FQR=#{fqr,jdbcType=VARCHAR},
+		    JSR_LXFS=#{jsrLxfs,jdbcType=VARCHAR},
+		    JSR=#{jsr,jdbcType=VARCHAR},
+		    FQ_TIME=#{fqTime,jdbcType=TIMESTAMP},
+		    FKJZ_TIME=#{fkjzTime,jdbcType=TIMESTAMP},
+		    LXFS=#{lxfs,jdbcType=VARCHAR},
+		    FKZT=#{fkzt,jdbcType=VARCHAR},
+		    FK_TIME=#{fkTime,jdbcType=TIMESTAMP},
+		    CBZT=#{cbzt,jdbcType=VARCHAR},
+		    QSZT=#{qszt,jdbcType=VARCHAR},
+		    QS_TIME=#{qsTime,jdbcType=TIMESTAMP},
+		    YJZT=#{yjzt,jdbcType=VARCHAR},
+		    YJ_TIME=#{yjTime,jdbcType=TIMESTAMP},
+		    QRZT=#{qrzt,jdbcType=VARCHAR},
+		    QR_TIME=#{qrTime,jdbcType=TIMESTAMP},
+		    CREATOR=#{creator,jdbcType=VARCHAR},
+		    CREATETIME=#{createtime,jdbcType=TIMESTAMP},
+		    DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR},
+		    LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP},
+		    DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
+        </trim>
+        WHERE
+        ID = #{id,jdbcType=VARCHAR}
+    </update>
+	
+    <update id="updateNotNull" parameterType="com.hisign.framework.xz.entity.Task">
+        UPDATE t_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskName !=null  and taskName != '' ">
+                TASK_NAME = #{taskName,jdbcType=VARCHAR},
+            </if>
+            <if test="taskContent !=null  and taskContent != '' ">
+                TASK_CONTENT = #{taskContent,jdbcType=VARCHAR},
+            </if>
+            <if test="groupid !=null  and groupid != '' ">
+                GROUPID = #{groupid,jdbcType=VARCHAR},
+            </if>
+            <if test="pgroupid !=null  and pgroupid != '' ">
+                PGROUPID = #{pgroupid,jdbcType=VARCHAR},
+            </if>
+            <if test="bcrwid !=null  and bcrwid != '' ">
+                BCRWID = #{bcrwid,jdbcType=VARCHAR},
+            </if>
+            <if test="yjrwid !=null  and yjrwid != '' ">
+                YJRWID = #{yjrwid,jdbcType=VARCHAR},
+            </if>
+            <if test="fqr !=null  and fqr != '' ">
+                FQR = #{fqr,jdbcType=VARCHAR},
+            </if>
+            <if test="jsrLxfs !=null  and jsrLxfs != '' ">
+                JSR_LXFS = #{jsrLxfs,jdbcType=VARCHAR},
+            </if>
+            <if test="jsr !=null  and jsr != '' ">
+                JSR = #{jsr,jdbcType=VARCHAR},
+            </if>
+            <if test="fqTime !=null ">
+                FQ_TIME = #{fqTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fkjzTime !=null ">
+                FKJZ_TIME = #{fkjzTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lxfs !=null  and lxfs != '' ">
+                LXFS = #{lxfs,jdbcType=VARCHAR},
+            </if>
+            <if test="fkzt !=null  and fkzt != '' ">
+                FKZT = #{fkzt,jdbcType=VARCHAR},
+            </if>
+            <if test="fkTime !=null ">
+                FK_TIME = #{fkTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cbzt !=null  and cbzt != '' ">
+                CBZT = #{cbzt,jdbcType=VARCHAR},
+            </if>
+            <if test="qszt !=null  and qszt != '' ">
+                QSZT = #{qszt,jdbcType=VARCHAR},
+            </if>
+            <if test="qsTime !=null ">
+                QS_TIME = #{qsTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="yjzt !=null  and yjzt != '' ">
+                YJZT = #{yjzt,jdbcType=VARCHAR},
+            </if>
+            <if test="yjTime !=null ">
+                YJ_TIME = #{yjTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="qrzt !=null  and qrzt != '' ">
+                QRZT = #{qrzt,jdbcType=VARCHAR},
+            </if>
+            <if test="qrTime !=null ">
+                QR_TIME = #{qrTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator !=null  and creator != '' ">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime !=null ">
+                CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deparmentcode !=null  and deparmentcode != '' ">
+                DEPARMENTCODE = #{deparmentcode,jdbcType=VARCHAR},
+            </if>
+            <if test="lastupdatetime !=null ">
+                LASTUPDATETIME = #{lastupdatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteflag !=null  and deleteflag != '' ">
+                DELETEFLAG = #{deleteflag,jdbcType=VARCHAR}
+            </if>
+        </trim>
+        WHERE n_id=#{id}
+    </update>
+
+    <update id="updateCustom" parameterType="com.hisign.bfun.bmodel.UpdateParams">
+    UPDATE t_task
+    <trim prefix="SET" suffixOverrides=",">
+    	<foreach collection="fields" item="item" index="index" separator="," >
+        ${item}  #{values[${index}]}
+        </foreach>
+    </trim>
+	<include refid="Update_Conditions_Where_Clause" />	
+	<if test="conditions!=null">
+		<if test="conditions.orderByClause!=null"> ${conditions.orderByClause}</if> 
+	</if>	
+    </update>
+    
+    <!-- 按Id删除 -->
+    <delete id="deleteById" parameterType="java.lang.String">
+        DELETE FROM t_task
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND ID = #{id}
+        </trim>
+    </delete>
+
+    <!--根据list(ids)删除对象-->
+    <delete id="deleteByIds">
+        DELETE FROM t_task
+        WHERE id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </delete>
+
+	<!--根据自定义删除对象-->
+    <delete id="deleteCustom" parameterType="com.hisign.bfun.bmodel.Conditions">
+        DELETE FROM t_task
+        <include refid="Conditions_Where_Clause" />
+    </delete>
+    
+    <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT  
+	    <include refid="Base_Column_List" />
+        FROM t_task 
+        WHERE 
+        ID = #{id}
+        and rownum = 1 
+    </select>
+    
+    <select id="findByEntity" parameterType="com.hisign.framework.xz.entity.Task" resultMap="BaseResultMap">
+        SELECT  
+	    <include refid="Base_Column_List" />
+        FROM t_task 
+        WHERE 1 = 1
+	     	<if test="id != null  and id != '' ">
+		   	 and ID=#{id,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="taskName != null  and taskName != '' ">
+		   	 and TASK_NAME=#{taskName,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="taskContent != null  and taskContent != '' ">
+		   	 and TASK_CONTENT=#{taskContent,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="groupid != null  and groupid != '' ">
+		   	 and GROUPID=#{groupid,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="pgroupid != null  and pgroupid != '' ">
+		   	 and PGROUPID=#{pgroupid,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="bcrwid != null  and bcrwid != '' ">
+		   	 and BCRWID=#{bcrwid,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="yjrwid != null  and yjrwid != '' ">
+		   	 and YJRWID=#{yjrwid,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="fqr != null  and fqr != '' ">
+		   	 and FQR=#{fqr,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="jsrLxfs != null  and jsrLxfs != '' ">
+		   	 and JSR_LXFS=#{jsrLxfs,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="jsr != null  and jsr != '' ">
+		   	 and JSR=#{jsr,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="fqTime != null ">
+		   	 and FQ_TIME=#{fqTime,jdbcType=TIMESTAMP}
+		    </if>
+	     	<if test="fkjzTime != null ">
+		   	 and FKJZ_TIME=#{fkjzTime,jdbcType=TIMESTAMP}
+		    </if>
+	     	<if test="lxfs != null  and lxfs != '' ">
+		   	 and LXFS=#{lxfs,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="fkzt != null  and fkzt != '' ">
+		   	 and FKZT=#{fkzt,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="fkTime != null ">
+		   	 and FK_TIME=#{fkTime,jdbcType=TIMESTAMP}
+		    </if>
+	     	<if test="cbzt != null  and cbzt != '' ">
+		   	 and CBZT=#{cbzt,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="qszt != null  and qszt != '' ">
+		   	 and QSZT=#{qszt,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="qsTime != null ">
+		   	 and QS_TIME=#{qsTime,jdbcType=TIMESTAMP}
+		    </if>
+	     	<if test="yjzt != null  and yjzt != '' ">
+		   	 and YJZT=#{yjzt,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="yjTime != null ">
+		   	 and YJ_TIME=#{yjTime,jdbcType=TIMESTAMP}
+		    </if>
+	     	<if test="qrzt != null  and qrzt != '' ">
+		   	 and QRZT=#{qrzt,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="qrTime != null ">
+		   	 and QR_TIME=#{qrTime,jdbcType=TIMESTAMP}
+		    </if>
+	     	<if test="creator != null  and creator != '' ">
+		   	 and CREATOR=#{creator,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="createtime != null ">
+		   	 and CREATETIME=#{createtime,jdbcType=TIMESTAMP}
+		    </if>
+	     	<if test="deparmentcode != null  and deparmentcode != '' ">
+		   	 and DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="lastupdatetime != null ">
+		   	 and LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP}
+		    </if>
+	     	<if test="deleteflag != null  and deleteflag != '' ">
+		   	 and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
+		    </if>
+	 	and rownum = 1 
+    </select>
+    
+    <select id="findListByEntity" parameterType="com.hisign.framework.xz.entity.Task" resultMap="BaseResultMap">
+        SELECT  
+	    <include refid="Base_Column_List" />
+        FROM t_task 
+        WHERE 1 = 1
+	     	<if test="id != null  and id != '' ">
+		   	 and ID=#{id}
+		    </if>
+	     	<if test="taskName != null  and taskName != '' ">
+		   	 and TASK_NAME=#{taskName}
+		    </if>
+	     	<if test="taskContent != null  and taskContent != '' ">
+		   	 and TASK_CONTENT=#{taskContent}
+		    </if>
+	     	<if test="groupid != null  and groupid != '' ">
+		   	 and GROUPID=#{groupid}
+		    </if>
+	     	<if test="pgroupid != null  and pgroupid != '' ">
+		   	 and PGROUPID=#{pgroupid}
+		    </if>
+	     	<if test="bcrwid != null  and bcrwid != '' ">
+		   	 and BCRWID=#{bcrwid}
+		    </if>
+	     	<if test="yjrwid != null  and yjrwid != '' ">
+		   	 and YJRWID=#{yjrwid}
+		    </if>
+	     	<if test="fqr != null  and fqr != '' ">
+		   	 and FQR=#{fqr}
+		    </if>
+	     	<if test="jsrLxfs != null  and jsrLxfs != '' ">
+		   	 and JSR_LXFS=#{jsrLxfs}
+		    </if>
+	     	<if test="jsr != null  and jsr != '' ">
+		   	 and JSR=#{jsr}
+		    </if>
+	     	<if test="fqTime != null ">
+		   	 and FQ_TIME=#{fqTime}
+		    </if>
+	     	<if test="fkjzTime != null ">
+		   	 and FKJZ_TIME=#{fkjzTime}
+		    </if>
+	     	<if test="lxfs != null  and lxfs != '' ">
+		   	 and LXFS=#{lxfs}
+		    </if>
+	     	<if test="fkzt != null  and fkzt != '' ">
+		   	 and FKZT=#{fkzt}
+		    </if>
+	     	<if test="fkTime != null ">
+		   	 and FK_TIME=#{fkTime}
+		    </if>
+	     	<if test="cbzt != null  and cbzt != '' ">
+		   	 and CBZT=#{cbzt}
+		    </if>
+	     	<if test="qszt != null  and qszt != '' ">
+		   	 and QSZT=#{qszt}
+		    </if>
+	     	<if test="qsTime != null ">
+		   	 and QS_TIME=#{qsTime}
+		    </if>
+	     	<if test="yjzt != null  and yjzt != '' ">
+		   	 and YJZT=#{yjzt}
+		    </if>
+	     	<if test="yjTime != null ">
+		   	 and YJ_TIME=#{yjTime}
+		    </if>
+	     	<if test="qrzt != null  and qrzt != '' ">
+		   	 and QRZT=#{qrzt}
+		    </if>
+	     	<if test="qrTime != null ">
+		   	 and QR_TIME=#{qrTime}
+		    </if>
+	     	<if test="creator != null  and creator != '' ">
+		   	 and CREATOR=#{creator}
+		    </if>
+	     	<if test="createtime != null ">
+		   	 and CREATETIME=#{createtime}
+		    </if>
+	     	<if test="deparmentcode != null  and deparmentcode != '' ">
+		   	 and DEPARMENTCODE=#{deparmentcode}
+		    </if>
+	     	<if test="lastupdatetime != null ">
+		   	 and LASTUPDATETIME=#{lastupdatetime}
+		    </if>
+	     	<if test="deleteflag != null  and deleteflag != '' ">
+		   	 and DELETEFLAG=#{deleteflag}
+		    </if>
+    </select>
+    
+    <select id="findByCondition" parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">
+        SELECT 
+        <choose>
+           <when test="returnFields != null">
+           <foreach collection="returnFields" item="f" separator=",">${f}</foreach>
+           </when>
+           <otherwise>
+	       <include refid="Base_Column_List" />
+           </otherwise>
+        </choose>
+        FROM t_task
+        <if test="connectTable!=null">
+	        <foreach collection="connectTable" item="tb">
+	       	,${tb}
+	       	</foreach>
+        </if>
+        <include refid="Conditions_Where_Clause" />
+        and rownum = 1 
+    </select>
+
+    <select id="findList"  parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">
+    	select p.* from(
+	    select
+	      rownum,rownum as rn,a.* from (
+	      select t.* from (
+	      
+        SELECT
+        <if test="distinct!=false">
+        DISTINCT
+        </if>
+        <choose>
+           <when test="returnFields != null">
+           <foreach collection="returnFields" item="f" separator=",">${f}</foreach>
+           </when>
+           <otherwise>
+	       <include refid="Base_Column_List" />
+           </otherwise>
+        </choose>
+        FROM t_task
+        <if test="connectTable!=null">
+	        <foreach collection="connectTable" item="tb">
+	       	,${tb}
+	       	</foreach>
+        </if>
+        <include refid="Conditions_Where_Clause" />
+        <if test="orderByClause!=null">${orderByClause}</if> 
+        
+        ) t ) a
+	      <if test="end !=null and end !=0">
+	        where rownum <![CDATA[<=]]> ${end}
+	      </if>
+	      ) p
+	    <if test="begin !=null and begin !=0">
+	      where rn >= ${begin}
+	    </if>
+    </select>
+
+    <select id="findCount" parameterType="com.hisign.bfun.bmodel.Conditions" resultType="java.lang.Long">
+        SELECT
+        COUNT(1)
+        FROM t_task
+        <if test="connectTable!=null">
+	        <foreach collection="connectTable" item="tb">
+	       	,${tb}
+	       	</foreach>
+        </if>
+        <include refid="Conditions_Where_Clause" />
+    </select>
+
+    <select id="selectMaxId" resultType="java.lang.String">
+        SELECT
+        MAX(id)
+        FROM t_task
+    </select>
+   
+</mapper>

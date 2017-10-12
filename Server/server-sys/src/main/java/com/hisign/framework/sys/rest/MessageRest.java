@@ -24,28 +24,24 @@ public class MessageRest extends BaseRest<Message, String, MessageService> imple
 
     @Override
     @RequestMapping(value = "/delByMessages", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
     public JsonResult delByMessages(@RequestBody String[] ids) throws BusinessException {
         return baseService.delByMessages(ids);
     }
 
     @Override
     @RequestMapping(value = "/publishMsg", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
     public JsonResult publishMsg(@RequestParam String id,@RequestParam String publishId,@RequestParam String publishName,@RequestBody List<String> orgIds) throws BusinessException {
         return baseService.publishMsg(id,publishId,publishName,orgIds);
     }
 
     @Override
     @RequestMapping(value = "/saveAndPush", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
     public JsonResult saveAndPush(@RequestBody Message message) throws BusinessException {
         return baseService.saveAndPush(message);
     }
 
     @Override
     @RequestMapping(value = "/updateAndPush", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
     public JsonResult updateAndPush(@RequestBody Message message) throws BusinessException {
         return baseService.updateAndPush(message);
     }
