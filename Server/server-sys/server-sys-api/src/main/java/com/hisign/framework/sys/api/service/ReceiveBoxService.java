@@ -6,6 +6,7 @@ import com.hisign.bfun.bif.BaseService;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.framework.sys.api.model.ReceiveBox;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,9 +20,9 @@ public interface ReceiveBoxService extends BaseService<ReceiveBox, String>{
 
 	@RequestMapping(value = "/setRead", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public JsonResult setRead(String[] ids) throws BusinessException;
+	public JsonResult setRead(@RequestBody String[] ids) throws BusinessException;
 
 	@RequestMapping(value = "/delMsg", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public JsonResult delMsg(String[] ids) throws BusinessException;
+	public JsonResult delMsg(@RequestBody String[] ids) throws BusinessException;
 }

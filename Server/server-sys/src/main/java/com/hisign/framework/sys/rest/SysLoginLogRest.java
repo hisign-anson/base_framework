@@ -3,8 +3,7 @@ package com.hisign.framework.sys.rest;
 import com.hisign.framework.sys.api.model.SysLoginLog;
 import com.hisign.framework.sys.api.service.SysLoginLogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,12 +17,16 @@ public class SysLoginLogRest implements SysLoginLogService {
     private SysLoginLogService sysLoginLogService;
 
     @Override
-    public List<SysLoginLog> findSysLoginLogList(SysLoginLog sysLoginLog) throws Exception {
+    @RequestMapping(value = "/findSysLoginLogList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysLoginLog> findSysLoginLogList(@RequestBody SysLoginLog sysLoginLog) throws Exception {
         return sysLoginLogService.findSysLoginLogList(sysLoginLog);
     }
 
     @Override
-    public int findSysLoginLogListForCount(SysLoginLog sysLoginLog) throws Exception {
+    @RequestMapping(value = "/findSysLoginLogListForCount", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public int findSysLoginLogListForCount(@RequestBody SysLoginLog sysLoginLog) throws Exception {
         return sysLoginLogService.findSysLoginLogListForCount(sysLoginLog);
     }
 }

@@ -1,9 +1,9 @@
 package com.hisign.framework.sys.api.service;
 
+import com.hisign.framework.sys.api.model.SysModule;
+
 import java.util.List;
 import java.util.Map;
-
-import com.hisign.framework.sys.api.model.SysModule;
 
 
 /**
@@ -105,7 +105,7 @@ public interface SysModuleService {
      * @throws Exception
      * @return
      */
-    public List<SysModule> toolsForList(List<SysModule> parentList, List<SysModule> childList, List<SysModule> childNodeList) throws Exception;
+    public List<SysModule> toolsForList(Map<String,List<SysModule>> lists) throws Exception;
 
     /**
      * 获取登录用户角色
