@@ -49,57 +49,79 @@ public class SysRoleRest implements SysRoleService {
     }
 
     @Override
-    public String insertSysRole(SysRole sysRole) throws Exception {
-        return null;
+    @RequestMapping(value = "/insertSysRole", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String insertSysRole(@RequestBody SysRole sysRole) throws Exception {
+        return sysRoleService.insertSysRole(sysRole);
     }
 
     @Override
-    public SysRole findSysRoleById(String id) throws Exception {
-        return null;
+    @RequestMapping(value = "/findSysRoleById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public SysRole findSysRoleById(@RequestParam(value = "id") String id) throws Exception {
+        return sysRoleService.findSysRoleById(id);
     }
 
     @Override
-    public String updateSysRoleById(SysRole sysRole) throws Exception {
-        return null;
+    @RequestMapping(value = "/updateSysRole", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String updateSysRoleById(@RequestBody SysRole sysRole) throws Exception {
+        return sysRoleService.updateSysRoleById(sysRole);
     }
 
     @Override
-    public void insertUserRole(String id, String selectUserId) throws Exception {
-
+    @RequestMapping(value = "/insertUserRole", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public void insertUserRole(@RequestParam(value = "id") String id,@RequestParam(value = "selectUserId") String selectUserId) throws Exception {
+        sysRoleService.insertUserRole(id,selectUserId);
     }
 
     @Override
+    @RequestMapping(value = "/removeUserRole", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
     public void removeUserRole(String id, String associatedUserId) throws Exception {
-
+        sysRoleService.removeUserRole(id,associatedUserId);
     }
 
     @Override
+    @RequestMapping(value = "/findALLSysModule", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
     public List<SysModule> findALLSysModule() throws Exception {
-        return null;
+        return sysRoleService.findALLSysModule();
     }
 
     @Override
-    public List<SysRolePermis> findSysRolePermisListByFilter(SysRolePermis sysRolePermis) throws Exception {
-        return null;
+    @RequestMapping(value = "/findSysRolePermisListByFilter", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysRolePermis> findSysRolePermisListByFilter(@RequestBody SysRolePermis sysRolePermis) throws Exception {
+        return sysRoleService.findSysRolePermisListByFilter(sysRolePermis);
     }
 
     @Override
-    public List<SysPermission> findSysPermissionListByFilter(String moduleId) throws Exception {
-        return null;
+    @RequestMapping(value = "/findSysPermissionListByFilter", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysPermission> findSysPermissionListByFilter(@RequestParam(value = "moduleId") String moduleId) throws Exception {
+        return sysRoleService.findSysPermissionListByFilter(moduleId);
     }
 
     @Override
-    public List<SysModule> findSysModuleByParentId(String moduleId) throws Exception {
-        return null;
+    @RequestMapping(value = "/findSysModuleByParentId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysModule> findSysModuleByParentId(@RequestParam(value = "moduleId") String moduleId) throws Exception {
+        return sysRoleService.findSysModuleByParentId(moduleId);
     }
 
     @Override
-    public void updateSysRolePermisById(Map<String, String> map) throws Exception {
-
+    @RequestMapping(value = "/updateSysRolePermisById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public void updateSysRolePermisById(@RequestBody Map<String, String> map) throws Exception {
+        sysRoleService.updateSysRolePermisById(map);
     }
 
     @Override
+    @RequestMapping(value = "/findAllRole", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
     public List<SysRole> findAllRole() throws Exception {
-        return null;
+        return sysRoleService.findAllRole();
     }
 }

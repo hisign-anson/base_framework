@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-@RequestMapping("/sys/sysDictService")
+@RequestMapping("/sys/receiveBoxService")
 @RestController
 public class ReceiveBoxRest extends BaseRest<ReceiveBox, String, ReceiveBoxService> implements ReceiveBoxService {
 
