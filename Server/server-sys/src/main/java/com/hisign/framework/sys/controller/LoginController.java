@@ -51,7 +51,7 @@ public class LoginController {
      * @param request 请求对象
      * @return
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
+    @RequestMapping(value = "/sys/login", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult login(@RequestBody SysUser user, HttpServletRequest request) {
         JsonResult result = new JsonResult();
@@ -103,7 +103,7 @@ public class LoginController {
     /**
      * 注销
     **/
-    @RequestMapping(value = "/logout", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
+    @RequestMapping(value = "/sys/logout", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult logout(HttpServletRequest request) {
         JsonResult result = new JsonResult();
