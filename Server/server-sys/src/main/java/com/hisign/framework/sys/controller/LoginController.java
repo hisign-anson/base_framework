@@ -1,6 +1,7 @@
 package com.hisign.framework.sys.controller;
 
 import com.alibaba.druid.util.StringUtils;
+import com.google.common.collect.Maps;
 import com.hisign.framework.common.constant.Constants;
 import com.hisign.framework.common.model.JsonResult;
 import com.hisign.framework.common.util.Md5Helper;
@@ -180,7 +181,11 @@ public class LoginController {
                     }
                 }
             }
-            pageLimit = sysModuleService.toolsForList(parentList,childList,childNodeList);//拼接List
+            Map<String,List<SysModule>> lists = Maps.newHashMap();
+            lists.put("parentList",parentList);
+            lists.put("childList",childList);
+            lists.put("childNodeList",childNodeList);
+            pageLimit = sysModuleService.toolsForList(lists);//拼接List
             List<SysModule> operateLimit = sysModuleService.findLogUserPowerLimt(user.getUserName());//查询所有操作权限
             List<Map<String,String>> roleList = searchUserRole(user);//获取用户角色中文
             tempMap.put("pages",pageLimit);

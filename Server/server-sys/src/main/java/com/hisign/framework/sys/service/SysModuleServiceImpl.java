@@ -1,16 +1,14 @@
 package com.hisign.framework.sys.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.hisign.framework.sys.api.model.SysModule;
 import com.hisign.framework.sys.api.service.SysModuleService;
 import com.hisign.framework.sys.mapper.SysModuleMapper;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -182,7 +180,10 @@ public class SysModuleServiceImpl implements SysModuleService {
      * @param childNodeList 三级模块权限
      * @return
      */
-    public List<SysModule> toolsForList(List<SysModule> parentList,List<SysModule> childList,List<SysModule> childNodeList) throws Exception{
+    public List<SysModule> toolsForList(Map<String,List<SysModule>> lists) throws Exception{
+        List<SysModule> parentList = lists.get("parentList");
+        List<SysModule> childList = lists.get("childList");
+        List<SysModule> childNodeList = lists.get("childNodeList");
         List<SysModule> result = new ArrayList<SysModule>();
         List<SysModule> resultParent = new ArrayList<SysModule>();
         resultParent = toolsForResultForEach(childList,childNodeList);

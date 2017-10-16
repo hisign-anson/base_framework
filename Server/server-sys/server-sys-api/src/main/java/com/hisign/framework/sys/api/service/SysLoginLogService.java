@@ -1,8 +1,13 @@
 package com.hisign.framework.sys.api.service;
 
-import java.util.List;
-
 import com.hisign.framework.sys.api.model.SysLoginLog;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 
 /**
@@ -10,6 +15,7 @@ import com.hisign.framework.sys.api.model.SysLoginLog;
  *
  * 2017年3月29日
  */
+@FeignClient(name = "sysService")
 public interface SysLoginLogService {
     /**
      *
@@ -18,7 +24,9 @@ public interface SysLoginLogService {
      * @return
      * @throws Exception
      */
-    public List<SysLoginLog> findSysLoginLogList(SysLoginLog sysLoginLog) throws Exception;
+    @RequestMapping(value = "/findSysLoginLogList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysLoginLog> findSysLoginLogList(@RequestBody SysLoginLog sysLoginLog) throws Exception;
 
     /**
      * 查询登录用户日志Count
@@ -26,5 +34,7 @@ public interface SysLoginLogService {
      * @return
      * @throws Exception
      */
-    public int findSysLoginLogListForCount(SysLoginLog sysLoginLog) throws Exception;
+    @RequestMapping(value = "/findSysLoginLogListForCount", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public int findSysLoginLogListForCount(@RequestBody SysLoginLog sysLoginLog) throws Exception;
 }
