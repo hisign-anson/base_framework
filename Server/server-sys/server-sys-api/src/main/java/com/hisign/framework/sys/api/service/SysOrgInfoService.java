@@ -1,27 +1,49 @@
 package com.hisign.framework.sys.api.service;
 
-import java.util.List;
-
 import com.hisign.framework.common.model.JsonResult;
 import com.hisign.framework.sys.api.model.SysOrgInfo;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@FeignClient(value = "sysService",path = "/sys/sysOrgInfoService")
 public interface SysOrgInfoService {
 
-	List<SysOrgInfo> queryListByCondition(SysOrgInfo info);
+	@RequestMapping(value = "/queryListByCondition", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public List<SysOrgInfo> queryListByCondition(@RequestBody SysOrgInfo info);
 
-	SysOrgInfo getOrgInfoByID(String orgId);
+	@RequestMapping(value = "/getOrgInfoByID", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public SysOrgInfo getOrgInfoByID(@RequestParam(value = "orgId") String orgId);
 
-	JsonResult add(SysOrgInfo info);
-    JsonResult update(SysOrgInfo info);
+	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public JsonResult add(@RequestBody SysOrgInfo info);
 
-	void deleteByKey(String orgId);
+	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public JsonResult update(@RequestBody SysOrgInfo info);
 
-	List<SysOrgInfo> getOrgTreeListBySuperId(String superId);
-	
-	public SysOrgInfo getOrgInfoByName(String name);
-	
-	List<SysOrgInfo> getOrgNotIn(List<String> orgIds);
-	
-	public List<SysOrgInfo> getOrgIn(List<String> orgIds);
+	@RequestMapping(value = "/deleteByKey", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public void deleteByKey(@RequestParam(value = "orgId") String orgId);
+
+	@RequestMapping(value = "/getOrgTreeListBySuperId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public List<SysOrgInfo> getOrgTreeListBySuperId(@RequestParam(value = "superId") String superId);
+
+	@RequestMapping(value = "/getOrgInfoByName", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public SysOrgInfo getOrgInfoByName(@RequestParam(value = "name") String name);
+
+	@RequestMapping(value = "/getOrgNotIn", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public List<SysOrgInfo> getOrgNotIn(@RequestBody List<String> orgIds);
+
+	@RequestMapping(value = "/getOrgIn", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public List<SysOrgInfo> getOrgIn(@RequestBody List<String> orgIds);
 
 }

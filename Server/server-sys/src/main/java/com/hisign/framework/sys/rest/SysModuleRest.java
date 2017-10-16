@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/sys/sysModule")
+@RequestMapping("/sys/sysModuleService")
 @RestController
 public class SysModuleRest implements SysModuleService {
 

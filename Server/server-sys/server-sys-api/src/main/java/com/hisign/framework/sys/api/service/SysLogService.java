@@ -1,6 +1,8 @@
 package com.hisign.framework.sys.api.service;
 
 import com.hisign.framework.sys.api.model.SysUser;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -8,6 +10,7 @@ import com.hisign.framework.sys.api.model.SysUser;
  *
  * 2017年3月29日
  */
+@FeignClient(value = "sysService",path = "/sys/sysLogService")
 public interface SysLogService {
 
     /**
@@ -15,7 +18,9 @@ public interface SysLogService {
      * @Author xiaohuiwen
      * @param sysUser 用户Model
      */
-    public void insertLogUserInfo(SysUser sysUser);
+    @RequestMapping(value = "/insertLogUserInfo", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public void insertLogUserInfo(@RequestBody SysUser sysUser);
 
     /**
      * 插入操作日志
@@ -25,5 +30,7 @@ public interface SysLogService {
      * @param sysUser
      * @return
      */
-    public String insertOperLog(String paraStr, String requestPath, String ip, SysUser sysUser) throws Exception;
+    @RequestMapping(value = "/insertOperLog", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String insertOperLog(@RequestParam(value = "paraStr") String paraStr, @RequestParam(value = "requestPath") String requestPath, @RequestParam(value = "ip") String ip, @RequestBody SysUser sysUser) throws Exception;
 }

@@ -1,12 +1,15 @@
 package com.hisign.bfun.bif;
 
-import java.util.List;
-
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 public interface BaseService<T,M,PK> {
 	
@@ -49,7 +52,7 @@ public interface BaseService<T,M,PK> {
 	 *            
 	 * @return int 
 	 */
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract JsonResult update(@RequestBody T entity) throws BusinessException;
 
@@ -59,7 +62,7 @@ public interface BaseService<T,M,PK> {
 	 * @return
 	 * @time 2016年10月11日 下午9:58:43
 	 */
-	@RequestMapping(value = "/updateNotNull", method = RequestMethod.PUT, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/updateNotNull", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract JsonResult updateNotNull(@RequestBody T entity) throws BusinessException;
 	
@@ -69,7 +72,7 @@ public interface BaseService<T,M,PK> {
 	 * @return
 	 * @time 2016年10月11日 下午9:58:43
 	 */
-	@RequestMapping(value = "/updateBatch", method = RequestMethod.PUT, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/updateBatch", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract JsonResult updateBatch(@RequestBody List<T> entity) throws BusinessException;
 
@@ -79,7 +82,7 @@ public interface BaseService<T,M,PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	@RequestMapping(value = "/updateParams", method = RequestMethod.PUT, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/updateParams", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract JsonResult update(@RequestBody UpdateParams params) throws BusinessException;
 
@@ -89,7 +92,7 @@ public interface BaseService<T,M,PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	@RequestMapping(value = "/delById", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/delById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract JsonResult delById(@RequestBody PK id) throws BusinessException;
 
@@ -99,7 +102,7 @@ public interface BaseService<T,M,PK> {
 	 * @return
 	 * @time 2016年10月14日 下午4:50:14
 	 */
-	@RequestMapping(value = "/delByIds", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/delByIds", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract JsonResult delByIds(@RequestBody List<PK> ids) throws BusinessException;
 
@@ -109,7 +112,7 @@ public interface BaseService<T,M,PK> {
 	 * @return
 	 * @time 2016年10月14日 下午4:54:06
 	 */
-	@RequestMapping(value = "/delBy", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/delBy", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract JsonResult delBy(@RequestBody Conditions conditions) throws BusinessException;
 
@@ -119,7 +122,7 @@ public interface BaseService<T,M,PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	@RequestMapping(value = "/getById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/getById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract M getById(@RequestBody PK id);
 	
@@ -129,7 +132,7 @@ public interface BaseService<T,M,PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	@RequestMapping(value = "/getByEntity", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/getByEntity", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract M getByEntity(@RequestBody T entity);
 
@@ -139,7 +142,7 @@ public interface BaseService<T,M,PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	@RequestMapping(value = "/getList", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/getList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract List<M> getList(@RequestBody Conditions conditions);
 
@@ -149,7 +152,7 @@ public interface BaseService<T,M,PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	@RequestMapping(value = "/getBy", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/getBy", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract M getBy(@RequestBody Conditions conditions);
 	
@@ -159,7 +162,7 @@ public interface BaseService<T,M,PK> {
 	 * @return
 	 * @time 2016年10月18日 下午2:21:02
 	 */
-	@RequestMapping(value = "/getCount", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/getCount", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract Long getCount(@RequestBody Conditions conditions);
 
@@ -170,7 +173,7 @@ public interface BaseService<T,M,PK> {
 	 * @return
 	 * @time 2016年10月14日 下午8:13:05
 	 */
-	@RequestMapping(value = "/getPage", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value = "/getPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract JsonResult getPage(@RequestBody Conditions conditions);
 

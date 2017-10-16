@@ -23,26 +23,26 @@ public class MessageRest extends BaseRest<Message,Message, String, MessageServic
     }
 
     @Override
-    @RequestMapping(value = "/delByMessages", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/delByMessages", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult delByMessages(@RequestBody String[] ids) throws BusinessException {
         return baseService.delByMessages(ids);
 
     }
 
     @Override
-    @RequestMapping(value = "/publishMsg", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/publishMsg", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult publishMsg(@RequestParam String id,@RequestParam String publishId,@RequestParam String publishName,@RequestBody List<String> orgIds) throws BusinessException {
         return baseService.publishMsg(id,publishId,publishName,orgIds);
     }
 
     @Override
-    @RequestMapping(value = "/saveAndPush", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/saveAndPush", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult saveAndPush(@RequestBody Message message) throws BusinessException {
         return baseService.saveAndPush(message);
     }
 
     @Override
-    @RequestMapping(value = "/updateAndPush", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/updateAndPush", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult updateAndPush(@RequestBody Message message) throws BusinessException {
         return baseService.updateAndPush(message);
     }
