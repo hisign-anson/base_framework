@@ -1,4 +1,4 @@
-package com.hisign.framework.web.exception;
+package com.hisign.framework.exception;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

@@ -52,7 +52,7 @@ import com.hisign.framework.sys.api.service.SysUserService;
  *
  */
 @Service("messageService")
-public class MessageServiceImpl extends BaseServiceImpl<Message, String> implements MessageService{
+public class MessageServiceImpl extends BaseServiceImpl<Message,Message, String> implements MessageService{
 	private Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
 	@Autowired
 	private MessageMapper messageMapper;
@@ -65,7 +65,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String> impleme
 	private SysUserService sysUserService;
 	
 	@Override
-	protected BaseMapper<Message, String> initMapper() {
+	protected BaseMapper<Message,Message, String> initMapper() {
 		return messageMapper;
 	}
 	

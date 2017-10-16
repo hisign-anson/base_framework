@@ -4,54 +4,83 @@ package com.hisign.framework.xz.api.entity;
 import java.io.Serializable;
 import java.util.*;
 import com.hisign.bfun.bannotation.*;
+import com.hisign.framework.common.model.BaseModel;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 《专案组》 实体
- * @author xhh
+ * @author 何建辉
  *
  */
+@ApiModel(value = "专案组")
 @Table(value="t_group")
-public class Group implements Serializable {
+public class Group extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@PK(value="ID")
+	@ApiModelProperty(value = "专案组ID")
 	private String id; //专案组ID
-	
+
 	@Column(value="PGROUPID")
+	@ApiModelProperty(value = "父专案组ID")
 	private String pgroupid; //父专案组ID
-	
+
 	@Column(value="GROUPNUM")
+	@ApiModelProperty(value = "专案组编号")
 	private String groupnum; //专案组编号
-	
+
 	@Column(value="GROUPNAME")
+	@ApiModelProperty(value = "专案组名称")
 	private String groupname; //专案组名称
-	
+
 	@Column(value="GROUPTYPE")
+	@ApiModelProperty(value = "专案组类别")
 	private String grouptype; //专案组类别
-	
+
 	@Column(value="BACKUP_STATU")
+	@ApiModelProperty(value = "归档状态")
 	private String backupStatu; //归档状态
-	
+
 	@Column(value="BACKUP_TIME")
+	@ApiModelProperty(value = "归档时间")
 	private Date backupTime; //归档时间
-	
+
 	@Column(value="BACKUP_REASON")
+	@ApiModelProperty(value = "归档原因")
 	private String backupReason; //归档原因
-	
+
 	@Column(value="CREATOR")
+	@ApiModelProperty(value = "创建人")
 	private String creator; //创建人
-	
+
 	@Column(value="CREATETIME")
+	@ApiModelProperty(value = "创建时间")
 	private Date createtime; //创建时间
-	
+
 	@Column(value="DEPARMENTCODE")
+	@ApiModelProperty(value = "创建人单位")
 	private String deparmentcode; //创建人单位
-	
+
 	@Column(value="LASTUPDATETIME")
+	@ApiModelProperty(value = "修改时间")
 	private Date lastupdatetime; //修改时间
-	
+
 	@Column(value="DELETEFLAG")
+	@ApiModelProperty(value = "删除标识")
 	private String deleteflag; //删除标识
+
+	//-------------------------------------- 返回字段
+	private int num;//成员数
+
+	private int caseNum;//涉及案件数
+
+
+	//--------------------------------------- 接收字段
+	private String ajbh;//关联案件
+
+	private String userId;//人员名称
+
 	
     
 	/**
@@ -221,7 +250,39 @@ public class Group implements Serializable {
 	public static String getTbName() {
 		return "t_group";
 	}
-	
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
+	public int getCaseNum() {
+		return caseNum;
+	}
+
+	public void setCaseNum(int caseNum) {
+		this.caseNum = caseNum;
+	}
+
+	public String getAjbh() {
+		return ajbh;
+	}
+
+	public void setAjbh(String ajbh) {
+		this.ajbh = ajbh;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	@Override
 	public String toString(){
 		StringBuilder builder = new StringBuilder();

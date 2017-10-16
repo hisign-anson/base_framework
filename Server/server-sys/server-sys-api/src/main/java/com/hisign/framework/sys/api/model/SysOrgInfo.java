@@ -3,37 +3,67 @@ package com.hisign.framework.sys.api.model;
 import java.util.Date;
 
 import com.hisign.framework.common.model.BaseModel;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel(description = "组织机构")
 public class SysOrgInfo extends BaseModel{
     /** **/
 	private static final long serialVersionUID = -1833115062500267643L;
 	/** 组织机构ID**/
+	@ApiModelProperty(value = "组织机构ID")
     private String orgId;
+
     /** 组织机构名称**/
+	@ApiModelProperty(value = "组织机构名称")
     private String orgName;
+
     /** 组织机构编码**/
+	@ApiModelProperty(value = "组织机构编码")
     private String orgCode;
+
     /** 单位级别**/
+	@ApiModelProperty(value = "单位级别")
     private Integer orgLevel;
+
     /** 上级机构ID**/
+	@ApiModelProperty(value = "上级机构ID")
     private String superId;
+
     /** 上级机构名称**/
+	@ApiModelProperty(value = "上级机构名称")
     private String superName;
+
     /** 状态0:正常1:删除**/
+	@ApiModelProperty(value = "状态0:正常1:删除")
     private Integer status;
+
     /**拼音全程 **/
+	@ApiModelProperty(value = "拼音全程")
     private String pinyin;
+
     /** 拼音首字母**/
+	@ApiModelProperty(value = "拼音首字母")
     private String firstLetter;
+
     /** 单位简称**/
+	@ApiModelProperty(value = "单位简称")
     private String shortenedName;
+
     /** **/
+	@ApiModelProperty(value = "创建人")
     private String createPid;
+
     /** **/
+	@ApiModelProperty(value = "创建时间")
     private Date createTime;
+
     /** **/
+	@ApiModelProperty(value = "修改人")
     private String modifyPid;
+
     /** **/
+	@ApiModelProperty(value = "修改时间")
     private Date modifyTime;
     public SysOrgInfo() {
 	}

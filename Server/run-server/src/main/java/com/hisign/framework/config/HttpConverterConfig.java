@@ -1,4 +1,4 @@
-package com.hisign.framework.web.config;
+package com.hisign.framework.config;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;

@@ -7,6 +7,8 @@ import com.hisign.framework.sys.api.model.SysCommonDict;
 import com.hisign.framework.sys.api.model.SysDict;
 import com.hisign.framework.sys.api.model.TreeModel;
 import com.hisign.framework.sys.api.service.SysDictService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import java.util.Map;
  * 系统字典控件控制器
  *
  */
+@Api(description="系统字典控件")
 @RequestMapping("/sys/dict")
 @RestController
 public class DictController {
@@ -39,6 +42,7 @@ public class DictController {
      * @param root
      * @return
      */
+    @ApiOperation(value = "单级字典查询",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/single", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult singleDict(@RequestParam String root) {
@@ -53,6 +57,7 @@ public class DictController {
      * @param root
      * @return
      */
+    @ApiOperation(value = "多级字典查询",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/multi", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult multiDict(@RequestParam String root) {
@@ -67,6 +72,7 @@ public class DictController {
      * @param key
      * @return
      */
+    @ApiOperation(value = "根据字典key查询字典信息",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/{root}/{key}", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult getDictByKey(@PathVariable("root") String root, @PathVariable("key") String key) {
@@ -81,6 +87,7 @@ public class DictController {
      * @param keys
      * @return
      */
+    @ApiOperation(value = "根据多个字典key查询字典信息（英文逗号分隔）",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/keys", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult getDicstByKeys(@RequestParam String root, @RequestParam String keys) {
@@ -96,6 +103,7 @@ public class DictController {
      * @param queryString
      * @return
      */
+    @ApiOperation(value = "根据条件查询字典信息",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/{root}/query", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult queryDictList(@PathVariable("root") String root, @RequestParam("queryType") String queryType, @RequestParam("queryString") String queryString) {
@@ -118,6 +126,7 @@ public class DictController {
      * @param queryString
      * @return
      */
+    @ApiOperation(value = "根据条件查询字典信息",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/{root}/query/json", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult queryDictListWithFlag(@PathVariable("root") String root, @RequestParam("queryType") String queryType, @RequestParam("queryString") String queryString) {
@@ -135,6 +144,7 @@ public class DictController {
      *
      * @return
      */
+    @ApiOperation(value = "删除常用项",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/delete/commonDict", method = RequestMethod.GET)
     @ResponseBody
     public JsonResult deleteCommon(@RequestParam String groupId) {
@@ -155,6 +165,7 @@ public class DictController {
      *
      * @return
      */
+    @ApiOperation(value = "添加常用项",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/insert/commonDict", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult insertCommon(@RequestBody Map<String, String> param) {
@@ -176,6 +187,7 @@ public class DictController {
      *
      * @return
      */
+    @ApiOperation(value = "查询常用项",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/search/commonDict", method = RequestMethod.GET,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult searchCommon(@RequestParam String userId, @RequestParam String root) {
@@ -193,6 +205,7 @@ public class DictController {
      *
      * @return
      */
+    @ApiOperation(value = "新建组",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/insert/group", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult insertGroup(@RequestBody Map<String, String> param) {
@@ -210,6 +223,7 @@ public class DictController {
      *
      * @return
      */
+    @ApiOperation(value = "分组重命名",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/update/rename", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult renameGroup(@RequestBody Map<String, String> param) {
@@ -223,6 +237,8 @@ public class DictController {
             return JsonResultUtil.error(e.getMessage());
         }
     }
+
+    @ApiOperation(value = "根据parentKey获取字典列表",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/getDictListByParentKey", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult getDictListByParentKey(@RequestBody SysDict param) {
@@ -235,6 +251,8 @@ public class DictController {
             return JsonResultUtil.error(e.getMessage());
         }
     }
+
+    @ApiOperation(value = "根据父key获取字典树",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/getDictTreeByParentKey", method = RequestMethod.GET,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public List<TreeModel> getDictTreeByParentKey(@RequestParam(required = false) String id) {
@@ -247,6 +265,8 @@ public class DictController {
             return new ArrayList<TreeModel>();
         }
     }
+
+    @ApiOperation(value = "根据rootKet删除字典",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "{key}/delDictByKey/{rootKey}", method = RequestMethod.DELETE,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult delDictByKey(@PathVariable String key,@PathVariable String rootKey) {
@@ -257,6 +277,8 @@ public class DictController {
             return JsonResultUtil.error(e.getMessage());
         }
     }
+
+    @ApiOperation(value = "删除字典",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "{id}/delDictById", method = RequestMethod.DELETE,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult delDictById(@PathVariable String id) {
@@ -267,6 +289,8 @@ public class DictController {
             return JsonResultUtil.error(e.getMessage());
         }
     }
+
+    @ApiOperation(value = "根据id获取字典",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/getDictById", method = RequestMethod.GET,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult getDictById(@RequestParam String id) {
@@ -277,7 +301,8 @@ public class DictController {
             return JsonResultUtil.error(e.getMessage());
         }
     }
-    
+
+    @ApiOperation(value = "添加字典",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/addDict", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult addDict(@RequestBody SysDict param) {
@@ -287,7 +312,8 @@ public class DictController {
             return JsonResultUtil.error(e.getMessage());
         }
     }
-    
+
+    @ApiOperation(value = "修改字典",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/updateDict", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult updateDict(@RequestBody SysDict param) {

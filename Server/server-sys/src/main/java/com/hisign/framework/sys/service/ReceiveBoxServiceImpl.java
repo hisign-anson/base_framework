@@ -30,13 +30,13 @@ import com.hisign.framework.sys.api.service.ReceiveBoxService;
  *
  */
 @Service("receiveBoxService")
-public class ReceiveBoxServiceImpl extends BaseServiceImpl<ReceiveBox, String> implements ReceiveBoxService{
+public class ReceiveBoxServiceImpl extends BaseServiceImpl<ReceiveBox,ReceiveBox, String> implements ReceiveBoxService{
 
 	@Autowired
 	protected ReceiveBoxMapper receiveBoxMapper;
 	
 	@Override
-	protected BaseMapper<ReceiveBox, String> initMapper() {
+	protected BaseMapper<ReceiveBox,ReceiveBox, String> initMapper() {
 		return receiveBoxMapper;
 	}
 	

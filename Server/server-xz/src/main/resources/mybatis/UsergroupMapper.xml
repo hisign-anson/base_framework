@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hisign.framework.xz.mapper.UsergroupMapper">
-	<resultMap type="com.hisign.framework.xz.entity.Usergroup" id="BaseResultMap">
+	<resultMap type="com.hisign.framework.xz.api.entity.Usergroup" id="BaseResultMap">
       <result column="ID" property="id" jdbcType="VARCHAR"/>
       <result column="USERID" property="userid" jdbcType="VARCHAR"/>
       <result column="JH" property="jh" jdbcType="VARCHAR"/>
@@ -12,6 +12,28 @@
       <result column="DEPARMENTCODE" property="deparmentcode" jdbcType="VARCHAR"/>
       <result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
       <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<resultMap id="SysUserInfoResultMap" type="com.hisign.framework.sys.api.model.SysUserInfo">
+		<result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+		<result column="POLICE_ID" jdbcType="VARCHAR" property="policeId" />
+		<result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+		<result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+		<result column="SEX" jdbcType="DECIMAL" property="sex" />
+		<result column="CID" jdbcType="VARCHAR" property="cid" />
+		<result column="PHONE" jdbcType="VARCHAR" property="phone" />
+		<result column="AVATAR" jdbcType="VARCHAR" property="avatar" />
+		<result column="POST" jdbcType="VARCHAR" property="post" />
+		<result column="POST_NAME" jdbcType="VARCHAR" property="postName" />
+		<result column="BIRTH" jdbcType="TIMESTAMP" property="birth" />
+		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+		<result column="NOTE" jdbcType="VARCHAR" property="note" />
+		<result column="STATUS" jdbcType="DECIMAL" property="status" />
+		<result column="CREATE_PID" jdbcType="VARCHAR" property="createPid" />
+		<result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="MODIFY_PID" jdbcType="VARCHAR" property="modifyPid" />
+		<result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
 	</resultMap>
 	
 	<sql id="Conditions_Where_Clause">
@@ -62,7 +84,7 @@
         DELETEFLAG
     </sql>
     
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.entity.Usergroup">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.api.entity.Usergroup">
     	<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
         SELECT sys_guid() from DUAL
     	</selectKey>
@@ -89,7 +111,7 @@
         )
     </insert>
     
-    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.entity.Usergroup">
+    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.api.entity.Usergroup">
     <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
         SELECT sys_guid() from DUAL
     </selectKey>
@@ -183,7 +205,7 @@
 	</insert>
 	
     <!-- 更新 -->
-    <update id="update" parameterType="com.hisign.framework.xz.entity.Usergroup">
+    <update id="update" parameterType="com.hisign.framework.xz.api.entity.Usergroup">
         UPDATE t_usergroup
         <trim prefix="SET" suffixOverrides=",">
 		    USERID=#{userid,jdbcType=VARCHAR},
@@ -199,7 +221,7 @@
         ID = #{id,jdbcType=VARCHAR}
     </update>
 	
-    <update id="updateNotNull" parameterType="com.hisign.framework.xz.entity.Usergroup">
+    <update id="updateNotNull" parameterType="com.hisign.framework.xz.api.entity.Usergroup">
         UPDATE t_usergroup
         <trim prefix="SET" suffixOverrides=",">
             <if test="userid !=null  and userid != '' ">
@@ -273,7 +295,7 @@
         and rownum = 1 
     </select>
     
-    <select id="findByEntity" parameterType="com.hisign.framework.xz.entity.Usergroup" resultMap="BaseResultMap">
+    <select id="findByEntity" parameterType="com.hisign.framework.xz.api.entity.Usergroup" resultMap="BaseResultMap">
         SELECT  
 	    <include refid="Base_Column_List" />
         FROM t_usergroup 
@@ -308,7 +330,7 @@
 	 	and rownum = 1 
     </select>
     
-    <select id="findListByEntity" parameterType="com.hisign.framework.xz.entity.Usergroup" resultMap="BaseResultMap">
+    <select id="findListByEntity" parameterType="com.hisign.framework.xz.api.entity.Usergroup" resultMap="BaseResultMap">
         SELECT  
 	    <include refid="Base_Column_List" />
         FROM t_usergroup 
@@ -416,5 +438,52 @@
         MAX(id)
         FROM t_usergroup
     </select>
+
+	<select id="getGroupUserList" parameterType="com.hisign.framework.sys.api.model.SysUserInfo" resultMap="SysUserInfoResultMap">
+		select p.* from(
+		select
+		rownum,rownum as rn,a.* from (
+		select t.* from (
+			select * from SYS_USER_INFO su where 1=1
+			<if test="policeId!=null and policeId!=''">
+				and SU.POLICE_ID like '%'||#{policeId,jdbcType=VARCHAR}||'%' escape '\'
+			</if>
+			<if test="orgId!=null and orgId!=''">
+				and SU.ORG_ID=#{orgId,jdbcType=VARCHAR}
+			</if>
+			<if test="userName!=null and userName!=''">
+				and SU.USER_NAME like '%'||#{userName,jdbcType=VARCHAR}||'%' escape '\'
+			</if>
+			<if test="userName!=null and userName!=''">
+				and SU.USER_ID IN (select u.USERID from T_USERGROUP u where GROUPID=#{id,jdbcType=VARCHAR} )
+			</if>
+		) t
+		<include refid="orderBy" />
+		) a
+		<if test="end !=null and end !=0">
+			where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+		</if>
+		) p
+		<if test="begin !=null and begin !=0">
+			where rn >= #{begin,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="getGroupUserCount" parameterType="com.hisign.framework.sys.api.model.SysUserInfo" resultMap="SysUserInfoResultMap">
+		select count(1) from SYS_USER_INFO su where 1=1
+		<if test="policeId!=null and policeId!=''">
+			and SU.POLICE_ID like '%'||#{policeId,jdbcType=VARCHAR}||'%' escape '\'
+		</if>
+		<if test="orgId!=null and orgId!=''">
+			and SU.ORG_ID=#{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="userName!=null and userName!=''">
+			and SU.USER_NAME like '%'||#{userName,jdbcType=VARCHAR}||'%' escape '\'
+		</if>
+		<if test="userName!=null and userName!=''">
+			and SU.USER_ID IN (select u.USERID from T_USERGROUP u where GROUPID=#{id,jdbcType=VARCHAR} )
+		</if>
+	</select>
+
    
 </mapper>

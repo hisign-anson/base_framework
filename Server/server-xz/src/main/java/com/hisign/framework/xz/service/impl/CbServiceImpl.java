@@ -1,5 +1,6 @@
 package com.hisign.framework.xz.service.impl;
 
+import com.hisign.framework.xz.api.model.CbModel;
 import com.hisign.framework.xz.mapper.CbMapper;
 import com.hisign.framework.xz.api.entity.Cb;
 import com.hisign.framework.xz.api.service.CbService;
@@ -16,17 +17,17 @@ import com.hisign.bfun.bmodel.*;
 
  /**
  * 《催办记录》 业务逻辑服务类
- * @author xhh
+ * @author 何建辉
  *
  */
 @Service("cbService")
-public class CbServiceImpl extends BaseServiceImpl<Cb, String> implements CbService{
+public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implements CbService{
 
 	@Autowired
 	protected CbMapper cbMapper;
 	
 	@Override
-	protected BaseMapper<Cb, String> initMapper() {
+	protected BaseMapper<Cb,CbModel, String> initMapper() {
 		return cbMapper;
 	}
 	
@@ -74,4 +75,4 @@ public class CbServiceImpl extends BaseServiceImpl<Cb, String> implements CbServ
 		return JsonResultUtil.success();
 	}
 
-}
+ }

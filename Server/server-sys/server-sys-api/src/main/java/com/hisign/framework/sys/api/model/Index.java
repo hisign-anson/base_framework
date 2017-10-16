@@ -4,44 +4,53 @@ import java.util.List;
 import java.util.Map;
 
 import com.hisign.framework.common.model.BaseModel;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 
 /**
  * @author lqf
  * @Date 2017年3月30日
  */
+@ApiModel
 public class Index extends BaseModel {
     /** **/
 	private static final long serialVersionUID = -4606203926007250544L;
 	/**
      * 页面权限
      */
+	@ApiModelProperty(value = "页面权限")
     private List<SysModule> pageLimit;
     /**
      * 处理权限
      */
+    @ApiModelProperty(value = "处理权限")
     private List<SysModule> operateLimit;
     /**
      * token
      */
+    @ApiModelProperty(value = "token")
     private String token;
     /**
      * 全部权限
      */
+    @ApiModelProperty(value = "全部权限")
     private Map<String,List<SysModule>> limits;
     /**
      * 全部角色
      */
+    @ApiModelProperty(value = "全部角色")
     private List<Map<String,String>> roles;
    
     /**
      * 用户对象
      */
+    @ApiModelProperty(value = "用户对象")
     private SysUser currentUser;
     /**
      * 加密代码
      */
+    @ApiModelProperty(value = "加密代码")
     private String clientKey;
     
     private String ftpServer;

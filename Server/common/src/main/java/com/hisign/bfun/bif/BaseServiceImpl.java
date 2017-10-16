@@ -7,13 +7,13 @@ import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 
-public abstract class BaseServiceImpl<T,PK> implements BaseService<T, PK>{
+public abstract class BaseServiceImpl<T,M,PK> implements BaseService<T,M, PK>{
 	
-	private BaseMapper<T, PK> mapper;
+	private BaseMapper<T,M, PK> mapper;
 	
-	protected abstract BaseMapper<T, PK> initMapper();
+	protected abstract BaseMapper<T,M, PK> initMapper();
 	
-	private BaseMapper<T, PK> getMapper(){
+	private BaseMapper<T,M, PK> getMapper(){
 		if (mapper==null) {
 			mapper = initMapper();
 		}
@@ -99,12 +99,12 @@ public abstract class BaseServiceImpl<T,PK> implements BaseService<T, PK>{
 	}
 
 	@Override
-	public T getById(PK id) {
+	public M getById(PK id) {
 		return getMapper().findById(id);
 	}
 	
 	@Override
-	public T getByEntity(T entity) {
+	public M getByEntity(T entity) {
 		return getMapper().findByEntity(entity);
 	}
 	
@@ -114,18 +114,18 @@ public abstract class BaseServiceImpl<T,PK> implements BaseService<T, PK>{
 	}
 
 	@Override
-	public List<T> getList(Conditions condition) {
+	public List<M> getList(Conditions condition) {
 		return getMapper().findList(condition);
 	}
 
 	@Override
-	public T getBy(Conditions condition) {
+	public M getBy(Conditions condition) {
 		return getMapper().findByCondition(condition);
 	}
 
 	@Override
 	public JsonResult getPage(Conditions condition) {
-		List<T> list = getMapper().findList(condition);
+		List<M> list = getMapper().findList(condition);
 		Long num = getMapper().findCount(condition);
 		return success(num,list);
 	}

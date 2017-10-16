@@ -8,6 +8,8 @@ import com.hisign.framework.common.util.Md5Helper;
 import com.hisign.framework.common.util.RsaHelper;
 import com.hisign.framework.sys.api.model.*;
 import com.hisign.framework.sys.api.service.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ import java.util.Map;
  * @author lqf
  * @Date 2017年3月30日
  */
+@Api(description = "登录")
 @RestController
 public class LoginController {
 
@@ -51,7 +54,8 @@ public class LoginController {
      * @param request 请求对象
      * @return
      */
-    @RequestMapping(value = "/sys/login", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
+    @ApiOperation(value = "用户登录",httpMethod ="GET",response = JsonResult.class)
+    @RequestMapping(value = "/login", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult login(@RequestBody SysUser user, HttpServletRequest request) {
         JsonResult result = new JsonResult();
@@ -103,7 +107,8 @@ public class LoginController {
     /**
      * 注销
     **/
-    @RequestMapping(value = "/sys/logout", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
+    @ApiOperation(value = "注销",httpMethod ="GET",response = JsonResult.class)
+    @RequestMapping(value = "/logout", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult logout(HttpServletRequest request) {
         JsonResult result = new JsonResult();
@@ -123,6 +128,7 @@ public class LoginController {
      * 初始化系统标题参数
      * @return
      */
+    @ApiOperation(value = "初始化系统标题参数",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/sys/dict/GXSDM",method=RequestMethod.GET,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult initDictForGXSDM(@RequestParam String userUnit) {
@@ -146,6 +152,7 @@ public class LoginController {
      * @return
      */
     @SuppressWarnings("deprecation")
+    @ApiOperation(value = "获取登录用户的模块权限",httpMethod ="GET",response = Index.class)
 	public JsonResult searchUserLimt(SysUser user,String tokenId) {
         JsonResult jsonResult = new JsonResult();
         List<SysModule> parentList = new ArrayList<SysModule>();//父id
@@ -239,7 +246,7 @@ public class LoginController {
      * @param request 
      * @return 
      */
-    private  String getIpAddress(HttpServletRequest request) { 
+    private  String getIpAddress(HttpServletRequest request) {
       String ip = request.getHeader("x-forwarded-for"); 
       if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
         ip = request.getHeader("Proxy-Client-IP"); 

@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hisign.framework.xz.mapper.TaskMapper">
-	<resultMap type="com.hisign.framework.xz.entity.Task" id="BaseResultMap">
+	<resultMap type="com.hisign.framework.xz.api.entity.Task" id="BaseResultMap">
       <result column="ID" property="id" jdbcType="VARCHAR"/>
+      <result column="TASK_NO" property="taskNo" jdbcType="VARCHAR"/>
       <result column="TASK_NAME" property="taskName" jdbcType="VARCHAR"/>
       <result column="TASK_CONTENT" property="taskContent" jdbcType="VARCHAR"/>
       <result column="GROUPID" property="groupid" jdbcType="VARCHAR"/>
@@ -70,6 +71,7 @@
 	
     <sql id="Base_Column_List">
         ID,
+        TASK_NO,
         TASK_NAME,
         TASK_CONTENT,
         GROUPID,
@@ -98,12 +100,13 @@
         DELETEFLAG
     </sql>
     
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.entity.Task">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.api.entity.Task">
     	<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
         SELECT sys_guid() from DUAL
     	</selectKey>
         INSERT INTO t_task (
 		    ID,
+		    TASK_NO,
 		    TASK_NAME,
 		    TASK_CONTENT,
 		    GROUPID,
@@ -132,6 +135,7 @@
 		    DELETEFLAG
         ) VALUES (
 		    #{id,jdbcType=VARCHAR},
+		    #{taskNo,jdbcType=VARCHAR},
 		    #{taskName,jdbcType=VARCHAR},
 		    #{taskContent,jdbcType=VARCHAR},
 		    #{groupid,jdbcType=VARCHAR},
@@ -161,7 +165,7 @@
         )
     </insert>
     
-    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.entity.Task">
+    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.api.entity.Task">
     <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
         SELECT sys_guid() from DUAL
     </selectKey>
@@ -169,6 +173,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
 	    <if test="id !=null  and id != '' ">
 	    ID,
+	    </if>
+	    <if test="taskNo !=null  and taskNo != '' ">
+	    TASK_NO,
 	    </if>
 	    <if test="taskName !=null  and taskName != '' ">
 	    TASK_NAME,
@@ -254,6 +261,9 @@
      	<if test="id !=null  and id != '' ">
 	    #{id,jdbcType=VARCHAR},
 	    </if>
+     	<if test="taskNo !=null  and taskNo != '' ">
+	    #{taskNo,jdbcType=VARCHAR},
+	    </if>
      	<if test="taskName !=null  and taskName != '' ">
 	    #{taskName,jdbcType=VARCHAR},
 	    </if>
@@ -338,6 +348,7 @@
 	<insert id="batchInsert" parameterType="java.util.List">
 		INSERT INTO t_task (
 		   	ID,
+		   	TASK_NO,
 		   	TASK_NAME,
 		   	TASK_CONTENT,
 		   	GROUPID,
@@ -368,6 +379,7 @@
 		<foreach collection="list" open="(" close=")" item="item" index="index" separator="union all" > 
 			 select
 		    #{item.id,jdbcType=VARCHAR},
+		    #{item.taskNo,jdbcType=VARCHAR},
 		    #{item.taskName,jdbcType=VARCHAR},
 		    #{item.taskContent,jdbcType=VARCHAR},
 		    #{item.groupid,jdbcType=VARCHAR},
@@ -399,9 +411,10 @@
 	</insert>
 	
     <!-- 更新 -->
-    <update id="update" parameterType="com.hisign.framework.xz.entity.Task">
+    <update id="update" parameterType="com.hisign.framework.xz.api.entity.Task">
         UPDATE t_task
         <trim prefix="SET" suffixOverrides=",">
+		    TASK_NO=#{taskNo,jdbcType=VARCHAR},
 		    TASK_NAME=#{taskName,jdbcType=VARCHAR},
 		    TASK_CONTENT=#{taskContent,jdbcType=VARCHAR},
 		    GROUPID=#{groupid,jdbcType=VARCHAR},
@@ -433,9 +446,12 @@
         ID = #{id,jdbcType=VARCHAR}
     </update>
 	
-    <update id="updateNotNull" parameterType="com.hisign.framework.xz.entity.Task">
+    <update id="updateNotNull" parameterType="com.hisign.framework.xz.api.entity.Task">
         UPDATE t_task
         <trim prefix="SET" suffixOverrides=",">
+            <if test="taskNo !=null  and taskNo != '' ">
+                TASK_NO = #{taskNo,jdbcType=VARCHAR},
+            </if>
             <if test="taskName !=null  and taskName != '' ">
                 TASK_NAME = #{taskName,jdbcType=VARCHAR},
             </if>
@@ -561,13 +577,16 @@
         and rownum = 1 
     </select>
     
-    <select id="findByEntity" parameterType="com.hisign.framework.xz.entity.Task" resultMap="BaseResultMap">
+    <select id="findByEntity" parameterType="com.hisign.framework.xz.api.entity.Task" resultMap="BaseResultMap">
         SELECT  
 	    <include refid="Base_Column_List" />
         FROM t_task 
         WHERE 1 = 1
 	     	<if test="id != null  and id != '' ">
 		   	 and ID=#{id,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="taskNo != null  and taskNo != '' ">
+		   	 and TASK_NO=#{taskNo,jdbcType=VARCHAR}
 		    </if>
 	     	<if test="taskName != null  and taskName != '' ">
 		   	 and TASK_NAME=#{taskName,jdbcType=VARCHAR}
@@ -650,13 +669,16 @@
 	 	and rownum = 1 
     </select>
     
-    <select id="findListByEntity" parameterType="com.hisign.framework.xz.entity.Task" resultMap="BaseResultMap">
+    <select id="findListByEntity" parameterType="com.hisign.framework.xz.api.entity.Task" resultMap="BaseResultMap">
         SELECT  
 	    <include refid="Base_Column_List" />
         FROM t_task 
         WHERE 1 = 1
 	     	<if test="id != null  and id != '' ">
 		   	 and ID=#{id}
+		    </if>
+	     	<if test="taskNo != null  and taskNo != '' ">
+		   	 and TASK_NO=#{taskNo}
 		    </if>
 	     	<if test="taskName != null  and taskName != '' ">
 		   	 and TASK_NAME=#{taskName}
@@ -812,5 +834,8 @@
         MAX(id)
         FROM t_task
     </select>
-   
+
+	<select id="getMaxNo" resultType="java.lang.String" >
+		SELECT substr(TASK_NO,3) as TASK_NO FROM (SELECT TASK_NO FROM t_task WHERE TASK_NO is not NULL AND  SUBSTR (TASK_NO, 3,8) = TO_CHAR(SYSDATE,'YYYYMMDD') ORDER BY CREATETIME DESC)s where ROWNUM=1
+	</select>
 </mapper>

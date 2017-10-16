@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @author 何建辉
  */
 @FeignClient(name = "sysService")
-public interface MessageService extends BaseService<Message, String>{
+public interface MessageService extends BaseService<Message,Message, String>{
 
 	@RequestMapping(value = "/delByMessages", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody

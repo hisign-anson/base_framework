@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hisign.framework.common.model.BaseModel;
+import io.swagger.annotations.ApiModel;
 
 
 /**
@@ -11,6 +12,7 @@ import com.hisign.framework.common.model.BaseModel;
  *
  * 2017年3月29日
  */
+@ApiModel(description = "模块")
 public class SysModule extends BaseModel {
     /**
 	 * 

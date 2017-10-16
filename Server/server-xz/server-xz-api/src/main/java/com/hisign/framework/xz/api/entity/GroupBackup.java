@@ -4,41 +4,54 @@ package com.hisign.framework.xz.api.entity;
 import java.io.Serializable;
 import java.util.*;
 import com.hisign.bfun.bannotation.*;
+import com.hisign.framework.common.model.BaseModel;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 《专案组归档记录》 实体
- * @author xhh
+ * @author 何建辉
  *
  */
+@ApiModel(value = "专案组归档记录")
 @Table(value="t_group_backup")
-public class GroupBackup implements Serializable {
+public class GroupBackup extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@PK(value="ID")
+	@ApiModelProperty(value = "归档记录ID")
 	private String id; //归档记录ID
-	
+
 	@Column(value="GROUPID")
+	@ApiModelProperty(value = "专案组ID")
 	private String groupid; //专案组ID
-	
+
 	@Column(value="BACKUP_TIME")
+	@ApiModelProperty(value = "归档时间")
 	private Date backupTime; //归档时间
-	
+
 	@Column(value="BACKUP_REASON")
+	@ApiModelProperty(value = "归档原因")
 	private String backupReason; //归档原因
-	
+
 	@Column(value="CREATOR")
+	@ApiModelProperty(value = "创建人")
 	private String creator; //创建人
-	
+
 	@Column(value="CREATETIME")
+	@ApiModelProperty(value = "创建时间")
 	private Date createtime; //创建时间
-	
+
 	@Column(value="DEPARMENTCODE")
+	@ApiModelProperty(value = "创建人单位")
 	private String deparmentcode; //创建人单位
-	
+
 	@Column(value="LASTUPDATETIME")
+	@ApiModelProperty(value = "修改时间")
 	private Date lastupdatetime; //修改时间
-	
+
 	@Column(value="DELETEFLAG")
+	@ApiModelProperty(value = "删除标识")
 	private String deleteflag; //删除标识
 	
     

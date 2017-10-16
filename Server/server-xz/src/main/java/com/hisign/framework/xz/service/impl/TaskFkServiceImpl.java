@@ -1,5 +1,6 @@
 package com.hisign.framework.xz.service.impl;
 
+import com.hisign.framework.xz.api.model.TaskFkModel;
 import com.hisign.framework.xz.mapper.TaskFkMapper;
 import com.hisign.framework.xz.api.entity.TaskFk;
 import com.hisign.framework.xz.api.service.TaskFkService;
@@ -16,17 +17,17 @@ import com.hisign.bfun.bmodel.*;
 
  /**
  * 《任务反馈》 业务逻辑服务类
- * @author xhh
+ * @author 何建辉
  *
  */
 @Service("taskFkService")
-public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk, String> implements TaskFkService{
+public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, String> implements TaskFkService{
 
 	@Autowired
 	protected TaskFkMapper taskFkMapper;
 	
 	@Override
-	protected BaseMapper<TaskFk, String> initMapper() {
+	protected BaseMapper<TaskFk,TaskFkModel, String> initMapper() {
 		return taskFkMapper;
 	}
 	
