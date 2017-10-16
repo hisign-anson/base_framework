@@ -4,50 +4,66 @@ package com.hisign.framework.xz.api.entity;
 import java.io.Serializable;
 import java.util.*;
 import com.hisign.bfun.bannotation.*;
+import com.hisign.framework.common.model.BaseModel;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 《任务反馈》 实体
- * @author xhh
+ * @author 何建辉
  *
  */
+@ApiModel(value = "任务反馈")
 @Table(value="t_task_fk")
-public class TaskFk implements Serializable {
+public class TaskFk extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@PK(value="ID")
+	@ApiModelProperty(value = "任务反馈ID")
 	private String id; //任务反馈ID
-	
+
 	@Column(value="TASKID")
+	@ApiModelProperty(value = "任务ID")
 	private String taskid; //任务ID
-	
+
 	@Column(value="FKZJ_TASKID")
+	@ApiModelProperty(value = "反馈追加任务ID")
 	private String fkzjTaskid; //反馈追加任务ID
-	
+
 	@Column(value="FKXS")
+	@ApiModelProperty(value = "反馈线索")
 	private String fkxs; //反馈线索
-	
+
 	@Column(value="FKR")
+	@ApiModelProperty(value = "反馈人")
 	private String fkr; //反馈人
-	
+
 	@Column(value="FK_TIME")
+	@ApiModelProperty(value = "反馈时间")
 	private Date fkTime; //反馈时间
-	
+
 	@Column(value="BZ")
+	@ApiModelProperty(value = "备注")
 	private String bz; //备注
-	
+
 	@Column(value="CREATOR")
+	@ApiModelProperty(value = "创建人")
 	private String creator; //创建人
-	
+
 	@Column(value="CREATETIME")
+	@ApiModelProperty(value = "创建时间")
 	private Date createtime; //创建时间
-	
+
 	@Column(value="DEPARMENTCODE")
+	@ApiModelProperty(value = "创建人单位")
 	private String deparmentcode; //创建人单位
-	
+
 	@Column(value="LASTUPDATETIME")
+	@ApiModelProperty(value = "修改时间")
 	private Date lastupdatetime; //修改时间
-	
+
 	@Column(value="DELETEFLAG")
+	@ApiModelProperty(value = "删除标识")
 	private String deleteflag; //删除标识
 	
     

@@ -6,7 +6,7 @@ import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.PaginatedList;
 import com.hisign.bfun.bmodel.UpdateParams;
 
-public interface BaseMapper<T, PK> {
+public interface BaseMapper<T,M, PK> {
 
 	/**
 	 * 保存对象
@@ -100,7 +100,7 @@ public interface BaseMapper<T, PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	public abstract T findById(PK id);
+	public abstract M findById(PK id);
 	
 	/**
 	 * @category 根据对象查询
@@ -108,7 +108,7 @@ public interface BaseMapper<T, PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	public abstract T findByEntity(T entity);
+	public abstract M findByEntity(T entity);
 
 	/**
 	 * @category 自定义查询
@@ -117,7 +117,7 @@ public interface BaseMapper<T, PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	public abstract List<T> findList(Conditions condition);
+	public abstract List<M> findList(Conditions condition);
 
 	/**
 	 * @category 自定义查询
@@ -125,7 +125,7 @@ public interface BaseMapper<T, PK> {
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
-	public abstract T findByCondition(Conditions condition);
+	public abstract M findByCondition(Conditions condition);
 	
 	/**
 	 * @category 获取数量
@@ -142,7 +142,7 @@ public interface BaseMapper<T, PK> {
 	 * @return
 	 * @time 2016年10月14日 下午8:13:05
 	 */
-	public abstract PaginatedList<T> findPage(Conditions condition,
+	public abstract PaginatedList<M> findPage(Conditions condition,
                                               PaginatedList<T> page);
 
 }

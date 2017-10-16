@@ -9,6 +9,6 @@ import com.hisign.framework.sys.api.model.Message;
  * @author 何建辉
  *
  */
-public interface MessageMapper extends BaseMapper<Message,String> {
+public interface MessageMapper extends BaseMapper<Message,Message,String> {
 
 }

@@ -4,6 +4,8 @@ import com.hisign.framework.common.model.JsonResult;
 import com.hisign.framework.common.util.JsonResultUtil;
 import com.hisign.framework.sys.api.model.SysOrgInfo;
 import com.hisign.framework.sys.api.service.SysOrgInfoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(description = "单位信息")
 @RequestMapping("/sys/org")
 @RestController
 public class OrgInfoController {
 	private static final Logger logger = LoggerFactory.getLogger(OrgInfoController.class);
 	@Autowired
 	private SysOrgInfoService sysOrgInfoService;
+
+    @ApiOperation(value = "获取单位信息",httpMethod ="GET",response = SysOrgInfo.class)
     @RequestMapping(value ="/getOrgTreeList",method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult queryListByCondition(@RequestBody SysOrgInfo param) {

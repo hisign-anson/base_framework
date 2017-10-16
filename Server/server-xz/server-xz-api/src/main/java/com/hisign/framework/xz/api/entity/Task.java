@@ -4,95 +4,130 @@ package com.hisign.framework.xz.api.entity;
 import java.io.Serializable;
 import java.util.*;
 import com.hisign.bfun.bannotation.*;
+import com.hisign.framework.common.model.BaseModel;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 《任务》 实体
- * @author xhh
+ * @author 何建辉
  *
  */
+@ApiModel(value = "任务")
 @Table(value="t_task")
-public class Task implements Serializable {
+public class Task extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@PK(value="ID")
+	@ApiModelProperty(value = "任务ID")
 	private String id; //任务ID
-	
+
+	@Column(value="TASK_NO")
+	@ApiModelProperty(value = "")
+	private String taskNo; //
+
 	@Column(value="TASK_NAME")
+	@ApiModelProperty(value = "任务名称")
 	private String taskName; //任务名称
-	
+
 	@Column(value="TASK_CONTENT")
+	@ApiModelProperty(value = "任务内容")
 	private String taskContent; //任务内容
-	
+
 	@Column(value="GROUPID")
+	@ApiModelProperty(value = "专案组ID")
 	private String groupid; //专案组ID
-	
+
 	@Column(value="PGROUPID")
+	@ApiModelProperty(value = "父专案组ID")
 	private String pgroupid; //父专案组ID
-	
+
 	@Column(value="BCRWID")
+	@ApiModelProperty(value = "补充任务ID")
 	private String bcrwid; //补充任务ID
-	
+
 	@Column(value="YJRWID")
+	@ApiModelProperty(value = "移交父任务ID")
 	private String yjrwid; //移交父任务ID
-	
+
 	@Column(value="FQR")
+	@ApiModelProperty(value = "发起人")
 	private String fqr; //发起人
-	
+
 	@Column(value="JSR_LXFS")
+	@ApiModelProperty(value = "接收联系方式")
 	private String jsrLxfs; //接收联系方式
-	
+
 	@Column(value="JSR")
+	@ApiModelProperty(value = "接收人")
 	private String jsr; //接收人
-	
+
 	@Column(value="FQ_TIME")
+	@ApiModelProperty(value = "发起时间")
 	private Date fqTime; //发起时间
-	
+
 	@Column(value="FKJZ_TIME")
+	@ApiModelProperty(value = "反馈截止时间")
 	private Date fkjzTime; //反馈截止时间
-	
+
 	@Column(value="LXFS")
+	@ApiModelProperty(value = "联系方式")
 	private String lxfs; //联系方式
-	
+
 	@Column(value="FKZT")
+	@ApiModelProperty(value = "反馈状态")
 	private String fkzt; //反馈状态
-	
+
 	@Column(value="FK_TIME")
+	@ApiModelProperty(value = "反馈时间")
 	private Date fkTime; //反馈时间
-	
+
 	@Column(value="CBZT")
+	@ApiModelProperty(value = "催办状态")
 	private String cbzt; //催办状态
-	
+
 	@Column(value="QSZT")
+	@ApiModelProperty(value = "签收状态")
 	private String qszt; //签收状态
-	
+
 	@Column(value="QS_TIME")
+	@ApiModelProperty(value = "签收时间")
 	private Date qsTime; //签收时间
-	
+
 	@Column(value="YJZT")
+	@ApiModelProperty(value = "移交状态")
 	private String yjzt; //移交状态
-	
+
 	@Column(value="YJ_TIME")
+	@ApiModelProperty(value = "移交时间")
 	private Date yjTime; //移交时间
-	
+
 	@Column(value="QRZT")
+	@ApiModelProperty(value = "确认状态")
 	private String qrzt; //确认状态
-	
+
 	@Column(value="QR_TIME")
+	@ApiModelProperty(value = "确认时间")
 	private Date qrTime; //确认时间
-	
+
 	@Column(value="CREATOR")
+	@ApiModelProperty(value = "创建人")
 	private String creator; //创建人
-	
+
 	@Column(value="CREATETIME")
+	@ApiModelProperty(value = "创建时间")
 	private Date createtime; //创建时间
-	
+
 	@Column(value="DEPARMENTCODE")
+	@ApiModelProperty(value = "创建人单位")
 	private String deparmentcode; //创建人单位
-	
+
 	@Column(value="LASTUPDATETIME")
+	@ApiModelProperty(value = "修改时间")
 	private Date lastupdatetime; //修改时间
-	
+
 	@Column(value="DELETEFLAG")
+	@ApiModelProperty(value = "删除标识")
 	private String deleteflag; //删除标识
 	
     
@@ -114,6 +149,18 @@ public class Task implements Serializable {
 	 */
 	public void setId(String id){
 		this.id = id;
+	}
+	/**
+	 * @return TASK_NO 
+	 */
+	public String getTaskNo(){
+		return this.taskNo;
+	}
+	/**
+	 * @param TASK_NO 
+	 */
+	public void setTaskNo(String taskNo){
+		this.taskNo = taskNo;
 	}
 	/**
 	 * @return TASK_NAME 任务名称
@@ -437,6 +484,7 @@ public class Task implements Serializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Task [")
 		.append("id=").append(this.getId())
+		.append(",taskNo=").append(this.getTaskNo())
 		.append(",taskName=").append(this.getTaskName())
 		.append(",taskContent=").append(this.getTaskContent())
 		.append(",groupid=").append(this.getGroupid())
@@ -469,6 +517,7 @@ public class Task implements Serializable {
 	
 	public static enum TaskEnum{
 		id("ID","任务ID"),
+		taskNo("TASK_NO",""),
 		taskName("TASK_NAME","任务名称"),
 		taskContent("TASK_CONTENT","任务内容"),
 		groupid("GROUPID","专案组ID"),

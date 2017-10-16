@@ -9,6 +9,6 @@ import com.hisign.framework.sys.api.model.ReceiveBox;
  * @author 何建辉
  *
  */
-public interface ReceiveBoxMapper extends BaseMapper<ReceiveBox,String> {
+public interface ReceiveBoxMapper extends BaseMapper<ReceiveBox,ReceiveBox,String> {
 
 }

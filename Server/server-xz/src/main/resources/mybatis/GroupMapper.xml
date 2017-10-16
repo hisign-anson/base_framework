@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hisign.framework.xz.mapper.GroupMapper">
-	<resultMap type="com.hisign.framework.xz.entity.Group" id="BaseResultMap">
+	<resultMap type="com.hisign.framework.xz.api.entity.Group" id="BaseResultMap">
       <result column="ID" property="id" jdbcType="VARCHAR"/>
       <result column="PGROUPID" property="pgroupid" jdbcType="VARCHAR"/>
       <result column="GROUPNUM" property="groupnum" jdbcType="VARCHAR"/>
@@ -70,7 +70,7 @@
         DELETEFLAG
     </sql>
     
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.entity.Group">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.api.entity.Group">
     	<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
         SELECT sys_guid() from DUAL
     	</selectKey>
@@ -105,7 +105,7 @@
         )
     </insert>
     
-    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.entity.Group">
+    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.api.entity.Group">
     <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
         SELECT sys_guid() from DUAL
     </selectKey>
@@ -231,7 +231,7 @@
 	</insert>
 	
     <!-- 更新 -->
-    <update id="update" parameterType="com.hisign.framework.xz.entity.Group">
+    <update id="update" parameterType="com.hisign.framework.xz.api.entity.Group">
         UPDATE t_group
         <trim prefix="SET" suffixOverrides=",">
 		    PGROUPID=#{pgroupid,jdbcType=VARCHAR},
@@ -251,7 +251,7 @@
         ID = #{id,jdbcType=VARCHAR}
     </update>
 	
-    <update id="updateNotNull" parameterType="com.hisign.framework.xz.entity.Group">
+    <update id="updateNotNull" parameterType="com.hisign.framework.xz.api.entity.Group">
         UPDATE t_group
         <trim prefix="SET" suffixOverrides=",">
             <if test="pgroupid !=null  and pgroupid != '' ">
@@ -337,7 +337,7 @@
         and rownum = 1 
     </select>
     
-    <select id="findByEntity" parameterType="com.hisign.framework.xz.entity.Group" resultMap="BaseResultMap">
+    <select id="findByEntity" parameterType="com.hisign.framework.xz.api.entity.Group" resultMap="BaseResultMap">
         SELECT  
 	    <include refid="Base_Column_List" />
         FROM t_group 
@@ -384,7 +384,7 @@
 	 	and rownum = 1 
     </select>
     
-    <select id="findListByEntity" parameterType="com.hisign.framework.xz.entity.Group" resultMap="BaseResultMap">
+    <select id="findListByEntity" parameterType="com.hisign.framework.xz.api.entity.Group" resultMap="BaseResultMap">
         SELECT  
 	    <include refid="Base_Column_List" />
         FROM t_group 
@@ -455,7 +455,6 @@
 	    select
 	      rownum,rownum as rn,a.* from (
 	      select t.* from (
-	      
         SELECT
         <if test="distinct!=false">
         DISTINCT
@@ -504,5 +503,127 @@
         MAX(id)
         FROM t_group
     </select>
-   
+
+	<select id="getMaxNo" resultType="java.lang.String" >
+		SELECT substr(GROUPNUM,3) as GROUPNUM FROM (SELECT GROUPNUM FROM t_group WHERE GROUPNUM is not NULL AND  SUBSTR (GROUPNUM, 4,8) = TO_CHAR(SYSDATE,'YYYYMMDD') ORDER BY CREATETIME DESC)s where ROWNUM=1
+	</select>
+	
+	
+	<select id="getGroupByCondition" parameterType="com.hisign.framework.xz.api.entity.Group" resultMap="BaseResultMap">
+		select p.* from(
+		select rownum,rownum as rn,q.* from (
+		select t.* from (
+
+		select distrint
+		a.id,
+		a.GROUPNUM,
+		a.GROUPNAME,
+		a.GROUPTYPE,
+		(select count(1) from T_AJGROUP b1 where b1.groupid=a.id) as caseNum,
+		(select USER_NAME from SYS_USER_INFO d where d.USER_ID=a.CREATOR) as creator,
+		(select count(1) from T_USERGROUP c1 where c1.groupid=a.id) as num,
+		a.CREATETIME,
+		a.BACKUP_STATU,
+		a.BACKUP_TIME
+		from
+		T_GROUP a
+		<if test="ajbh!=null and ajbh!=''">
+			,T_AJGROUP b
+		</if>
+		<if test="userId!=null and userId!=''">
+			,T_USERGROUP c
+		</if>
+
+		where 1=1
+		<if test="ajbh!=null and ajbh!=''">
+			and a.id=b.groupid
+			and b.ajbh like '%'||#{ajbh,jdbcType=VARCHAR}||'%' escape '\'
+		</if>
+		<if test="userId!=null and userId!=''">
+			and a.id=c.groupid
+			and c.USERID=#{userId,jdbcType=VARCHAR}
+		</if>
+		<if test="groupname!=null and groupname!=''">
+			and a.GROUPNAME like '%'||#{groupname,jdbcType=VARCHAR}||'%' escape '\'
+		</if>
+		<if test="creator!=null and creator!=''">
+			and a.CREATOR=#{creator,jdbcType=VARCHAR}
+		</if>
+		<if test="startTime!=null and entTime!=null">
+			and a.CREATETIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="groupnum!=null and groupnum!=''">
+			and a.groupnum like '%'||#{groupnum,jdbcType=VARCHAR}||'%' escape '\'
+		</if>
+		<if test="deparmentcode!=null and deparmentcode!=''">
+			and a.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
+		</if>
+		<if test="backupStatu!=null and backupStatu!=''">
+			and a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
+		</if>
+
+		) t
+		) q
+		<if test="end !=null and end !=0">
+			where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+		</if>
+		) p
+		<if test="begin !=null and begin !=0">
+			where rn >= #{begin,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="getCountGroupByCondition" parameterType="com.hisign.framework.xz.api.entity.Group" resultType="java.lang.Long">
+		select count(1) from (
+		select distrint
+		a.id,
+		a.GROUPNUM,
+		a.GROUPNAME,
+		a.GROUPTYPE,
+		(select count(1) from T_AJGROUP b1 where b1.groupid=a.id) as caseNum,
+		(select USER_NAME from SYS_USER_INFO d where d.USER_ID=a.CREATOR) as creator,
+		(select count(1) from T_USERGROUP c1 where c1.groupid=a.id) as num,
+		a.CREATETIME,
+		a.BACKUP_STATU,
+		a.BACKUP_TIME
+		from
+		T_GROUP a
+		<if test="ajbh!=null and ajbh!=''">
+			,T_AJGROUP b
+		</if>
+		<if test="userId!=null and userId!=''">
+			,T_USERGROUP c
+		</if>
+
+		where 1=1
+		<if test="ajbh!=null and ajbh!=''">
+			and a.id=b.groupid
+			and b.ajbh like '%'||#{ajbh,jdbcType=VARCHAR}||'%' escape '\'
+		</if>
+		<if test="userId!=null and userId!=''">
+			and a.id=c.groupid
+			and c.USERID=#{userId,jdbcType=VARCHAR}
+		</if>
+		<if test="groupname!=null and groupname!=''">
+			and a.GROUPNAME like '%'||#{groupname,jdbcType=VARCHAR}||'%' escape '\'
+		</if>
+		<if test="creator!=null and creator!=''">
+			and a.CREATOR=#{creator,jdbcType=VARCHAR}
+		</if>
+		<if test="startTime!=null and entTime!=null">
+			and a.CREATETIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="groupnum!=null and groupnum!=''">
+			and a.groupnum like '%'||#{groupnum,jdbcType=VARCHAR}||'%' escape '\'
+		</if>
+		<if test="deparmentcode!=null and deparmentcode!=''">
+			and a.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
+		</if>
+		<if test="backupStatu!=null and backupStatu!=''">
+			and a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
+		</if>
+
+		) d
+	</select>
+
 </mapper>

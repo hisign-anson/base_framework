@@ -4,38 +4,50 @@ package com.hisign.framework.xz.api.entity;
 import java.io.Serializable;
 import java.util.*;
 import com.hisign.bfun.bannotation.*;
+import com.hisign.framework.common.model.BaseModel;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 《催办记录》 实体
- * @author xhh
+ * @author 何建辉
  *
  */
+@ApiModel(value = "催办记录")
 @Table(value="t_cb")
-public class Cb implements Serializable {
+public class Cb extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@PK(value="ID")
+	@ApiModelProperty(value = "催办ID")
 	private String id; //催办ID
-	
+
 	@Column(value="CB_TIME")
+	@ApiModelProperty(value = "催办时间")
 	private Date cbTime; //催办时间
-	
+
 	@Column(value="TASKID")
+	@ApiModelProperty(value = "任务ID")
 	private String taskid; //任务ID
-	
+
 	@Column(value="CREATOR")
+	@ApiModelProperty(value = "创建人")
 	private String creator; //创建人
-	
+
 	@Column(value="CREATETIME")
+	@ApiModelProperty(value = "创建时间")
 	private Date createtime; //创建时间
-	
+
 	@Column(value="DEPARMENTCODE")
+	@ApiModelProperty(value = "创建人单位")
 	private String deparmentcode; //创建人单位
-	
+
 	@Column(value="LASTUPDATETIME")
+	@ApiModelProperty(value = "修改时间")
 	private Date lastupdatetime; //修改时间
-	
+
 	@Column(value="DELETEFLAG")
+	@ApiModelProperty(value = "删除标识")
 	private String deleteflag; //删除标识
 	
     

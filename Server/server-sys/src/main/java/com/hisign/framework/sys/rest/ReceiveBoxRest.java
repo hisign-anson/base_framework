@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 
 @RequestMapping("/sys/sysDictService")
 @RestController
-public class ReceiveBoxRest extends BaseRest<ReceiveBox, String, ReceiveBoxService> implements ReceiveBoxService {
+public class ReceiveBoxRest extends BaseRest<ReceiveBox,ReceiveBox, String, ReceiveBoxService> implements ReceiveBoxService {
 
     @Override
     @Autowired

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hisign.framework.xz.mapper.TaskFkMapper">
-	<resultMap type="com.hisign.framework.xz.entity.TaskFk" id="BaseResultMap">
+	<resultMap type="com.hisign.framework.xz.api.entity.TaskFk" id="BaseResultMap">
       <result column="ID" property="id" jdbcType="VARCHAR"/>
       <result column="TASKID" property="taskid" jdbcType="VARCHAR"/>
       <result column="FKZJ_TASKID" property="fkzjTaskid" jdbcType="VARCHAR"/>
@@ -68,7 +68,7 @@
         DELETEFLAG
     </sql>
     
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.entity.TaskFk">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.api.entity.TaskFk">
     	<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
         SELECT sys_guid() from DUAL
     	</selectKey>
@@ -101,7 +101,7 @@
         )
     </insert>
     
-    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.entity.TaskFk">
+    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.framework.xz.api.entity.TaskFk">
     <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
         SELECT sys_guid() from DUAL
     </selectKey>
@@ -219,7 +219,7 @@
 	</insert>
 	
     <!-- 更新 -->
-    <update id="update" parameterType="com.hisign.framework.xz.entity.TaskFk">
+    <update id="update" parameterType="com.hisign.framework.xz.api.entity.TaskFk">
         UPDATE t_task_fk
         <trim prefix="SET" suffixOverrides=",">
 		    TASKID=#{taskid,jdbcType=VARCHAR},
@@ -238,7 +238,7 @@
         ID = #{id,jdbcType=VARCHAR}
     </update>
 	
-    <update id="updateNotNull" parameterType="com.hisign.framework.xz.entity.TaskFk">
+    <update id="updateNotNull" parameterType="com.hisign.framework.xz.api.entity.TaskFk">
         UPDATE t_task_fk
         <trim prefix="SET" suffixOverrides=",">
             <if test="taskid !=null  and taskid != '' ">
@@ -321,7 +321,7 @@
         and rownum = 1 
     </select>
     
-    <select id="findByEntity" parameterType="com.hisign.framework.xz.entity.TaskFk" resultMap="BaseResultMap">
+    <select id="findByEntity" parameterType="com.hisign.framework.xz.api.entity.TaskFk" resultMap="BaseResultMap">
         SELECT  
 	    <include refid="Base_Column_List" />
         FROM t_task_fk 
@@ -365,7 +365,7 @@
 	 	and rownum = 1 
     </select>
     
-    <select id="findListByEntity" parameterType="com.hisign.framework.xz.entity.TaskFk" resultMap="BaseResultMap">
+    <select id="findListByEntity" parameterType="com.hisign.framework.xz.api.entity.TaskFk" resultMap="BaseResultMap">
         SELECT  
 	    <include refid="Base_Column_List" />
         FROM t_task_fk 

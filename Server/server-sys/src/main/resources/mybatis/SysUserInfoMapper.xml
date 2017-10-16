@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.hisign.framework.sys.api.model.SysUserInfo">
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
     <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="POLICE_ID" jdbcType="VARCHAR" property="policeId" />
     <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
     <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
     <result column="SEX" jdbcType="DECIMAL" property="sex" />
@@ -22,7 +23,7 @@
     <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    o.USER_ID, o.USER_NAME, o.ORG_ID, o.SEX, o.CID, o.PHONE, o.AVATAR, o.POST, o.BIRTH, o.ADDRESS, 
+    o.USER_ID, o.USER_NAME,o.POLICE_ID, o.ORG_ID, o.SEX, o.CID, o.PHONE, o.AVATAR, o.POST, o.BIRTH, o.ADDRESS,
     o.NOTE, o.STATUS, o.CREATE_PID, o.CREATE_TIME, o.MODIFY_PID, o.MODIFY_TIME
   </sql>
   <sql id="where_condition">
@@ -59,6 +60,9 @@
       </if>
       <if test="post != null and post !='' ">
        AND o.POST = #{post,jdbcType=VARCHAR}
+      </if>
+      <if test="policeId != null and policeId !='' ">
+       AND o.POLICE_ID = #{policeId,jdbcType=VARCHAR}
       </if>
   </sql>
    <sql id="orderBy" >
@@ -130,13 +134,13 @@
   	<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="userId">
         SELECT sys_guid() from DUAL
     </selectKey>
-    insert into SYS_USER_INFO (USER_ID, USER_NAME, ORG_ID, 
+    insert into SYS_USER_INFO (USER_ID, USER_NAME,POLICE_ID, ORG_ID,
       ORG_NAME, SEX, CID, PHONE, 
       AVATAR, POST, BIRTH, 
       ADDRESS, NOTE, STATUS, 
       CREATE_PID, CREATE_TIME, MODIFY_PID, 
       MODIFY_TIME)
-    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},#{policeId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR},
       #{orgName,jdbcType=VARCHAR}, #{sex,jdbcType=DECIMAL}, #{cid,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{avatar,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{birth,jdbcType=TIMESTAMP}, 
       #{address,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
@@ -145,7 +149,7 @@
   </insert>
   
   <insert id="batchInsert">
-  	insert into SYS_USER_INFO (USER_ID, USER_NAME, ORG_ID, 
+  	insert into SYS_USER_INFO (USER_ID, USER_NAME,POLICE_ID, ORG_ID,
       ORG_NAME, SEX, CID, PHONE, 
       AVATAR, POST, BIRTH, 
       ADDRESS, NOTE, STATUS, 
@@ -154,7 +158,7 @@
     values 
   	<foreach collection="list" item="item" index="index" separator="," > 
   		(
-	     sys_guid(), #{userName,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, 
+	     sys_guid(), #{userName,jdbcType=VARCHAR},#{policeId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR},
 	     #{orgName,jdbcType=VARCHAR}, #{sex,jdbcType=DECIMAL}, #{cid,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
 	     #{avatar,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{birth,jdbcType=TIMESTAMP}, 
 	     #{address,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
@@ -169,6 +173,7 @@
     set USER_NAME = #{userName,jdbcType=VARCHAR},
       ORG_ID = #{orgId,jdbcType=VARCHAR},
       ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      POLICE_ID = #{policeId,jdbcType=VARCHAR},
       SEX = #{sex,jdbcType=DECIMAL},
       CID = #{cid,jdbcType=VARCHAR},
       PHONE = #{phone,jdbcType=VARCHAR},
@@ -191,6 +196,9 @@
     	</if>
     	<if test="orgId !=null and orgId!='' ">
     		 ORG_ID = #{orgId,jdbcType=VARCHAR},
+    	</if>
+    	<if test="policeId !=null and policeId!='' ">
+    		 POLICE_ID = #{policeId,jdbcType=VARCHAR},
     	</if>
     	<if test="orgName !=null and orgName!='' ">
     		 ORG_NAME = #{orgName,jdbcType=VARCHAR},

@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-public class MessageRest extends BaseRest<Message, String, MessageService> implements MessageService {
+public class MessageRest extends BaseRest<Message,Message, String, MessageService> implements MessageService {
 
     @Override
     @Autowired
@@ -25,6 +25,7 @@ public class MessageRest extends BaseRest<Message, String, MessageService> imple
     @RequestMapping(value = "/delByMessages", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult delByMessages(@RequestBody String[] ids) throws BusinessException {
         return baseService.delByMessages(ids);
+
     }
 
     @Override

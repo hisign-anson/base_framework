@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author 何建辉
  */
 @FeignClient(name = "sysService")
-public interface ReceiveBoxService extends BaseService<ReceiveBox, String>{
+public interface ReceiveBoxService extends BaseService<ReceiveBox,ReceiveBox, String>{
 
 	@RequestMapping(value = "/setRead", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody

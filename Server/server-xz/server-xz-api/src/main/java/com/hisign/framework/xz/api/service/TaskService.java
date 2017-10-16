@@ -3,11 +3,12 @@ package com.hisign.framework.xz.api.service;
 
 import com.hisign.framework.xz.api.entity.Task;
 import com.hisign.bfun.bif.BaseService;
+import com.hisign.framework.xz.api.model.TaskModel;
 
- /**
+/**
  * 《任务》 业务逻辑服务接口
- * @author xhh
+ * @author 何建辉
  */
-public interface TaskService extends BaseService<Task, String>{
+public interface TaskService extends BaseService<Task,TaskModel, String>{
 
 }

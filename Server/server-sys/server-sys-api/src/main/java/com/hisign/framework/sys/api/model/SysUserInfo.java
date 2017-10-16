@@ -16,6 +16,8 @@ public class SysUserInfo extends BaseModel {
     private String orgId;
     /** 所属机构名称 **/
     private String orgName;
+    /** 警号 **/
+	private String policeId;
     /** 性别 **/
     private Integer sex;
     /** 身份证号 **/
@@ -305,7 +307,12 @@ public class SysUserInfo extends BaseModel {
 	public void setPostName(String postName) {
 		this.postName = postName;
 	}
-	
-	
 
+	public String getPoliceId() {
+		return policeId;
+	}
+
+	public void setPoliceId(String policeId) {
+		this.policeId = policeId;
+	}
 }

@@ -1,4 +1,4 @@
-package com.hisign.framework.web.config;
+package com.hisign.framework.config;
 
 import java.sql.SQLException;
 

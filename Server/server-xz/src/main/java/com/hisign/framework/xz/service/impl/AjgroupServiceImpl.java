@@ -1,5 +1,6 @@
 package com.hisign.framework.xz.service.impl;
 
+import com.hisign.framework.xz.api.model.AjgroupModel;
 import com.hisign.framework.xz.mapper.AjgroupMapper;
 import com.hisign.framework.xz.api.entity.Ajgroup;
 import com.hisign.framework.xz.api.service.AjgroupService;
@@ -16,17 +17,17 @@ import com.hisign.bfun.bmodel.*;
 
  /**
  * 《案件专案组关联》 业务逻辑服务类
- * @author xhh
+ * @author 何建辉
  *
  */
 @Service("ajgroupService")
-public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, String> implements AjgroupService{
+public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup,AjgroupModel, String> implements AjgroupService{
 
 	@Autowired
 	protected AjgroupMapper ajgroupMapper;
 	
 	@Override
-	protected BaseMapper<Ajgroup, String> initMapper() {
+	protected BaseMapper<Ajgroup,AjgroupModel, String> initMapper() {
 		return ajgroupMapper;
 	}
 	

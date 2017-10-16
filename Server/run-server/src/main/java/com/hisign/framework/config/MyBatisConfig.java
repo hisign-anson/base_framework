@@ -1,4 +1,4 @@
-package com.hisign.framework.web.config;
+package com.hisign.framework.config;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 @Configuration  
 @AutoConfigureAfter({ DatabaseConfig.class })  
-@MapperScan(basePackages={"com.hisign.framework.sys.mapper","com.hisign.framework.sw.mapper","com.hisign.framework.statistics.mapper"})
+@MapperScan(basePackages={"com.hisign.framework.sys.mapper","com.hisign.framework.xz.mapper"})
 @EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer{
 	private static final Logger logger = LoggerFactory.getLogger(MyBatisConfig.class);
