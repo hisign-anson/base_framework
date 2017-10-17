@@ -211,6 +211,9 @@ input[disabled], textarea[disabled], select[disabled] {
 .dict-opener {
     display: inline-block;
     position: relative;
+    width: calc(100% - 130px);
+    min-width: 140px;
+    vertical-align: top;
 }
 
 .dict-opener .icon-list {
@@ -447,7 +450,9 @@ input[disabled], textarea[disabled], select[disabled] {
     height: 30px;
     border-radius: 3px;
 }
-
+.dict-opener .common-input,.dict-opener .common-textarea {
+    width: 100%;
+}
 .table-responsive-row .typical-tb {
     width: 100%;
     margin-left: 0;
