@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@RequestMapping("/sys/message")
+@RequestMapping("/sys/messageService")
 @RestController
 public class MessageRest extends BaseRest<Message,Message, String, MessageService> implements MessageService {
 

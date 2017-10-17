@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/sys/sysRole")
+@RequestMapping("/sys/sysRoleService")
 @RestController
 public class SysRoleRest implements SysRoleService {
 

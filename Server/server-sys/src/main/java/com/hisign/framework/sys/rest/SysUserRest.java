@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/sys/sysUser")
+@RequestMapping("/sys/sysUserService")
 @RestController
 public class SysUserRest implements SysUserService {
 

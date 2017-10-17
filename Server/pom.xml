@@ -11,6 +11,12 @@
         <!--<groupId>com.hisign</groupId>-->
         <!--<version>1.0-SNAPSHOT</version>-->
     <!--</parent>-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.2.RELEASE</version>
+        <relativePath />
+    </parent>
 
     <modules>
         <module>common</module>
@@ -29,44 +35,32 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <pagehelper.version>5.0.0</pagehelper.version>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.7</java.version>
+        <pinyin4j.version>2.5.0</pinyin4j.version>
+        <fastjson.version>1.2.24</fastjson.version>
+        <commons-fileupload.version>1.2</commons-fileupload.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <commons-net.version>3.5</commons-net.version>
+        <pagehelper.version>5.0.0</pagehelper.version>
+        <spring.version>4.3.7.RELEASE</spring.version>
         <mybatis.version>3.4.2</mybatis.version>
-        <java.version>1.7</java.version>
-        <fastjson.version>1.2.24</fastjson.version>
+        <slf4j-api.version>1.7.24</slf4j-api.version>
+        <groovy.version>2.4.5</groovy.version>
+        <druid.version>1.0.27</druid.version>
+        <mybatis-spring.version>1.2.0</mybatis-spring.version>
+        <commons-digester.version>2.1</commons-digester.version>
+        <itext.version>4.2.1</itext.version>
+        <poi.version>3.11</poi.version>
+        <commons-net.version>3.5</commons-net.version>
+        <thumbnailator.version>0.4.8</thumbnailator.version>
+        <hibernate-validator.version>5.4.1.Final</hibernate-validator.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>${commons-net.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons-io.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-            <version>1.0.2</version>
-        </dependency>
+
 
         <!-- tools -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.7</version>
-        </dependency>
         <dependency>
             <groupId>org.jodd</groupId>
             <artifactId>jodd-core</artifactId>

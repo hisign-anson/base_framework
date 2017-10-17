@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@RequestMapping("/sys/sysOrgInfo")
+@RequestMapping("/sys/sysOrgInfoService")
 @RestController
 public class SysOrgInfoRest implements SysOrgInfoService {
 

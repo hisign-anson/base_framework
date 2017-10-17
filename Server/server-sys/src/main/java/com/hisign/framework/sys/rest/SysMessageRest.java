@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
-@RequestMapping("/sys/sysMessage")
+@RequestMapping("/sys/sysMessageService")
 @RestController
 public class SysMessageRest implements SysMessageService {
 
