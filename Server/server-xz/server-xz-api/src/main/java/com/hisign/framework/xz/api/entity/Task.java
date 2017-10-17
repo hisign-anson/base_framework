@@ -23,8 +23,9 @@ public class Task extends BaseModel implements Serializable {
 	private String id; //任务ID
 
 	@Column(value="TASK_NO")
-	@ApiModelProperty(value = "任务编号")
-	private String taskNo; //
+
+	@ApiModelProperty(value = "任务编码")
+	private String taskNo; //任务编码
 
 	@Column(value="TASK_NAME")
 	@ApiModelProperty(value = "任务名称")
@@ -76,7 +77,7 @@ public class Task extends BaseModel implements Serializable {
 
 	@Column(value="FKZT")
 	@ApiModelProperty(value = "反馈状态")
-	private String fkzt; //反馈状态
+	private String fkzt; //反馈状态 0未反馈  1已反馈
 
 	@Column(value="FK_TIME")
 	@ApiModelProperty(value = "反馈时间")
@@ -88,7 +89,7 @@ public class Task extends BaseModel implements Serializable {
 
 	@Column(value="QSZT")
 	@ApiModelProperty(value = "签收状态")
-	private String qszt; //签收状态
+	private String qszt; //签收状态 0未签收  1已签收
 
 	@Column(value="QS_TIME")
 	@ApiModelProperty(value = "签收时间")
@@ -96,7 +97,7 @@ public class Task extends BaseModel implements Serializable {
 
 	@Column(value="YJZT")
 	@ApiModelProperty(value = "移交状态")
-	private String yjzt; //移交状态
+	private String yjzt; //移交状态 0未移交 1已移交
 
 	@Column(value="YJ_TIME")
 	@ApiModelProperty(value = "移交时间")
@@ -104,7 +105,7 @@ public class Task extends BaseModel implements Serializable {
 
 	@Column(value="QRZT")
 	@ApiModelProperty(value = "确认状态")
-	private String qrzt; //确认状态
+	private String qrzt; //确认状态 0未确认 1已确认
 
 	@Column(value="QR_TIME")
 	@ApiModelProperty(value = "确认时间")
