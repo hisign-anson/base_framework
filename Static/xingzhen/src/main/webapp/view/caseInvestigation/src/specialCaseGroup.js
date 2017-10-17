@@ -7,6 +7,7 @@ define(['underscore',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/specialCaseGroupListTr.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/specialCaseGroupAdd.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/archivePage.html',
+    'text!/view/caseInvestigation/tpl/specialCaseGroup/broadcastPage.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupList.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/caseList.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/caseListTr.html',
@@ -18,7 +19,7 @@ define(['underscore',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/relationCaseTr.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupStaff.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupStaffTr.html',
-    '../../dictManage/src/dictOpener.js'], function (_, specialCaseGroupListTpl, specialCaseGroupListTrTpl, specialCaseGroupAddTpl, archivePageTpl, groupListTpl, caseListTpl, caseTrTpl,
+    '../../dictManage/src/dictOpener.js'], function (_, specialCaseGroupListTpl, specialCaseGroupListTrTpl, specialCaseGroupAddTpl, archivePageTpl,broadcastPageTpl, groupListTpl, caseListTpl, caseTrTpl,
                                                      userListTpl, userListTrTpl, chatPageTpl, baseInfoTpl, relationCaseTpl, relationCaseTrTpl, groupStaffTpl, groupStaffTrTpl,
                                                      dictOpener) {
     return {
@@ -42,6 +43,17 @@ define(['underscore',
             //点击选择是否
             /***参数：（被点击的div包裹层，传入后台的参数）***/
             selectUtils.selectTextOption("#changeYesOrNo", "#msgLevel");
+
+            $("#chooseCreatName").on('click', function () {
+                dictOpener.openChooseDict($(this));
+            });
+            $("#chooseStaff").on('click', function () {
+                dictOpener.openChooseDict($(this));
+            });
+            $("#chooseUnit").on('click', function () {
+                dictOpener.openChooseDict($(this));
+            });
+
             $("#resetBtn").on("click", function () {
                 console.info("专案组管理重置按钮");
             });
@@ -108,9 +120,24 @@ define(['underscore',
             $(".into-archive").on("click", function () {
                 $open('#archiveBlock', {width: 800, top: 180, title: '&nbsp专案组归档'});
                 $("#archiveBlock .panel-container").empty().html(_.template(archivePageTpl));
+                $("#archiveBlock").on("click","#cancelBtn",function () {
+
+                    $("#archiveBlock").$close();
+                });
+                $("#archiveBlock").on("click","#saveBtn",function () {
+                    $("#archiveBlock").$close();
+                });
             });
             $(".into-broadcast").on("click", function () {
+                $open('#archiveBlock', {width: 800, top: 180, title: '&nbsp专案组广播'});
+                $("#archiveBlock .panel-container").empty().html(_.template(broadcastPageTpl));
+                $("#archiveBlock").on("click","#cancelBtn",function () {
 
+                    $("#archiveBlock").$close();
+                });
+                $("#archiveBlock").on("click","#saveBtn",function () {
+                    $("#archiveBlock").$close();
+                });
             });
             $(".into-communication").on("click", function () {
                 console.info("进入聊天界面！");
@@ -245,10 +272,10 @@ define(['underscore',
                 $("#baseInfo").find("input,select,i").attr("disabled", "disabled").val("def ");
             } else {
                 // $("#baseInfo")
-                $("#chooseFactory-button").on('click', function () {
+                $("#chooseGroupType").on('click', function () {
                     dictOpener.openChooseDict($(this));
                 });
-                $("#btnBaseInfo #saveBtn").off("click").on("click", function () {
+                $("#btnBaseInfo #saveBtn").on("click", function () {
                     toast("保存专案组基本信息").ok();
                     $('#addGroupTab a#navRelationCase').trigger("click");
                     $('#addGroupTab a#navRelationCase').on("click", function () {
@@ -264,6 +291,10 @@ define(['underscore',
                             _self.handleRelationCase();
                         }
                     });
+                });
+                $("#btnBaseInfo #exitBtn").off("click").on("click", function () {
+                    _self.showList();
+
                 });
             }
         },

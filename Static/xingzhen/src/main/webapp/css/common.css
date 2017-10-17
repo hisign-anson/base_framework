@@ -11643,6 +11643,9 @@ body.sb-l-m .sidebar-menu li > ul > li > ul > li a {
 body.sb-l-m #content_wrapper {
     margin-left: 60px;
 }
+body.sb-l-m #content_wrapper {
+     width: calc( 100% - 60px);
+}
 /* If sidebar is hidden and minified */
 body.sb-l-c.sb-l-m #content_wrapper {
     margin-left: 0;
@@ -11967,6 +11970,9 @@ body.sb-l-m #sidebar_left.sidebar-light .sidebar-menu > li > a > .sidebar-title 
     /* related page container modifications */
     body.sb-l-m #content_wrapper {
         margin-left: 45px;
+    }
+    body.sb-l-m #content_wrapper {
+        width: calc( 100% - 45px);
     }
     /* If sidebar is hidden and minified */
     body.sb-l-c.sb-l-m #content_wrapper {
