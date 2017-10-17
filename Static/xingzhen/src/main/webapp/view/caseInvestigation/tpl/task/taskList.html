@@ -30,8 +30,21 @@
                 <span class="qc-label-m">创建人：</span>
                 <input class="common-input" type="text" id="createName" name="">
             </div>
+            <div class="fl qc-group-m">
+                <span class="qc-label-m">接收人：</span>
+                <input class="common-input" type="text" id="recipient" name="">
+            </div>
+
+        </div>
+        <div class="query-block-row">
             <div class="fl qc-group-xl">
                 <span class="qc-label-m hook-label">创建时间：</span>
+                <div class="text-time">
+                    <input class="cm-input date-range-picker" type="text" id="createDate" placeholder="请输入时间范围" readonly>
+                    <i class="icon-calendar icon-time"></i>
+                    <input type="hidden" name="startTime" id="startTime" />
+                    <input type="hidden" name="endTime" id="endTime" />
+                </div>
                 <span class="option date-select" id="changeCreateDate">
                     <u class="default active">全部</u>
                     <u>当天</u>
@@ -39,21 +52,11 @@
                     <u>当月</u>
                     <u>当季</u>
                 </span>
-                <div class="text-time">
-                    <input class="cm-input date-range-picker" type="text" id="createDate" placeholder="请输入时间范围" readonly>
-                    <i class="icon-calendar icon-time"></i>
-                    <input type="hidden" name="startTime" id="startTime" />
-                    <input type="hidden" name="endTime" id="endTime" />
-                </div>
             </div>
         </div>
-
         <div class="collapse"  id="queryBlockRowMore">
             <div class="query-block-row">
-                <div class="fl qc-group-m">
-                    <span class="qc-label-m">接收人：</span>
-                    <input class="common-input" type="text" id="recipient" name="">
-                </div>
+
                 <div class="fl qc-group-xl">
                     <span class="qc-label-m">任务状态：</span>
                     <span class="option" id="changeTaskStatus">
