@@ -252,10 +252,10 @@ body {
   position: absolute;
   top: 60px;
 }
-body.sb-l-m #content_wrapper {
-  width: calc( 100% - 60px);
-  /*after less get it back*/
-}
+/*body.sb-l-m #content_wrapper {*/
+  /*width: calc( 100% - 60px);*/
+  /*!*after less get it back*!*/
+/*}*/
 .tab-content-frame {
   height: 100%;
 }

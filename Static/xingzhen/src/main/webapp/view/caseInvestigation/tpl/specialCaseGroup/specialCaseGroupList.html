@@ -14,7 +14,10 @@
         <div class="query-block-row">
             <div class="fl qc-group-m">
                 <span class="qc-label-m">创建人：</span>
-                <input class="common-input" type="text" id="" name="">
+                <div class="dict-opener">
+                    <input class="common-input" type="text" id="" name="">
+                    <i id="chooseCreatName" class="icon-list cur-p button steelblue" title="创建人" dict-value="CFMC"></i>
+                </div>
             </div>
         </div>
         <div class="query-block-row">
@@ -38,12 +41,17 @@
         <div class="query-block-row">
             <div class="fl qc-group-m">
                 <span class="qc-label-m">人员名称：</span>
-                <input class="common-input" type="text" id="" name="">
-
+                <div class="dict-opener">
+                    <input class="common-input" type="text" id="" name="">
+                    <i id="chooseStaff" class="icon-list cur-p button steelblue" title="人员名称" dict-value="CFMC"></i>
+                </div>
             </div>
             <div class="fl qc-group-m">
                 <span class="qc-label-m">所属单位：</span>
-                <input class="common-input" type="text" id="" name="">
+                <div class="dict-opener">
+                    <input class="common-input" type="text" id="" name="">
+                    <i id="chooseUnit" class="icon-list cur-p button steelblue" title="所属单位" dict-value="CFMC"></i>
+                </div>
             </div>
         </div>
         <div class="collapse" id="queryBlockRowMore">
@@ -88,7 +96,7 @@
                 <thead>
                 <tr>
                     <th>
-                        <!--<input type="checkbox" id="selectAll"/>-->
+                        <!--<input type="checkbox" id="selectAll"/>-->单选
                     </th>
                     <th>序号</th>
                     <th>专案组编号</th>
@@ -107,9 +115,5 @@
             </table>
         </div>
         <div class="paging"></div>
-    </div>
-</div>
-<div id="archiveBlock" class="hide">
-    <div class="panel-container">
     </div>
 </div>

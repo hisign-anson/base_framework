@@ -2,15 +2,15 @@
  * Created by dell on 2017/9/28.
  */
 define(['underscore',
-    'text!/view/commandCooperationManage/tpl/cooperationPage.html',
+    'text!/view/commandCooperationManage/tpl/commandPage.html',
     'text!/view/commandCooperationManage/tpl/groupTaskList.html',
     'text!/view/commandCooperationManage/tpl/groupTaskListTr.html',
     'text!/view/commandCooperationManage/tpl/groupTaskEdit.html',
-    'text!/view/caseInvestigation/tpl/specialCaseGroup/caseList.html'], function (_, cooperationPageTpl,groupTaskListTpl,groupTaskListTrTpl,groupTaskEditTpl,caseListTpl) {
+    'text!/view/caseInvestigation/tpl/specialCaseGroup/caseList.html'], function (_, commandPage,groupTaskListTpl,groupTaskListTrTpl,groupTaskEditTpl,caseListTpl) {
     return {
         showList: function () {
             _self = this;
-            $("#mainDiv").empty().html(_.template(cooperationPageTpl, {ops: top.opsMap}));
+            $("#mainDiv").empty().html(_.template(commandPage, {ops: top.opsMap}));
             $("#toggleGroup").on("click", function () {
                 var $this = $(this);
                 $(".group-btn-div").removeClass("hide");
@@ -48,14 +48,31 @@ define(['underscore',
             $(".choose-group").empty().text(thisValue);
 
             $(".group-btn-div").removeClass("hide");
-            //跳转到任务清单
-            _self.intoTaskList();
-            //跳转到涉及案件
-            _self.intoRelatedCase();
             $("#mapSvgFrame").attr("src", "/view/commandCooperationManage/graph/d3graphView.html");
             $("#mapSvgFrame").css({
                 "width": "100%",
-                "height": "calc(100vh - 105px)"
+                "height": "calc(100vh - 75px)"
+            });
+
+            //进入专案组讨论
+            $(".into-communication").on("click", function () {
+                _self.intoCommunication();
+            });
+            //打印
+            $(".into-print").on("click", function () {
+                $("#mapSvgFrame").contents().find("svg").jqprint();
+            });
+            // //生成案件侦办过程报告
+            // $(".into-report").on("click", function () {
+            //
+            // });
+            //跳转到任务清单
+            $(".into-taskList").on("click", function () {
+                _self.intoTaskList();
+            });
+            //跳转到涉及案件
+            $(".into-relationCase").on("click", function () {
+                _self.intoRelatedCase();
             });
         },
         showCondition:function () {
@@ -89,13 +106,14 @@ define(['underscore',
         },
         intoCommunication:function () {
             _self = this;
+            $open('#taskListDiv', {width: 840,height: 700, title: '&nbsp专案组群聊'});
+            var iframe = '<iframe id="mapSvgFrame" class="tab-content-frame" src="/view/chatPage/chatPage.html" width="100%" height="640"></iframe>';
+            $("#taskListDiv .panel-container").css("margin","0px").empty().html(_.template(iframe));
         },
         intoTaskList:function () {
             _self = this;
-            $(".into-taskList").on("click", function (){
-                $open('#taskListDiv', {width: 800, title: '&nbsp任务清单'});
-                _self.showTaskList();
-            });
+            $open('#taskListDiv', {width: 800, title: '&nbsp任务清单'});
+            _self.showTaskList();
         },
         showTaskList:function() {
             _self = this;
@@ -167,10 +185,8 @@ define(['underscore',
         },
         intoRelatedCase:function () {
             _self = this;
-            $(".into-relationCase").on("click", function (){
-                $open('#taskListDiv', {width: 800, title: '&nbsp案件查询'});
-                _self.showRelatedCaseList();
-            });
+            $open('#taskListDiv', {width: 800, title: '&nbsp案件查询'});
+            _self.showRelatedCaseList();
         },
         showRelatedCaseList:function () {
             _self = this;
