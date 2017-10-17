@@ -7,7 +7,6 @@ define(['underscore',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/specialCaseGroupListTr.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/specialCaseGroupAdd.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/archivePage.html',
-    'text!/view/caseInvestigation/tpl/specialCaseGroup/broadcastPage.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupList.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/caseList.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/caseListTr.html',
@@ -19,8 +18,8 @@ define(['underscore',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/relationCaseTr.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupStaff.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupStaffTr.html',
-    '../../dictManage/src/dictOpener.js'], function (_, specialCaseGroupListTpl, specialCaseGroupListTrTpl, specialCaseGroupAddTpl, archivePageTpl,broadcastPageTpl, groupListTpl, caseListTpl, caseTrTpl,
-                                                     userListTpl, userListTrTpl, chatPageTpl, baseInfoTpl, relationCaseTpl, relationCaseTrTpl, groupStaffTpl, groupStaffTrTpl,
+    '../../dictManage/src/dictOpener.js'], function (_, specialCaseGroupListTpl, specialCaseGroupListTrTpl, specialCaseGroupAddTpl,archivePageTpl,groupListTpl,caseListTpl,caseTrTpl,
+                                                     userListTpl,userListTrTpl,chatPageTpl,baseInfoTpl,relationCaseTpl,relationCaseTrTpl,groupStaffTpl,groupStaffTrTpl,
                                                      dictOpener) {
     return {
         showList: function () {
@@ -43,31 +42,14 @@ define(['underscore',
             //点击选择是否
             /***参数：（被点击的div包裹层，传入后台的参数）***/
             selectUtils.selectTextOption("#changeYesOrNo", "#msgLevel");
-
-            $("#chooseCreatName").on('click', function () {
-                dictOpener.openChooseDict($(this));
-            });
-            $("#chooseStaff").on('click', function () {
-                dictOpener.openChooseDict($(this));
-            });
-            $("#chooseUnit").on('click', function () {
-                dictOpener.openChooseDict($(this));
-            });
-
-            $("#resetBtn").on("click", function () {
-                console.info("专案组管理重置按钮");
-            });
-            $("#queryBtn").on("click", function () {
-                console.info("专案组管理查询按钮");
-                _self.queryList();
-            });
             $("#addSpecialCaseGroup").on("click", function () {
-                console.info("专案组新增按钮");
                 _self.showAdd();
             });
-            $("#addCaseGroupOfGroup").on("click", function () {
-                console.info("专案组组内建组按钮");
-                _self.addGroupOfGroup();
+            $("#resetBtn").on("click",function () {
+
+            });
+            $("#queryBtn").on("click",function () {
+                _self.queryList();
             });
             _self.queryList();
         },
@@ -113,42 +95,20 @@ define(['underscore',
                 data: data,
                 ops: top.opsMap
             }));
-            $(".link-text").on("click", function () {
-                console.info("专案组详情按钮");
-                _self.showEdit();
-            });
+
             $(".into-archive").on("click", function () {
                 $open('#archiveBlock', {width: 800, top: 180, title: '&nbsp专案组归档'});
-                $("#archiveBlock .panel-container").empty().html(_.template(archivePageTpl));
-                $("#archiveBlock").on("click","#cancelBtn",function () {
-
-                    $("#archiveBlock").$close();
-                });
-                $("#archiveBlock").on("click","#saveBtn",function () {
-                    $("#archiveBlock").$close();
-                });
+                $("#archiveBlock .form-content").empty().html(_.template(archivePageTpl));
             });
             $(".into-broadcast").on("click", function () {
-                $open('#archiveBlock', {width: 800, top: 180, title: '&nbsp专案组广播'});
-                $("#archiveBlock .panel-container").empty().html(_.template(broadcastPageTpl));
-                $("#archiveBlock").on("click","#cancelBtn",function () {
 
-                    $("#archiveBlock").$close();
-                });
-                $("#archiveBlock").on("click","#saveBtn",function () {
-                    $("#archiveBlock").$close();
-                });
             });
             $(".into-communication").on("click", function () {
                 console.info("进入聊天界面！");
-                // $("#mainDiv").empty().html(_.template(chatPageTpl));
-                $open('#archiveBlock', {width: 840,height: 700, title: '&nbsp专案组群聊'});
-                // $("#archiveBlock .form-content").empty().html(_.template(chatPageTpl));
-                var iframe = '<iframe id="mapSvgFrame" class="tab-content-frame" src="/view/chatPage/chatPage.html" width="100%" height="640"></iframe>';
-                $("#archiveBlock .panel-container").css("margin","0px").empty().html(_.template(iframe));
+                $("#mainDiv").empty().html(_.template(chatPageTpl));
             });
             //嵌套表格的实现--------------------------------------------------------------------------------------------
-            $(".into-group").on('click', function () {
+            $(".into-group").on('click',function(){
                 var isOpen = $(this).hasClass("clicked-open");
                 var data1 = [
                     {
@@ -179,12 +139,12 @@ define(['underscore',
                     }
                 ];
                 var currentTr = $(this).parents("tr");
-                if (isOpen) {
+                if(isOpen){
                     $(this).removeClass("clicked-open");
                     currentTr.next().remove();
                 } else {
                     $(this).addClass("clicked-open");
-                    var tableHtml = _.template(groupListTpl, {data: data1});
+                    var tableHtml = _.template(groupListTpl,{data: data1});
                     console.info(tableHtml);
                     console.info($(tableHtml));
                     //嵌套内容渲染
@@ -198,134 +158,123 @@ define(['underscore',
             $("#mainDiv").empty().html(_.template(specialCaseGroupAddTpl));
             var flag = false;
             $('#addGroupTab a').click(function (e) {
-                if ($(this).attr("id") == "navBaseInfo") {
+                if($(this).attr("id")=="navBaseInfo"){
                     $(this).tab('show');
                     //判断是否有专案组信息
                     //如果有：展示基本信息
                     //否则：报错
                     toast("是否保存过专案组基本信息？").warn();
                     _self.handleBaseInfo(flag);
-                } else if ($(this).attr("id") == "navRelationCase") {
+                }else if($(this).attr("id")=="navRelationCase"){
                     $('#baseInfo .field-valid').validatebox();
-                    if ($('.validatebox-invalid').length > 0) {
+                    if($('.validatebox-invalid').length > 0){
                         toast("请先保存专案组基本信息！").warn();
                         return false;
                     } else {
                         $(this).tab('show');
-                        //保存专案组基本信息
-                        // $("#btnBaseInfo #saveBtn").trigger("click");
+                        $("#saveBtn").trigger("click");
                         flag = true;
                         _self.handleRelationCase();
                     }
-                } else if ($(this).attr("id") == "navGroupStaff") {
+                }else if($(this).attr("id")=="navGroupStaff"){
                     $('#baseInfo .field-valid').validatebox();
-                    if ($('.validatebox-invalid').length > 0) {
+                    if($('.validatebox-invalid').length > 0){
                         toast("请先保存专案组基本信息！").warn();
                         return false;
                     } else {
                         $(this).tab('show');
-                        //保存专案组基本信息
-                        // $("#btnBaseInfo #saveBtn").trigger("click");
+                        $("#saveBtn").trigger("click");
                         flag = true;
                         _self.handleGroupStaff();
                     }
                 }
             });
             $('#addGroupTab a:first').click();
+
+
+            // var indexActived = 1;
+            // //点击nav时
+            // $('#addGroupTab a').click(function (e) {
+            //     if($(this).attr("id")=="navBaseInfo"){
+            //         $("#btnBaseInfo").parents(".form-btn-block").show();
+            //     }else if($(this).attr("id")=="navRelationCase"){
+            //         $("#btnBaseInfo").parents(".form-btn-block").hide();
+            //         console.info("是否保存专案组基本信息？");
+            //     }else if($(this).attr("id")=="navGroupStaff"){
+            //         $("#btnBaseInfo").parents(".form-btn-block").hide();
+            //         console.info("是否保存专案组基本信息？");
+            //     }
+            //
+            // });
+            // //点击按钮时
+            // $("#exitBtn").off("click").on('click',function () {
+            //     if (indexActived == 1) {
+            //         _self.showList();
+            //         indexActived = 1;
+            //     } else if (indexActived == 2) {
+            //         //保存当前显示tab页面的内容，并且跳转到下一个tab
+            //         $('#addGroupTab a#navBaseInfo').click();
+            //         // $('#addGroupTab a#navBaseInfo').parent("li").addClass("active").siblings(".active").removeClass("active");
+            //         // $('.tab-pane#baseInfo').addClass("active").siblings(".active").removeClass("active");
+            //
+            //         indexActived = 2;
+            //     } else if (indexActived == 3) {
+            //         $('#addGroupTab a#navRelationCase').click();
+            //         // $('#addGroupTab a#navRelationCase').parent("li").addClass("active").siblings(".active").removeClass("active");
+            //         // $('.tab-pane#relationCase').addClass("active").siblings(".active").removeClass("active");
+            //
+            //         indexActived = 3;
+            //     }
+            // });
+            // $("#saveBtn").off("click").on('click',function () {
+            //     if (indexActived == 1) {
+            //         $('#addGroupTab a#navRelationCase').click();
+            //         // $('#addGroupTab a#navRelationCase').parent("li").addClass("active").siblings(".active").removeClass("active");
+            //         // $('.tab-pane#relationCase').addClass("active").siblings(".active").removeClass("active");
+            //
+            //         indexActived = 1;
+            //     } else if (indexActived == 2) {
+            //         $('#addGroupTab a#navGroupStaff').click();
+            //         // $('#addGroupTab a#navGroupStaff').parent("li").addClass("active").siblings(".active").removeClass("active");
+            //         // $('.tab-pane#groupStaff').addClass("active").siblings(".active").removeClass("active");
+            //
+            //         indexActived = 2;
+            //     } else if (indexActived == 3) {
+            //         _self.showList();
+            //         indexActived = 3;
+            //     }
+            // });
+            //
+            // //涉及案件
+            // _self.handleRelationCase();
+            // //组内成员
+            // _self.handleGroupStaff();
         },
-        addGroupOfGroup: function () {
-            _self = this;
-            var radio = [];
-            $('#specialGroupListTable').find('tbody input:radio[name=group]:checked').each(function (i, e) {
-                radio.push($(e).val());
-            });
-            if (radio.length > 0) {
-                //do something
-                _self.showAdd();
-            } else {
-                toast("请选择一个专案组！", 600).warn()
-            }
-        },
-        showEdit: function () {
-            _self = this;
-            $("#mainDiv").empty().html(_.template(specialCaseGroupAddTpl));
-            $('#addGroupTab a').click(function (e) {
-                if ($(this).attr("id") == "navBaseInfo") {
-                    $(this).tab('show');
-                    _self.showBaseInfo();
-                } else if ($(this).attr("id") == "navRelationCase") {
-                    $(this).tab('show');
-                    _self.handleRelationCase();
-                } else if ($(this).attr("id") == "navGroupStaff") {
-                    $(this).tab('show');
-                    _self.handleGroupStaff();
-                }
-            });
-            $('#addGroupTab a:first').click();
-        },
-        handleBaseInfo: function (flag) {
+        handleBaseInfo:function (flag) {
             _self = this;
             $(".form-content-block").empty().html(_.template(baseInfoTpl));
             $(".form-btn-block").removeClass("hide");
-            if (flag) {
+            if(flag){
                 //已经保存过 输入框设值 并且不可修改 不可提交
-                $("#baseInfo").find("input,select,i").attr("disabled", "disabled").val("def ");
+                $("#baseInfo").find("input,select,i").attr("disabled","disabled").val("def ");
             } else {
                 // $("#baseInfo")
-                $("#chooseGroupType").on('click', function () {
+                $("#chooseFactory-button").on('click',function(){
                     dictOpener.openChooseDict($(this));
                 });
-                $("#btnBaseInfo #saveBtn").on("click", function () {
+                $("#saveBtn").on("click",function () {
                     toast("保存专案组基本信息").ok();
-                    $('#addGroupTab a#navRelationCase').trigger("click");
-                    $('#addGroupTab a#navRelationCase').on("click", function () {
-                        $('#baseInfo .field-valid').validatebox();
-                        if ($('.validatebox-invalid').length > 0) {
-                            toast("请先保存专案组基本信息！").warn();
-                            return false;
-                        } else {
-                            //保存专案组基本信息
-
-                            $(this).tab('show');
-                            flag = true;
-                            _self.handleRelationCase();
-                        }
-                    });
-                });
-                $("#btnBaseInfo #exitBtn").off("click").on("click", function () {
-                    _self.showList();
-
                 });
             }
         },
-        showBaseInfo: function () {
-            _self = this;
-            $(".form-content-block").empty().html(_.template(baseInfoTpl));
-            $(".form-btn-block").removeClass("hide");
-            $(".form-btn-block #saveBtn").attr("id", "nextBtn").text("下一项");
-            $(".form-btn-block #nextBtn").on("click", function () {
-                $('#addGroupTab a#navRelationCase').trigger("click");
-                $('#addGroupTab a#navRelationCase').on("click", function () {
-                    $(this).tab('show');
-                    _self.handleRelationCase();
-                });
-            });
-            $("#baseInfo").find("input,select,i").attr("disabled", "disabled");
-            $(".form-btn-block #revokeBtn").on("click", function () {
-                //如果归档状态为已归档 显示按钮 并执行撤销操作
-            });
-
-        },
-        handleRelationCase: function () {
+        handleRelationCase:function () {
             _self = this;
             $(".form-content-block").empty().html(_.template(relationCaseTpl));
             $(".form-btn-block").addClass("hide");
-            $("#relationCase").on("click", "#resetBtn", function () {
-                console.info("涉及案件重置按钮");
+            $("#resetBtn").on("click",function () {
 
             });
-            $("#relationCase").on("click", "#queryBtn", function () {
-                console.info("涉及案件查询按钮");
+            $("#queryBtn").on("click",function () {
                 _self.queryRelationCaseList();
             });
 
@@ -335,26 +284,25 @@ define(['underscore',
             /***参数：（被点击的div包裹层，传入后台的参数）***/
             selectUtils.selectTextOption("#changeCaseSta", "#caseSta");
             //关联新案件
-            $("#linkNewCase").on("click", function () {
-                console.info("涉及案件关联新案件按钮");
+            $("#linkNewCase").on("click",function () {
                 $open('#caseListDiv', {width: 800, title: '&nbsp案件查询'});
                 $("#caseListDiv .panel-container").empty().html(_.template(caseListTpl));
                 selectUtils.selectTextOption("#changeCaseSta", "#caseSta");
                 selectUtils.selectTextOption("#changeCaseType", "#caseType");
 
-                $("#caseListDiv").on("click", "#resetBtn", function () {
-                    console.info("案件重置按钮");
+                $("#resetBtn").on("click",function () {
+
                 });
-                $("#caseListDiv").on("click", "#queryBtn", function () {
-                    console.info("案件查询按钮");
+                $("#queryBtn").on("click",function () {
                     _self.queryCaseList();
                 });
 
                 //加载案件列表
                 _self.queryCaseList();
+
             });
         },
-        queryRelationCaseList: function () {
+        queryRelationCaseList:function () {
             _self = this;
             var data = [
                 {
@@ -374,14 +322,8 @@ define(['underscore',
                 data: data,
                 ops: top.opsMap
             }));
-
-            $(".into-delete").on("click", function () {
-                console.info("移除案件按钮");
-                _self.delCase($(this).attr('id'));
-
-            });
         },
-        queryCaseList: function () {
+        queryCaseList:function () {
             _self = this;
             var data = [
                 {
@@ -413,63 +355,27 @@ define(['underscore',
                 data: data,
                 ops: top.opsMap
             }));
-            $("#caseTable #selectAll").on('click', function () {
-                $('#caseTable').find('tbody input:checkbox').prop('checked', this.checked);
-            });
-            //关联新案件
-            $("#saveLinkBtn").on('click', function () {
-                console.info("关联案件保存按钮");
-                var checkbox = [];
-                $('#caseTable').find('tbody input:checkbox:checked').each(function (i, e) {
-                    checkbox.push($(e).val());
-                });
-                if (checkbox.length > 0) {
-                    // var ids = checkbox.join(",");
-                    // var orgName = $("#myProjectUnit u.active").attr("val");
-                    //
-                    // $("#applySum-form").html("");
-                    // $("#applySum-form").attr("action", top.servicePath + '/sw/report/exesApplySum');
-                    // $("#applySum-form").append("<input type='hidden' name='ids' value='" + ids + "'/>");
-                    // $("#applySum-form").append("<input type='hidden' name='orgName' value='" + orgName + "'/>");
-                    // $("#applySum-form").attr("target", "winExesApplySum");//打开新窗口
-                    // $("#applySum-form").attr("onsubmit", function openwin(){window.open('about:blank', 'winExesApplySum', 'width=800,height=600');});
-                    // $("#applySum-form").submit();
-
-                    $('#caseListDiv').$close();
-                } else {
-                    toast("请至少选择一个案件！", 600).warn()
-                }
-            });
-            $("#caseListDiv").on('click', "#cancelBtn", function () {
-                $('#caseListDiv').$close();
-            });
         },
-        delCase: function (id) {
-            console.info("移除案件事件" + id);
-        },
-        handleGroupStaff: function () {
+        handleGroupStaff:function () {
             _self = this;
             $(".form-content-block").empty().html(_.template(groupStaffTpl));
             $(".form-btn-block").addClass("hide");
-            $("#groupStaff").on("click", "#resetBtn", function () {
-                console.info("组内成员重置按钮");
+            $("#resetBtn").on("click",function () {
+
             });
-            $("#groupStaff").on("click", "#queryBtn", function () {
-                console.info("组内成员查询按钮");
-                _self.queryAddedStaffList();
+            $("#queryBtn").on("click",function () {
+                _self.queryRelationCaseList();
             });
             //加载已添加的成员
             _self.queryAddedStaffList();
             //成员添加
-            $("#addStaff").on("click", function () {
-                console.info("添加成员按钮");
+            $("#addStaff").on("click",function () {
                 $open('#userListDiv', {width: 800, title: '&nbsp用户查询'});
                 $("#userListDiv .panel-container").empty().html(_.template(userListTpl));
-                $("#userListDiv").on("click", "#resetBtn", function () {
-                    console.info("用户重置按钮");
+                $("#resetBtn").on("click",function () {
+
                 });
-                $("#userListDiv").on("click", "#queryBtn", function () {
-                    console.info("用户查询按钮");
+                $("#queryBtn").on("click",function () {
                     _self.queryUserList();
                 });
 
@@ -477,7 +383,7 @@ define(['underscore',
                 _self.queryUserList();
             });
         },
-        queryAddedStaffList: function () {
+        queryAddedStaffList:function () {
             _self = this;
             var data = [
                 {
@@ -495,12 +401,8 @@ define(['underscore',
                 data: data,
                 ops: top.opsMap
             }));
-            $(".into-delete").on("click", function () {
-                console.info("移除组内成员按钮");
-                _self.delGroupStaff($(this).attr('id'));
-            });
         },
-        queryUserList: function () {
+        queryUserList:function () {
             _self = this;
             var data = [
                 {
@@ -534,44 +436,10 @@ define(['underscore',
                     "userStatus": "正常"
                 }
             ];
-            $("#userTable tbody").empty().html(_.template(userListTrTpl, {
+            $("#userTable tbody").empty().html(_.template(userTrTpl, {
                 data: data,
                 ops: top.opsMap
             }));
-            $("#userTable #selectAll").on('click', function () {
-                $('#userTable').find('tbody input:checkbox').prop('checked', this.checked);
-            });
-            $("#saveStaffBtn").on('click', function () {
-                console.info("添加成员保存按钮");
-                var checkbox = [];
-                $('#userTable').find('tbody input:checkbox:checked').each(function (i, e) {
-                    checkbox.push($(e).val());
-                });
-                if (checkbox.length > 0) {
-                    // var ids = checkbox.join(",");
-                    // var orgName = $("#myProjectUnit u.active").attr("val");
-                    //
-                    // $("#applySum-form").html("");
-                    // $("#applySum-form").attr("action", top.servicePath + '/sw/report/exesApplySum');
-                    // $("#applySum-form").append("<input type='hidden' name='ids' value='" + ids + "'/>");
-                    // $("#applySum-form").append("<input type='hidden' name='orgName' value='" + orgName + "'/>");
-                    // $("#applySum-form").attr("target", "winExesApplySum");//打开新窗口
-                    // $("#applySum-form").attr("onsubmit", function openwin(){window.open('about:blank', 'winExesApplySum', 'width=800,height=600');});
-                    // $("#applySum-form").submit();
-
-                    $('#userListDiv' +
-                        '').$close();
-                } else {
-                    toast("请至少选择一个用户！", 600).warn()
-                }
-            });
-            $("#userListDiv").on('click', "#cancelBtn", function () {
-                $('#userListDiv').$close();
-            });
-        },
-        delGroupStaff: function (id) {
-            console.info("移除成员事件" + id);
-
         }
     }
 });
