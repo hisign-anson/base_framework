@@ -33,7 +33,7 @@ define(['underscore',
                 },
                 callback:{
                     onClick:function(nodes, treeId, treeNode){
-                    	_self.loadDictList(treeNode.id,treeNode.name,treeNode.isParent,treeNode.rootKey);
+                    	_self.loadDictList(treeNode.id,treeNode.name,treeNode.isParent,treeNode.rootKey,treeNode.level);
                     }
                 }
             },{id:"",name:"系统字典树",isParent:true,rootKey:"",pId:""});
@@ -43,12 +43,14 @@ define(['underscore',
             zTree.setting.callback.onClick(null, zTree.setting.treeId, node);//调用事件
             zTree.expandNode(node, true, false, false);
 		},
-		loadDictList:function(key,value,isParent,rootKey){
+		loadDictList:function(key,value,isParent,rootKey,level){
 			_self = this;
 			$("#org-content").empty().html(_.template(dictListTpl));
 			$("#add-btn").attr("dictKey",key);
 			$("#add-btn").attr("dictValue",value);
 			$("#add-btn").attr("rootKey",rootKey);
+			$("#add-btn").attr("dictLevel",level);
+			
 			
 			
 			$("#delete-btn").attr("dictKey",key);
@@ -61,8 +63,9 @@ define(['underscore',
 				var parentKey = $("#add-btn").attr("dictKey");
 				var rootKey = $("#add-btn").attr("rootKey");
 				var pName = $("#add-btn").attr("rootKey");
+				var dictLevel = $("#add-btn").attr("dictLevel");
 				pName = pName == '系统字典树'?"":pName;
-				$("#org-content").empty().html(_.template(dictAddTpl,{parentKey:parentKey,rootKey:rootKey,pName:pName}));
+				$("#org-content").empty().html(_.template(dictAddTpl,{parentKey:parentKey,rootKey:rootKey,pName:pName,dictLevel:dictLevel}));
 				$("#save-save-btn").on('click',function(){
 					$('.validate').validatebox();
 	                 if($('.validatebox-invalid').length>0){
@@ -170,7 +173,7 @@ define(['underscore',
 			_self = this;
 			$confirm('确认删除【'+dictValue+'】字典？',function(bol) {
 				if(bol){
-					dictManageAjax.delDictById(id,function(r){
+					dictManageAjax.delDictById(id,parentkey,function(r){
 						if(r.flag == 1){
 							var zTree = $.fn.zTree.getZTreeObj("org-tree");
 							var pNode = zTree.getNodeByParam('id', parentkey);

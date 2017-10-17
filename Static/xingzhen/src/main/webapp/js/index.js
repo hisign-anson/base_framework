@@ -142,7 +142,7 @@ function initDictForGXS(){
 }
 
 function gotoLogin(){
-	 $post(top.servicePath+"/logout",null, function(res){
+	 $post(top.servicePath+"/sys/logout",null, function(res){
 		 if(res && res.flag==1){
 			 localData.set('token','');
 		     localData.set('limits','');
@@ -656,10 +656,10 @@ importing('utility.js','main.js','fullscreen','socket', 'dict', function(){
     	
     });
     
-    $post(top.servicePath+'/sys/message/findReceivePageCount',{receiverId:top.userName,msgState:"0"},function (res) {
-        if(res.flag == 1){
-        	$("#msg-count").text(res.totalCount)
-        }
-    },true);
+    // $post(top.servicePath+'/sys/message/findReceivePageCount',{receiverId:top.userName,msgState:"0"},function (res) {
+    //     if(res.flag == 1){
+    //     	$("#msg-count").text(res.totalCount)
+    //     }
+    // },true);
     
 });

@@ -1,6 +1,7 @@
 
 package com.hisign.framework.xz.api.service;
 
+import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.framework.xz.api.entity.Task;
 import com.hisign.bfun.bif.BaseService;
 import com.hisign.framework.xz.api.model.TaskModel;
@@ -10,5 +11,5 @@ import com.hisign.framework.xz.api.model.TaskModel;
  * @author 何建辉
  */
 public interface TaskService extends BaseService<Task,TaskModel, String>{
-
+    public JsonResult getTaskPage(Task task);
 }

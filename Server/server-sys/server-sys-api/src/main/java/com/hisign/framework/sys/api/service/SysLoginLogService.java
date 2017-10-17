@@ -15,7 +15,7 @@ import java.util.List;
  *
  * 2017年3月29日
  */
-@FeignClient(name = "sysService")
+@FeignClient(name = "sysService",path = "/sys/sysLoginLogService")
 public interface SysLoginLogService {
     /**
      *

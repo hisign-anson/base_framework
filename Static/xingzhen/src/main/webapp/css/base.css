@@ -1,6 +1,6 @@
 @charset "utf-8";
-@import "fixTable.css";
-@import "sw.css";
+/*@import "fixTable.css";*/
+/*@import "sw.css";*/
 /*!
  *  Font Awesome 3.0.2
  *  the iconic font designed for use with Twitter Bootstrap
@@ -3918,7 +3918,8 @@ tr:hover .common-input {
 .cm-ok-btn,
 .cm-remove-btn,
 .cm-del-btn,
-.cm-print-btn{
+.cm-print-btn,
+.sw-btn{
   display: inline-block;
   box-sizing: border-box;
   min-width: 72px;
@@ -4901,10 +4902,11 @@ p.query-reset .cm-savegun-btn {
   background: #fafafa;
 }
 .table-title {
+    position: relative;
     font-size: 14px;
     font-weight: 600;
     color: #545454;
-    border-bottom: 1px solid #cccccc;
+    /*border-bottom: 1px solid #cccccc;*/
     padding: 10px;
 }
 .typical-tb {

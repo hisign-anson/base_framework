@@ -2145,14 +2145,14 @@ var requirejs, require, define;
 }(this, (typeof setTimeout === 'undefined' ? undefined : setTimeout)));
 
 require.config({
-		map: {
-		  '*': {
-				 'css': '/plugin/css.js'
-		  }
-		}, 
-		paths:{
-		    "text":"/plugin/text",
-		    "underscore":"/plugin/underscore",
-            "echarts":"/plugin/echarts/echarts3110"
-		}
-})
+    map: {
+        '*': {
+            'css': '/plugin/css.js'
+        }
+    },
+    paths: {
+        "text": "/plugin/text",
+        "underscore": "/plugin/underscore",
+        "echarts": "/plugin/echarts/echarts3110"
+    }
+});

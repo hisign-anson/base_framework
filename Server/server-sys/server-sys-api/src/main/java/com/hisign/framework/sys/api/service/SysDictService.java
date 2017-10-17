@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * 2017年3月29日
  */
-@FeignClient(name = "sysService")
+@FeignClient(name = "sysService",path = "/sys/sysDictService")
 public interface SysDictService {
 
     /**

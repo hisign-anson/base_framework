@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
-@RequestMapping("/nt/ntService")
+@RequestMapping("/ntService")
 @RestController
 public class NtServiceRest implements NtService {
 
@@ -21,13 +21,13 @@ public class NtServiceRest implements NtService {
     NtService ntService;
 
     @Override
-    @RequestMapping(value = "/sendNote", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/sendNote", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public void sendNote(@RequestBody NoteBean bean) throws NoticeException {
         ntService.sendNote(bean);
     }
 
     @Override
-    @RequestMapping(value = "/sendMsg", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/sendMsg", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public void sendMsg(@RequestBody MsgBean bean) throws NoticeException {
         ntService.sendMsg(bean);
     }

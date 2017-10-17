@@ -46,7 +46,7 @@ public class SysModuleRest implements SysModuleService {
     }
 
     @Override
-    @RequestMapping(value = "/deletePermisRes", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/deletePermission", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public void deletePermission(@RequestParam(value = "moduleId") String moduelId) throws Exception {
         sysModuleService.deletePermission(moduelId);

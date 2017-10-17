@@ -32,9 +32,6 @@ import com.hisign.bfun.bmodel.*;
 @RequestMapping("usergroup")
 public class UsergroupRest extends BaseRest<Usergroup,UsergroupModel, String, UsergroupService> implements UsergroupService{
 
-    @Autowired
-    MessageService messageService;
-
     @Override
     @Autowired
     @Resource(name = "usergroupService")

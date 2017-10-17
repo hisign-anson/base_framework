@@ -1,6 +1,8 @@
 
 
-typeof $style==='function'&& $style(getDistPath()+'css/bootstrap.3.31.css');
+// typeof $style==='function'&& $style(getDistPath()+'css/bootstrap.3.31.css');
+// typeof $style==='function'&& $style(getDistPath()+'plugin/daterangepicker/daterangepicker.css');
+typeof $style==='function'&& $style(getDistPath()+'plugin/date/daterangepicker/daterangepicker.css');
 
 //! moment.js
 //! version : 2.15.0

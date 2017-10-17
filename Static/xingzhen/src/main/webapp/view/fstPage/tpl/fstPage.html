@@ -1,204 +1,41 @@
 <div style="" class="my-box">
+    <div class="row" id="todoDiv">
+        <!--代办-->
+    </div>
+
     <div class="row">
-        <div class="col-md-5" id="daibanDiv">
-            <!--代办-->
+        <div class="col-md-5" id="achievementDiv">
+            <!--平台成果-->
         </div>
 
-        <div class="col-md-7 clearPadding">
-            <div class="col-panel-block zuixin">
-                <h3 class="col-panel-header"><i class="left-line"></i>当月最新发布(当前<span id="currentNum"></span>条，共<span id="totalNum"></span>条)
-                    <a class="more-link" href="javascript:void(0)" id="newsMore">更多</a></h3>
-                <div class="col-panel-body news" >
-
-                </div>
-            </div>
+        <div class="col-md-7 clearPadding" id="newsDiv">
+            <!--通知公告-->
         </div>
 
     </div>
 
     <div class="row">
-
         <div class="col-md-5">
-            <div class="row">
-                <div class="col-panel-block my-notice">
-                    <h3 class="col-panel-header"><i class="left-line"></i>通知公告 <a class="more-link" href="javascript:void(0)" id="noticesMore">更多</a></h3>
-                    <div class="col-panel-body notice">
-
-                    </div>
-
-                </div>
+            <div class="row" id="messageDiv">
+                <!--信息提醒-->
             </div>
-            <div class="row">
-                <div class="col-panel-block my-rule">
-                    <h3 class="col-panel-header"><i class="left-line"></i>规章制度 <a class="more-link" href="javascript:void(0)" id="rulesMore">更多</a></h3>
-                    <div class="col-panel-body rule">
-
-                    </div>
-                </div>
-
+            <div class="row" id="knowledgeDiv">
+                <!--知识库-->
             </div>
-            <div class="row">
-                <div class="col-panel-block my-tabledown">
-                    <h3 class="col-panel-header"><i class="left-line"></i>表格下载 <a class="more-link" href="javascript:void(0)" id="tablesMore">更多</a></h3>
-                    <div class="col-panel-body tabledown">
-
-                    </div>
-                </div>
-
+            <div class="row" id="toolDownloadDiv">
+                <!--系统工具下载-->
             </div>
         </div>
         <div class="col-md-7 clearPadding">
-            <div class="row">
-                <div class="col-panel-block kaizhiqk">
-                    <h3 class="col-panel-header">
-                        <i class="left-line"></i>经费开支情况
-                        <ul class="li-select" id="expenseQuest">
-                            <li class="active">月度</li>
-                            <li>季度</li>
-                            <li>年度</li>
-                        </ul>
-                    </h3>
-                    <div class="col-panel-body ">
-                        <h3 class="button-select" id="unitExpenseQuest">
-                            <button type="button" class="btn btn-sm btn-primary">
-                                <span class="glyphicon glyphicon-user"></span> 个人
-                            </button>
-                           <%if(top.isGeneralRole !=1){%>
-                            <button type="button" class="btn btn-sm">
-                                <span class="icon icon-calendar"></span> 单位
-                            </button>
-                           <%}%>
-                        </h3>
-                        <div id="kaizhiqkT">
-                        </div>
-
-                    </div>
-                </div>
+            <div class="row" id="areaSolveCaseDiv">
+                <!--各区域专案组破案情况-->
             </div>
-            <div class="row">
-                <div class="col-md-6" >
-                    <div class="col-panel-block wupinqk">
-                        <h3 class="col-panel-header">
-                            <i class="left-line"></i>物品申领情况
-                            <ul class="li-select" id="goodsQuest">
-                                <li class="active">月度</li>
-                                <li>季度</li>
-                                <li>年度</li>
-                            </ul>
-                        </h3>
-                        <div class="col-panel-body ">
-                            <h3 class="button-select" id="unitGoodsQuest">
-                                <button type="button" class="btn btn-sm btn-primary">
-                                    <span class="glyphicon glyphicon-user"></span> 个人
-                                </button>
-                                <%if(top.isGeneralRole !=1){%>
-                                   <button type="button" class="btn btn-sm">
-                                    <span class="icon icon-calendar"></span> 单位
-                                   </button>
-                                <%}%>
-                                
-                            </h3>
-                            <div id="wupinqkT">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-md-6 clearPadding">
-                    <div class="col-panel-block yongcheqk">
-                        <h3 class="col-panel-header">
-                            <i class="left-line"></i>用车情况
-                            <ul class="li-select" id="usecarQuest">
-                                <li class="active">月度</li>
-                                <li>季度</li>
-                                <li>年度</li>
-                            </ul>
-                        </h3>
-                        <div class="col-panel-body ">
-                            <h3 class="button-select" id="unitUsecarQuest">
-                                <button type="button" class="btn btn-sm btn-primary">
-                                    <span class="glyphicon glyphicon-user"></span> 个人
-                                </button>
-                                <%if(top.isGeneralRole !=1){%>
-	                                <button type="button" class="btn btn-sm">
-	                                    <span class="icon icon-calendar"></span> 单位
-	                                </button>
-                                <%}%>
-                            </h3>
-                            <div id="yongcheqkT">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+            <div class="row" id="areaCreateCaseDiv">
+                <!--各区域专案组创建情况-->
             </div>
         </div>
 
 
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <%if(top.opsMap && top.opsMap.get('office_exes') && top.opsMap.get('office_exes') == 1){%>
-            <div class="col-panel-block gechuxiangmu">
-                <h3 class="col-panel-header">
-                    <i class="left-line"></i>各处项目开支情况
-                    <ul class="li-select" id="officeExpenseStat">
-                        <li class="active">月度</li>
-                        <li>季度</li>
-                        <li>年度</li>
-                    </ul>
-                </h3>
-                <div class="col-panel-body ">
-                    <div id="gechuxiangmuT">
-                    </div>
-                </div>
-            </div>
-            <%}%>
-        </div>
-        <div class="col-md-4 clearPadding">
-            <%if(top.opsMap && top.opsMap.get('office_item') && top.opsMap.get('office_item') == 1){%>
-            <div class="col-panel-block gechuwupin">
-                <h3 class="col-panel-header">
-                    <i class="left-line"></i>各处物品申领情况
-                    <ul class="li-select" id="officeGoodsStat">
-                        <li class="active">月度</li>
-                        <li>季度</li>
-                        <li>年度</li>
-                    </ul>
-                </h3>
-                <div class="col-panel-body ">
-                    <div id="gechuwupinT">
-                    </div>
-                </div>
-            </div>
-            <%}%>
-        </div>
-        <div class="col-md-4 clearPadding">
-            <%if(top.opsMap && top.opsMap.get('office_car') && top.opsMap.get('office_car') == 1){%>
-            <div class="col-panel-block gechuyongche ">
-                <h3 class="col-panel-header">
-                    <i class="left-line"></i>各处用车情况
-                    <ul class="li-select" id="officeCarStat">
-                        <li class="active">月度</li>
-                        <li>季度</li>
-                        <li>年度</li>
-                    </ul>
-                </h3>
-                <div class="col-panel-body ">
-                    <div id="gechuyongcheT">
-
-                    </div>
-                </div>
-            </div>
-            <%}%>
-        </div>
-    </div>
-    <div class="fr fixedbox">
-        <div class="left-bar">
-            <a class="money" style="display: none;" href="javascript:void(0)" data-toggle="fixed-tooltip" data-position="left" tooltip-title="开支申请" id="projectApplyClick">财</a>
-            <a class="car" style="display: none;" href="javascript:void(0)" data-toggle="fixed-tooltip" data-position="left" tooltip-title="用车申请" id="carApplyClick">车</a>
-            <a class="goods" style="display: none;" href="javascript:void(0)" data-toggle="fixed-tooltip" data-position="left" tooltip-title="物品申领" id="itemApplyClick">物</a>
-        </div>
     </div>
 </div>
 

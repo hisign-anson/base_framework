@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 《系统消息收件箱》 业务逻辑服务接口
  * @author 何建辉
  */
-@FeignClient(name = "sysService")
+@FeignClient(name = "sysService",path = "/sys/receiveBoxService")
 public interface ReceiveBoxService extends BaseService<ReceiveBox,ReceiveBox, String>{
 
 	@RequestMapping(value = "/setRead", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})

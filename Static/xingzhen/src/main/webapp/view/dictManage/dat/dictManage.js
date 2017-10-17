@@ -10,8 +10,8 @@ define(function(){
 				callback(response);
 			},false)
 		},
-		delDictById:function(param,callback){
-			$delete(top.servicePath+'/sys/dict/'+param+'/delDictById',null,function(response) {
+		delDictById:function(id,parentkey,callback){
+			$delete(top.servicePath+'/sys/dict/'+id+'/'+parentkey+'delDictById',null,function(response) {
 				callback(response);
 			},false)
 		},

@@ -46,7 +46,8 @@ define(['underscore',
                     $.extend(param, {
                         root: dictVal,
                         parentKey: dictVal,
-                        remark: $.trim($("#remarkReason").val())
+                        remark: $.trim($("#remarkReason").val()),
+                        dicLevel:1
                     });
                     dictManageAjax.addDict(param, function (r) {
                         if (r.flag == 1) {
@@ -77,12 +78,12 @@ define(['underscore',
                     target.html(tpl);
                     
                     $("#dict-wrap .delete-for").off("click").on('click',function(){
-                		debugger
                 		var id=$(this).attr('id');
                 		var val=$(this).attr('dictValue');
+                		var parentkey = $("#dict-wrap").attr('dictVal');
                 		$confirm('确认删除【'+val+'】字典？',function(bol) {
                 			if(bol){
-                				dictManageAjax.delDictById(id,function(r){
+                				dictManageAjax.delDictById(id,parentkey,function(r){
                 					 if (r.flag == 1) {
                 						 _selfDict.getDictListByParentKey($("#dict-wrap").attr('dictVal'));
                 					 }else{

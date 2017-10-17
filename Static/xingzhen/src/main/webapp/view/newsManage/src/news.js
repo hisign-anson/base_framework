@@ -1,7 +1,7 @@
 importing('currentDate');
 define(['underscore',
-        'text!/view/newsManage/tpl/noticeList.html',
-        'text!/view/newsManage/tpl/noticeListTr.html',
+		'text!/view/newsManage/tpl/noticeList.html',
+		'text!/view/newsManage/tpl/noticeListTr.html',
         'text!/view/newsManage/tpl/noticeAdd.html',
 		'text!/view/newsManage/tpl/noticeEdit.html',
 	    'text!/view/newsManage/tpl/noticeView.html',
