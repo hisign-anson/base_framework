@@ -7343,7 +7343,6 @@
         and b.id in (select AJID from t_ajgroup ag where ag.groupId=#{groupId,jdbcType=VARCHAR})
 
         ) t
-        <include refid="orderBy" />
         ) a
         <if test="end !=null and end !=0">
             where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}

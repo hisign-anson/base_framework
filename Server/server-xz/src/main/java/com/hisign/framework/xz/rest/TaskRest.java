@@ -4,15 +4,14 @@ import com.hisign.framework.xz.api.entity.Task;
 import com.hisign.framework.xz.api.model.TaskModel;
 import com.hisign.framework.xz.api.service.TaskService;
 
-import java.util.List;
 import javax.annotation.Resource;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.hisign.bfun.bif.*;
-import com.hisign.bfun.butils.JsonResultUtil;
-import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bmodel.*;
 
 
@@ -31,5 +30,16 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
     @Resource(name = "taskService")
     public void setBaseService(TaskService baseService) {
         super.setBaseService(baseService);
+    }
+
+    /**
+     * 查询分页
+     * @param task
+     * @return
+     */
+    @ApiOperation(value = "任务管理查询分页",httpMethod ="POST",response = TaskModel.class)
+    @RequestMapping(value = "/getTaskPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult getTaskPage(@ApiParam Task task) {
+        return baseService.getTaskPage(task);
     }
 }

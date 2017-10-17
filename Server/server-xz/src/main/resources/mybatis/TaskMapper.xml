@@ -838,4 +838,116 @@
 	<select id="getMaxNo" resultType="java.lang.String" >
 		SELECT substr(TASK_NO,3) as TASK_NO FROM (SELECT TASK_NO FROM t_task WHERE TASK_NO is not NULL AND  SUBSTR (TASK_NO, 3,8) = TO_CHAR(SYSDATE,'YYYYMMDD') ORDER BY CREATETIME DESC)s where ROWNUM=1
 	</select>
+
+    <select id="getTaskByCondition" parameterType="com.hisign.framework.xz.api.entity.Task" resultMap="BaseResultMap">
+        select p.* from(
+            select rownum as rn,q.* from (
+                select t.* from T_TASK  t where t.deleteFlag='0'
+                <choose>
+                    <when test="userId != null and userId !=''">
+                        <choose>
+                            <when test="taskType = '1'">
+                                and exists (select 1 from T_USERGROUP ug where ug.groupId=t.groupId and ug.userId=#{userId,jdbcType=VARCHAR})
+                            </when>
+                            <when test="taskType = '2'">
+                                and exists (select 1 from T_GROUP g where g.id=t.groupId and g.creator=#{userId,jdbcType=VARCHAR})
+                            </when>
+                            <otherwise>
+                                and (
+                                exists (select 1 from T_USERGROUP ug where ug.groupId=t.groupId and ug.userId=#{userId,jdbcType=VARCHAR})
+                                or
+                                exists (select 1 from T_GROUP g where g.id=t.groupId and g.creator=#{userId,jdbcType=VARCHAR})
+                                )
+                            </otherwise>
+                        </choose>
+                        <if test="taskName !=null and taskName !=''">
+                            and t.taskName like '%'||#{taskName,jdbcType=VARCHAR}||'%' escape '\'
+                        </if>
+                        <if test="groupid !=null and groupid !=''">
+                            and t.groupid=#{groupid,jdbcType=VARCHAR}
+                        </if>
+                        <if test="creator !=null and creator !=''">
+                            and t.creator=#{creator,jdbcType=VARCHAR}
+                        </if>
+                        <if test="jsr !=null and jsr !=''">
+                            and t.jsr=#{jsr,jdbcType=VARCHAR}
+                        </if>
+                        <if test="startTime!=null and entTime!=null">
+                            and t.createtime between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+                        </if>
+                        <if test="fkzt!=null and fkzt!=''">
+                            and t.fkzt=#{fkzt,jdbcType=VARCHAR}
+                        </if>
+                        <if test="yjzt!=null and yjzt!=''">
+                            and t.yjzt=#{yjzt,jdbcType=VARCHAR}
+                        </if>
+                        <if test="overdue='1'">
+                            and t.fkzt=0 and to_char(t.fkjz_time,'yyyyMMdd')>to_char(sysdate,'yyyyMMdd')
+                        </if>
+                    </when>
+                    <otherwise>
+                        and 1=2
+                    </otherwise>
+                </choose>
+                order by t.createTime desc
+            ) q
+            <if test="end !=null and end !=0">
+                where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+            </if>
+        ) p
+        <if test="begin !=null and begin !=0">
+            where rn <![CDATA[>=]]> #{begin,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="getCountTaskByCondition" parameterType="com.hisign.framework.xz.api.entity.Task" resultType="java.lang.Long">
+        select count(1) from T_TASK t
+        where deleteFlag='0'
+        <choose>
+            <when test="userId != null and userId !=''">
+                <choose>
+                    <when test="taskType = '1'">
+                        and exists (select 1 from T_USERGROUP ug where ug.groupId=t.groupId and ug.userId=#{userId,jdbcType=VARCHAR})
+                    </when>
+                    <when test="taskType = '2'">
+                        and exists (select 1 from T_GROUP g where g.id=t.groupId and g.creator=#{userId,jdbcType=VARCHAR})
+                    </when>
+                    <otherwise>
+                        and (
+                            exists (select 1 from T_USERGROUP ug where ug.groupId=t.groupId and ug.userId=#{userId,jdbcType=VARCHAR})
+                            or
+                            exists (select 1 from T_GROUP g where g.id=t.groupId and g.creator=#{userId,jdbcType=VARCHAR})
+                        )
+                    </otherwise>
+                </choose>
+                <if test="taskName !=null and taskName !=''">
+                    and t.taskName like '%'||#{taskName,jdbcType=VARCHAR}||'%' escape '\'
+                </if>
+                <if test="groupid !=null and groupid !=''">
+                    and t.groupid=#{groupid,jdbcType=VARCHAR}
+                </if>
+                <if test="creator !=null and creator !=''">
+                    and t.creator=#{creator,jdbcType=VARCHAR}
+                </if>
+                <if test="jsr !=null and jsr !=''">
+                    and t.jsr=#{jsr,jdbcType=VARCHAR}
+                </if>
+                <if test="startTime!=null and entTime!=null">
+                    and t.createtime between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="fkzt!=null and fkzt!=''">
+                    and t.fkzt=#{fkzt,jdbcType=VARCHAR}
+                </if>
+                <if test="yjzt!=null and yjzt!=''">
+                    and t.yjzt=#{yjzt,jdbcType=VARCHAR}
+                </if>
+                <if test="overdue='1'">
+                    and t.fkzt=0 and to_char(t.fkjz_time,'yyyyMMdd')>to_char(sysdate,'yyyyMMdd')
+                </if>
+            </when>
+            <otherwise>
+                and 1=2
+            </otherwise>
+        </choose>
+    </select>
 </mapper>
