@@ -2,8 +2,20 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Server/Server.iml" filepath="$PROJECT_DIR$/Server/Server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Static/Static.iml" filepath="$PROJECT_DIR$/Static/Static.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/base_framework.iml" filepath="$PROJECT_DIR$/.idea/base_framework.iml" />
-      <module fileurl="file://$PROJECT_DIR$/codegenerate/mycodgen.iml" filepath="$PROJECT_DIR$/codegenerate/mycodgen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/codegen/codegen.iml" filepath="$PROJECT_DIR$/codegen/codegen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/common/common.iml" filepath="$PROJECT_DIR$/Server/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/run-server/run-server.iml" filepath="$PROJECT_DIR$/Server/run-server/run-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/server-nt/server-nt.iml" filepath="$PROJECT_DIR$/Server/server-nt/server-nt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/server-nt/server-nt-api/server-nt-api.iml" filepath="$PROJECT_DIR$/Server/server-nt/server-nt-api/server-nt-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/server-sys/server-sys.iml" filepath="$PROJECT_DIR$/Server/server-sys/server-sys.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/server-sys/server-sys-api/server-sys-api.iml" filepath="$PROJECT_DIR$/Server/server-sys/server-sys-api/server-sys-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/server-test/server-test.iml" filepath="$PROJECT_DIR$/Server/server-test/server-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/server-xz/server-xz.iml" filepath="$PROJECT_DIR$/Server/server-xz/server-xz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/server-xz/server-xz-api/server-xz-api.iml" filepath="$PROJECT_DIR$/Server/server-xz/server-xz-api/server-xz-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Static/xingzhen/xingzhen.iml" filepath="$PROJECT_DIR$/Static/xingzhen/xingzhen.iml" />
     </modules>
   </component>
 </project>

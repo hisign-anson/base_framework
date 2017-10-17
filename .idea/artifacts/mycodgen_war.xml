@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="mycodgen:war">
-    <output-path>$PROJECT_DIR$/codegenerate/target</output-path>
-    <root id="archive" name="codegenernate-0.0.1-SNAPSHOT.war">
-      <element id="artifact" artifact-name="mycodgen:war exploded" />
-    </root>
-  </artifact>
-</component>
