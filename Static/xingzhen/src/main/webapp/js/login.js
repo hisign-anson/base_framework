@@ -84,6 +84,7 @@ $(document).ready(function () {
                 localData.set('password', $('#password').val());
                 localData.set('localDataDate', new Date().getTime());
                 localData.set('path', window.path);
+                // localData.set('servicePath', "");
                 localData.set('servicePath', window.servicePath);
                 localData.set('token', res.data.token);
                 localData.set('limits', res.data.limits);
