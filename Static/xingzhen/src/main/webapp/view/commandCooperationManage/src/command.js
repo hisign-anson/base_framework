@@ -36,8 +36,10 @@ define(['underscore',
                 //选中专案组并进行操作
                 _self.handleGroup($this);
             });
-            //全屏显示脉络图
-            _self.fullPanel("#fullscreenBtn");
+            //全屏显示脉络图 fullPanelUtils.fullPanel(触发元素，全屏元素)
+            var clickDiv = $("#fullscreenBtn");
+            fullPanelUtils.fullPanel(clickDiv,clickDiv.parents(".map-list"));
+
             //显示脉络图查询条件
             _self.showCondition();
         },
@@ -128,13 +130,21 @@ define(['underscore',
             });
             selectUtils.selectTimeRangeOption("#changeCreateDate", "#createDate", "#startTime", "#endTime");
             selectUtils.selectTextOption(".panel-container #changeTaskStatus", "#taskStatus");
-            $("#resetBtn").on("click",function () {
-
+            $("#taskListDiv").on("click","#resetBtn",function () {
+                console.info("任务清单重置按钮");
             });
-            $("#queryBtn").on("click",function () {
+            $("#taskListDiv").on("click","#queryBtn",function () {
+                console.info("任务清单查询按钮");
                 _self.queryTaskList();
             });
             _self.queryTaskList();
+
+            $("#taskListDiv").on("click","#closeBtn", function () {
+                console.info("任务清单关闭弹框按钮");
+                if ($("#taskListDiv")) {
+                    $("#taskListDiv").$close();
+                }
+            });
         },
         queryTaskList:function() {
             _self = this;
@@ -191,10 +201,10 @@ define(['underscore',
         showRelatedCaseList:function () {
             _self = this;
             $("#taskListDiv .panel-container").empty().html(_.template(caseListTpl));
-            $("#resetBtn").on("click",function () {
-
+            $("#taskListDiv").on("click","#resetBtn",function () {
+                console.info("任务清单重置按钮");
             });
-            $("#queryBtn").on("click",function () {
+            $("#taskListDiv").on("click","#queryBtn",function () {
                 _self.queryRelatedCaseList();
             });
             _self.queryRelatedCaseList();
@@ -215,52 +225,6 @@ define(['underscore',
                     $("#taskListDiv").$close();
                 }
             });
-        },
-        fullPanel: function (ctrlSelector) {
-            _self = this;
-            var wrap = top.$(window.frameElement);
-            var topBody = top.$('body');
-            var the = $(ctrlSelector).parents(".map-list");
-            var ctrl = $(ctrlSelector);
-            ctrl.click(function () {
-                if (the.hasClass('full-panel')) {
-                    the.siblings().add(the.siblings()).addClass('hidden');
-
-                    topBody.animate({opacity: 0}, 10, function () {
-                        //避免引发重绘
-                        window._cancelGlobalReFixTbTime = new Date().getTime();
-                        $('body').removeClass('full-mode-ovh');
-                        topBody.removeClass('full-mode-ovh');
-                        wrap.removeClass('full-panel-wrap');
-                        //引发重绘
-                        window._cancelGlobalReFixTbTime = new Date().getTime() - 500;
-                        the.removeClass('full-panel');
-                        setTimeout(function () {
-                            topBody.animate({opacity: 1}, 60);
-                            the.siblings().add(the.siblings()).removeClass('hidden');
-                        }, 200);
-                    });
-                    ctrl[0] && (ctrl[0].title='最大化显示') && ctrl.removeClass('active');
-
-                } else {
-                    the.siblings().add(the.siblings()).addClass('hidden');
-                    topBody.animate({opacity: 0}, 10, function () {
-                        //避免引发重绘
-                        window._cancelGlobalReFixTbTime = new Date().getTime();
-                        $('body').addClass('full-mode-ovh');
-                        topBody.addClass('full-mode-ovh');
-                        wrap.addClass('full-panel-wrap');
-                        the.addClass('full-panel');
-                        //引发重绘
-                        window._cancelGlobalReFixTbTime = new Date().getTime() - 500;
-                        setTimeout(function () {
-                            topBody.animate({opacity: 1}, 60);
-                        }, 260);
-                    });
-                    ctrl[0] && (ctrl[0].title='还原') && ctrl.addClass('active');
-                }
-            });
-            return this;
         }
     }
 });
