@@ -1,4 +1,4 @@
-package com.hisign.framework.xz.base;
+package cn.hisign;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

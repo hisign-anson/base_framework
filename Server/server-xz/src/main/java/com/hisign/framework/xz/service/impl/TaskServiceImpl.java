@@ -2,7 +2,6 @@ package com.hisign.framework.xz.service.impl;
 
 import com.hisign.framework.common.constant.Constants;
 import com.hisign.framework.common.util.SerialNumGenerater;
-import com.hisign.framework.common.util.StringUtils;
 import com.hisign.framework.xz.api.model.TaskModel;
 import com.hisign.framework.xz.mapper.TaskMapper;
 import com.hisign.framework.xz.api.entity.Task;

@@ -40,11 +40,6 @@ public class Constants {
 	 */
 	public static final String ERROR = "error";
 
-
-	public static final String NO = "0";
-
-	public static final String YES = "1";
-
 	
 
 	/**

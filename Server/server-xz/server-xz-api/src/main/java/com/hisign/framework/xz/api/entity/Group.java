@@ -40,7 +40,7 @@ public class Group extends BaseModel implements Serializable {
 
 	@Column(value="BACKUP_STATU")
 	@ApiModelProperty(value = "归档状态")
-	private String backupStatu; //归档状态 0未归档 1已归档
+	private String backupStatu; //归档状态
 
 	@Column(value="BACKUP_TIME")
 	@ApiModelProperty(value = "归档时间")
@@ -71,18 +71,14 @@ public class Group extends BaseModel implements Serializable {
 	private String deleteflag; //删除标识
 
 	//-------------------------------------- 返回字段
-	@ApiModelProperty(value = "成员数")
 	private int num;//成员数
 
-	@ApiModelProperty(value = "涉及案件数")
 	private int caseNum;//涉及案件数
 
 
 	//--------------------------------------- 接收字段
-	@ApiModelProperty(value = "关联案件")
 	private String ajbh;//关联案件
 
-	@ApiModelProperty(value = "人员名称")
 	private String userId;//人员名称
 
 	
