@@ -2,15 +2,15 @@
  * Created by dell on 2017/9/28.
  */
 define(['underscore',
-    'text!/view/commandCooperationManage/tpl/cooperationPage.html',
+    'text!/view/commandCooperationManage/tpl/commandPage.html',
     'text!/view/commandCooperationManage/tpl/groupTaskList.html',
     'text!/view/commandCooperationManage/tpl/groupTaskListTr.html',
     'text!/view/commandCooperationManage/tpl/groupTaskEdit.html',
-    'text!/view/caseInvestigation/tpl/specialCaseGroup/caseList.html'], function (_, cooperationPageTpl,groupTaskListTpl,groupTaskListTrTpl,groupTaskEditTpl,caseListTpl) {
+    'text!/view/caseInvestigation/tpl/specialCaseGroup/caseList.html'], function (_, commandPage,groupTaskListTpl,groupTaskListTrTpl,groupTaskEditTpl,caseListTpl) {
     return {
         showList: function () {
             _self = this;
-            $("#mainDiv").empty().html(_.template(cooperationPageTpl, {ops: top.opsMap}));
+            $("#mainDiv").empty().html(_.template(commandPage, {ops: top.opsMap}));
             $("#toggleGroup").on("click", function () {
                 var $this = $(this);
                 $(".group-btn-div").removeClass("hide");
@@ -36,8 +36,10 @@ define(['underscore',
                 //选中专案组并进行操作
                 _self.handleGroup($this);
             });
-            //全屏显示脉络图
-            _self.fullPanel("#fullscreenBtn");
+            //全屏显示脉络图 fullPanelUtils.fullPanel(触发元素，全屏元素)
+            var clickDiv = $("#fullscreenBtn");
+            fullPanelUtils.fullPanel(clickDiv,clickDiv.parents(".map-list"));
+
             //显示脉络图查询条件
             _self.showCondition();
         },
@@ -48,14 +50,31 @@ define(['underscore',
             $(".choose-group").empty().text(thisValue);
 
             $(".group-btn-div").removeClass("hide");
-            //跳转到任务清单
-            _self.intoTaskList();
-            //跳转到涉及案件
-            _self.intoRelatedCase();
             $("#mapSvgFrame").attr("src", "/view/commandCooperationManage/graph/d3graphView.html");
             $("#mapSvgFrame").css({
                 "width": "100%",
-                "height": "calc(100vh - 105px)"
+                "height": "calc(100vh - 75px)"
+            });
+
+            //进入专案组讨论
+            $(".into-communication").on("click", function () {
+                _self.intoCommunication();
+            });
+            //打印
+            $(".into-print").on("click", function () {
+                $("#mapSvgFrame").contents().find("svg").jqprint();
+            });
+            // //生成案件侦办过程报告
+            // $(".into-report").on("click", function () {
+            //
+            // });
+            //跳转到任务清单
+            $(".into-taskList").on("click", function () {
+                _self.intoTaskList();
+            });
+            //跳转到涉及案件
+            $(".into-relationCase").on("click", function () {
+                _self.intoRelatedCase();
             });
         },
         showCondition:function () {
@@ -89,13 +108,14 @@ define(['underscore',
         },
         intoCommunication:function () {
             _self = this;
+            $open('#taskListDiv', {width: 840,height: 700, title: '&nbsp专案组群聊'});
+            var iframe = '<iframe id="mapSvgFrame" class="tab-content-frame" src="/view/chatPage/chatPage.html" width="100%" height="640"></iframe>';
+            $("#taskListDiv .panel-container").css("margin","0px").empty().html(_.template(iframe));
         },
         intoTaskList:function () {
             _self = this;
-            $(".into-taskList").on("click", function (){
-                $open('#taskListDiv', {width: 800, title: '&nbsp任务清单'});
-                _self.showTaskList();
-            });
+            $open('#taskListDiv', {width: 800, title: '&nbsp任务清单'});
+            _self.showTaskList();
         },
         showTaskList:function() {
             _self = this;
@@ -110,13 +130,21 @@ define(['underscore',
             });
             selectUtils.selectTimeRangeOption("#changeCreateDate", "#createDate", "#startTime", "#endTime");
             selectUtils.selectTextOption(".panel-container #changeTaskStatus", "#taskStatus");
-            $("#resetBtn").on("click",function () {
-
+            $("#taskListDiv").on("click","#resetBtn",function () {
+                console.info("任务清单重置按钮");
             });
-            $("#queryBtn").on("click",function () {
+            $("#taskListDiv").on("click","#queryBtn",function () {
+                console.info("任务清单查询按钮");
                 _self.queryTaskList();
             });
             _self.queryTaskList();
+
+            $("#taskListDiv").on("click","#closeBtn", function () {
+                console.info("任务清单关闭弹框按钮");
+                if ($("#taskListDiv")) {
+                    $("#taskListDiv").$close();
+                }
+            });
         },
         queryTaskList:function() {
             _self = this;
@@ -167,18 +195,16 @@ define(['underscore',
         },
         intoRelatedCase:function () {
             _self = this;
-            $(".into-relationCase").on("click", function (){
-                $open('#taskListDiv', {width: 800, title: '&nbsp案件查询'});
-                _self.showRelatedCaseList();
-            });
+            $open('#taskListDiv', {width: 800, title: '&nbsp案件查询'});
+            _self.showRelatedCaseList();
         },
         showRelatedCaseList:function () {
             _self = this;
             $("#taskListDiv .panel-container").empty().html(_.template(caseListTpl));
-            $("#resetBtn").on("click",function () {
-
+            $("#taskListDiv").on("click","#resetBtn",function () {
+                console.info("任务清单重置按钮");
             });
-            $("#queryBtn").on("click",function () {
+            $("#taskListDiv").on("click","#queryBtn",function () {
                 _self.queryRelatedCaseList();
             });
             _self.queryRelatedCaseList();
@@ -199,52 +225,6 @@ define(['underscore',
                     $("#taskListDiv").$close();
                 }
             });
-        },
-        fullPanel: function (ctrlSelector) {
-            _self = this;
-            var wrap = top.$(window.frameElement);
-            var topBody = top.$('body');
-            var the = $(ctrlSelector).parents(".map-list");
-            var ctrl = $(ctrlSelector);
-            ctrl.click(function () {
-                if (the.hasClass('full-panel')) {
-                    the.siblings().add(the.siblings()).addClass('hidden');
-
-                    topBody.animate({opacity: 0}, 10, function () {
-                        //避免引发重绘
-                        window._cancelGlobalReFixTbTime = new Date().getTime();
-                        $('body').removeClass('full-mode-ovh');
-                        topBody.removeClass('full-mode-ovh');
-                        wrap.removeClass('full-panel-wrap');
-                        //引发重绘
-                        window._cancelGlobalReFixTbTime = new Date().getTime() - 500;
-                        the.removeClass('full-panel');
-                        setTimeout(function () {
-                            topBody.animate({opacity: 1}, 60);
-                            the.siblings().add(the.siblings()).removeClass('hidden');
-                        }, 200);
-                    });
-                    ctrl[0] && (ctrl[0].title='最大化显示') && ctrl.removeClass('active');
-
-                } else {
-                    the.siblings().add(the.siblings()).addClass('hidden');
-                    topBody.animate({opacity: 0}, 10, function () {
-                        //避免引发重绘
-                        window._cancelGlobalReFixTbTime = new Date().getTime();
-                        $('body').addClass('full-mode-ovh');
-                        topBody.addClass('full-mode-ovh');
-                        wrap.addClass('full-panel-wrap');
-                        the.addClass('full-panel');
-                        //引发重绘
-                        window._cancelGlobalReFixTbTime = new Date().getTime() - 500;
-                        setTimeout(function () {
-                            topBody.animate({opacity: 1}, 60);
-                        }, 260);
-                    });
-                    ctrl[0] && (ctrl[0].title='还原') && ctrl.addClass('active');
-                }
-            });
-            return this;
         }
     }
 });

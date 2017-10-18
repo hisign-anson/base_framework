@@ -1103,3 +1103,5 @@ java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.Futur
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:1.7.0_80]
 	at java.lang.Thread.run(Thread.java:745) [na:1.7.0_80]
 
+2017-10-18 18:18:18.307  INFO 14304 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2017-10-18 18:23:18.312  INFO 14304 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
