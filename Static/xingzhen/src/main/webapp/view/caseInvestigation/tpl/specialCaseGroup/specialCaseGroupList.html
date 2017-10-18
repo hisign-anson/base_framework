@@ -14,10 +14,21 @@
         <div class="query-block-row">
             <div class="fl qc-group-m">
                 <span class="qc-label-m">创建人：</span>
-                <input class="common-input" type="text" id="" name="">
+                <div class="dict-opener">
+                    <input class="common-input" type="text" id="" name="">
+                    <i id="chooseCreatName" class="icon-list cur-p button steelblue" title="创建人" dict-value="CFMC"></i>
+                </div>
             </div>
+        </div>
+        <div class="query-block-row">
             <div class="fl qc-group-xl">
                 <span class="qc-label-m hook-label">创建时间：</span>
+                <div class="text-time">
+                    <input class="cm-input date-range-picker" type="text" id="createDate" placeholder="请输入时间范围" readonly>
+                    <i class="icon-calendar icon-time"></i>
+                    <input type="hidden" name="startTime" id="startTime" />
+                    <input type="hidden" name="endTime" id="endTime" />
+                </div>
                 <span class="option date-select" id="changeTimeScope">
                     <u class="default active">全部</u>
                     <u>当天</u>
@@ -25,23 +36,22 @@
                     <u>当月</u>
                     <u>当季</u>
                 </span>
-                <div class="text-time">
-                    <input class="cm-input date-range-picker" type="text" id="createDate" placeholder="请输入时间范围" readonly>
-                    <i class="icon-calendar icon-time"></i>
-                    <input type="hidden" name="startTime" id="startTime" />
-                    <input type="hidden" name="endTime" id="endTime" />
-                </div>
             </div>
         </div>
         <div class="query-block-row">
             <div class="fl qc-group-m">
                 <span class="qc-label-m">人员名称：</span>
-                <input class="common-input" type="text" id="" name="">
-
+                <div class="dict-opener">
+                    <input class="common-input" type="text" id="" name="">
+                    <i id="chooseStaff" class="icon-list cur-p button steelblue" title="人员名称" dict-value="CFMC"></i>
+                </div>
             </div>
             <div class="fl qc-group-m">
                 <span class="qc-label-m">所属单位：</span>
-                <input class="common-input" type="text" id="" name="">
+                <div class="dict-opener">
+                    <input class="common-input" type="text" id="" name="">
+                    <i id="chooseUnit" class="icon-list cur-p button steelblue" title="所属单位" dict-value="CFMC"></i>
+                </div>
             </div>
         </div>
         <div class="collapse" id="queryBlockRowMore">
@@ -85,7 +95,9 @@
             <table id="specialGroupListTable" class="typical-tb">
                 <thead>
                 <tr>
-                    <th><input type="checkbox" id="selectAll"></th>
+                    <th>
+                        <!--<input type="checkbox" id="selectAll"/>-->单选
+                    </th>
                     <th>序号</th>
                     <th>专案组编号</th>
                     <th>专案组名称</th>
@@ -103,9 +115,5 @@
             </table>
         </div>
         <div class="paging"></div>
-    </div>
-</div>
-<div id="archiveBlock" class="hide">
-    <div class="form-content">
     </div>
 </div>
