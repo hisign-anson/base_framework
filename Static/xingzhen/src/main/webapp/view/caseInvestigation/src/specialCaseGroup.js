@@ -261,8 +261,12 @@ define(['underscore',
         },
         oneChoose:function(){
             $('#specialGroupListTable input:checkbox[name=group]').on("click",function(){
-                $('#specialGroupListTable input:checkbox[name=group]').prop("checked",false);
-                $(this).prop("checked",true);
+                if($(this).is(':checked')){
+                    $(this).prop("checked",true);
+                    $('#specialGroupListTable input:checkbox[name=group]').prop("checked",false);
+                } else {
+                    $(this).prop("checked",false);
+                }
             });
         },
         showEdit: function () {
