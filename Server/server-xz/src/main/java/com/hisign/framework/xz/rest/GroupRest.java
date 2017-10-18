@@ -51,6 +51,13 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
         return baseService.getGroupPage(group);
     }
 
+    @Override
+    @ApiOperation(value = "获取成果",httpMethod ="GET",response = GroupModel.class)
+    @RequestMapping(value = "/getAchievementList", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    public JsonResult getAchievementList() {
+        return baseService.getAchievementList();
+    }
+
     /**
      * 所有字段
      * @param group
