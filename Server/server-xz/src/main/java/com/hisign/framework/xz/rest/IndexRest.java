@@ -84,4 +84,17 @@ public class IndexRest extends BaseController {
         return null;
     }
 
+    @ApiOperation(value = "专案组破案情况",notes = "专案组破案情况",httpMethod = "GET", response = Map.class)
+    @RequestMapping(value = "/getSolveCaseInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    public JsonResult getSolveCaseInfo() {
+        return groupService.getAchievementList();
+    }
+
+    @ApiOperation(value = "专案组创建情况",notes = "专案组创建情况",httpMethod = "GET", response = Map.class)
+    @RequestMapping(value = "/getCreateInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    public JsonResult getCreateInfo() {
+        return groupService.getAchievementList();
+    }
+
+
 }
