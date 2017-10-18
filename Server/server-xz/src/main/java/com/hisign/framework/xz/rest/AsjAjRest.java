@@ -1,25 +1,20 @@
 package com.hisign.framework.xz.rest;
 
 import com.hisign.bfun.benum.BaseEnum;
+import com.hisign.bfun.bif.BaseRest;
+import com.hisign.bfun.bmodel.Conditions;
+import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.framework.common.util.StringUtils;
 import com.hisign.framework.xz.api.entity.AsjAj;
 import com.hisign.framework.xz.api.entity.AsjAj.AsjAjEnum;
-import com.hisign.framework.xz.api.entity.Group;
 import com.hisign.framework.xz.api.model.AsjAjModel;
 import com.hisign.framework.xz.api.service.AsjAjService;
-
-import java.util.List;
-import javax.annotation.Resource;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.hisign.bfun.bif.*;
-import com.hisign.bfun.butils.JsonResultUtil;
-import com.hisign.bfun.bexception.BusinessException;
-import com.hisign.bfun.bmodel.*;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -87,5 +82,12 @@ public class AsjAjRest extends BaseRest<AsjAj,AsjAjModel, String, AsjAjService> 
     @RequestMapping(value = "/getAjGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getAjGroupPage(@RequestBody AsjAj aj) {
         return baseService.getAjGroupPage(aj);
+    }
+
+    @Override
+    @ApiOperation(value = "根据专案组id获取最早关联案件",httpMethod ="POST",response = AsjAjModel.class)
+    @RequestMapping(value = "/getFirstCaseByGroupId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public AsjAj getFirstCaseByGroupId(@RequestParam String id) {
+        return baseService.getFirstCaseByGroupId(id);
     }
 }
