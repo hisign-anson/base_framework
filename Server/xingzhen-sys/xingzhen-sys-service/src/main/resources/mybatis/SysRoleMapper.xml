@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hisign.xingzhen.sys.mapper.SysRoleMapper" >
+    <select id="findSysRoleListByUserId"
+            parameterType="java.lang.String"
+            resultType="com.hisign.xingzhen.sys.api.model.SysRole" >
+        select
+            sr.ID as id,
+            sr.ROLE_NAME as roleName,
+             sr.ROLE_NO as roleNo,
+            sr.DESCRIPTION as description,
+            sr.OPEN_FLAG as openFlag,
+            get_dictValue_by_dictKey('QYZTDM',sr.OPEN_FLAG) as openFlagZw
+        from 	SYS_ROLE sr, 	SYS_USER_ROLE sur
+        where 	sr.id = sur.role_id
+        and 	sur.USER_ID = #{value,jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="findAllRole"
+            resultType="com.hisign.xingzhen.sys.api.model.SysRole">
+        select
+            ID as key,
+            ROLE_NAME as value
+        from SYS_ROLE
+        where 1=1
+        and OPEN_FLAG =  '1'
+    </select>
+    
+    <select id="findRoleByRoleName" parameterType="java.lang.String"
+            resultType="com.hisign.xingzhen.sys.api.model.SysRole">
+        select
+            *
+        from SYS_ROLE
+        where OPEN_FLAG =  '1' AND ROLE_NAME = #{roleName}
+    </select>
+
+    <select id="findSysRoleByFilter" parameterType="com.hisign.xingzhen.sys.api.model.SysRole" resultType="com.hisign.xingzhen.sys.api.model.SysRole">
+        select p.* from(
+        select
+            rownum,rownum as rn,a.* from (
+            select
+                ID as id,
+                ROLE_NAME as roleName,
+                ROLE_NO as roleNo,
+                DESCRIPTION as description,
+                OPEN_FLAG as openFlag,
+                ROLE_NAME_EN as roleNameEn,
+                get_dictValue_by_dictKey('QYZTDM',OPEN_FLAG) as openFlagZw
+            from SYS_ROLE
+        where 1=1
+        <if test="openFlag != null and openFlag != ''">
+            and OPEN_FLAG =  #{openFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="roleName != null and roleName != ''">
+            and ROLE_NAME like '%' || #{roleName,jdbcType=VARCHAR} || '%' escape '\'
+        </if>
+        <if test="description != null and description != ''">
+            and DESCRIPTION like '%' || #{description,jdbcType=VARCHAR} || '%' escape '\'
+        </if>
+            order by ROLE_NO ASC, CREATE_DATE desc 
+        ) a
+        <if test="end != 0 and end !=null">
+        where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+        </if>
+        ) p
+        <if test="begin != 0 and begin !=null">
+        where rn >= #{begin,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="findSysRoleByFilterForCount" parameterType="com.hisign.xingzhen.sys.api.model.SysRole" resultType="java.lang.Integer">
+        select
+          count(1)
+        from SYS_ROLE
+        where 1=1
+        <if test="openFlag != null and openFlag != ''">
+            and OPEN_FLAG =  #{openFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="roleName != null and roleName != ''">
+            and ROLE_NAME like '%' || #{roleName,jdbcType=VARCHAR} || '%' escape '\'
+        </if>
+        <if test="description != null and description != ''">
+            and DESCRIPTION like '%' || #{description,jdbcType=VARCHAR} || '%' escape '\'
+        </if>
+
+    </select>
+
+    <delete id="deleteSysRoleById"
+            parameterType="java.lang.String">
+        delete from SYS_ROLE where ID=#{id,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteSysRolePermisByRoleId" parameterType="java.util.HashMap">
+        delete from SYS_ROLE_PERMIS
+        where ROLE_ID=#{roleId,jdbcType=VARCHAR}
+        <if test="currentRolePermisIds !=null and currentRolePermisIds.size() > 0 ">
+	         AND PERMISSION_ID IN
+	        <foreach close=")" collection="currentRolePermisIds" index="" item="item"
+			 open="(" separator=",">
+			 #{item,jdbcType=VARCHAR}
+			</foreach>
+		</if>
+    </delete>
+
+    <delete id="deleteSysUserRoleByRoleId"  parameterType="java.lang.String">
+        delete from SYS_USER_ROLE where ROLE_ID=#{id,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="findSysRoleById" parameterType="java.lang.String"  resultType="com.hisign.xingzhen.sys.api.model.SysRole">
+        select
+            rownum,
+            ID as id,
+            ROLE_NAME as roleName,
+            ROLE_NO as roleNo,
+            DESCRIPTION as description,
+            OPEN_FLAG as openFlag,
+            get_dictValue_by_dictKey('QYZTDM',OPEN_FLAG) as openFlagZw
+        from SYS_ROLE
+        where ID = #{id,jdbcType=VARCHAR}
+    </select>
+    
+    <select id="checkExistByRoleName" parameterType="java.lang.String" resultType="java.lang.Integer">
+       select count(1) from  SYS_ROLE where ROLE_NAME=#{roleName,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertSysRole" parameterType="com.hisign.xingzhen.sys.api.model.SysRole">
+        insert into SYS_ROLE
+        (
+            ID,
+            ROLE_NAME,
+            ROLE_NO,
+            DESCRIPTION,
+            OPEN_FLAG,
+            CREATE_PID,
+            CREATE_DATE,
+            MODIFY_PID,
+            MODIFY_DATE
+        ) values (
+            #{id,jdbcType=VARCHAR},
+            #{roleName,jdbcType=VARCHAR},
+            #{roleNo,jdbcType=VARCHAR},
+            #{description,jdbcType=VARCHAR},
+            #{openFlag,jdbcType=VARCHAR},
+            #{createPid,jdbcType=VARCHAR},
+            sysdate,
+            #{modifyPid,jdbcType=VARCHAR},
+            sysdate
+        )
+    </insert>
+
+    <update id="updateSysRoleById" parameterType="com.hisign.xingzhen.sys.api.model.SysRole">
+        UPDATE SYS_ROLE SET
+            ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+            ROLE_NO = #{roleNo,jdbcType=VARCHAR},
+            DESCRIPTION = #{description,jdbcType=VARCHAR},
+            OPEN_FLAG = #{openFlag,jdbcType=VARCHAR},
+            MODIFY_PID = #{modifyPid,jdbcType=VARCHAR},
+            MODIFY_DATE = sysdate
+        WHERE ID = #{roleId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="findUserRoleByUserRoleId"
+            parameterType="com.hisign.xingzhen.sys.api.model.SysUserRole"
+            resultType="com.hisign.xingzhen.sys.api.model.SysUserRole">
+        <![CDATA[
+		select
+			ID as id,
+			USER_ID as userId,
+			ROLE_ID as roleId
+		from SYS_USER_ROLE
+		where ROLE_ID=#{roleId,jdbcType=VARCHAR} and  USER_ID=#{userId,jdbcType=VARCHAR}]]>
+    </select>
+
+    <insert id="insertSysUserRole"
+            parameterType="com.hisign.xingzhen.sys.api.model.SysUserRole">
+        insert into SYS_USER_ROLE
+        (
+            ID,
+            USER_ID,
+            ROLE_ID,
+            CREATE_PID,
+            CREATE_DATE
+        ) values (
+            #{id,jdbcType=VARCHAR},
+            #{userId,jdbcType=VARCHAR},
+            #{roleId,jdbcType=VARCHAR},
+            #{user.trueName,jdbcType=VARCHAR},
+            sysdate
+        )
+    </insert>
+
+
+    <delete id="deleteUserRoleByUserRoleId" parameterType="java.util.HashMap">
+        delete from SYS_USER_ROLE where ROLE_ID=#{roleId,jdbcType=VARCHAR} and USER_ID IN
+        <foreach close=")" collection="userIds" index="" item="item"
+		 open="(" separator=",">
+		 #{item,jdbcType=VARCHAR}
+		</foreach>
+    </delete>
+
+    <select id="findALLSysModule"
+            resultType="com.hisign.xingzhen.sys.api.model.SysModule">
+		select
+			ID as id,
+			MODULE_NO as moduleNo,
+			PARENT_ID as parentId,
+			TITLE as title,
+			DESCRIPTION as description
+        from SYS_MODULE
+        where PARENT_ID is null
+        ORDER BY to_number(SORT) nulls LAST
+    </select>
+
+    <select id="findSysPermissionListByFilter"
+            parameterType="java.lang.String"
+            resultType="com.hisign.xingzhen.sys.api.model.SysPermission">
+         select
+             P.ID as id,
+             P.MODULE_ID as moduleId,
+             P.NAME as name,
+             P.OPERATION as operation,
+             P.DESCRIPTION as description,
+             P.OPEN_FLAG as openFlag
+          FROM SYS_MODULE M,
+               SYS_PERMISSION P,
+               SYS_PERMIS_RES PR,
+               SYS_RESOURCE   R
+         WHERE M.ID = P.MODULE_ID
+           AND P.ID = PR.PERMISSION_ID
+           AND R.ID = PR.RESOURCE_ID
+           AND M.ID = #{moduleId}
+         ORDER BY P.PERMISSION_FLAG,R.RES_STRING
+    </select>
+
+    <select id="findSysRolePermisListByFilter"
+            parameterType="com.hisign.xingzhen.sys.api.model.SysRolePermis"
+            resultType="com.hisign.xingzhen.sys.api.model.SysRolePermis">
+        select
+            ID as id,
+            ROLE_ID as roleId,
+            PERMISSION_ID as permissionId
+        from SYS_ROLE_PERMIS
+        where 1=1
+        <if test="roleId != null and roleId != ''">
+          and ROLE_ID = #{roleId}
+        </if>
+        <if test="permissionId != null and permissionId != ''">
+          and PERMISSION_ID = #{permissionId}
+        </if>
+    </select>
+
+    <select id="findSysModuleByParentId"
+            parameterType="java.lang.String"
+            resultType="com.hisign.xingzhen.sys.api.model.SysModule">
+        <![CDATA[
+		select
+            ID as id,
+            MODULE_NO as moduleNo,
+            PARENT_ID as parentId,
+            TITLE as title,
+            DESCRIPTION as description,
+            OPEN_FLAG as openFlag
+        from SYS_MODULE
+        where PARENT_ID=#{moduleId}
+        and OPEN_FLAG='1']]>
+    </select>
+
+    <insert id="insertSysRolePermis" parameterType="java.util.List">
+        insert into SYS_ROLE_PERMIS
+        (
+            ID,
+            ROLE_ID,
+            PERMISSION_ID,
+            CREATE_PID,
+            CREATE_DATE,
+            MODIFY_PID,
+            MODIFY_DATE
+        ) 
+        <foreach collection="list" item="item" index="index" separator="union" open="(" close=")">
+	      select
+	        sys_guid(),
+            #{item.roleId},
+            #{item.permissionId},
+            #{item.createPid},
+            sysdate,
+            #{item.modifyPid},
+            sysdate
+	      from dual
+	    </foreach>
+    </insert>
+
+</mapper>

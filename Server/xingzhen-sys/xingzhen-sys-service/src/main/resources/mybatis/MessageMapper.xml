@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hisign.xingzhen.sys.mapper.MessageMapper">
+	<resultMap type="com.hisign.xingzhen.sys.api.model.Message" id="BaseResultMap">
+      <result column="ID" property="id" jdbcType="VARCHAR"/>
+      <result column="SUBJECT" property="subject" jdbcType="VARCHAR"/>
+      <result column="CONTENT" property="content" jdbcType="VARCHAR"/>
+      <result column="TYPE" property="type" jdbcType="VARCHAR"/>
+      <result column="MSG_LEVEL" property="msgLevel" jdbcType="VARCHAR"/>
+      <result column="DEL" property="del" jdbcType="CHAR"/>
+      <result column="SECRECY" property="secrecy" jdbcType="CHAR"/>
+      <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+      <result column="CREATE_PID" property="createPid" jdbcType="VARCHAR"/>
+      <result column="MODIFY_DATE" property="modifyDate" jdbcType="TIMESTAMP"/>
+      <result column="MODIFY_PID" property="modifyPid" jdbcType="VARCHAR"/>
+      <result column="REV1" property="rev1" jdbcType="VARCHAR"/>
+      <result column="REV2" property="rev2" jdbcType="VARCHAR"/>
+      <result column="REV3" property="rev3" jdbcType="TIMESTAMP"/>
+      <result column="REV4" property="rev4" jdbcType="VARCHAR"/>
+      <result column="MSG_VEST" property="msgVest" jdbcType="VARCHAR"/>
+      <result column="TSLB" property="tslb" jdbcType="VARCHAR"/>
+      <result column="ATT_ID" property="attId" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<sql id="Conditions_Where_Clause">
+ 	  <foreach collection="oredCriteria" open="where" item="o" separator="or">
+	   <if test="o.valid">
+	    (
+	     <trim suffixOverrides="and">
+	     <foreach collection="o.criteriaWithoutValue" item="oc" >${oc} and </foreach>
+	     <foreach collection="o.criteriaWithSingleValue" item="os">${os.condition} #{os.val} and </foreach>
+	     <foreach collection="o.criteriaWithBetweenValue" item="ob" >
+	     ${ob.condition} #{ob.val[0]} and #{ob.val[1]} and 
+	     </foreach>
+	     <foreach collection="o.criteriaWithListValue" item="ol" separator="and">${ol.condition}
+	       <foreach collection="ol.val" open="(" close=")" item="olv" separator=",">#{olv}</foreach>
+	     </foreach>
+	     </trim>
+	    )
+	   </if>
+ 	  </foreach>
+	</sql>
+	
+	<sql id="Update_Conditions_Where_Clause">
+	 <if test="conditions!=null">
+ 	  <foreach collection="conditions.oredCriteria" open="where" item="o" separator="or">
+	   <if test="o.valid">
+	    (
+	     <trim suffixOverrides="and">
+	     <foreach collection="o.criteriaWithoutValue" item="oc" >${oc} and </foreach>
+	     <foreach collection="o.criteriaWithSingleValue" item="os">${os.condition} #{os.val} and </foreach>
+	     <foreach collection="o.criteriaWithBetweenValue" item="ob" >
+	     ${ob.condition} #{ob.val[0]} and #{ob.val[1]} and 
+	     </foreach>
+	     <foreach collection="o.criteriaWithListValue" item="ol" separator="and">${ol.condition}
+	       <foreach collection="ol.val" open="(" close=")" item="olv" separator=",">#{olv}</foreach>
+	     </foreach>
+	     </trim>
+	    )
+	   </if>
+ 	  </foreach>
+     </if>
+	</sql>
+	
+    <sql id="Base_Column_List">
+        ID,
+        SUBJECT,
+        CONTENT,
+        TYPE,
+        MSG_LEVEL,
+        DEL,
+        SECRECY,
+        CREATE_DATE,
+        CREATE_PID,
+        MODIFY_DATE,
+        MODIFY_PID,
+        REV1,
+        REV2,
+        REV3,
+        REV4,
+        MSG_VEST,
+        TSLB,
+        ATT_ID
+    </sql>
+    
+    <insert id="insert"  parameterType="com.hisign.xingzhen.sys.api.model.Message">
+        INSERT INTO sys_message (
+		    ID,
+		    SUBJECT,
+		    CONTENT,
+		    TYPE,
+		    MSG_LEVEL,
+		    DEL,
+		    SECRECY,
+		    CREATE_DATE,
+		    CREATE_PID,
+		    MODIFY_DATE,
+		    MODIFY_PID,
+		    REV1,
+		    REV2,
+		    REV3,
+		    REV4,
+		    MSG_VEST,
+		    TSLB,
+		    ATT_ID
+        ) VALUES (
+		    #{id,jdbcType=VARCHAR},
+		    #{subject,jdbcType=VARCHAR},
+		    #{content,jdbcType=VARCHAR},
+		    #{type,jdbcType=VARCHAR},
+		    #{msgLevel,jdbcType=VARCHAR},
+		    #{del,jdbcType=CHAR},
+		    #{secrecy,jdbcType=CHAR},
+		    sysdate,
+		    #{createPid,jdbcType=VARCHAR},
+		    sysdate,
+		    #{modifyPid,jdbcType=VARCHAR},
+		    #{rev1,jdbcType=VARCHAR},
+		    #{rev2,jdbcType=VARCHAR},
+		    #{rev3,jdbcType=TIMESTAMP},
+		    #{rev4,jdbcType=VARCHAR},
+		    #{msgVest,jdbcType=VARCHAR},
+		    #{tslb,jdbcType=VARCHAR},
+		    #{attId,jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    <insert id="insertNotNull"  parameterType="com.hisign.xingzhen.sys.api.model.Message">
+    insert into sys_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+	    <if test="id!=null  and id != '' ">
+	    ID,
+	    </if>
+	    <if test="subject!=null  and subject != '' ">
+	    SUBJECT,
+	    </if>
+	    <if test="content!=null  and content != '' ">
+	    CONTENT,
+	    </if>
+	    <if test="type!=null  and type != '' ">
+	    TYPE,
+	    </if>
+	    <if test="msgLevel!=null  and msgLevel != '' ">
+	    MSG_LEVEL,
+	    </if>
+	    <if test="del!=null  and del != '' ">
+	    DEL,
+	    </if>
+	    <if test="secrecy!=null  and secrecy != '' ">
+	    SECRECY,
+	    </if>
+	    CREATE_DATE,
+	    <if test="createPid!=null  and createPid != '' ">
+	    CREATE_PID,
+	    </if>
+	    MODIFY_DATE,
+	    <if test="modifyPid!=null  and modifyPid != '' ">
+	    MODIFY_PID,
+	    </if>
+	    <if test="rev1!=null  and rev1 != '' ">
+	    REV1,
+	    </if>
+	    <if test="rev2!=null  and rev2 != '' ">
+	    REV2,
+	    </if>
+	    <if test="rev3!=null ">
+	    REV3,
+	    </if>
+	    <if test="rev4!=null  and rev4 != '' ">
+	    REV4,
+	    </if>
+	    <if test="msgVest!=null  and msgVest != '' ">
+	    MSG_VEST,
+	    </if>
+	    <if test="tslb!=null  and tslb != '' ">
+	    TSLB,
+	    </if>
+	    <if test="attId!=null  and attId != '' ">
+	    ATT_ID
+	    </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+     	<if test="id!=null  and id != '' ">
+	    #{id,jdbcType=VARCHAR}
+	    </if>
+     	<if test="subject!=null  and subject != '' ">
+	    #{subject,jdbcType=VARCHAR},
+	    </if>
+     	<if test="content!=null  and content != '' ">
+	    #{content,jdbcType=VARCHAR},
+	    </if>
+     	<if test="type!=null  and type != '' ">
+	    #{type,jdbcType=VARCHAR},
+	    </if>
+     	<if test="msgLevel!=null  and msgLevel != '' ">
+	    #{msgLevel,jdbcType=VARCHAR},
+	    </if>
+     	<if test="del!=null  and del != '' ">
+	    #{del,jdbcType=CHAR},
+	    </if>
+     	<if test="secrecy!=null  and secrecy != '' ">
+	    #{secrecy,jdbcType=CHAR},
+	    </if>
+	    sysdate,
+     	<if test="createPid!=null  and createPid != '' ">
+	    #{createPid,jdbcType=VARCHAR},
+	    </if>
+	    sysdate,
+     	<if test="modifyPid!=null  and modifyPid != '' ">
+	    #{modifyPid,jdbcType=VARCHAR},
+	    </if>
+     	<if test="rev1!=null  and rev1 != '' ">
+	    #{rev1,jdbcType=VARCHAR},
+	    </if>
+     	<if test="rev2!=null  and rev2 != '' ">
+	    #{rev2,jdbcType=VARCHAR},
+	    </if>
+     	<if test="rev3!=null ">
+	    #{rev3,jdbcType=TIMESTAMP},
+	    </if>
+     	<if test="rev4!=null  and rev4 != '' ">
+	    #{rev4,jdbcType=VARCHAR},
+	    </if>
+     	<if test="msgVest!=null  and msgVest != '' ">
+	    #{msgVest,jdbcType=VARCHAR},
+	    </if>
+     	<if test="tslb!=null  and tslb != '' ">
+	    #{tslb,jdbcType=VARCHAR},
+	    </if>
+     	<if test="attId!=null  and attId != '' ">
+	    #{attId,jdbcType=VARCHAR}
+	    </if>
+    </trim>
+  </insert>
+	
+	<insert id="batchInsert" parameterType="java.util.List">
+		INSERT INTO sys_message (
+		   	ID,
+		   	SUBJECT,
+		   	CONTENT,
+		   	TYPE,
+		   	MSG_LEVEL,
+		   	DEL,
+		   	SECRECY,
+		   	CREATE_DATE,
+		   	CREATE_PID,
+		   	MODIFY_DATE,
+		   	MODIFY_PID,
+		   	REV1,
+		   	REV2,
+		   	REV3,
+		   	REV4,
+		   	MSG_VEST,
+		   	TSLB,
+		   	ATT_ID
+        ) 
+		<foreach collection="list" open="(" close=")" item="item" index="index" separator="union all" > 
+			 select
+		    #{item.id,jdbcType=VARCHAR},
+		    #{item.subject,jdbcType=VARCHAR},
+		    #{item.content,jdbcType=VARCHAR},
+		    #{item.type,jdbcType=VARCHAR},
+		    #{item.msgLevel,jdbcType=VARCHAR},
+		    #{item.del,jdbcType=CHAR},
+		    #{item.secrecy,jdbcType=CHAR},
+		    #{item.createDate,jdbcType=TIMESTAMP},
+		    #{item.createPid,jdbcType=VARCHAR},
+		    #{item.modifyDate,jdbcType=TIMESTAMP},
+		    #{item.modifyPid,jdbcType=VARCHAR},
+		    #{item.rev1,jdbcType=VARCHAR},
+		    #{item.rev2,jdbcType=VARCHAR},
+		    #{item.rev3,jdbcType=TIMESTAMP},
+		    #{item.rev4,jdbcType=VARCHAR},
+		    #{item.msgVest,jdbcType=VARCHAR},
+		    #{item.tslb,jdbcType=VARCHAR},
+		    #{item.attId,jdbcType=VARCHAR}
+	        from dual
+		</foreach> 
+	</insert>
+	
+    <!-- 更新 -->
+    <update id="update" parameterType="com.hisign.xingzhen.sys.api.model.Message">
+        UPDATE sys_message
+        <trim prefix="SET" suffixOverrides=",">
+		    SUBJECT=#{subject},
+		    CONTENT=#{content},
+		    TYPE=#{type},
+		    MSG_LEVEL=#{msgLevel},
+		    DEL=#{del},
+		    SECRECY=#{secrecy},
+		    CREATE_DATE=#{createDate},
+		    CREATE_PID=#{createPid},
+		    MODIFY_DATE=#{modifyDate},
+		    MODIFY_PID=#{modifyPid},
+		    REV1=#{rev1},
+		    REV2=#{rev2},
+		    REV3=#{rev3},
+		    REV4=#{rev4},
+		    MSG_VEST=#{msgVest},
+		    TSLB=#{tslb},
+		    ATT_ID=#{attId}
+        </trim>
+        WHERE
+        ID = #{id,jdbcType=VARCHAR}
+    </update>
+	
+    <update id="updateNotNull" parameterType="com.hisign.xingzhen.sys.api.model.Message">
+        UPDATE sys_message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="subject!=null  and subject != '' ">
+                SUBJECT = #{subject,jdbcType=VARCHAR},
+            </if>
+            <if test="content!=null  and content != '' ">
+                CONTENT = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="type!=null  and type != '' ">
+                TYPE = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="msgLevel!=null  and msgLevel != '' ">
+                MSG_LEVEL = #{msgLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="del!=null  and del != '' ">
+                DEL = #{del,jdbcType=CHAR},
+            </if>
+            <if test="secrecy!=null  and secrecy != '' ">
+                SECRECY = #{secrecy,jdbcType=CHAR},
+            </if>
+            <if test="modifyPid!=null  and modifyPid != '' ">
+                MODIFY_PID = #{modifyPid,jdbcType=VARCHAR},
+            </if>
+            <if test="rev1!=null  and rev1 != '' ">
+                REV1 = #{rev1,jdbcType=VARCHAR},
+            </if>
+            <if test="rev2!=null  and rev2 != '' ">
+                REV2 = #{rev2,jdbcType=VARCHAR},
+            </if>
+            <if test="rev3!=null ">
+                REV3 = #{rev3,jdbcType=TIMESTAMP},
+            </if>
+            <if test="rev4!=null  and rev4 != '' ">
+                REV4 = #{rev4,jdbcType=VARCHAR},
+            </if>
+            <if test="msgVest!=null  and msgVest != '' ">
+                MSG_VEST = #{msgVest,jdbcType=VARCHAR},
+            </if>
+            <if test="tslb!=null  and tslb != '' ">
+                TSLB = #{tslb,jdbcType=VARCHAR},
+            </if>
+            <if test="attId!=null  and attId != '' ">
+                ATT_ID = #{attId,jdbcType=VARCHAR},
+            </if>
+            MODIFY_DATE = sysdate
+        </trim>
+        WHERE ID=#{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateCustom" parameterType="com.hisign.bfun.bmodel.UpdateParams">
+    UPDATE sys_message
+    <trim prefix="SET" suffixOverrides=",">
+    	<foreach collection="fields" item="item" index="index" separator="," >
+        ${item}  #{values[${index}]}
+        </foreach>
+    </trim>
+	<include refid="Update_Conditions_Where_Clause" />	
+	<if test="conditions!=null">
+		<if test="conditions.orderByClause!=null"> ${conditions.orderByClause}</if> 
+	</if>	
+    </update>
+    
+    <!-- 按Id删除 -->
+    <delete id="deleteById" parameterType="java.lang.String">
+        DELETE FROM sys_message
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND ID = #{id}
+        </trim>
+    </delete>
+
+    <!--根据list(ids)删除对象-->
+    <delete id="deleteByIds">
+        DELETE FROM sys_message
+        WHERE id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </delete>
+
+	<!--根据自定义删除对象-->
+    <delete id="deleteCustom" parameterType="com.hisign.bfun.bmodel.Conditions">
+        DELETE FROM sys_message
+        <include refid="Conditions_Where_Clause" />
+    </delete>
+    
+    <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT  
+	    <include refid="Base_Column_List" />
+        FROM sys_message 
+        WHERE 
+        ID = #{id}
+        and rownum = 1 
+    </select>
+    
+    <select id="findByEntity" parameterType="com.hisign.xingzhen.sys.api.model.Message" resultMap="BaseResultMap">
+        SELECT  
+	    <include refid="Base_Column_List" />
+        FROM sys_message 
+        WHERE 1 = 1
+	     	<if test="id!=null  and id != '' ">
+		   	 and ID=#{id,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="subject!=null  and subject != '' ">
+		   	 and SUBJECT=#{subject,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="content!=null  and content != '' ">
+		   	 and CONTENT=#{content,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="type!=null  and type != '' ">
+		   	 and TYPE=#{type,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="msgLevel!=null  and msgLevel != '' ">
+		   	 and MSG_LEVEL=#{msgLevel,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="del!=null  and del != '' ">
+		   	 and DEL=#{del,jdbcType=CHAR}
+		    </if>
+	     	<if test="secrecy!=null  and secrecy != '' ">
+		   	 and SECRECY=#{secrecy,jdbcType=CHAR}
+		    </if>
+	     	<if test="createDate!=null ">
+		   	 and CREATE_DATE=#{createDate,jdbcType=TIMESTAMP}
+		    </if>
+	     	<if test="createPid!=null  and createPid != '' ">
+		   	 and CREATE_PID=#{createPid,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="modifyDate!=null ">
+		   	 and MODIFY_DATE=#{modifyDate,jdbcType=TIMESTAMP}
+		    </if>
+	     	<if test="modifyPid!=null  and modifyPid != '' ">
+		   	 and MODIFY_PID=#{modifyPid,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="rev1!=null  and rev1 != '' ">
+		   	 and REV1=#{rev1,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="rev2!=null  and rev2 != '' ">
+		   	 and REV2=#{rev2,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="rev3!=null">
+		   	 and REV3=#{rev3,jdbcType=TIMESTAMP}
+		    </if>
+	     	<if test="rev4!=null  and rev4 != '' ">
+		   	 and REV4=#{rev4,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="msgVest!=null  and msgVest != '' ">
+		   	 and MSG_VEST=#{msgVest,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="tslb!=null  and tslb != '' ">
+		   	 and TSLB=#{tslb,jdbcType=VARCHAR}
+		    </if>
+	     	<if test="attId!=null  and attId != '' ">
+		   	 and ATT_ID=#{attId,jdbcType=VARCHAR}
+		    </if>
+	 	and rownum = 1 
+    </select>
+    
+    <select id="findByCondition" parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">
+        SELECT 
+        <choose>
+           <when test="returnFields != null">
+           <foreach collection="returnFields" item="f" separator=",">${f}</foreach>
+           </when>
+           <otherwise>
+	       <include refid="Base_Column_List" />
+           </otherwise>
+        </choose>
+        FROM sys_message
+        <if test="connectTable!=null">
+	        <foreach collection="connectTable" item="tb">
+	       	,${tb}
+	       	</foreach>
+        </if>
+        <include refid="Conditions_Where_Clause" />
+        and rownum = 1 
+    </select>
+
+    <select id="findList"  parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">
+    	select p.* from(
+	    select
+	      rownum,rownum as rn,a.* from (
+	      select t.* from (
+	      
+        SELECT
+        <if test="distinct!=false">
+        DISTINCT
+        </if>
+        <choose>
+           <when test="returnFields != null">
+           <foreach collection="returnFields" item="f" separator=",">${f}</foreach>
+           </when>
+           <otherwise>
+	       <include refid="Base_Column_List" />
+           </otherwise>
+        </choose>
+        FROM sys_message
+        <if test="connectTable!=null">
+	        <foreach collection="connectTable" item="tb">
+	       	,${tb}
+	       	</foreach>
+        </if>
+        <include refid="Conditions_Where_Clause" />
+        <if test="orderByClause!=null">${orderByClause}</if> 
+        
+        ) t ) a
+	      <if test="end !=null and end !=0">
+	        where rownum <![CDATA[<=]]> ${end}
+	      </if>
+	      ) p
+	    <if test="begin !=null and begin !=0">
+	      where rn >= ${begin}
+	    </if>
+    </select>
+
+    <select id="findCount" parameterType="com.hisign.bfun.bmodel.Conditions" resultType="java.lang.Long">
+        SELECT
+        COUNT(1)
+        FROM sys_message
+        <if test="connectTable!=null">
+	        <foreach collection="connectTable" item="tb">
+	       	,${tb}
+	       	</foreach>
+        </if>
+        <include refid="Conditions_Where_Clause" />
+    </select>
+
+    <select id="selectMaxId" resultType="java.lang.String">
+        SELECT
+        MAX(id)
+        FROM sys_message
+    </select>
+   
+</mapper>
