@@ -6,11 +6,36 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="codegen" />
+        <module name="common" />
         <module name="mycodgen" />
+        <module name="run-server" />
+        <module name="server-nt" />
+        <module name="server-nt-api" />
+        <module name="server-sys" />
+        <module name="server-sys-api" />
+        <module name="server-test" />
+        <module name="server-xz" />
+        <module name="server-xz-api" />
+        <module name="Static" />
+        <module name="xingzhen" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="mycodgen" target="1.6" />
+      <module name="base_framework" target="1.5" />
+      <module name="codegen" target="1.7" />
+      <module name="common" target="1.7" />
+      <module name="run-server" target="1.7" />
+      <module name="Server" target="1.7" />
+      <module name="server-nt" target="1.7" />
+      <module name="server-nt-api" target="1.7" />
+      <module name="server-sys" target="1.7" />
+      <module name="server-sys-api" target="1.7" />
+      <module name="server-test" target="1.7" />
+      <module name="server-xz" target="1.7" />
+      <module name="server-xz-api" target="1.7" />
+      <module name="Static" target="1.5" />
+      <module name="xingzhen" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

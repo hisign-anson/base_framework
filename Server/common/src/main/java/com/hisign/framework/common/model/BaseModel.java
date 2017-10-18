@@ -19,7 +19,7 @@ public class BaseModel implements Serializable {
 
     private int end = 0;
 
-    private String sortOrder;
+    private String sortOrder; //desc
 
     private String sortName;
     private String key;

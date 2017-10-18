@@ -1,6 +1,8 @@
 package com.hisign.framework.xz.service.impl;
 
+import com.hisign.framework.common.constant.Constants;
 import com.hisign.framework.common.util.SerialNumGenerater;
+import com.hisign.framework.common.util.StringUtils;
 import com.hisign.framework.xz.api.model.TaskModel;
 import com.hisign.framework.xz.mapper.TaskMapper;
 import com.hisign.framework.xz.api.entity.Task;
@@ -41,6 +43,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         entity.setCreatetime(new Date());
         entity.setId(UUID.randomUUID().toString());
         entity.setTaskNo(createTaskNo());
+        entity.setDeleteflag(Constants.DELETE_FALSE);
         return super.add(entity);
     }
 
@@ -92,5 +95,12 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         String maxNo = taskMapper.getMaxNo();
         String nextNumber = SerialNumGenerater.getInstance().getNextNumber(maxNo, 5);
         return "RW" + nextNumber;
+    }
+
+    @Override
+    public JsonResult getTaskPage(Task task) {
+        List<TaskModel> list = taskMapper.getTaskByCondition(task);
+        long count = taskMapper.getCountTaskByCondition(task);
+        return JsonResultUtil.success(count,list);
     }
 }

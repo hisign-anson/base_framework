@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/codegen" />
     <file type="web" url="file://$PROJECT_DIR$/codegenerate" />
+    <file type="web" url="file://$PROJECT_DIR$/Static" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/codegenerate/pom.xml" />
+        <option value="$PROJECT_DIR$/codegen/pom.xml" />
+        <option value="$PROJECT_DIR$/Server/pom.xml" />
+        <option value="$PROJECT_DIR$/Server/server-xz/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>

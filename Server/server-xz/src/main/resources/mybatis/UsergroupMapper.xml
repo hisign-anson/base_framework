@@ -458,7 +458,6 @@
 				and SU.USER_ID IN (select u.USERID from T_USERGROUP u where GROUPID=#{id,jdbcType=VARCHAR} )
 			</if>
 		) t
-		<include refid="orderBy" />
 		) a
 		<if test="end !=null and end !=0">
 			where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}

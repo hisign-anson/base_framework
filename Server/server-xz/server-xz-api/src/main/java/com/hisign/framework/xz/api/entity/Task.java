@@ -23,8 +23,9 @@ public class Task extends BaseModel implements Serializable {
 	private String id; //任务ID
 
 	@Column(value="TASK_NO")
-	@ApiModelProperty(value = "")
-	private String taskNo; //
+
+	@ApiModelProperty(value = "任务编码")
+	private String taskNo; //任务编码
 
 	@Column(value="TASK_NAME")
 	@ApiModelProperty(value = "任务名称")
@@ -76,7 +77,7 @@ public class Task extends BaseModel implements Serializable {
 
 	@Column(value="FKZT")
 	@ApiModelProperty(value = "反馈状态")
-	private String fkzt; //反馈状态
+	private String fkzt; //反馈状态 0未反馈  1已反馈
 
 	@Column(value="FK_TIME")
 	@ApiModelProperty(value = "反馈时间")
@@ -88,7 +89,7 @@ public class Task extends BaseModel implements Serializable {
 
 	@Column(value="QSZT")
 	@ApiModelProperty(value = "签收状态")
-	private String qszt; //签收状态
+	private String qszt; //签收状态 0未签收  1已签收
 
 	@Column(value="QS_TIME")
 	@ApiModelProperty(value = "签收时间")
@@ -96,7 +97,7 @@ public class Task extends BaseModel implements Serializable {
 
 	@Column(value="YJZT")
 	@ApiModelProperty(value = "移交状态")
-	private String yjzt; //移交状态
+	private String yjzt; //移交状态 0未移交 1已移交
 
 	@Column(value="YJ_TIME")
 	@ApiModelProperty(value = "移交时间")
@@ -104,7 +105,7 @@ public class Task extends BaseModel implements Serializable {
 
 	@Column(value="QRZT")
 	@ApiModelProperty(value = "确认状态")
-	private String qrzt; //确认状态
+	private String qrzt; //确认状态 0未确认 1已确认
 
 	@Column(value="QR_TIME")
 	@ApiModelProperty(value = "确认时间")
@@ -129,8 +130,12 @@ public class Task extends BaseModel implements Serializable {
 	@Column(value="DELETEFLAG")
 	@ApiModelProperty(value = "删除标识")
 	private String deleteflag; //删除标识
-	
-    
+
+    @ApiModelProperty(value = "超期标示")
+    private String  overdue;//1表示超期
+
+    @ApiModelProperty(value = "任务类型")
+    private String taskType;//1表示本人接收，2表示本人下发
 	/**
 	 *默认空构造函数
 	 */
@@ -474,8 +479,32 @@ public class Task extends BaseModel implements Serializable {
 	public void setDeleteflag(String deleteflag){
 		this.deleteflag = deleteflag;
 	}
-	
-	public static String getTbName() {
+    /**
+     * @return overdue 超期标识
+     */
+    public String getOverdue(){
+        return this.overdue;
+    }
+    /**
+     * @param overdue 超期标识
+     */
+    public void setOverdue(String overdue){
+        this.overdue = overdue;
+    }
+    /**
+     * @return taskType 任务类型
+     */
+    public String getTaskType() {
+        return taskType;
+    }
+    /**
+     * @param taskType 任务类型
+     */
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
+    }
+
+    public static String getTbName() {
 		return "t_task";
 	}
 	
@@ -511,6 +540,8 @@ public class Task extends BaseModel implements Serializable {
 		.append(",deparmentcode=").append(this.getDeparmentcode())
 		.append(",lastupdatetime=").append(this.getLastupdatetime())
 		.append(",deleteflag=").append(this.getDeleteflag())
+		.append(",overdue=").append(this.getOverdue())
+		.append(",taskType=").append(this.getTaskType())
 		.append("]");
 		return builder.toString();
 	}
@@ -543,8 +574,11 @@ public class Task extends BaseModel implements Serializable {
 		createtime("CREATETIME","创建时间"),
 		deparmentcode("DEPARMENTCODE","创建人单位"),
 		lastupdatetime("LASTUPDATETIME","修改时间"),
-		deleteflag("DELETEFLAG","删除标识");
-		
+		deleteflag("DELETEFLAG","删除标识"),
+        overdue("OVERDUE","超期标示"),
+        taskType("TASKTYPE","任务类型");
+
+
 		private String fieldName;
 		private String remark;
 		

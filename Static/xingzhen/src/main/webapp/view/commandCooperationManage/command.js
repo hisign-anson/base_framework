@@ -6,6 +6,6 @@ $.ajaxSetup({
     beforeSend:showLoading,
     complete:hideLoading
 });
-require(['src/command.js'],function(command){
-    command.showList();
+require(['src/commandCooperation.js'],function(commandCooperation){
+    commandCooperation.showList();
 });
