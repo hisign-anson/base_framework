@@ -416,5 +416,5 @@
         MAX(id)
         FROM t_ajgroup
     </select>
-   
+
 </mapper>

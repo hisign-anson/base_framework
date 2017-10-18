@@ -80,8 +80,7 @@ public class IndexRest extends BaseController {
     @ApiOperation(value = "平台成果展示",notes = "平台成果展示",httpMethod = "GET", response = Map.class)
     @RequestMapping(value = "/getAchievement", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult getAchievement() {
-
-        return null;
+        return groupService.getAchievementList();
     }
 
 }

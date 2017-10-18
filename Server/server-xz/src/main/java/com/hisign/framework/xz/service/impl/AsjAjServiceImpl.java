@@ -81,4 +81,11 @@ public class AsjAjServiceImpl extends BaseServiceImpl<AsjAj,AsjAjModel, String> 
 		 long count = asjAjMapper.getAjGroupPageCount(aj);
 		 return JsonResultUtil.success(count,list);
 	 }
+
+	 @Override
+	 public AsjAj getFirstCaseByGroupId(String id) {
+		 return asjAjMapper.findFirstCaseByGroupId(id);
+	 }
+
+
  }

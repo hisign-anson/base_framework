@@ -524,7 +524,7 @@
         select p.* from(
         select rownum,rownum as rn,q.* from (
         select t.* from (
-        select distrint
+        select
         a.id,
         a.GROUPNUM,
         a.GROUPNAME,
@@ -571,7 +571,6 @@
         <if test="backupStatu!=null and backupStatu!=''">
             and a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
         </if>
-
         ) t
         ) q
         <if test="end !=null and end !=0">
@@ -585,8 +584,7 @@
 
     <select id="getCountGroupByCondition" parameterType="com.hisign.framework.xz.api.entity.Group"
             resultType="java.lang.Long">
-        select count(1) from (
-        select distrint
+        select count(1) from ( SELECT
         a.id,
         a.GROUPNUM,
         a.GROUPNAME,

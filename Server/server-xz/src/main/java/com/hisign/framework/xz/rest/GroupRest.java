@@ -45,10 +45,23 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
      * @param group
      * @return
      */
-    @ApiOperation(value = "专案组查询分页",httpMethod ="POST",response = GroupModel.class)
-    @RequestMapping(value = "/getGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "专案组查询分页",httpMethod ="GET",response = GroupModel.class)
+    @RequestMapping(value = "/getGroupPage", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult getGroupPage(@ApiParam Group group) {
         return baseService.getGroupPage(group);
     }
+
+    /**
+     * 所有字段
+     * @param group
+     * @return
+     */
+    @ApiOperation(value = "获取所有字段",httpMethod ="GET",response = GroupModel.class)
+    @RequestMapping(value = "/getAllField", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    public JsonResult getAllField(@ApiParam Group group) {
+        return JsonResultUtil.success(new Group().toString());
+    }
+
+
 
 }
