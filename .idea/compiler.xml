@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="Javac" />
+    <resourceExtensions />
     <annotationProcessing>
-      <profile name="Maven default annotation processors profile" enabled="true">
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="codegen" />
+        <processorPath useClasspath="true" />
         <module name="common" />
-        <module name="mycodgen" />
         <module name="run-server" />
         <module name="server-nt" />
         <module name="server-nt-api" />
@@ -22,9 +26,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="base_framework" target="1.5" />
-      <module name="codegen" target="1.7" />
+      <module name="codegenernate" target="1.6" />
       <module name="common" target="1.7" />
+      <module name="mycodgen" target="1.6" />
       <module name="run-server" target="1.7" />
       <module name="Server" target="1.7" />
       <module name="server-nt" target="1.7" />
@@ -34,8 +38,7 @@
       <module name="server-test" target="1.7" />
       <module name="server-xz" target="1.7" />
       <module name="server-xz-api" target="1.7" />
-      <module name="Static" target="1.5" />
-      <module name="xingzhen" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
+

@@ -12,14 +12,19 @@
                     </div>
                     <div class="equal-col-6">
                         <span class="common-field"><em class="require-star">*</em>专案组：</span>
-                        <input class="common-input" type="text" name="" id="belongGroup" />
+                        <div class="dict-opener">
+                            <input class="common-input field-valid" type="text" name="" id="belongGroup" data-options="required:true" />
+                            <i id="chooseGroup" class="icon-list cur-p button steelblue" title="专案组" dict-value="CFMC"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row block-row">
                     <div class="equal-col-6">
                         <span class="common-field"><em class="require-star">*</em>接收人：</span>
-                        <input class="common-input" type="text" name="" id="recipient" />
-                    </div>
+                        <div class="dict-opener">
+                            <input class="common-input field-valid" type="text" name="" id="recipient" data-options="required:true" />
+                            <i id="chooseReceive" class="icon-list cur-p button steelblue" title="接收人" dict-value="CFMC"></i>
+                        </div></div>
                     <div class="equal-col-6">
                         <span class="common-field">接收人联系方式：</span>
                         <input class="common-input" type="text" name="" id="recipientContact" />
@@ -30,17 +35,17 @@
                 <div class="form-row block-row">
                     <div class="equal-col-12">
                         <span class="common-field"><em class="require-star">*</em>任务内容：</span>
-                        <textarea class="common-textarea" name="" id="taskContent"></textarea>
+                        <textarea class="common-textarea field-valid" name="" id="taskContent" data-options="required:true"></textarea>
                     </div>
                 </div>
                 <div class="form-row block-row">
                     <div class="equal-col-6">
                         <span class="common-field"><em class="require-star">*</em>反馈截止时间：</span>
-                        <input class="common-input"type="text" name="" id="dateDue" />
+                        <input class="common-input field-valid" type="text" name="" id="dateDue" value="<%=rangeUtil.formatDate(rangeUtil.getCurrentDate(),'yyyy-MM-dd')%>" data-options="required:true" />
                     </div>
                     <div class="equal-col-6">
                         <span class="common-field">创建时间：</span>
-                        <input class="common-input" type="text" name="" id="createDate" />
+                        <input class="common-input" type="text" name="" id="createDate" value="<%=rangeUtil.formatDate(rangeUtil.getCurrentDate(),'yyyy-MM-dd')%>" />
                     </div>
                 </div>
             </div>

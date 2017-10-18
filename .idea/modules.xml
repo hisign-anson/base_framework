@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/Server/Server.iml" filepath="$PROJECT_DIR$/Server/Server.iml" />
       <module fileurl="file://$PROJECT_DIR$/Static/Static.iml" filepath="$PROJECT_DIR$/Static/Static.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/base_framework.iml" filepath="$PROJECT_DIR$/.idea/base_framework.iml" />
-      <module fileurl="file://$PROJECT_DIR$/codegen/codegen.iml" filepath="$PROJECT_DIR$/codegen/codegen.iml" />
       <module fileurl="file://$PROJECT_DIR$/Server/common/common.iml" filepath="$PROJECT_DIR$/Server/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/Server/run-server/run-server.iml" filepath="$PROJECT_DIR$/Server/run-server/run-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/Server/server-nt/server-nt.iml" filepath="$PROJECT_DIR$/Server/server-nt/server-nt.iml" />
@@ -19,3 +18,4 @@
     </modules>
   </component>
 </project>
+
