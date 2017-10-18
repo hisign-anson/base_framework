@@ -119,10 +119,14 @@ public class Task extends BaseModel implements Serializable {
 	private Date createtime; //创建时间
 
 	@Column(value="DEPARMENTCODE")
-	@ApiModelProperty(value = "创建人单位")
+	@ApiModelProperty(value = "创建人单位代码")
 	private String deparmentcode; //创建人单位
 
-	@Column(value="LASTUPDATETIME")
+    @Column(value="DEPARMENTNAME")
+    @ApiModelProperty(value = "创建人单位名称")
+    private String deparmentname; //创建人单位名称
+
+    @Column(value="LASTUPDATETIME")
 	@ApiModelProperty(value = "修改时间")
 	private Date lastupdatetime; //修改时间
 
@@ -130,12 +134,18 @@ public class Task extends BaseModel implements Serializable {
 	@ApiModelProperty(value = "删除标识")
 	private String deleteflag; //删除标识
 
+    //-------------------------------------- 返回字段
+    @ApiModelProperty(value = "任务关联的反馈信息")
+    private List<TaskFk>  taskFks;
+
     //-------------------------------------- 接受字段
     @ApiModelProperty(value = "超期标示")
     private String  overdue;//1表示超期
 
     @ApiModelProperty(value = "任务类型")
     private String taskType;//1表示本人接收，2表示本人下发
+
+
 	/**
 	 *默认空构造函数
 	 */
@@ -455,7 +465,21 @@ public class Task extends BaseModel implements Serializable {
 	public void setDeparmentcode(String deparmentcode){
 		this.deparmentcode = deparmentcode;
 	}
-	/**
+
+    /**
+     * @return DEPARMENTNAME 创建人单位名称
+     */
+    public String getDeparmentname(){
+        return this.deparmentname;
+    }
+    /**
+     * @param DEPARMENTNAME 创建人单位名称
+     */
+    public void setDeparmentname(String deparmentname){
+        this.deparmentname = deparmentname;
+    }
+
+    /**
 	 * @return LASTUPDATETIME 修改时间
 	 */
 	public Date getLastupdatetime(){
@@ -479,29 +503,29 @@ public class Task extends BaseModel implements Serializable {
 	public void setDeleteflag(String deleteflag){
 		this.deleteflag = deleteflag;
 	}
-    /**
-     * @return overdue 超期标识
-     */
+
     public String getOverdue(){
         return this.overdue;
     }
-    /**
-     * @param overdue 超期标识
-     */
+
     public void setOverdue(String overdue){
         this.overdue = overdue;
     }
-    /**
-     * @return taskType 任务类型
-     */
+
     public String getTaskType() {
         return taskType;
     }
-    /**
-     * @param taskType 任务类型
-     */
+
     public void setTaskType(String taskType) {
         this.taskType = taskType;
+    }
+
+    public List<TaskFk> getTaskFks() {
+        return taskFks;
+    }
+
+    public void setTaskFks(List<TaskFk> taskFks) {
+        this.taskFks = taskFks;
     }
 
     public static String getTbName() {
@@ -538,10 +562,9 @@ public class Task extends BaseModel implements Serializable {
 		.append(",creator=").append(this.getCreator())
 		.append(",createtime=").append(this.getCreatetime())
 		.append(",deparmentcode=").append(this.getDeparmentcode())
+		.append(",deparmentname=").append(this.getDeparmentname())
 		.append(",lastupdatetime=").append(this.getLastupdatetime())
 		.append(",deleteflag=").append(this.getDeleteflag())
-		.append(",overdue=").append(this.getOverdue())
-		.append(",taskType=").append(this.getTaskType())
 		.append("]");
 		return builder.toString();
 	}
@@ -573,10 +596,9 @@ public class Task extends BaseModel implements Serializable {
 		creator("CREATOR","创建人"),
 		createtime("CREATETIME","创建时间"),
 		deparmentcode("DEPARMENTCODE","创建人单位"),
+		deparmentname("DEPARMENTNAME","创建人名称"),
 		lastupdatetime("LASTUPDATETIME","修改时间"),
-		deleteflag("DELETEFLAG","删除标识"),
-        overdue("OVERDUE","超期标示"),
-        taskType("TASKTYPE","任务类型");
+		deleteflag("DELETEFLAG","删除标识");
 
 
 		private String fieldName;
