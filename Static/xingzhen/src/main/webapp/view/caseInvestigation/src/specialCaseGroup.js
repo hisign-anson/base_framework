@@ -11,6 +11,7 @@ define(['underscore',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupList.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/caseList.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/caseListTr.html',
+    'text!/view/caseInvestigation/tpl/specialCaseGroup/caseInfo.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/userList.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/userListTr.html',
     'text!/view/chatPage/chatPage.html',
@@ -19,7 +20,7 @@ define(['underscore',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/relationCaseTr.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupStaff.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupStaffTr.html',
-    '../../dictManage/src/dictOpener.js'], function (_, specialCaseGroupListTpl, specialCaseGroupListTrTpl, specialCaseGroupAddTpl, archivePageTpl,broadcastPageTpl, groupListTpl, caseListTpl, caseTrTpl,
+    '../../dictManage/src/dictOpener.js'], function (_, specialCaseGroupListTpl, specialCaseGroupListTrTpl, specialCaseGroupAddTpl, archivePageTpl,broadcastPageTpl, groupListTpl, caseListTpl, caseListTrTpl,caseInfoTpl,
                                                      userListTpl, userListTrTpl, chatPageTpl, baseInfoTpl, relationCaseTpl, relationCaseTrTpl, groupStaffTpl, groupStaffTrTpl,
                                                      dictOpener) {
     return {
@@ -190,6 +191,17 @@ define(['underscore',
                     //嵌套内容渲染
                     var appendTr = currentTr.after('<tr class="tr-inner-table"><td colspan="12"></td></tr>');
                     currentTr.next().find("td").empty().html(tableHtml);
+                    $(".into-broadcast").on("click", function () {
+                        $open('#archiveBlock', {width: 800, top: 180, title: '&nbsp专案组广播'});
+                        $("#archiveBlock .panel-container").empty().html(_.template(broadcastPageTpl));
+                        $("#archiveBlock").on("click","#cancelBtn",function () {
+
+                            $("#archiveBlock").$close();
+                        });
+                        $("#archiveBlock").on("click","#saveBtn",function () {
+                            $("#archiveBlock").$close();
+                        });
+                    });
                 }
             });
         },
@@ -375,6 +387,11 @@ define(['underscore',
                 ops: top.opsMap
             }));
 
+            $(".link-text").on("click", function () {
+                console.info("案件详情按钮");
+                $open('#userListDiv', {width: 800, title: '&nbsp案件详情'});
+                _self.showCaseInfo();
+            });
             $(".into-delete").on("click", function () {
                 console.info("移除案件按钮");
                 _self.delCase($(this).attr('id'));
@@ -409,7 +426,7 @@ define(['underscore',
                     "caseStaff": "李四"
                 }
             ];
-            $("#caseTable tbody").empty().html(_.template(caseTrTpl, {
+            $("#caseTable tbody").empty().html(_.template(caseListTrTpl, {
                 data: data,
                 ops: top.opsMap
             }));
@@ -443,6 +460,10 @@ define(['underscore',
             $("#caseListDiv").on('click', "#cancelBtn", function () {
                 $('#caseListDiv').$close();
             });
+        },
+        showCaseInfo:function () {
+            _self = this;
+            $("#userListDiv .panel-container").empty().html(_.template(caseInfoTpl));
         },
         delCase: function (id) {
             console.info("移除案件事件" + id);

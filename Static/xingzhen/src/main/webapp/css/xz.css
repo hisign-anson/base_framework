@@ -219,8 +219,9 @@ input[disabled], textarea[disabled], select[disabled] {
 
 .dict-opener .icon-list {
     position: absolute;
-    right: 10px;
-    top: 3px;
+    right: 5px;
+    top: 6px;
+    font-size: 12px;
 }
 
 .dict-container {
@@ -457,8 +458,8 @@ input[disabled], textarea[disabled], select[disabled] {
 .form-row .common-input, .form-row .common-select, .form-row .common-textarea {
     padding-left: 8px;
     padding-right: 12px;
-    line-height: 30px;
-    height: 30px;
+    line-height: 25px;
+    height: 25px;
     border-radius: 3px;
 }
 
