@@ -70,6 +70,7 @@ define(['underscore',
                 _self.addGroupOfGroup();
             });
             _self.queryList();
+            _self.oneChoose();//限制单选
         },
         //查询功能
         queryList: function () {
@@ -144,7 +145,7 @@ define(['underscore',
                 // $("#mainDiv").empty().html(_.template(chatPageTpl));
                 $open('#archiveBlock', {width: 840,height: 700, title: '&nbsp专案组群聊'});
                 // $("#archiveBlock .form-content").empty().html(_.template(chatPageTpl));
-                var iframe = '<iframe id="mapSvgFrame" class="tab-content-frame" src="/view/chatPage/chatPage.html" width="100%" height="640"></iframe>';
+                var iframe = '<iframe id="mapSvgFrame" class="tab-content-frame" src="/view/chatPage/chatPage.html" width="100%" height="510px"></iframe>';
                 $("#archiveBlock .panel-container").css("margin","0px").empty().html(_.template(iframe));
             });
             //嵌套表格的实现--------------------------------------------------------------------------------------------
@@ -236,7 +237,7 @@ define(['underscore',
         addGroupOfGroup: function () {
             _self = this;
             var radio = [];
-            $('#specialGroupListTable').find('tbody input:radio[name=group]:checked').each(function (i, e) {
+            $('#specialGroupListTable').find('tbody input:checkbox[name=group]:checked').each(function (i, e) {
                 radio.push($(e).val());
             });
             if (radio.length > 0) {
@@ -245,6 +246,12 @@ define(['underscore',
             } else {
                 toast("请选择一个专案组！", 600).warn()
             }
+        },
+        oneChoose:function(){
+            $('#specialGroupListTable input:checkbox[name=group]').on("click",function(){
+                $('#specialGroupListTable input:checkbox[name=group]').prop("checked",false);
+                $(this).prop("checked",true);
+            });
         },
         showEdit: function () {
             _self = this;
@@ -560,7 +567,7 @@ define(['underscore',
                     // $("#applySum-form").submit();
 
                     $('#userListDiv' +
-                        '').$close();
+                    '').$close();
                 } else {
                     toast("请至少选择一个用户！", 600).warn()
                 }
