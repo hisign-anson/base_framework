@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 《任务》 实体
- * @author 何建辉
+ * @author 刘玉兰
  *
  */
 @ApiModel(value = "任务")
@@ -130,6 +130,7 @@ public class Task extends BaseModel implements Serializable {
 	@ApiModelProperty(value = "删除标识")
 	private String deleteflag; //删除标识
 
+    //-------------------------------------- 接受字段
     @ApiModelProperty(value = "超期标示")
     private String  overdue;//1表示超期
 

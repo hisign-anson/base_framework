@@ -17,4 +17,6 @@ public interface GroupService extends BaseService<Group,GroupModel, String> {
 
     public JsonResult getGroupPage(Group group);
 
+    public JsonResult getAchievementList();
+
 }

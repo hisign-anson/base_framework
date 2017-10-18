@@ -18,4 +18,6 @@ public interface AsjAjMapper extends BaseMapper<AsjAj,AsjAjModel, String> {
 
     public long getAjGroupPageCount(AsjAj aj);
 
+    public AsjAj findFirstCaseByGroupId(String id);
+
 }

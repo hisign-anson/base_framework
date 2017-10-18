@@ -6,8 +6,6 @@ import com.hisign.framework.xz.api.entity.AsjAj;
 import com.hisign.bfun.bif.BaseService;
 import com.hisign.framework.xz.api.model.AsjAjModel;
 
-import java.util.List;
-
 /**
  * 《案件》 业务逻辑服务接口
  *
@@ -16,5 +14,7 @@ import java.util.List;
 public interface AsjAjService extends BaseService<AsjAj,AsjAjModel, String> {
 
     public JsonResult getAjGroupPage(AsjAj aj);
+
+    public AsjAj getFirstCaseByGroupId(String id);
 
 }
