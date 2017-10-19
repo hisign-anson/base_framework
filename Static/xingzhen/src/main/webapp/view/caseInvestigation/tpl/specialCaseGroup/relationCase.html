@@ -5,11 +5,11 @@
     <div class=""  id="queryCondition">
         <div class="query-block-row">
             <div class="fl qc-group-l">
-                <span class="common-field">案件编号：</span>
+                <span class="qc-label-xl">案件编号：</span>
                 <input class="common-input" id="caseId" type="text">
             </div>
             <div class="fl qc-group-l">
-                <span class="common-field">案别：</span>
+                <span class="qc-label-xl">案别：</span>
                 <div class="dict-opener">
                     <input class="common-input" id="caseType" type="text">
                     <i id="chooseCaseType" class="icon-list cur-p button steelblue" title="案别" dict-value="CFMC"></i>
@@ -19,18 +19,18 @@
 
         <div class="query-block-row">
             <div class="fl qc-group-l">
-                <span class="common-field">案件名称：</span>
+                <span class="qc-label-xl">案件名称：</span>
                 <input class="common-input" id="caseName" type="text">
             </div>
             <div class="fl qc-group-l">
-                <span class="common-field">发案时间初值：</span>
-                <input class="common-input" id="occurrenceDate" type="text" value="<%=rangeUtil.formatDate(rangeUtil.getCurrentDate(),'yyyy-MM-dd')%>">
+                <span class="qc-label-xl">发案时间初值：</span>
+                <input class="common-input" id="occurrenceDate" type="text" value="">
             </div>
         </div>
 
         <div class="query-block-row">
             <div class="fl qc-group-xl">
-                <span class="common-field">案件状态：</span>
+                <span class="qc-label-xl">案件状态：</span>
                 <span class="option" id="changeCaseSta">
                     <u class="active default " val="">全部</u>
                     <u class="  " val="0">已受理</u>

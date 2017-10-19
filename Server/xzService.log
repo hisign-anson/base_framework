@@ -2190,18 +2190,18 @@ Caused by: java.lang.IllegalStateException: org.springframework.context.annotati
 2017-10-18 19:32:28.388  INFO 12412 --- [http-nio-0.0.0.0-8099-exec-8] o.s.b.f.xml.XmlBeanDefinitionReader      : Loading XML bean definitions from class path resource [org/springframework/jdbc/support/sql-error-codes.xml]
 2017-10-18 19:32:28.433  INFO 12412 --- [http-nio-0.0.0.0-8099-exec-8] o.s.jdbc.support.SQLErrorCodesFactory    : SQLErrorCodes loaded: [DB2, Derby, H2, HSQL, Informix, MS-SQL, MySQL, Oracle, PostgreSQL, Sybase, Hana]
 2017-10-18 19:32:28.454 ERROR 12412 --- [http-nio-0.0.0.0-8099-exec-8] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.jdbc.BadSqlGrammarException: 
-### Error querying database.  Cause: java.sql.SQLException: ORA-00907: Áº∫Â§±Âè≥Êã¨Âè∑
+### Error querying database.  Cause: java.sql.SQLException: ORA-00907: »± ß”“¿®∫≈
 
 ### The error may exist in file [D:\xhh\Project-Workspaces\idea\base_framework\Server\xingzhen-xz\xingzhen-xz-service\target\classes\mybatis\GroupMapper.xml]
 ### The error may involve com.hisign.xingzhen.xz.mapper.GroupMapper.findList-Inline
 ### The error occurred while setting parameters
 ### SQL: select p.* from(         select         rownum,rownum as rn,a.* from (         select t.* from (         SELECT                                               ID,         PGROUPID,         GROUPNUM,         GROUPNAME,         GROUPTYPE,         BACKUP_STATU,         BACKUP_TIME,         BACKUP_REASON,         CREATOR,         CREATETIME,         DEPARMENTCODE,         LASTUPDATETIME,         DELETEFLAG                             FROM t_group                              where                                 (                  BACKUP_STATU =  ? andDELETEFLAG =  ?                   )                                         order by BACKUP_TIME  desc             ) t ) a                   ) p
-### Cause: java.sql.SQLException: ORA-00907: Áº∫Â§±Âè≥Êã¨Âè∑
+### Cause: java.sql.SQLException: ORA-00907: »± ß”“¿®∫≈
 
-; bad SQL grammar []; nested exception is java.sql.SQLException: ORA-00907: Áº∫Â§±Âè≥Êã¨Âè∑
+; bad SQL grammar []; nested exception is java.sql.SQLException: ORA-00907: »± ß”“¿®∫≈
 ] with root cause
 
-java.sql.SQLException: ORA-00907: Áº∫Â§±Âè≥Êã¨Âè∑
+java.sql.SQLException: ORA-00907: »± ß”“¿®∫≈
 
 	at oracle.jdbc.driver.DatabaseError.throwSqlException(DatabaseError.java:111) ~[ojdbc14-10.2.0.1.0.jar:Oracle JDBC Driver version - "10.2.0.1.0"]
 	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:330) ~[ojdbc14-10.2.0.1.0.jar:Oracle JDBC Driver version - "10.2.0.1.0"]
@@ -5473,18 +5473,18 @@ java.lang.RuntimeException: Value for FQR cannot be null
 2017-10-18 19:54:32.805  INFO 13932 --- [http-nio-0.0.0.0-8099-exec-4] o.s.b.f.xml.XmlBeanDefinitionReader      : Loading XML bean definitions from class path resource [org/springframework/jdbc/support/sql-error-codes.xml]
 2017-10-18 19:54:32.863  INFO 13932 --- [http-nio-0.0.0.0-8099-exec-4] o.s.jdbc.support.SQLErrorCodesFactory    : SQLErrorCodes loaded: [DB2, Derby, H2, HSQL, Informix, MS-SQL, MySQL, Oracle, PostgreSQL, Sybase, Hana]
 2017-10-18 19:54:32.871 ERROR 13932 --- [http-nio-0.0.0.0-8099-exec-4] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.jdbc.BadSqlGrammarException: 
-### Error querying database.  Cause: java.sql.SQLException: ORA-00920: Êó†ÊïàÁöÑÂÖ≥Á≥ªËøêÁÆóÁ¨¶
+### Error querying database.  Cause: java.sql.SQLException: ORA-00920: Œﬁ–ßµƒπÿœµ‘ÀÀ„∑˚
 
 ### The error may exist in file [D:\xhh\Project-Workspaces\idea\base_framework\Server\xingzhen-xz\xingzhen-xz-service\target\classes\mybatis\TaskMapper.xml]
 ### The error may involve com.hisign.xingzhen.xz.mapper.TaskMapper.findCount-Inline
 ### The error occurred while setting parameters
 ### SQL: SELECT         COUNT(1)         FROM t_task                          where              (        FKZT =  ? and QRZT =  ? and FQR =  ? and FKZT =  ? and QSZT =  ? and FKJZ_TIME &gt;  ? and JSR =  ?        )
-### Cause: java.sql.SQLException: ORA-00920: Êó†ÊïàÁöÑÂÖ≥Á≥ªËøêÁÆóÁ¨¶
+### Cause: java.sql.SQLException: ORA-00920: Œﬁ–ßµƒπÿœµ‘ÀÀ„∑˚
 
-; bad SQL grammar []; nested exception is java.sql.SQLException: ORA-00920: Êó†ÊïàÁöÑÂÖ≥Á≥ªËøêÁÆóÁ¨¶
+; bad SQL grammar []; nested exception is java.sql.SQLException: ORA-00920: Œﬁ–ßµƒπÿœµ‘ÀÀ„∑˚
 ] with root cause
 
-java.sql.SQLException: ORA-00920: Êó†ÊïàÁöÑÂÖ≥Á≥ªËøêÁÆóÁ¨¶
+java.sql.SQLException: ORA-00920: Œﬁ–ßµƒπÿœµ‘ÀÀ„∑˚
 
 	at oracle.jdbc.driver.DatabaseError.throwSqlException(DatabaseError.java:111) ~[ojdbc14-10.2.0.1.0.jar:Oracle JDBC Driver version - "10.2.0.1.0"]
 	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:330) ~[ojdbc14-10.2.0.1.0.jar:Oracle JDBC Driver version - "10.2.0.1.0"]

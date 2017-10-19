@@ -20,16 +20,17 @@ define(['underscore',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/relationCaseTr.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupStaff.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupStaffTr.html',
+    '../dat/specialCaseGroup.js',
     '../../dictManage/src/dictOpener.js'], function (_, specialCaseGroupListTpl, specialCaseGroupListTrTpl, specialCaseGroupAddTpl, archivePageTpl,broadcastPageTpl, groupListTpl, caseListTpl, caseListTrTpl,caseInfoTpl,
                                                      userListTpl, userListTrTpl, chatPageTpl, baseInfoTpl, relationCaseTpl, relationCaseTrTpl, groupStaffTpl, groupStaffTrTpl,
-                                                     dictOpener) {
+                                                     specialCaseGroupAjax,dictOpener) {
     return {
         showList: function () {
             _self = this;
             //关闭没有关闭的弹框
             dictOpener.closeOpenerDiv();
             $("#mainDiv").empty().html(_.template(specialCaseGroupListTpl, {ops: top.opsMap}));
-            $("#createDate").daterangepicker({
+            $("#createtime").daterangepicker({
                 separator: ' 至 ',
                 showWeekNumbers: true,
                 pickTime: true
@@ -43,7 +44,7 @@ define(['underscore',
 
             //点击选择是否
             /***参数：（被点击的div包裹层，传入后台的参数）***/
-            selectUtils.selectTextOption("#changeYesOrNo", "#msgLevel");
+            selectUtils.selectTextOption("#changeBackupStatu", "#backupStatu");
 
             $("#chooseCreatName").on('click', function () {
                 dictOpener.openChooseDict($(this));
@@ -83,38 +84,42 @@ define(['underscore',
                 // regName:$.trim($("#regName").val()),
                 // totalFund:parseFloat($.trim($("#totalFund").val()))*10000
             });
+            // $('#specialGroupListResult').pagingList({
+            //     action:top.servicePath_xz+'/group/getGroupPage',
+            //     jsonObj:param,
+            //     callback:function(data){
+            //
+            //     }
+            // });
             var data = [
                 {
                     "rownum": 0,
                     "id": "BD54F18C24874DBE934472CD21EBC6BB",
-                    "groupId": "ABCDEFGHABCDEFGHABCDEFGH12346157",
-                    "groupName": "测试项目1",
-                    "groupType": "0",
+                    "groupnum": "ABCDEFGHABCDEFGHABCDEFGH12346157",
+                    "groupname": "测试项目1",
+                    "grouptype": "0",
                     "caseNum": 4,
-                    "createName": "张三",
-                    "staffNum": "10",
-                    "createTime": "2017-07-06 18:00:16",
-                    "fileStatus": 0,
-                    "fileTime": "2017-09-04 11:59:09"
+                    "creator": "张三",
+                    "num": "10",
+                    "createtime": "2017-07-06 18:00:16",
+                    "backupStatu": 0,
+                    "backupTime": "2017-09-04 11:59:09"
                 },
                 {
                     "rownum": 1,
                     "id": "06FB300E23AB4630B1153637D7C655E6",
-                    "groupId": "E3E47DAB3F1F44C7BD02ED9E91C6D951",
-                    "groupName": "一长四必项目",
-                    "groupType": "1",
+                    "groupnum": "E3E47DAB3F1F44C7BD02ED9E91C6D951",
+                    "groupname": "一长四必项目",
+                    "grouptype": "1",
                     "caseNum": 1,
-                    "createName": "超级管理员",
-                    "staffNum": "5",
-                    "createTime": "2017-07-05 18:00:16",
-                    "fileStatus": 1,
-                    "fileTime": "2017-09-07 11:59:09"
+                    "creator": "超级管理员",
+                    "num": "5",
+                    "createtime": "2017-07-05 18:00:16",
+                    "backupStatu": 1,
+                    "backupTime": "2017-09-07 11:59:09"
                 }
             ];
-            $("#specialGroupListTable tbody").empty().html(_.template(specialCaseGroupListTrTpl, {
-                data: data,
-                ops: top.opsMap
-            }));
+            $("#specialGroupListTable tbody").empty().html(_.template(specialCaseGroupListTrTpl, { data: data, ops: top.opsMap }));
             $(".link-text").on("click", function () {
                 console.info("专案组详情按钮");
                 _self.showEdit();
@@ -342,6 +347,10 @@ define(['underscore',
             _self = this;
             $(".form-content-block").empty().html(_.template(relationCaseTpl));
             $(".form-btn-block").addClass("hide");
+
+            $("#chooseCaseType").on('click', function () {
+                dictOpener.openChooseDict($(this));
+            });
             $("#occurrenceDate").datetimepicker({format:'YYYY-MM-DD',pickTime:false});
             $("#relationCase").on("click", "#resetBtn", function () {
                 console.info("涉及案件重置按钮");
@@ -362,8 +371,13 @@ define(['underscore',
                 console.info("涉及案件关联新案件按钮");
                 $open('#caseListDiv', {width: 800, title: '&nbsp案件查询'});
                 $("#caseListDiv .panel-container").empty().html(_.template(caseListTpl));
-                selectUtils.selectTextOption("#changeCaseSta", "#caseSta");
-                selectUtils.selectTextOption("#changeCaseType", "#caseType");
+                $("#caseListDiv #occurrenceDate").datetimepicker({format:'YYYY-MM-DD',pickTime:false});
+                $("#caseListDiv #acceptDate").datetimepicker({format:'YYYY-MM-DD',pickTime:false});
+                $("#caseListDiv").on('click',"#chooseAcceptUint", function () {
+                    dictOpener.openChooseDict($(this));
+                });
+                selectUtils.selectTextOption("#caseListDiv #changeCaseSta", "#caseSta");
+                selectUtils.selectTextOption("#caseListDiv #changeCaseType", "#caseType");
 
                 $("#caseListDiv").on("click", "#resetBtn", function () {
                     console.info("案件重置按钮");
@@ -398,7 +412,7 @@ define(['underscore',
                 ops: top.opsMap
             }));
 
-            $(".link-text").on("click", function () {
+            $("#relationCaseTable").on("click",".link-text", function () {
                 console.info("案件详情按钮");
                 $open('#userListDiv', {width: 800, title: '&nbsp案件详情'});
                 _self.showCaseInfo();
@@ -441,6 +455,11 @@ define(['underscore',
                 data: data,
                 ops: top.opsMap
             }));
+            $("#caseTable").on("click",".link-text", function () {
+                console.info("案件详情按钮");
+                $open('#userListDiv', {width: 800, title: '&nbsp案件详情'});
+                _self.showCaseInfo();
+            });
             $("#caseTable #selectAll").on('click', function () {
                 $('#caseTable').find('tbody input:checkbox').prop('checked', this.checked);
             });
@@ -483,6 +502,9 @@ define(['underscore',
             _self = this;
             $(".form-content-block").empty().html(_.template(groupStaffTpl));
             $(".form-btn-block").addClass("hide");
+            $("#groupStaff").on('click',"#chooseUint", function () {
+                dictOpener.openChooseDict($(this));
+            });
             $("#groupStaff").on("click", "#resetBtn", function () {
                 console.info("组内成员重置按钮");
             });
@@ -497,6 +519,9 @@ define(['underscore',
                 console.info("添加成员按钮");
                 $open('#userListDiv', {width: 800, title: '&nbsp用户查询'});
                 $("#userListDiv .panel-container").empty().html(_.template(userListTpl));
+                $("#userListDiv").on('click',"#chooseUint", function () {
+                    dictOpener.openChooseDict($(this));
+                });
                 $("#userListDiv").on("click", "#resetBtn", function () {
                     console.info("用户重置按钮");
                 });
