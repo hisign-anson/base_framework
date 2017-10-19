@@ -13,7 +13,7 @@ import com.hisign.xingzhen.xz.api.model.TaskModel;
 public interface TaskService extends BaseService<Task,TaskModel, String>{
     public JsonResult getTaskPage(Task task);
 
-    public JsonResult taskDetail(String id);
+    public JsonResult taskDetail(Task task);
 
     public JsonResult addTask(Task task);
 

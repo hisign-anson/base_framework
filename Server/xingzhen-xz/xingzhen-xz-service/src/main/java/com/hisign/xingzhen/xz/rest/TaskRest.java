@@ -5,10 +5,7 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
 import com.hisign.xingzhen.xz.api.service.TaskService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,24 +38,22 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      * @return
      */
     @Override
-    @ApiOperation(value = "任务管理查询分页",httpMethod ="GET",response = TaskModel.class)
-    @ApiImplicitParam(name="userId",value = "当前用户id",required = true,dataType = "String")
-    @RequestMapping(value = "/getTaskPage", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "任务管理查询分页",httpMethod ="POST",response = TaskModel.class)
+    @RequestMapping(value = "/getTaskPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getTaskPage(@ApiParam @RequestBody Task task) {
         return baseService.getTaskPage(task);
     }
 
     /**
      * 查询任务详情
-     * @param id
+     * @param task
      * @return
      */
     @Override
-    @ApiOperation(value = "任务详情",httpMethod ="GET",response = String.class)
-    @ApiImplicitParam(name="id",value = "任务id",required = true,dataType = "String")
-    @RequestMapping(value = "/taskDetail", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult taskDetail(@ApiParam String id) {
-        return baseService.taskDetail(id);
+    @ApiOperation(value = "任务详情",httpMethod ="POST",response = String.class)
+    @RequestMapping(value = "/taskDetail", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult taskDetail(@ApiParam @RequestBody Task task) {
+        return baseService.taskDetail(task);
     }
 
     /**
@@ -79,8 +74,8 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      * @return
      */
     @Override
-    @ApiOperation(value = "删除任务",httpMethod ="DELETE",response = String.class)
-    @RequestMapping(value = "/deleteTaskById", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "删除任务",httpMethod ="GET",response = String.class)
+    @RequestMapping(value = "/deleteTaskById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult deleteTaskById(@ApiParam String id) {
         return baseService.deleteTaskById(id);
     }

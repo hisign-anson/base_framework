@@ -8,6 +8,8 @@
         <result column="FKXS" property="fkxs" jdbcType="VARCHAR"/>
         <result column="FKR" property="fkr" jdbcType="VARCHAR"/>
         <result column="FK_TIME" property="fkTime" jdbcType="TIMESTAMP"/>
+        <result column="QRZT" property="qrzt" jdbcType="VARCHAR"/>
+        <result column="QR_TIME" property="qrTime" jdbcType="TIMESTAMP"/>
         <result column="BZ" property="bz" jdbcType="VARCHAR"/>
         <result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
         <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP"/>
@@ -23,7 +25,7 @@
                 <trim suffixOverrides="and">
                     <foreach collection="o.criteriaWithoutValue" item="oc" separator="and">${oc} and </foreach>
                     <foreach collection="o.criteriaWithSingleValue" item="os">${os.condition} #{os.val} and </foreach>
-                    <foreach collection="o.criteriaWithBetweenValue" item="ob">${ob.condition} #{ob.val[0]} and #{ob.val[1]} and</foreach>
+                    <foreach collection="o.criteriaWithBetweenValue" item="ob">${ob.condition} #{ob.val[0]} and #{ob.val[1]} and </foreach>
                     <foreach collection="o.criteriaWithListValue" item="ol">${ol.condition}
                         <foreach collection="ol.val" open="(" close=")" item="olv" separator=",">#{olv}</foreach>
                     </foreach>
@@ -58,6 +60,8 @@
         FKXS,
         FKR,
         FK_TIME,
+        QRZT,
+        QR_TIME,
         BZ,
         CREATOR,
         CREATETIME,
@@ -76,6 +80,8 @@
         FKXS,
         FKR,
         FK_TIME,
+        QRZT,
+        QR_TIME,
         BZ,
         CREATOR,
         CREATETIME,
@@ -88,6 +94,8 @@
         #{fkxs,jdbcType=VARCHAR},
         #{fkr,jdbcType=VARCHAR},
         #{fkTime,jdbcType=TIMESTAMP},
+        #{qrzt,jdbcType=VARCHAR},
+        #{qrTime,jdbcType=TIMESTAMP},
         #{bz,jdbcType=VARCHAR},
         #{creator,jdbcType=VARCHAR},
         #{createtime,jdbcType=TIMESTAMP},
@@ -117,6 +125,12 @@
             </if>
             <if test="fkTime !=null ">
                 FK_TIME,
+            </if>
+            <if test="qrzt !=null  and qrzt != '' ">
+                QRZT,
+            </if>
+            <if test="qrTime !=null ">
+                QR_TIME,
             </if>
             <if test="bz !=null  and bz != '' ">
                 BZ,
@@ -154,6 +168,12 @@
             <if test="fkTime !=null ">
                 #{fkTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="qrzt !=null  and qrzt != '' ">
+                #{qrzt,jdbcType=VARCHAR},
+            </if>
+            <if test="qrTime !=null ">
+                #{qrTime,jdbcType=TIMESTAMP},
+            </if>
             <if test="bz !=null  and bz != '' ">
                 #{bz,jdbcType=VARCHAR},
             </if>
@@ -182,6 +202,8 @@
         FKXS,
         FKR,
         FK_TIME,
+        QRZT,
+        QR_TIME,
         BZ,
         CREATOR,
         CREATETIME,
@@ -196,6 +218,8 @@
             #{item.fkxs,jdbcType=VARCHAR},
             #{item.fkr,jdbcType=VARCHAR},
             #{item.fkTime,jdbcType=TIMESTAMP},
+            #{item.qrzt,jdbcType=VARCHAR},
+            #{item.qrTime,jdbcType=TIMESTAMP},
             #{item.bz,jdbcType=VARCHAR},
             #{item.creator,jdbcType=VARCHAR},
             #{item.createtime,jdbcType=TIMESTAMP},
@@ -214,6 +238,8 @@
             FKXS=#{fkxs,jdbcType=VARCHAR},
             FKR=#{fkr,jdbcType=VARCHAR},
             FK_TIME=#{fkTime,jdbcType=TIMESTAMP},
+            QRZT=#{qrzt,jdbcType=VARCHAR},
+            QR_TIME=#{qrTime,jdbcType=TIMESTAMP},
             BZ=#{bz,jdbcType=VARCHAR},
             CREATOR=#{creator,jdbcType=VARCHAR},
             CREATETIME=#{createtime,jdbcType=TIMESTAMP},
@@ -240,6 +266,12 @@
             <if test="fkTime !=null ">
                 FK_TIME = #{fkTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="qrzt !=null  and qrzt != '' ">
+                QRZT = #{qrzt,jdbcType=VARCHAR},
+            </if>
+            <if test="qrTime !=null ">
+                QR_TIME = #{qrTime,jdbcType=TIMESTAMP},
+            </if>
             <if test="bz !=null  and bz != '' ">
                 BZ = #{bz,jdbcType=VARCHAR},
             </if>
@@ -259,7 +291,7 @@
                 DELETEFLAG = #{deleteflag,jdbcType=VARCHAR}
             </if>
         </trim>
-        WHERE ID=#{id,jdbcType=VARCHAR}
+        WHERE ID = #{id,jdbcType=VARCHAR}
     </update>
 
     <update id="updateCustom" parameterType="com.hisign.bfun.bmodel.UpdateParams">
@@ -277,14 +309,15 @@
 
     <!-- 按Id删除 -->
     <delete id="deleteById" parameterType="java.lang.String">
-        DELETE FROM t_task_fk WHERE ID = #{id,jdbcType=VARCHAR}
+        DELETE FROM t_task_fk WHERE
+         ID = #{id,jdbcType=VARCHAR}
     </delete>
 
     <!--根据list(ids)删除对象-->
     <delete id="deleteByIds">
         DELETE FROM t_task_fk
         WHERE id in
-        <foreach collection="list" item="id" open="(" separator="," close=")">#{id,jdbcType=VARCHAR}</foreach>
+        <foreach collection="list" item="id" open="(" separator="," close=")">${id}</foreach>
     </delete>
 
     <!--根据自定义删除对象-->
@@ -322,6 +355,12 @@
         <if test="fkTime != null ">
             and FK_TIME=#{fkTime,jdbcType=TIMESTAMP}
         </if>
+        <if test="qrzt != null  and qrzt != '' ">
+            and QRZT=#{qrzt,jdbcType=VARCHAR}
+        </if>
+        <if test="qrTime != null ">
+            and QR_TIME=#{qrTime,jdbcType=TIMESTAMP}
+        </if>
         <if test="bz != null  and bz != '' ">
             and BZ=#{bz,jdbcType=VARCHAR}
         </if>
@@ -358,28 +397,34 @@
             and FKXS=#{fkxs,jdbcType=VARCHAR}
         </if>
         <if test="fkr != null  and fkr != '' ">
-            and FKR=#{fkr}
+            and FKR=#{fkr,jdbcType=VARCHAR}
         </if>
         <if test="fkTime != null ">
-            and FK_TIME=#{fkTime}
+            and FK_TIME=#{fkTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="qrzt != null  and qrzt != '' ">
+            and QRZT=#{qrzt,jdbcType=VARCHAR}
+        </if>
+        <if test="qrTime != null ">
+            and QR_TIME=#{qrTime,jdbcType=TIMESTAMP}
         </if>
         <if test="bz != null  and bz != '' ">
-            and BZ=#{bz}
+            and BZ=#{bz,jdbcType=VARCHAR}
         </if>
         <if test="creator != null  and creator != '' ">
-            and CREATOR=#{creator}
+            and CREATOR=#{creator,jdbcType=VARCHAR}
         </if>
         <if test="createtime != null ">
-            and CREATETIME=#{createtime}
+            and CREATETIME=#{createtime,jdbcType=TIMESTAMP}
         </if>
         <if test="deparmentcode != null  and deparmentcode != '' ">
-            and DEPARMENTCODE=#{deparmentcode}
+            and DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR}
         </if>
         <if test="lastupdatetime != null ">
-            and LASTUPDATETIME=#{lastupdatetime}
+            and LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP}
         </if>
         <if test="deleteflag != null  and deleteflag != '' ">
-            and DELETEFLAG=#{deleteflag}
+            and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
         </if>
     </select>
 
@@ -432,11 +477,11 @@
 
         ) t ) a
         <if test="end !=null and end !=0">
-            where rownum <![CDATA[<=]]> ${end}
+            where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
         </if>
         ) p
         <if test="begin !=null and begin !=0">
-            where rn >= ${begin}
+            where rn >= #{begin,jdbcType=INTEGER}
         </if>
     </select>
 
@@ -458,4 +503,14 @@
         FROM t_task_fk
     </select>
 
+    <update id="updateTaskQrzt"  parameterType="com.hisign.xingzhen.xz.api.entity.TaskFk">
+        update t_cb set qrzt=#{qrzt,jdbcType=VARCHAR}
+        <if test="qrTime !=null">
+            ,qr_time=#{qrTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="lastupdatetime !=null ">
+            #{lastupdatetime,jdbcType=TIMESTAMP},
+        </if>
+        where taskId=#{taskid,jdbcType=VARCHAR} and qrzt=0
+    </update>
 </mapper>

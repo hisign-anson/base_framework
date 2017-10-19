@@ -107,11 +107,16 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         long count = taskMapper.getCountTaskByCondition(task);
         return JsonResultUtil.success(count,list);
     }
-
+    /**
+     * 查看任务
+     * @param  task
+     * 刘玉兰
+     * 接收人查看未反馈的信息，将任务单状态改为已签收，接收人查看已反馈的信息，反馈信息的状态改为已确认
+     */
     @Override
     @Transactional
-    public JsonResult taskDetail(String id) {
-        TaskModel taskModel=taskMapper.findById(id);
+    public JsonResult taskDetail(Task task) {
+        TaskModel taskModel=taskMapper.findById(task.getId());
         if(taskModel==null){
             return error("该任务不存在");
         }
@@ -122,15 +127,24 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         if("1".equals(taskModel.getFkzt())){
             List<TaskFkModel> taskFkModels=taskFkMapper.findList(conditions);
             taskModel.setTaskFkModels(taskFkModels);
-        } else{
-            if(!"1".equals(taskModel.getQszt())) {
+            if(taskModel.getJsr().equals(task.getUserId())) {
                 Date now=new Date();
-                Task task = new Task();
-                task.setId(id);
-                task.setQszt("1");
-                task.setQsTime(now);
-                task.setLastupdatetime(now);
-                taskMapper.updateNotNull(task);
+                TaskFk taskFk=new TaskFk();
+                taskFk.setTaskid(task.getId());
+                taskFk.setQrzt("1");
+                taskFk.setQrTime(now);
+                taskFk.setLastupdatetime(now);
+                taskFkMapper.updateTaskQrzt(taskFk);
+            }
+        } else{
+            if(!"1".equals(taskModel.getQszt()) && taskModel.getJsr()!=null && taskModel.getJsr().equals(task.getUserId())) {
+                Date now=new Date();
+                Task t = new Task();
+                t.setId(task.getId());
+                t.setQszt("1");
+                t.setQsTime(now);
+                t.setLastupdatetime(now);
+                taskMapper.updateNotNull(t);
             }
         }
         return JsonResultUtil.success(taskModel);
@@ -143,7 +157,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         if(group==null) {
             return error("添加记录失败,专案组不存在");
         }
-        if(group.getDeparmentcode()!=null&&group.getDeparmentcode().length()!=12){
+        if(group.getDeparmentcode()==null||group.getDeparmentcode().length()!=12){
             return error("添加记录失败,该专案组所属机构有误");
         }
         Date now=new Date();
@@ -182,6 +196,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             entity.setCreatetime(now);
             entity.setLastupdatetime(now);
             entity.setDeleteflag(Constants.DELETE_FALSE);
+            entity.setYjrwid(new_task.getId());
             Cb cb=new Cb();
             cb.setTaskid(new_task.getId());
             cb.setOld_taskid(entity.getId());

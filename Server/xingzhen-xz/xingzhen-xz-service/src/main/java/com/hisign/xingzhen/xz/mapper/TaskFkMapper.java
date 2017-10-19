@@ -11,5 +11,5 @@ import com.hisign.xingzhen.xz.api.model.TaskFkModel;
  *
  */
 public interface TaskFkMapper extends BaseMapper<TaskFk,TaskFkModel,String> {
-
+    public String updateTaskQrzt(TaskFk taskFk);
 }
