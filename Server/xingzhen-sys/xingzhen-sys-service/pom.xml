@@ -73,7 +73,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork>
-                    <mainClass>com.hisign.xingzhen.sys.SysServerStartApplication</mainClass>
+                    <mainClass>com.hisign.xingzhen.SysServerStartApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
