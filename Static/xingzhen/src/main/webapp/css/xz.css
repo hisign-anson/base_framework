@@ -433,7 +433,6 @@ input[disabled], textarea[disabled], select[disabled] {
     width: 120px;
     vertical-align: top;
 }
-
 .table-responsive-row .typical-tb {
     width: 100%;
     margin-left: 0;

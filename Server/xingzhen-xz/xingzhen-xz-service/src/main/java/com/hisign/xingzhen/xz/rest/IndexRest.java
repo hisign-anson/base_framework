@@ -11,11 +11,9 @@ import com.hisign.xingzhen.xz.api.service.TaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -38,7 +36,7 @@ public class IndexRest extends BaseController {
     @ApiOperation(value = "待办任务",notes = "首页待办工作",httpMethod = "GET", response = Map.class)
     @ApiImplicitParam(name = "userId",value = "当前用户id",required = true,dataType = "String")
     @RequestMapping(value = "/getTaskCountInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getTaskCountInfo(@RequestParam String userId) {
+    public JsonResult getTaskCountInfo(@ApiParam @RequestParam(value="userId") String userId) {
         //已反馈 未确认 下发人
         Conditions conditions = new Conditions(Task.class);
         Conditions.Criteria criteria = conditions.createCriteria();
@@ -54,7 +52,7 @@ public class IndexRest extends BaseController {
 
         criteria.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
                 .add(Task.TaskEnum.qszt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
-                .add(Task.TaskEnum.fkjzTime.get(), BaseEnum.ConditionEnum.GT_, new Date())
+                .add(Task.TaskEnum.fkjzTime.get(), BaseEnum.ConditionEnum.GT, new Date())
                 .add(Task.TaskEnum.jsr.get(), BaseEnum.ConditionEnum.EQ, userId);
         Long count2 = taskService.getCount(conditions);
 
@@ -63,7 +61,7 @@ public class IndexRest extends BaseController {
         Conditions.Criteria criteria3 = conditions.createCriteria();
 
         criteria.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
-                .add(Task.TaskEnum.fkjzTime.get(), BaseEnum.ConditionEnum.LTE_, new Date())
+                .add(Task.TaskEnum.fkjzTime.get(), BaseEnum.ConditionEnum.LTE, new Date())
                 .add(Task.TaskEnum.jsr.get(), BaseEnum.ConditionEnum.EQ, userId);
         Long count3 = taskService.getCount(conditions);
 
