@@ -22,47 +22,52 @@ define([
             $("#main-div").empty().html(_.template(fstPageTpl));
             //显示待办
             _self.showTodoList();
+
             //显示平台成果
             _self.showAchievementsList();
+            //平台成果点击更多
+            $('#achievementDiv .more-link').on('click', function () {
+                var htmlPage = 'fstPage/achievementMoreList.html';
+                _self.clcikMore(this,htmlPage);
+            });
+
             //显示通知公告
             _self.showNewsList();
+            //通知公告点击更多
+            $('#newsDiv .more-link').on('click', function () {
+                var htmlPage = 'fstPage/newsMoreList.html';
+                _self.clcikMore(this,htmlPage);
+            });
+
             //显示信息提醒
             _self.showMessageList();
+            //信息提醒点击更多
+            $('#messageDiv .more-link').on('click', function () {
+                var htmlPage = 'fstPage/messageMoreList.html';
+                _self.clcikMore(this,htmlPage);
+            });
+
             //显示知识库
             _self.showKnowledgeList();
+            //知识库点击更多
+            $('#knowledgeDiv .more-link').on('click', function () {
+                var htmlPage = 'fstPage/knowledgeMoreList.html';
+                _self.clcikMore(this,htmlPage);
+            });
+
             //显示系统工具下载
             _self.showToolDownloadList();
+            //系统工具下载点击更多
+            $('#toolDownloadDiv .more-link').on('click', function () {
+                var htmlPage = 'fstPage/toolDownloadMoreList.html';
+                _self.clcikMore(this,htmlPage);
+            });
+
             //显示各区域专案组破案情况
             _self.showAreaSolveCaseList();
+
             //显示各区域专案组创建情况
             _self.showAreaCreateCaseList();
-
-            //点击更多显示列表
-            $('#achievementDiv .more-link').on('click', function () {
-                var htmlPage = 'fstPage/tpl/ruleMessage.html';
-                var tabTitle = '平台成果展示';
-                _self.clcikMore(this,htmlPage,tabTitle);
-            });
-            $('#newsDiv .more-link').on('click', function () {
-                var htmlPage = 'fstPage/tpl/ruleMessage.html';
-                var tabTitle = '通知公告';
-                _self.clcikMore(this,htmlPage,tabTitle);
-            });
-            $('#messageDiv .more-link').on('click', function () {
-                var htmlPage = 'fstPage/tpl/ruleMessage.html';
-                var tabTitle = '信息提醒';
-                _self.clcikMore(this,htmlPage,tabTitle);
-            });
-            $('#knowledgeDiv .more-link').on('click', function () {
-                var htmlPage = 'fstPage/tpl/ruleMessage.html';
-                var tabTitle = '知识库';
-                _self.clcikMore(this,htmlPage,tabTitle);
-            });
-            $('#toolDownloadDiv .more-link').on('click', function () {
-                var htmlPage = 'fstPage/tpl/ruleMessage.html';
-                var tabTitle = '系统工具下载';
-                _self.clcikMore(this,htmlPage,tabTitle);
-            });
         },
         showTodoList:function () {
             _self = this;
@@ -605,8 +610,9 @@ define([
             });
         },
 
-        clcikMore: function (element,htmlPage,tabTitle) {
+        clcikMore: function (element,htmlPage) {
             _self = this;
+            var tabTitle = $(element).prev().text();
             //如果已经打开过,并且没有被关闭清除, 那就直接选中现在这个
             if (typeof window.msgTab == 'object' && window.msgTab.children().length > 0) {
                 $openOnce(getViewPath(htmlPage), tabTitle)
