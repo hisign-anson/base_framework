@@ -20,16 +20,17 @@ define(['underscore',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/relationCaseTr.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupStaff.html',
     'text!/view/caseInvestigation/tpl/specialCaseGroup/groupStaffTr.html',
+    '../dat/specialCaseGroup.js',
     '../../dictManage/src/dictOpener.js'], function (_, specialCaseGroupListTpl, specialCaseGroupListTrTpl, specialCaseGroupAddTpl, archivePageTpl,broadcastPageTpl, groupListTpl, caseListTpl, caseListTrTpl,caseInfoTpl,
                                                      userListTpl, userListTrTpl, chatPageTpl, baseInfoTpl, relationCaseTpl, relationCaseTrTpl, groupStaffTpl, groupStaffTrTpl,
-                                                     dictOpener) {
+                                                     specialCaseGroupAjax,dictOpener) {
     return {
         showList: function () {
             _self = this;
             //关闭没有关闭的弹框
             dictOpener.closeOpenerDiv();
             $("#mainDiv").empty().html(_.template(specialCaseGroupListTpl, {ops: top.opsMap}));
-            $("#createDate").daterangepicker({
+            $("#createtime").daterangepicker({
                 separator: ' 至 ',
                 showWeekNumbers: true,
                 pickTime: true
@@ -43,7 +44,7 @@ define(['underscore',
 
             //点击选择是否
             /***参数：（被点击的div包裹层，传入后台的参数）***/
-            selectUtils.selectTextOption("#changeYesOrNo", "#msgLevel");
+            selectUtils.selectTextOption("#changeBackupStatu", "#backupStatu");
 
             $("#chooseCreatName").on('click', function () {
                 dictOpener.openChooseDict($(this));
@@ -83,38 +84,42 @@ define(['underscore',
                 // regName:$.trim($("#regName").val()),
                 // totalFund:parseFloat($.trim($("#totalFund").val()))*10000
             });
+            // $('#specialGroupListResult').pagingList({
+            //     action:top.servicePath_xz+'/group/getGroupPage',
+            //     jsonObj:param,
+            //     callback:function(data){
+            //
+            //     }
+            // });
             var data = [
                 {
                     "rownum": 0,
                     "id": "BD54F18C24874DBE934472CD21EBC6BB",
-                    "groupId": "ABCDEFGHABCDEFGHABCDEFGH12346157",
-                    "groupName": "测试项目1",
-                    "groupType": "0",
+                    "groupnum": "ABCDEFGHABCDEFGHABCDEFGH12346157",
+                    "groupname": "测试项目1",
+                    "grouptype": "0",
                     "caseNum": 4,
-                    "createName": "张三",
-                    "staffNum": "10",
-                    "createTime": "2017-07-06 18:00:16",
-                    "fileStatus": 0,
-                    "fileTime": "2017-09-04 11:59:09"
+                    "creator": "张三",
+                    "num": "10",
+                    "createtime": "2017-07-06 18:00:16",
+                    "backupStatu": 0,
+                    "backupTime": "2017-09-04 11:59:09"
                 },
                 {
                     "rownum": 1,
                     "id": "06FB300E23AB4630B1153637D7C655E6",
-                    "groupId": "E3E47DAB3F1F44C7BD02ED9E91C6D951",
-                    "groupName": "一长四必项目",
-                    "groupType": "1",
+                    "groupnum": "E3E47DAB3F1F44C7BD02ED9E91C6D951",
+                    "groupname": "一长四必项目",
+                    "grouptype": "1",
                     "caseNum": 1,
-                    "createName": "超级管理员",
-                    "staffNum": "5",
-                    "createTime": "2017-07-05 18:00:16",
-                    "fileStatus": 1,
-                    "fileTime": "2017-09-07 11:59:09"
+                    "creator": "超级管理员",
+                    "num": "5",
+                    "createtime": "2017-07-05 18:00:16",
+                    "backupStatu": 1,
+                    "backupTime": "2017-09-07 11:59:09"
                 }
             ];
-            $("#specialGroupListTable tbody").empty().html(_.template(specialCaseGroupListTrTpl, {
-                data: data,
-                ops: top.opsMap
-            }));
+            $("#specialGroupListTable tbody").empty().html(_.template(specialCaseGroupListTrTpl, { data: data, ops: top.opsMap }));
             $(".link-text").on("click", function () {
                 console.info("专案组详情按钮");
                 _self.showEdit();

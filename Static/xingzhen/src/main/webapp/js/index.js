@@ -1,6 +1,7 @@
 
 top.path=localData.get('path');
 top.servicePath=localData.get('servicePath');
+top.servicePath_xz=localData.get('servicePath_xz');
 top.token = localData.get('token');
 top.ftpServer = localData.get('ftpServer');
 top.limits = localData.get('limits');

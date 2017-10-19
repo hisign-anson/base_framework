@@ -3,26 +3,26 @@
         <div class="query-block-row">
             <div class="fl qc-group-l">
                 <span class="qc-label-xl">专案组名称：</span>
-                <input class="common-input" type="text" id="" name="">
+                <input class="common-input" type="text" id="groupname" name="">
             </div>
 
             <div class="fl qc-group-l">
                 <span class="qc-label-xl">专案组编号：</span>
-                <input class="common-input" type="text" id="" name="">
+                <input class="common-input" type="text" id="groupnum" name="">
             </div>
         </div>
         <div class="query-block-row">
             <div class="fl qc-group-l">
                 <span class="qc-label-xl">创建人：</span>
                 <div class="dict-opener">
-                    <input class="common-input" type="text" id="" name="">
+                    <input class="common-input" type="text" id="creator" name="">
                     <i id="chooseCreatName" class="icon-list cur-p button steelblue" title="创建人" dict-value="CFMC"></i>
                 </div>
             </div>
             <div class="fl qc-group-xxl">
                 <span class="qc-label-xl hook-label">创建时间：</span>
                 <div class="text-time">
-                    <input class="cm-input date-range-picker" type="text" id="createDate" placeholder="请输入时间范围" readonly>
+                    <input class="cm-input date-range-picker" type="text" id="createtime" placeholder="请输入时间范围" readonly>
                     <i class="icon-calendar icon-time"></i>
                     <input type="hidden" name="startTime" id="startTime" />
                     <input type="hidden" name="endTime" id="endTime" />
@@ -47,7 +47,7 @@
             <div class="fl qc-group-l">
                 <span class="qc-label-xl">所属单位：</span>
                 <div class="dict-opener">
-                    <input class="common-input" type="text" id="" name="">
+                    <input class="common-input" type="text" id="deparmentcode" name="">
                     <i id="chooseUnit" class="icon-list cur-p button steelblue" title="所属单位" dict-value="CFMC"></i>
                 </div>
             </div>
@@ -60,11 +60,12 @@
                 </div>
                 <div class="fl qc-group-l">
                     <span class="qc-label-xl">是否归档：</span>
-                    <span class="option" id="changeYesOrNo">
+                    <span class="option" id="changeBackupStatu">
                         <u class="active default " val="">全部</u>
                         <u class="  " val="0">是</u>
                         <u class="  " val="1">否</u>
                     </span>
+                    <input id='backupStatu' name="" type="hidden" value="">
                 </div>
             </div>
         </div>
