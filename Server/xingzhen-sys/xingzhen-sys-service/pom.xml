@@ -29,6 +29,11 @@
         </dependency>
         <dependency>
             <groupId>com.hisign.xingzhen</groupId>
+            <artifactId>xingzhen-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hisign.xingzhen</groupId>
             <artifactId>xingzhen-nt-api</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -68,7 +73,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork>
-                    <mainClass>com.hisign.xingzhen.sys.SysServerStartApplication</mainClass>
+                    <mainClass>com.hisign.xingzhen.SysServerStartApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
