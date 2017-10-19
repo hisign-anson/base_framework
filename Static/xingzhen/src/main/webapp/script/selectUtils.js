@@ -9,6 +9,20 @@ var selectUtils = {
             $(setValueDiv).val($(this).attr("val"));
         });
     },
+    selectTextMultiOpt:function(clickDiv,setValue){
+        var arrValue = [];
+        $(clickDiv).on("click","u",function(){
+            var isActived = $(this).hasClass("active");
+            if(isActived){
+                $(this).removeClass("active");
+                arrValue.pop($(this).attr("val"));
+            } else {
+                $(this).addClass("active").siblings(".default").removeClass("active");
+                arrValue.push($(this).attr("val"));
+            }
+            setValue = arrValue;
+        });
+    },
     selectTimeRangeOption:function(clickDiv,setValueDiv,startTimeDiv,endTimeDiv){
         $(clickDiv).on("click","u",function(){
             $(this).addClass("active").siblings(".active").removeClass("active");
