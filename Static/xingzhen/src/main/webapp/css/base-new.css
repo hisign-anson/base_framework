@@ -5407,7 +5407,8 @@ label.as-radio:after {
 .typical-tb > tbody tr:hover > td.need-fix-end,
 .typical-tb > tbody tr td.need-fix.hover-like,
 .typical-tb > tbody tr td.need-fix-end.hover-like {
-  background-color: #ffef85;
+  /*background-color: #ffef85;*/
+  background-color: #e3f3fb;
 }
 .typical-tb > tbody tr.checked,
 .typical-tb > tbody tr.checked > td {
