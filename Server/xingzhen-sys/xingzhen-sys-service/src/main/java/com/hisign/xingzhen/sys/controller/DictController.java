@@ -33,9 +33,6 @@ public class DictController {
     @Resource
     private SysDictService sysDictService;
 
-    
-    
-
     /**
      * 单级字典查询
      *
