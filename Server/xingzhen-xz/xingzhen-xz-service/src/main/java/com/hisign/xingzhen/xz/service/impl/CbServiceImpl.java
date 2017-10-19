@@ -1,21 +1,29 @@
 package com.hisign.xingzhen.xz.service.impl;
 
-import com.hisign.xingzhen.xz.api.model.CbModel;
-import com.hisign.xingzhen.xz.mapper.CbMapper;
+import com.hisign.bfun.benum.BaseEnum;
+import com.hisign.bfun.bexception.BusinessException;
+import com.hisign.bfun.bif.BaseMapper;
+import com.hisign.bfun.bif.BaseServiceImpl;
+import com.hisign.bfun.bmodel.Conditions;
+import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.bfun.bmodel.UpdateParams;
+import com.hisign.bfun.butils.JsonResultUtil;
+import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.xz.api.entity.Cb;
+import com.hisign.xingzhen.xz.api.entity.Task;
+import com.hisign.xingzhen.xz.api.model.CbModel;
 import com.hisign.xingzhen.xz.api.service.CbService;
-import java.util.List;
+import com.hisign.xingzhen.xz.mapper.CbMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.hisign.bfun.benum.BaseEnum;
-import com.hisign.bfun.bif.*;
-import com.hisign.bfun.butils.JsonResultUtil;
-import com.hisign.bfun.bexception.BusinessException;
-import com.hisign.bfun.bmodel.*;
+
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 
- /**
+/**
  * 《催办记录》 业务逻辑服务类
  * @author 何建辉
  *
@@ -75,4 +83,17 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 		return JsonResultUtil.success();
 	}
 
+     @Override
+     public JsonResult addCb(Cb cb) {
+         Date now=new Date();
+         cb.setId(UUID.randomUUID().toString());
+         cb.setCreatetime(now);
+         cb.setLastupdatetime(now);
+         cb.setDeleteflag(Constants.DELETE_FALSE);
+         Task task=new Task();
+         task.setId(cb.getTaskid());
+         task.setCbzt("1");
+         task.setLastupdatetime(now);
+         return super.addNotNull(cb);
+     }
  }

@@ -11,5 +11,5 @@ import com.hisign.xingzhen.xz.api.model.CbModel;
  *
  */
 public interface CbMapper extends BaseMapper<Cb,CbModel,String> {
-
+    public long updateCbTaskid(Cb cb);
 }

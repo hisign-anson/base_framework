@@ -42,7 +42,7 @@ public class IndexRest extends BaseController {
         Conditions.Criteria criteria = conditions.createCriteria();
 
         criteria.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
-                .add(Task.TaskEnum.qrzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
+                //.add(Task.TaskEnum.qrzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
                 .add(Task.TaskEnum.fqr.get(), BaseEnum.ConditionEnum.EQ, userId);
         Long count1 = taskService.getCount(conditions);
 

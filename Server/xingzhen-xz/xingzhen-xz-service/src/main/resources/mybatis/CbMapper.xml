@@ -211,7 +211,7 @@
                 DELETEFLAG = #{deleteflag,jdbcType=VARCHAR}
             </if>
         </trim>
-        WHERE n_id=#{id}
+        WHERE ID=#{id,jdbcType=VARCHAR}
     </update>
 
     <update id="updateCustom" parameterType="com.hisign.bfun.bmodel.UpdateParams">
@@ -229,17 +229,14 @@
     
     <!-- 按Id删除 -->
     <delete id="deleteById" parameterType="java.lang.String">
-        DELETE FROM t_cb
-        <trim prefix="WHERE" prefixOverrides="AND | OR">
-            AND ID = #{id}
-        </trim>
+        DELETE FROM t_cb WHERE ID = #{id,jdbcType=VARCHAR}
     </delete>
 
     <!--根据list(ids)删除对象-->
     <delete id="deleteByIds">
         DELETE FROM t_cb
         WHERE id in
-        <foreach collection="list" item="id" open="(" separator="," close=")">#{id}</foreach>
+        <foreach collection="list" item="id" open="(" separator="," close=")">#{id,jdbcType=VARCHAR}</foreach>
     </delete>
 
 	<!--根据自定义删除对象-->
@@ -253,7 +250,7 @@
 	    <include refid="Base_Column_List" />
         FROM t_cb 
         WHERE 
-        ID = #{id}
+        ID = #{id,jdbcType=VARCHAR}
         and rownum = 1 
     </select>
     
@@ -294,30 +291,30 @@
 	    <include refid="Base_Column_List" />
         FROM t_cb 
         WHERE 1 = 1
-	     	<if test="id != null  and id != '' ">
-		   	 and ID=#{id}
-		    </if>
-	     	<if test="cbTime != null ">
-		   	 and CB_TIME=#{cbTime}
-		    </if>
-	     	<if test="taskid != null  and taskid != '' ">
-		   	 and TASKID=#{taskid}
-		    </if>
-	     	<if test="creator != null  and creator != '' ">
-		   	 and CREATOR=#{creator}
-		    </if>
-	     	<if test="createtime != null ">
-		   	 and CREATETIME=#{createtime}
-		    </if>
-	     	<if test="deparmentcode != null  and deparmentcode != '' ">
-		   	 and DEPARMENTCODE=#{deparmentcode}
-		    </if>
-	     	<if test="lastupdatetime != null ">
-		   	 and LASTUPDATETIME=#{lastupdatetime}
-		    </if>
-	     	<if test="deleteflag != null  and deleteflag != '' ">
-		   	 and DELETEFLAG=#{deleteflag}
-		    </if>
+        <if test="id != null  and id != '' ">
+            and ID=#{id,jdbcType=VARCHAR}
+        </if>
+        <if test="cbTime != null ">
+            and CB_TIME=#{cbTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="taskid != null  and taskid != '' ">
+            and TASKID=#{taskid,jdbcType=VARCHAR}
+        </if>
+        <if test="creator != null  and creator != '' ">
+            and CREATOR=#{creator,jdbcType=VARCHAR}
+        </if>
+        <if test="createtime != null ">
+            and CREATETIME=#{createtime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="deparmentcode != null  and deparmentcode != '' ">
+            and DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR}
+        </if>
+        <if test="lastupdatetime != null ">
+            and LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="deleteflag != null  and deleteflag != '' ">
+            and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
+        </if>
     </select>
     
     <select id="findByCondition" parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">
@@ -394,5 +391,9 @@
         MAX(id)
         FROM t_cb
     </select>
-   
+
+    <update id="updateCbTaskid"  parameterType="com.hisign.xingzhen.xz.api.entity.Cb">
+        update t_cb set taskId=#{taskid,jdbcType=VARCHAR} where taskId=#{old_taskid,jdbcType=VARCHAR}
+    </update>
+
 </mapper>
