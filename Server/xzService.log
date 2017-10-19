@@ -7639,3 +7639,4 @@ com.netflix.discovery.shared.transport.TransportException: Cannot execute reques
 2017-10-19 10:59:50.808 DEBUG 7868 --- [http-nio-0.0.0.0-8099-exec-1] c.h.x.xz.mapper.GroupMapper.findById     : ==>  Preparing: SELECT ID, PGROUPID, GROUPNUM, GROUPNAME, GROUPTYPE, BACKUP_STATU, BACKUP_TIME, BACKUP_REASON, CREATOR, CREATETIME, DEPARMENTCODE, LASTUPDATETIME, DELETEFLAG FROM t_group WHERE ID = ? and rownum = 1 
 2017-10-19 10:59:50.911 DEBUG 7868 --- [http-nio-0.0.0.0-8099-exec-1] c.h.x.xz.mapper.GroupMapper.findById     : ==> Parameters: 1(String)
 2017-10-19 10:59:50.950 DEBUG 7868 --- [http-nio-0.0.0.0-8099-exec-1] c.h.x.xz.mapper.GroupMapper.findById     : <==      Total: 1
+2017-10-19 11:04:17.437  INFO 7868 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
