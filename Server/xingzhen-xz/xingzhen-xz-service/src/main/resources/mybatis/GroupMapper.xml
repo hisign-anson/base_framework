@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hisign.xingzhen.xz.mapper.GroupMapper">
-    <resultMap type="com.hisign.xingzhen.xz.api.entity.Group" id="BaseResultMap">
+    <resultMap type="com.hisign.xingzhen.xz.api.model.GroupModel" id="BaseResultMap">
         <result column="ID" property="id" jdbcType="VARCHAR"/>
         <result column="PGROUPID" property="pgroupid" jdbcType="VARCHAR"/>
         <result column="GROUPNUM" property="groupnum" jdbcType="VARCHAR"/>
@@ -25,9 +25,7 @@
                 <trim suffixOverrides="and">
                     <foreach collection="o.criteriaWithoutValue" item="oc" separator="and">${oc} and </foreach>
                     <foreach collection="o.criteriaWithSingleValue" item="os">${os.condition} #{os.val} and </foreach>
-                    <foreach collection="o.criteriaWithBetweenValue" item="ob">${ob.condition} #{ob.val[0]} and
-                        #{ob.val[1]} and
-                    </foreach>
+                    <foreach collection="o.criteriaWithBetweenValue" item="ob">${ob.condition} #{ob.val[0]} and #{ob.val[1]} and </foreach>
                     <foreach collection="o.criteriaWithListValue" item="ol">${ol.condition}
                         <foreach collection="ol.val" open="(" close=")" item="olv" separator=",">#{olv}</foreach>
                     </foreach>
@@ -43,12 +41,9 @@
                 <if test="o.valid">
                     (
                     <trim suffixOverrides="and">
-                        <foreach collection="o.criteriaWithoutValue" item="oc" separator="and">${oc} and</foreach>
-                        <foreach collection="o.criteriaWithSingleValue" item="os">${os.condition} #{os.val} and
-                        </foreach>
-                        <foreach collection="o.criteriaWithBetweenValue" item="ob">${ob.condition} #{ob.val[0]} and
-                            #{ob.val[1]} and
-                        </foreach>
+                        <foreach collection="o.criteriaWithoutValue" item="oc" separator="and">${oc} and </foreach>
+                        <foreach collection="o.criteriaWithSingleValue" item="os">${os.condition} #{os.val} and </foreach>
+                        <foreach collection="o.criteriaWithBetweenValue" item="ob">${ob.condition} #{ob.val[0]} and #{ob.val[1]} and</foreach>
                         <foreach collection="o.criteriaWithListValue" item="ol">${ol.condition}
                             <foreach collection="ol.val" open="(" close=")" item="olv" separator=",">#{olv}</foreach>
                         </foreach>
@@ -75,8 +70,7 @@
         DELETEFLAG
     </sql>
 
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true"
-            parameterType="com.hisign.xingzhen.xz.api.entity.Group">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Group">
         <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
             SELECT sys_guid() from DUAL
         </selectKey>
@@ -111,8 +105,7 @@
         )
     </insert>
 
-    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true"
-            parameterType="com.hisign.xingzhen.xz.api.entity.Group">
+    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Group">
         <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
             SELECT sys_guid() from DUAL
         </selectKey>
@@ -218,7 +211,7 @@
         LASTUPDATETIME,
         DELETEFLAG
         )
-        <foreach collection="list" open="(" close=")" item="item" index="index" separator="union all">
+        <foreach collection="list" open="(" close=")" item="item" index="index" separator="union all" >
             select
             #{item.id,jdbcType=VARCHAR},
             #{item.pgroupid,jdbcType=VARCHAR},
@@ -298,55 +291,53 @@
                 DELETEFLAG = #{deleteflag,jdbcType=VARCHAR}
             </if>
         </trim>
-        WHERE n_id=#{id}
+        ID = #{id,jdbcType=VARCHAR}
     </update>
 
     <update id="updateCustom" parameterType="com.hisign.bfun.bmodel.UpdateParams">
         UPDATE t_group
         <trim prefix="SET" suffixOverrides=",">
-            <foreach collection="fields" item="item" index="index" separator=",">
-                ${item} #{values[${index}]}
+            <foreach collection="fields" item="item" index="index" separator="," >
+                ${item}  #{values[${index}]}
             </foreach>
         </trim>
-        <include refid="Update_Conditions_Where_Clause"/>
+        <include refid="Update_Conditions_Where_Clause" />
         <if test="conditions!=null">
-            <if test="conditions.orderByClause!=null">${conditions.orderByClause}</if>
+            <if test="conditions.orderByClause!=null"> ${conditions.orderByClause}</if>
         </if>
     </update>
 
     <!-- 按Id删除 -->
     <delete id="deleteById" parameterType="java.lang.String">
-        DELETE FROM t_group
-        <trim prefix="WHERE" prefixOverrides="AND | OR">
-            AND ID = #{id}
-        </trim>
+        DELETE FROM t_group WHERE
+        ID = #{id,jdbcType=VARCHAR}
     </delete>
 
     <!--根据list(ids)删除对象-->
     <delete id="deleteByIds">
         DELETE FROM t_group
         WHERE id in
-        <foreach collection="list" item="id" open="(" separator="," close=")">#{id}</foreach>
+        <foreach collection="list" item="id" open="(" separator="," close=")">${id}</foreach>
     </delete>
 
     <!--根据自定义删除对象-->
     <delete id="deleteCustom" parameterType="com.hisign.bfun.bmodel.Conditions">
         DELETE FROM t_group
-        <include refid="Conditions_Where_Clause"/>
+        <include refid="Conditions_Where_Clause" />
     </delete>
 
     <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         FROM t_group
         WHERE
-        ID = #{id}
+        ID = #{id,jdbcType=VARCHAR}
         and rownum = 1
     </select>
 
     <select id="findByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.Group" resultMap="BaseResultMap">
         SELECT
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         FROM t_group
         WHERE 1 = 1
         <if test="id != null  and id != '' ">
@@ -393,47 +384,47 @@
 
     <select id="findListByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.Group" resultMap="BaseResultMap">
         SELECT
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         FROM t_group
         WHERE 1 = 1
         <if test="id != null  and id != '' ">
-            and ID=#{id}
+            and ID=#{id,jdbcType=VARCHAR}
         </if>
         <if test="pgroupid != null  and pgroupid != '' ">
-            and PGROUPID=#{pgroupid}
+            and PGROUPID=#{pgroupid,jdbcType=VARCHAR}
         </if>
         <if test="groupnum != null  and groupnum != '' ">
-            and GROUPNUM=#{groupnum}
+            and GROUPNUM=#{groupnum,jdbcType=VARCHAR}
         </if>
         <if test="groupname != null  and groupname != '' ">
-            and GROUPNAME=#{groupname}
+            and GROUPNAME=#{groupname,jdbcType=VARCHAR}
         </if>
         <if test="grouptype != null  and grouptype != '' ">
-            and GROUPTYPE=#{grouptype}
+            and GROUPTYPE=#{grouptype,jdbcType=VARCHAR}
         </if>
         <if test="backupStatu != null  and backupStatu != '' ">
-            and BACKUP_STATU=#{backupStatu}
+            and BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
         </if>
         <if test="backupTime != null ">
-            and BACKUP_TIME=#{backupTime}
+            and BACKUP_TIME=#{backupTime,jdbcType=TIMESTAMP}
         </if>
         <if test="backupReason != null  and backupReason != '' ">
-            and BACKUP_REASON=#{backupReason}
+            and BACKUP_REASON=#{backupReason,jdbcType=VARCHAR}
         </if>
         <if test="creator != null  and creator != '' ">
-            and CREATOR=#{creator}
+            and CREATOR=#{creator,jdbcType=VARCHAR}
         </if>
         <if test="createtime != null ">
-            and CREATETIME=#{createtime}
+            and CREATETIME=#{createtime,jdbcType=TIMESTAMP}
         </if>
         <if test="deparmentcode != null  and deparmentcode != '' ">
-            and DEPARMENTCODE=#{deparmentcode}
+            and DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR}
         </if>
         <if test="lastupdatetime != null ">
-            and LASTUPDATETIME=#{lastupdatetime}
+            and LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP}
         </if>
         <if test="deleteflag != null  and deleteflag != '' ">
-            and DELETEFLAG=#{deleteflag}
+            and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
         </if>
     </select>
 
@@ -444,7 +435,7 @@
                 <foreach collection="returnFields" item="f" separator=",">${f}</foreach>
             </when>
             <otherwise>
-                <include refid="Base_Column_List"/>
+                <include refid="Base_Column_List" />
             </otherwise>
         </choose>
         FROM t_group
@@ -453,15 +444,16 @@
                 ,${tb}
             </foreach>
         </if>
-        <include refid="Conditions_Where_Clause"/>
+        <include refid="Conditions_Where_Clause" />
         and rownum = 1
     </select>
 
-    <select id="findList" parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">
+    <select id="findList"  parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">
         select p.* from(
         select
         rownum,rownum as rn,a.* from (
         select t.* from (
+
         SELECT
         <if test="distinct!=false">
             DISTINCT
@@ -471,7 +463,7 @@
                 <foreach collection="returnFields" item="f" separator=",">${f}</foreach>
             </when>
             <otherwise>
-                <include refid="Base_Column_List"/>
+                <include refid="Base_Column_List" />
             </otherwise>
         </choose>
         FROM t_group
@@ -480,16 +472,16 @@
                 ,${tb}
             </foreach>
         </if>
-        <include refid="Conditions_Where_Clause"/>
+        <include refid="Conditions_Where_Clause" />
         <if test="orderByClause!=null">${orderByClause}</if>
 
         ) t ) a
         <if test="end !=null and end !=0">
-            where rownum <![CDATA[<=]]> ${end}
+            where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
         </if>
         ) p
         <if test="begin !=null and begin !=0">
-            where rn >= ${begin}
+            where rn >= #{begin,jdbcType=INTEGER}
         </if>
     </select>
 
@@ -502,11 +494,12 @@
                 ,${tb}
             </foreach>
         </if>
-        <include refid="Conditions_Where_Clause"/>
+        <include refid="Conditions_Where_Clause" />
     </select>
 
     <select id="selectMaxId" resultType="java.lang.String">
-        SELECT MAX(id)
+        SELECT
+            MAX(id)
         FROM t_group
     </select>
 

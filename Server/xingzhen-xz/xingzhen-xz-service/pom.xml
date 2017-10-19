@@ -19,11 +19,7 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.hisign.xingzhen</groupId>
-            <artifactId>xingzhen-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>com.hisign.xingzhen</groupId>
             <artifactId>xingzhen-xz-api</artifactId>
@@ -31,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>com.hisign.xingzhen</groupId>
-            <artifactId>xingzhen-sys-api</artifactId>
+            <artifactId>xingzhen-config</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

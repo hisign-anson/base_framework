@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hisign.xingzhen.xz.mapper.TaskMapper">
-	<resultMap type="com.hisign.xingzhen.xz.api.entity.Task" id="BaseResultMap">
+	<resultMap type="com.hisign.xingzhen.xz.api.model.TaskModel" id="BaseResultMap">
       <result column="ID" property="id" jdbcType="VARCHAR"/>
       <result column="TASK_NO" property="taskNo" jdbcType="VARCHAR"/>
       <result column="TASK_NAME" property="taskName" jdbcType="VARCHAR"/>
