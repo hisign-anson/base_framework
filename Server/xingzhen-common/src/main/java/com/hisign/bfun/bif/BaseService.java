@@ -125,6 +125,16 @@ public interface BaseService<T,M,PK> {
 	@RequestMapping(value = "/getById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract M getById(@RequestBody PK id);
+
+	/**
+	 * @category 根据主键查询
+	 * @param params
+	 * @return
+	 * @time 2016年10月13日 下午5:18:52
+	 */
+	@RequestMapping(value = "/getEntityById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public T getEntityById(PK id) throws IllegalAccessException, InstantiationException;
 	
 	/**
 	 * @category 根据主键查询
