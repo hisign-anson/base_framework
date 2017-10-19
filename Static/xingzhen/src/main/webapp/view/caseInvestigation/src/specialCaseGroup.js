@@ -342,6 +342,10 @@ define(['underscore',
             _self = this;
             $(".form-content-block").empty().html(_.template(relationCaseTpl));
             $(".form-btn-block").addClass("hide");
+
+            $("#chooseCaseType").on('click', function () {
+                dictOpener.openChooseDict($(this));
+            });
             $("#occurrenceDate").datetimepicker({format:'YYYY-MM-DD',pickTime:false});
             $("#relationCase").on("click", "#resetBtn", function () {
                 console.info("涉及案件重置按钮");
@@ -362,8 +366,13 @@ define(['underscore',
                 console.info("涉及案件关联新案件按钮");
                 $open('#caseListDiv', {width: 800, title: '&nbsp案件查询'});
                 $("#caseListDiv .panel-container").empty().html(_.template(caseListTpl));
-                selectUtils.selectTextOption("#changeCaseSta", "#caseSta");
-                selectUtils.selectTextOption("#changeCaseType", "#caseType");
+                $("#caseListDiv #occurrenceDate").datetimepicker({format:'YYYY-MM-DD',pickTime:false});
+                $("#caseListDiv #acceptDate").datetimepicker({format:'YYYY-MM-DD',pickTime:false});
+                $("#caseListDiv").on('click',"#chooseAcceptUint", function () {
+                    dictOpener.openChooseDict($(this));
+                });
+                selectUtils.selectTextOption("#caseListDiv #changeCaseSta", "#caseSta");
+                selectUtils.selectTextOption("#caseListDiv #changeCaseType", "#caseType");
 
                 $("#caseListDiv").on("click", "#resetBtn", function () {
                     console.info("案件重置按钮");
@@ -398,7 +407,7 @@ define(['underscore',
                 ops: top.opsMap
             }));
 
-            $(".link-text").on("click", function () {
+            $("#relationCaseTable").on("click",".link-text", function () {
                 console.info("案件详情按钮");
                 $open('#userListDiv', {width: 800, title: '&nbsp案件详情'});
                 _self.showCaseInfo();
@@ -441,6 +450,11 @@ define(['underscore',
                 data: data,
                 ops: top.opsMap
             }));
+            $("#caseTable").on("click",".link-text", function () {
+                console.info("案件详情按钮");
+                $open('#userListDiv', {width: 800, title: '&nbsp案件详情'});
+                _self.showCaseInfo();
+            });
             $("#caseTable #selectAll").on('click', function () {
                 $('#caseTable').find('tbody input:checkbox').prop('checked', this.checked);
             });
@@ -483,6 +497,9 @@ define(['underscore',
             _self = this;
             $(".form-content-block").empty().html(_.template(groupStaffTpl));
             $(".form-btn-block").addClass("hide");
+            $("#groupStaff").on('click',"#chooseUint", function () {
+                dictOpener.openChooseDict($(this));
+            });
             $("#groupStaff").on("click", "#resetBtn", function () {
                 console.info("组内成员重置按钮");
             });
@@ -497,6 +514,9 @@ define(['underscore',
                 console.info("添加成员按钮");
                 $open('#userListDiv', {width: 800, title: '&nbsp用户查询'});
                 $("#userListDiv .panel-container").empty().html(_.template(userListTpl));
+                $("#userListDiv").on('click',"#chooseUint", function () {
+                    dictOpener.openChooseDict($(this));
+                });
                 $("#userListDiv").on("click", "#resetBtn", function () {
                     console.info("用户重置按钮");
                 });
