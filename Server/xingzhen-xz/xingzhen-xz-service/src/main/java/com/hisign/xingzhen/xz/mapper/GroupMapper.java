@@ -4,6 +4,7 @@ package com.hisign.xingzhen.xz.mapper;
 import com.hisign.bfun.bif.BaseMapper;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -25,5 +26,5 @@ public interface GroupMapper extends BaseMapper<Group,GroupModel, String> {
 
     public long getCountGroupByCondition(Group group);
 
-    public Map<String,Long> findGroupCaseInfo(String backupStatus);
+    public Map<String,Long> findGroupCaseInfo(@Param("backupStatus") String backupStatus);
 }
