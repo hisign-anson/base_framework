@@ -211,12 +211,16 @@ input[disabled], textarea[disabled], select[disabled] {
 .dict-opener {
     display: inline-block;
     position: relative;
+    width: calc(100% - 130px);
+    min-width: 140px;
+    vertical-align: top;
 }
 
 .dict-opener .icon-list {
     position: absolute;
-    right: 10px;
-    top: 3px;
+    right: 5px;
+    top: 6px;
+    font-size: 12px;
 }
 
 .dict-container {
@@ -245,12 +249,22 @@ input[disabled], textarea[disabled], select[disabled] {
     right: 0;
 
 }
+
+.query-block-row .qc-label-m + .dict-opener {
+    width: calc(100% - 140px);
+}
+.query-block-row .common-field + .dict-opener{
+    width: calc(100% - 154px);
+}
+.query-block-row .dict-opener .icon-list {
+    top: 15px;
+}
 /*表单页面 样式 start*/
 .form-content {
-    margin: 20px;
+    margin: 15px;
 }
 
-.form-container,.form-content-block {
+.form-container, .form-content-block {
     position: relative;
     box-shadow: 0 0 10px 0 rgba(214, 222, 224, 0.6);
     border-radius: 3px;
@@ -263,9 +277,11 @@ input[disabled], textarea[disabled], select[disabled] {
     border-radius: 0;
     margin-bottom: 0;
 }
+
 .form-header {
     position: relative;
 }
+
 .form-title {
     padding: 8px 0;
     font-size: 16px;
@@ -289,9 +305,11 @@ input[disabled], textarea[disabled], select[disabled] {
     width: 4px;
     background: #22A0E2;
 }
+
 .left-line + span {
     margin-left: 15px;
 }
+
 .form-body {
     padding: 15px;
 }
@@ -316,6 +334,7 @@ input[disabled], textarea[disabled], select[disabled] {
     /*left: -1px;*/
     /*width: 100%;*/
 }
+
 /*表单块标题*/
 .form-section-title {
     padding: 15px;
@@ -411,6 +430,7 @@ input[disabled], textarea[disabled], select[disabled] {
     width: 120px;
     vertical-align: top;
 }
+
 .table-responsive-row .typical-tb {
     width: 100%;
     margin-left: 0;
@@ -419,10 +439,6 @@ input[disabled], textarea[disabled], select[disabled] {
 
 .textarea-group .common-textarea {
     width: 100%;
-}
-
-.equal-col-12 .common-textarea {
-    height: 70px;
 }
 
 [class|="equal-col"] .radio, [class|="equal-col"] .checkbox {
@@ -440,12 +456,20 @@ input[disabled], textarea[disabled], select[disabled] {
     margin-top: 5px;
 }
 
-.form-row .common-input,.form-row .common-select,.form-row .common-textarea {
+.form-row .common-input, .form-row .common-select, .form-row .common-textarea {
     padding-left: 8px;
     padding-right: 12px;
-    line-height: 30px;
-    height: 30px;
+    line-height: 25px;
+    height: 25px;
     border-radius: 3px;
+}
+
+.equal-col-12 .common-textarea {
+    height: 70px;
+}
+
+.dict-opener .common-input, .dict-opener .common-textarea {
+    width: 100%;
 }
 
 .table-responsive-row .typical-tb {
@@ -543,32 +567,32 @@ input[disabled], textarea[disabled], select[disabled] {
 }
 
 /*.query-result .nav-tabs {*/
-    /*padding: 10px;*/
+/*padding: 10px;*/
 /*}*/
 
 /*.query-result .nav-tabs > li > a {*/
-    /*margin-right: 10px;*/
-    /*padding: 5px 15px;*/
-    /*border-radius: 0;*/
-    /*display: inline-block;*/
-    /*font-size: 14px;*/
-    /*text-align: center;*/
-    /*white-space: nowrap;*/
-    /*background-color: #eeeeee;*/
-    /*border-color: #dddddd;*/
-    /*color: #494949;*/
+/*margin-right: 10px;*/
+/*padding: 5px 15px;*/
+/*border-radius: 0;*/
+/*display: inline-block;*/
+/*font-size: 14px;*/
+/*text-align: center;*/
+/*white-space: nowrap;*/
+/*background-color: #eeeeee;*/
+/*border-color: #dddddd;*/
+/*color: #494949;*/
 /*}*/
 
 /*.query-result .nav-tabs > li > a:hover {*/
-    /*border-color: #dddddd;*/
-    /*opacity: 0.8;*/
+/*border-color: #dddddd;*/
+/*opacity: 0.8;*/
 /*}*/
 
 /*.query-result .nav-tabs > li.active > a, .query-result .nav-tabs > li.active > a:hover, .query-result .nav-tabs > li.active > a:focus {*/
-    /*cursor: pointer;*/
-    /*color: #fff;*/
-    /*background-color: #22a0e2;*/
-    /*border-color: #22a0e2;*/
+/*cursor: pointer;*/
+/*color: #fff;*/
+/*background-color: #22a0e2;*/
+/*border-color: #22a0e2;*/
 /*}*/
 
 /*空数据和错误页面样式 start*/
@@ -610,56 +634,66 @@ input[disabled], textarea[disabled], select[disabled] {
     background: #4a89dc;
     color: #ffffff;
 }
+
 /*空数据和错误页面样式 end*/
 
 /*可点击的文字*/
-.link-text:hover,.download-text:hover{
+.link-text:hover, .download-text:hover {
     text-decoration: underline;
 }
+
 /*点击可下载附件的文字*/
-.download-text{
+.download-text {
     color: #22A0E2;
     cursor: pointer;
 }
+
 /*============================================================
 操作列小图标 start
 =============================================================*/
 /*删除*/
-.icon-delete:before{
+.icon-delete:before {
     content: "\f1f8";
 }
+
 /*归档*/
-.icon-archive:before{
+.icon-archive:before {
     content: "\f187";
 }
+
 /*广播*/
-.icon-broadcast:before{
+.icon-broadcast:before {
     content: "\f0a1";
 }
+
 /*通讯*/
-.icon-communication:before{
+.icon-communication:before {
     content: "\f0e6";
 }
+
 /*小组*/
-.icon-group:before{
+.icon-group:before {
     content: "\f0c0";
 }
+
 /*移交*/
-.icon-transfer:before{
+.icon-transfer:before {
     content: "\f0ec";
 }
+
 /*催办*/
-.icon-urge:before{
+.icon-urge:before {
     content: "\f071";
 }
+
 /*反馈*/
-.icon-feedback:before{
+.icon-feedback:before {
     content: "\f112";
 }
+
 /*============================================================
 操作列小图标 end
 =============================================================*/
-
 
 /*============================================================
 旧版base.js 生成的弹出框样式 start
@@ -668,15 +702,18 @@ input[disabled], textarea[disabled], select[disabled] {
     border-top-width: 1px;
     /*background: #ffffff;*/
 }
+
 .panel-body {
     overflow: auto;
     border-top-width: 0;
     padding: 0;
 }
+
 .panel-header {
     position: relative;
 }
-.panel-title{
+
+.panel-title {
     font-weight: bold;
     color: rgb(87, 87, 101);
     height: 36px;
@@ -684,6 +721,7 @@ input[disabled], textarea[disabled], select[disabled] {
     white-space: pre;
     text-indent: 5px;
 }
+
 .panel-icon, .panel-tool {
     position: absolute;
     top: 50%;
@@ -692,6 +730,7 @@ input[disabled], textarea[disabled], select[disabled] {
     height: 16px;
     overflow: hidden;
 }
+
 .panel-tool a {
     display: inline-block;
     width: 16px;
@@ -701,39 +740,43 @@ input[disabled], textarea[disabled], select[disabled] {
     margin: 0 0 0 2px;
     vertical-align: top;
 }
+
 .panel-tool-close {
     background: url(../img/eui-gray/panel_tools.png) no-repeat -16px 0px;
 }
-.panel .form-btn-block{
-    border:0;
+
+.panel .form-btn-block {
+    border: 0;
 }
-.panel-container{
+
+.panel-container {
     margin-top: 15px;
 }
+
 /*============================================================
 旧版base.js 生成的弹出框样式 end
 =============================================================*/
-
 
 /*============================================================
 表格中的表格 end
 =============================================================*/
 .typical-tb > tbody tr.tr-inner-table:hover,
 .typical-tb > tbody tr.tr-inner-table .table-inner-table > tbody tr:hover,
-.typical-tb > tbody tr.tr-inner-table .table-inner-table > thead tr:hover{
+.typical-tb > tbody tr.tr-inner-table .table-inner-table > thead tr:hover {
     background-color: #ffffff;
 }
-.table-inner-table{
+
+.table-inner-table {
     width: 100%;
 }
-.typical-tb tr.tr-inner-table .table-inner-table tr{
+
+.typical-tb tr.tr-inner-table .table-inner-table tr {
     border-right: none;
 }
+
 /*============================================================
 表格中的表格 end
 =============================================================*/
-
-
 
 /*============================================================
 tooltip start
@@ -753,9 +796,11 @@ tooltip start
     -webkit-border-radius: 5px 5px 5px 5px;
     border-radius: 5px 5px 5px 5px;
 }
+
 .tooltip-content {
     font-size: 12px;
 }
+
 .tooltip-arrow-outer,
 .tooltip-arrow {
     position: absolute;
@@ -769,75 +814,93 @@ tooltip start
     _border-color: tomato;
     _filter: chroma(color=tomato);
 }
+
 .tooltip-right .tooltip-arrow-outer {
     left: 2px;
     top: 50%;
     margin: -6px 0 0 -13px;
 }
+
 .tooltip-right .tooltip-arrow {
     left: 2px;
     top: 50%;
     margin: -6px 0 0 -12px;
 }
+
 .tooltip-left .tooltip-arrow-outer {
     right: 1px;
     top: 50%;
     margin: -6px -13px 0 0;
 }
+
 .tooltip-left .tooltip-arrow {
     right: 1px;
     top: 50%;
     margin: -6px -12px 0 0;
 }
+
 .tooltip-top .tooltip-arrow-outer {
     bottom: 0;
     left: 50%;
     margin: 0 0 -13px -6px;
 }
+
 .tooltip-top .tooltip-arrow {
     bottom: 0;
     left: 50%;
     margin: 0 0 -12px -6px;
 }
+
 .tooltip-bottom .tooltip-arrow-outer {
     top: 0;
     left: 50%;
     margin: -13px 0 0 -6px;
 }
+
 .tooltip-bottom .tooltip-arrow {
     top: 0;
     left: 50%;
     margin: -12px 0 0 -6px;
 }
+
 .tooltip {
     background-color: #ffffff;
     border-color: #D3D3D3;
     color: #000000;
 }
+
 .tooltip-right .tooltip-arrow-outer {
     border-right-color: #D3D3D3;
 }
+
 .tooltip-right .tooltip-arrow {
     border-right-color: #ffffff;
 }
+
 .tooltip-left .tooltip-arrow-outer {
     border-left-color: #D3D3D3;
 }
+
 .tooltip-left .tooltip-arrow {
     border-left-color: #ffffff;
 }
+
 .tooltip-top .tooltip-arrow-outer {
     border-top-color: #D3D3D3;
 }
+
 .tooltip-top .tooltip-arrow {
     border-top-color: #ffffff;
 }
+
 .tooltip-bottom .tooltip-arrow-outer {
     border-bottom-color: #D3D3D3;
 }
+
 .tooltip-bottom .tooltip-arrow {
     border-bottom-color: #ffffff;
 }
+
 /*============================================================
 tooltip end
 =============================================================*/

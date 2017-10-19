@@ -6,23 +6,25 @@
         <div class="query-block-row">
             <div class="fl qc-group-l">
                 <span class="common-field">案件编号：</span>
-                <input class="common-input" id="repayAmount" type="text">
+                <input class="common-input" id="caseId" type="text">
             </div>
             <div class="fl qc-group-l">
                 <span class="common-field">案别：</span>
-                <input class="common-input" id="repayAmount" type="text">
+                <div class="dict-opener">
+                    <input class="common-input" id="caseType" type="text">
+                    <i id="chooseCaseType" class="icon-list cur-p button steelblue" title="案别" dict-value="CFMC"></i>
+                </div>
             </div>
         </div>
-
 
         <div class="query-block-row">
             <div class="fl qc-group-l">
                 <span class="common-field">案件名称：</span>
-                <input class="common-input" id="repayAmount" type="text">
+                <input class="common-input" id="caseName" type="text">
             </div>
             <div class="fl qc-group-l">
                 <span class="common-field">发案时间初值：</span>
-                <input class="common-input" id="repayAmount" type="text">
+                <input class="common-input" id="occurrenceDate" type="text" value="<%=rangeUtil.formatDate(rangeUtil.getCurrentDate(),'yyyy-MM-dd')%>">
             </div>
         </div>
 
@@ -30,24 +32,24 @@
             <div class="fl qc-group-xl">
                 <span class="common-field">案件状态：</span>
                 <span class="option" id="changeCaseSta">
-                                    <u class="active default " val="">全部</u>
-                                    <u class="  " val="0">已受理</u>
-                                    <u class="  " val="1">已立案</u>
-                                    <u class="  " val="0">已破案</u>
-                                    <u class="  " val="1">已结案</u>
-                                    <u class="  " val="1">已撤销</u>
-                                </span>
+                    <u class="active default " val="">全部</u>
+                    <u class="  " val="0">已受理</u>
+                    <u class="  " val="1">已立案</u>
+                    <u class="  " val="0">已破案</u>
+                    <u class="  " val="1">已结案</u>
+                    <u class="  " val="1">已撤销</u>
+                </span>
             </div>
         </div>
         <div class="query-widget-wrap">
             <hr class="cm-dash ">
             <p class="query-reset ">
-                <button id="" class="cm-reset-btn">重 置</button>
-                <button id="" class="cm-query-btn">查 询</button>
+                <button id="resetBtn" class="cm-reset-btn">重 置</button>
+                <button id="queryBtn" class="cm-query-btn">查 询</button>
             </p>
         </div>
     </div>
-    <div id="" class="query-result mrn mln">
+    <div id="relationCaseResult" class="query-result mrn mln">
         <div class="new-color-bar">
             <i class="icon-search fs14 mr10"></i>
             <span class="title">查询结果（共找到<span class="total-count"></span>条数据）</span>

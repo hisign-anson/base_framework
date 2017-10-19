@@ -7,10 +7,14 @@ define(['underscore',
     'text!/view/caseInvestigation/tpl/task/taskListTr.html',
     'text!/view/caseInvestigation/tpl/task/taskAdd.html',
     'text!/view/caseInvestigation/tpl/task/taskEdit.html',
-    'text!/view/caseInvestigation/tpl/task/taskFeedback.html'], function (_, taskListTpl,taskListTrTpl,taskAddTpl,taskEditTpl,taskFeedbackTpl) {
+    'text!/view/caseInvestigation/tpl/task/taskFeedback.html',
+    '../../dictManage/src/dictOpener.js'], function (_, taskListTpl,taskListTrTpl,taskAddTpl,taskEditTpl,taskFeedbackTpl,
+                                                     dictOpener) {
     return {
         showList: function () {
             _self = this;
+            //关闭没有关闭的弹框
+            dictOpener.closeOpenerDiv();
             $("#mainDiv").empty().html(_.template(taskListTpl, {ops: top.opsMap}));
             selectUtils.selectTextOption("#changeTaskType", "#taskType");
             selectUtils.selectTextOption("#changeTaskStatus", "#taskStatus");
@@ -103,6 +107,15 @@ define(['underscore',
         showAdd:function () {
             _self = this;
             $("#mainDiv").empty().html(_.template(taskAddTpl));
+            $("#dateDue").datetimepicker({format:'YYYY-MM-DD',pickTime:false});
+            $("#createDate").datetimepicker({format:'YYYY-MM-DD',pickTime:false});
+
+            $("#chooseGroup").on('click', function () {
+                dictOpener.openChooseDict($(this));
+            });
+            $("#chooseReceive").on('click', function () {
+                dictOpener.openChooseDict($(this));
+            });
             $("#cancelBtn").on("click",function () {
                 _self.showList();
 
