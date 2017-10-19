@@ -1,21 +1,51 @@
 package com.hisign.bfun.bif;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.List;
+
 import com.hisign.bfun.benum.BaseEnum.BusinessExceptionEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
-
-import java.util.List;
+import org.springframework.beans.BeanUtils;
 
 public abstract class BaseServiceImpl<T,M,PK> implements BaseService<T,M, PK>{
 	
 	private BaseMapper<T,M, PK> mapper;
+
+	protected Class<T> entityClass;
+
+	protected Class<M> modelClass;
 	
 	protected abstract BaseMapper<T,M, PK> initMapper();
+
+	public BaseServiceImpl(){
+		fillInClass();
+	}
+
+	public void fillInClass(){
+		this.entityClass = null;
+		this.modelClass = null;
+		Class c = this.getClass();
+		//获取父类
+		Type type = c.getGenericSuperclass();
+		if (type instanceof ParameterizedType) {
+			//获取泛型参数类型
+			Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+			//获取实体类型
+			this.entityClass = (Class<T>) parameterizedType[0];
+			//获取vo类型
+			this.modelClass = (Class<M>) parameterizedType[1];
+		}
+	}
 	
 	private BaseMapper<T,M, PK> getMapper(){
 		if (mapper==null) {
 			mapper = initMapper();
+		}
+		if (this.entityClass==null && this.modelClass==null){
+			fillInClass();
 		}
 		return mapper;
 	}
@@ -102,7 +132,16 @@ public abstract class BaseServiceImpl<T,M,PK> implements BaseService<T,M, PK>{
 	public M getById(PK id) {
 		return getMapper().findById(id);
 	}
-	
+
+
+	@Override
+	public T getEntityById(PK id) throws IllegalAccessException, InstantiationException {
+		M model = getMapper().findById(id);
+		T entity = entityClass.newInstance();
+		BeanUtils.copyProperties(model,entity);
+		return entity;
+	}
+
 	@Override
 	public M getByEntity(T entity) {
 		return getMapper().findByEntity(entity);
