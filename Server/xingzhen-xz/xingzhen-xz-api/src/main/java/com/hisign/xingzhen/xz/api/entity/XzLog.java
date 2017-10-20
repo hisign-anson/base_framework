@@ -58,18 +58,26 @@ public class XzLog extends BaseModel implements Serializable {
     @ApiModelProperty(value = "预留字段2")
 	private String reserveField2; //预留字段2
 	
-	@Column(value="REMARK")
-    @ApiModelProperty(value = "备注")
-	private String remark; //备注
-	
-    
+
 	/**
 	 *默认空构造函数
 	 */
 	public XzLog() {
 		super();
 	}
-	 
+
+	/**
+	 *构造函数
+	 */
+	public XzLog(String logType,String content,String creator,Date createTime,String reserveField1) {
+		this.id = UUID.randomUUID().toString();
+		this.content = content;
+		this.logType = logType;
+		this.creator = creator;
+		this.reserveField1 = reserveField1;
+		this.createTime = createTime;
+	}
+
 	/**
 	 * @return ID 主键ID
 	 */
@@ -77,7 +85,7 @@ public class XzLog extends BaseModel implements Serializable {
 		return this.id;
 	}
 	/**
-	 * @param ID 主键ID
+	 * @param id 主键ID
 	 */
 	public void setId(String id){
 		this.id = id;
@@ -89,7 +97,7 @@ public class XzLog extends BaseModel implements Serializable {
 		return this.logType;
 	}
 	/**
-	 * @param LOG_TYPE 日志类型（专案组，任务，反馈等）
+	 * @param logType 日志类型（专案组，任务，反馈等）
 	 */
 	public void setLogType(String logType){
 		this.logType = logType;
@@ -101,7 +109,7 @@ public class XzLog extends BaseModel implements Serializable {
 		return this.content;
 	}
 	/**
-	 * @param CONTENT 日志内容
+	 * @param content 日志内容
 	 */
 	public void setContent(String content){
 		this.content = content;
@@ -113,7 +121,7 @@ public class XzLog extends BaseModel implements Serializable {
 		return this.logLevel;
 	}
 	/**
-	 * @param LOG_LEVEL 日志级别
+	 * @param logLevel 日志级别
 	 */
 	public void setLogLevel(String logLevel){
 		this.logLevel = logLevel;
@@ -125,7 +133,7 @@ public class XzLog extends BaseModel implements Serializable {
 		return this.creator;
 	}
 	/**
-	 * @param CREATOR 创建人
+	 * @param creator 创建人
 	 */
 	public void setCreator(String creator){
 		this.creator = creator;
@@ -137,7 +145,7 @@ public class XzLog extends BaseModel implements Serializable {
 		return this.createTime;
 	}
 	/**
-	 * @param CREATE_TIME 创建时间
+	 * @param createTime 创建时间
 	 */
 	public void setCreateTime(Date createTime){
 		this.createTime = createTime;
@@ -149,7 +157,7 @@ public class XzLog extends BaseModel implements Serializable {
 		return this.ip;
 	}
 	/**
-	 * @param IP ip
+	 * @param ip ip
 	 */
 	public void setIp(String ip){
 		this.ip = ip;
@@ -161,7 +169,7 @@ public class XzLog extends BaseModel implements Serializable {
 		return this.deleteFlag;
 	}
 	/**
-	 * @param DELETE_FLAG 删除标识
+	 * @param deleteFlag 删除标识
 	 */
 	public void setDeleteFlag(String deleteFlag){
 		this.deleteFlag = deleteFlag;
@@ -173,7 +181,7 @@ public class XzLog extends BaseModel implements Serializable {
 		return this.reserveField1;
 	}
 	/**
-	 * @param RESERVE_FIELD1 预留字段1
+	 * @param reserveField1 预留字段1
 	 */
 	public void setReserveField1(String reserveField1){
 		this.reserveField1 = reserveField1;
@@ -185,24 +193,12 @@ public class XzLog extends BaseModel implements Serializable {
 		return this.reserveField2;
 	}
 	/**
-	 * @param RESERVE_FIELD2 预留字段2
+	 * @param reserveField2 预留字段2
 	 */
 	public void setReserveField2(String reserveField2){
 		this.reserveField2 = reserveField2;
 	}
-	/**
-	 * @return REMARK 备注
-	 */
-	public String getRemark(){
-		return this.remark;
-	}
-	/**
-	 * @param REMARK 备注
-	 */
-	public void setRemark(String remark){
-		this.remark = remark;
-	}
-	
+
 	public static String getTbName() {
 		return "t_xz_log";
 	}
@@ -221,7 +217,6 @@ public class XzLog extends BaseModel implements Serializable {
 		.append(",deleteFlag=").append(this.getDeleteFlag())
 		.append(",reserveField1=").append(this.getReserveField1())
 		.append(",reserveField2=").append(this.getReserveField2())
-		.append(",remark=").append(this.getRemark())
 		.append("]");
 		return builder.toString();
 	}
@@ -236,9 +231,8 @@ public class XzLog extends BaseModel implements Serializable {
 		ip("IP","ip"),
 		deleteFlag("DELETE_FLAG","删除标识"),
 		reserveField1("RESERVE_FIELD1","预留字段1"),
-		reserveField2("RESERVE_FIELD2","预留字段2"),
-		remark("REMARK","备注");
-		
+		reserveField2("RESERVE_FIELD2","预留字段2");
+
 		private String fieldName;
 		private String remark;
 		

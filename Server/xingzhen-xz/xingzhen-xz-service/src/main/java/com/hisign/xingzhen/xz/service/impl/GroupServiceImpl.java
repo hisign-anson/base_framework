@@ -12,11 +12,13 @@ import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.SerialNumGenerater;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Group;
+import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.service.GroupService;
 import com.hisign.xingzhen.xz.mapper.AjgroupMapper;
 import com.hisign.xingzhen.xz.mapper.AsjAjMapper;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
+import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +45,9 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     @Autowired
     private AsjAjMapper asjAjMapper;
 
+    @Autowired
+    private XzLogMapper xzLogMapper;
+
     @Override
     protected BaseMapper<Group, GroupModel, String> initMapper() {
         return groupMapper;
@@ -51,10 +56,25 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
     @Override
     public JsonResult add(Group entity) throws BusinessException {
+        //获取父专案组
+        Group pgroup = new Group();
+        pgroup.setPgroupid(entity.getPgroupid());
+        GroupModel pgroupModel = getByEntity(pgroup);
+
+        //如果为空或者父专案组有父id
+        if (pgroupModel==null || StringUtils.isEmpty(pgroupModel.getPgroupid())){
+            return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+        }
+
+        //保存专案组
         entity.setId(UUID.randomUUID().toString());
         entity.setCreatetime(new Date());
         entity.setDeleteflag(Constants.DELETE_FALSE);
         entity.setLastupdatetime(new Date());
+        JsonResult result = super.addNotNull(entity);
+
+        //保存操作日志
+        XzLog xzLog = new XzLog(Constants.XZLogType.GROUP.toString(), "专案组新增(ID:)" + entity.getId(), entity.getCreator(), entity.getCreatetime(), entity.getId());
         return super.add(entity);
     }
 
@@ -70,11 +90,17 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
             return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
         }
 
+        //保存专案组
         entity.setId(UUID.randomUUID().toString());
         entity.setCreatetime(new Date());
         entity.setDeleteflag(Constants.DELETE_FALSE);
         entity.setLastupdatetime(new Date());
-        return super.addNotNull(entity);
+        JsonResult result = super.addNotNull(entity);
+
+        //保存操作日志
+        XzLog xzLog = new XzLog(Constants.XZLogType.GROUP.toString(), "专案组新增(ID:)" + entity.getId(), entity.getCreator(), entity.getCreatetime(), entity.getId());
+        xzLogMapper.insertNotNull(xzLog);
+        return result;
     }
 
     @Override
