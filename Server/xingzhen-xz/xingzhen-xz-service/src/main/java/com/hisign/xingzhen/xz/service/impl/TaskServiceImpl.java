@@ -105,8 +105,8 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     @Override
     public JsonResult getTaskPage(Task task) {
         task.setYjzt("0");
-        List<TaskModel> list = taskMapper.findTaskByCondition(task);
-        long count = taskMapper.findCountTaskByCondition(task);
+        List<TaskModel> list = taskMapper.findTaskByEntity(task);
+        long count = taskMapper.findCountTaskByEntity(task);
         return JsonResultUtil.success(count,list);
     }
     /**

@@ -842,8 +842,8 @@
         )  	where ROWNUM=1
 	</select>
 
-    <select id="findTaskByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultMap="BaseResultMap">
-        select p.* from(
+    <select id="findTaskByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultMap="BaseResultMap">
+        select p.*,(select count(1) from T_TASK_FK fk where fk.taskid=p.id and qrzt='0') as noFkqrCount from(
         select rownum as rn,q.* from (
         select t.* from T_TASK  t where t.deleteFlag='0'
         <choose>
@@ -883,8 +883,17 @@
                 <if test="overdue='1'">
                     and t.fkzt=0 and to_char(t.fkjz_time,'yyyyMMdd')>to_char(sysdate,'yyyyMMdd')
                 </if>
+                <if test="fkqrzt='0'">
+                    and exists (select 1 from T_TASK_FK fk where fk.taskid=t.id and and fk.qrzt='0')
+                </if>
+                <if test="fkqrzt='1'">
+                    and exists (select 1 from T_TASK_FK fk where fk.taskid=t.id and and fk.qrzt='1')
+                </if>
                 <if test="taskNo!=null and taskNo!=''">
                     and t.task_no=#{task_no,jdbcType=VARCHAR}
+                </if>
+                <if test="deparmentcode!=null and deparmentcode!=''">
+                    and t.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
                 </if>
                 <if test="fkstartTime!=null and fkendTime!=null">
                     and t.fk_time between #{fkstartTime,jdbcType=TIMESTAMP} and #{fkendTime,jdbcType=TIMESTAMP}
@@ -905,7 +914,7 @@
         </if>
     </select>
 
-    <select id="findCountTaskByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultType="java.lang.Long">
+    <select id="findCountTaskByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultType="java.lang.Long">
         select count(1) from T_TASK t where deleteFlag='0'
         <choose>
             <when test="userId != null and userId !=''">
@@ -944,8 +953,17 @@
                 <if test="overdue='1'">
                     and t.fkzt=0 and to_char(t.fkjz_time,'yyyyMMdd')>to_char(sysdate,'yyyyMMdd')
                 </if>
+                <if test="fkqrzt='0'">
+                    and exists (select 1 from T_TASK_FK fk where fk.taskid=t.id and and fk.qrzt='0')
+                </if>
+                <if test="fkqrzt='1'">
+                    and exists (select 1 from T_TASK_FK fk where fk.taskid=t.id and and fk.qrzt='1')
+                </if>
                 <if test="taskNo!=null and taskNo!=''">
                     and t.task_no=#{task_no,jdbcType=VARCHAR}
+                </if>
+                <if test="deparmentcode!=null and deparmentcode!=''">
+                    and t.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
                 </if>
                 <if test="fkstartTime!=null and fkendTime!=null">
                     and t.fk_time between #{fkstartTime,jdbcType=TIMESTAMP} and #{fkendTime,jdbcType=TIMESTAMP}
