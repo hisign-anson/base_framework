@@ -497,13 +497,13 @@
         <include refid="Conditions_Where_Clause" />
     </select>
 
-    <select id="selectMaxId" resultType="java.lang.String">
+    <select id="findMaxId" resultType="java.lang.String">
         SELECT
             MAX(id)
         FROM t_group
     </select>
 
-    <select id="getMaxNo" resultType="java.lang.String">
+    <select id="findMaxNo" resultType="java.lang.String">
         SELECT substr(GROUPNUM, 3) AS GROUPNUM
         FROM (SELECT GROUPNUM
               FROM t_group
@@ -513,7 +513,7 @@
     </select>
 
 
-    <select id="getGroupByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Group" resultMap="BaseResultMap">
+    <select id="findGroupByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Group" resultMap="BaseResultMap">
         select p.* from(
         select rownum,rownum as rn,q.* from (
         select t.* from (
@@ -580,7 +580,7 @@
         </if>
     </select>
 
-    <select id="getCountGroupByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Group"
+    <select id="findCountGroupByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Group"
             resultType="java.lang.Long">
         select count(1) from ( SELECT
         a.id,

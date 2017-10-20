@@ -130,8 +130,14 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
 
     @Override
     public JsonResult getUsergroupPage(SysUserInfo info) {
-        List<SysUserInfo> list = usergroupMapper.getGroupUserList(info);
-        long count = usergroupMapper.getGroupUserCount(info);
+        List<SysUserInfo> list = usergroupMapper.findGroupUserList(info);
+        long count = usergroupMapper.findGroupUserCount(info);
         return JsonResultUtil.success(count,list);
+    }
+
+    @Override
+    public JsonResult getGroupMemberList(SysUserInfo info) {
+        List<SysUserInfo> list = usergroupMapper.findGroupMemberList(info);
+        return JsonResultUtil.success(list);
     }
 }

@@ -1,8 +1,8 @@
 package com.hisign.xingzhen.xz.service.impl;
 
+import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
 import com.hisign.xingzhen.xz.mapper.TaskfkFileMapper;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
-import com.hisign.xingzhen.xz.api.entity.TaskfkFileModel;
 import com.hisign.xingzhen.xz.api.service.TaskfkFileService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

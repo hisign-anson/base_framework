@@ -15,8 +15,10 @@ import java.util.List;
  */
 public interface UsergroupMapper extends BaseMapper<Usergroup,UsergroupModel, String> {
 
-    public List<SysUserInfo> getGroupUserList(SysUserInfo info);
+    public List<SysUserInfo> findGroupUserList(SysUserInfo info);
 
-    public long getGroupUserCount(SysUserInfo info);
+    public long findGroupUserCount(SysUserInfo info);
+
+    public List<SysUserInfo> findGroupMemberList(SysUserInfo info);
 
 }

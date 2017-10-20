@@ -20,11 +20,11 @@ public interface GroupMapper extends BaseMapper<Group,GroupModel, String> {
      * 获取专案组编号
      * @return
      */
-    public String getMaxNo();
+    public String findMaxNo();
 
-    public List<GroupModel> getGroupByCondition(Group group);
+    public List<GroupModel> findGroupByCondition(Group group);
 
-    public long getCountGroupByCondition(Group group);
+    public long findCountGroupByCondition(Group group);
 
     public Map<String,Long> findGroupCaseInfo(@Param("backupStatus") String backupStatus);
 }

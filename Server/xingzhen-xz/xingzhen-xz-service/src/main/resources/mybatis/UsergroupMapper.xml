@@ -34,6 +34,10 @@
 		<result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
 		<result column="MODIFY_PID" jdbcType="VARCHAR" property="modifyPid" />
 		<result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+		<result column="groupId" jdbcType="VARCHAR" property="groupId" />
+		<result column="pgroupId" jdbcType="VARCHAR" property="pgroupId" />
+		<result column="groupname" jdbcType="VARCHAR" property="groupname" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
 	</resultMap>
 
 	<sql id="Conditions_Where_Clause">
@@ -431,13 +435,13 @@
 		<include refid="Conditions_Where_Clause" />
 	</select>
 
-	<select id="selectMaxId" resultType="java.lang.String">
+	<select id="findMaxId" resultType="java.lang.String">
 		SELECT
 			MAX(id)
 		FROM t_usergroup
 	</select>
 
-	<select id="getGroupUserList" parameterType="com.hisign.xingzhen.sys.api.model.SysUserInfo" resultMap="SysUserInfoResultMap">
+	<select id="findGroupUserList" parameterType="com.hisign.xingzhen.sys.api.model.SysUserInfo" resultMap="SysUserInfoResultMap">
 		select p.* from(
 		select
 		rownum,rownum as rn,a.* from (
@@ -452,8 +456,8 @@
 			<if test="userName!=null and userName!=''">
 				and SU.USER_NAME like '%'||#{userName,jdbcType=VARCHAR}||'%' escape '\'
 			</if>
-			<if test="userName!=null and userName!=''">
-				and SU.USER_ID IN (select u.USERID from T_USERGROUP u where GROUPID=#{id,jdbcType=VARCHAR} )
+			<if test="id!=null and id!=''">
+				and SU.USER_ID IN (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR} )
 			</if>
 		) t
 		) a
@@ -466,7 +470,7 @@
 		</if>
 	</select>
 
-	<select id="getGroupUserCount" parameterType="com.hisign.xingzhen.sys.api.model.SysUserInfo" resultMap="SysUserInfoResultMap">
+	<select id="findGroupUserCount" parameterType="com.hisign.xingzhen.sys.api.model.SysUserInfo" resultMap="SysUserInfoResultMap">
 		select count(1) from SYS_USER_INFO su where 1=1
 		<if test="policeId!=null and policeId!=''">
 			and SU.POLICE_ID like '%'||#{policeId,jdbcType=VARCHAR}||'%' escape '\'
@@ -477,9 +481,15 @@
 		<if test="userName!=null and userName!=''">
 			and SU.USER_NAME like '%'||#{userName,jdbcType=VARCHAR}||'%' escape '\'
 		</if>
-		<if test="userName!=null and userName!=''">
-			and SU.USER_ID IN (select u.USERID from T_USERGROUP u where GROUPID=#{id,jdbcType=VARCHAR} )
+		<if test="id!=null and id!=''">
+			and SU.USER_ID IN (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR} )
 		</if>
+	</select>
+
+	<select id="findGroupMemberList" parameterType="com.hisign.xingzhen.xz.api.entity.Usergroup" resultMap="SysUserInfoResultMap">
+		select su.USER_ID,su.USER_NAME,su.POLICE_ID,su.ORG_NAME,t1.groupid as groupId,t2.pgroupid as pgroupId,t2.groupname,t2.creator from SYS_USER_INFO su,
+		T_USERGROUP t1,t_group t2 where	SU.USER_ID=t1.userid AND t2.id=t1.groupid AND
+		 (t1.GROUPID=#{groupId,jdbcType=VARCHAR} OR t2.pgroupid=#{groupId,jdbcType=VARCHAR})
 	</select>
 
    

@@ -59,6 +59,7 @@ public class IndexServiceImpl implements IndexService{
         for (GroupModel model : list) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("time",model.getBackupTime());
+            map.put("id",model.getId());
             //获取最早关联案件
             AsjAj aj = asjAjMapper.findFirstCaseByGroupId(model.getId());
             if (aj==null){

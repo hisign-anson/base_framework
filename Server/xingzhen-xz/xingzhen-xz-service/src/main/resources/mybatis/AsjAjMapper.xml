@@ -5254,6 +5254,7 @@
                 TRANSFER_TIME = #{transferTime,jdbcType=TIMESTAMP}
             </if>
         </trim>
+        WHERE ID = #{id,jdbcType=VARCHAR}
     </update>
 
     <update id="updateCustom" parameterType="com.hisign.bfun.bmodel.UpdateParams">
@@ -5271,7 +5272,7 @@
 
     <!-- 按Id删除 -->
     <delete id="deleteById" parameterType="java.lang.Long">
-        DELETE FROM b_asj_aj WHERE
+        DELETE FROM b_asj_aj WHERE ID = #{id,jdbcType=VARCHAR}
     </delete>
 
     <!--根据list(ids)删除对象-->
@@ -7317,13 +7318,13 @@
         <include refid="Conditions_Where_Clause" />
     </select>
 
-    <select id="selectMaxId" resultType="java.lang.Long">
+    <select id="findMaxId" resultType="java.lang.Long">
         SELECT
         MAX(id)
         FROM b_asj_aj
     </select>
 
-    <select id="getAjGroupPage" parameterType="com.hisign.xingzhen.xz.api.entity.AsjAj" resultMap="BaseResultMap">
+    <select id="findAjGroupPage" parameterType="com.hisign.xingzhen.xz.api.entity.AsjAj" resultMap="BaseResultMap">
         select p.* from(
         select
         rownum,rownum as rn,a.* from (
@@ -7366,7 +7367,7 @@
         </if>
     </select>
 
-    <select id="getAjGroupPageCount" parameterType="com.hisign.xingzhen.xz.api.entity.AsjAj" resultType="java.lang.Long">
+    <select id="findAjGroupPageCount" parameterType="com.hisign.xingzhen.xz.api.entity.AsjAj" resultType="java.lang.Long">
         select count(1) from b_asj_aj b where 1=1
         <if test="ajbh!=null and ajbh!=''">
             and b.ajbh like '%'||#{ajbh,jdbcType=VARCHAR}||'%' escape '\'
@@ -7390,7 +7391,7 @@
         where 1=1
         <if test="pgroupId!=null and pgroupId!=''">
             AND ag.groupid=g.id
-            AND (AND ag.groupId=#{groupId,jdbcType=VARCHAR} OR g.id=#{pgroupId,jdbcType=VARCHAR}))
+            AND (ag.groupId=#{groupId,jdbcType=VARCHAR} OR g.pgroupId=#{groupId,jdbcType=VARCHAR}))
         </if>
         <if test="pgroupId==null or pgroupId==''">
             AND ag.groupId=#{groupId,jdbcType=VARCHAR}

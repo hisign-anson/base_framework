@@ -59,16 +59,18 @@ public class Constants {
 
 	/**
 	 *
-	 * 任务类型
+	 * 日志类型
 	 *
 	 */
-	public static class TasksType{
-		/** 财务 1 **/
-		public static final Integer FINANCE = 1;
-		/** 车辆 2 **/
-		public static final Integer CAR = 2;
-		/** 物品 3 **/
-		public static final Integer ITEM = 3;
+	public static class XZLogType{
+		/** 专案组 1 **/
+		public static final Integer GROUP = 1;
+		/** 任务 2 **/
+		public static final Integer TASK = 2;
+		/** 登录 3 **/
+		public static final Integer LOGIN = 3;
+		/** 聊天 4 **/
+		public static final Integer CHAT = 4;
 	}
 
 	/**

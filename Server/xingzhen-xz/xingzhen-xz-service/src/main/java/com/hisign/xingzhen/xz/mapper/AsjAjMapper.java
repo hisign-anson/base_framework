@@ -14,9 +14,9 @@ import java.util.List;
  */
 public interface AsjAjMapper extends BaseMapper<AsjAj,AsjAjModel, String> {
 
-    public List<AsjAjModel> getAjGroupPage(AsjAj aj);
+    public List<AsjAjModel> findAjGroupPage(AsjAj aj);
 
-    public long getAjGroupPageCount(AsjAj aj);
+    public long findAjGroupPageCount(AsjAj aj);
 
     public AsjAj findFirstCaseByGroupId(String id);
 

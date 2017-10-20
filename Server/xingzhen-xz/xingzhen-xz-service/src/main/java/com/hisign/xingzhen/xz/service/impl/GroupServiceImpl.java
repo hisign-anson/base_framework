@@ -122,7 +122,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     }
 
     private String createGroupNo(String orgId) {
-        String maxNo = groupMapper.getMaxNo();
+        String maxNo = groupMapper.findMaxNo();
         String nextNumber = SerialNumGenerater.getInstance().getNextNumber(orgId,maxNo, 4);
         return "ZAZ" + nextNumber;
     }
@@ -130,8 +130,8 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     @Override
     public JsonResult getGroupPage(Group group) {
         //获取父专案组
-        List<GroupModel> list = groupMapper.getGroupByCondition(group);
-        long count = groupMapper.getCountGroupByCondition(group);
+        List<GroupModel> list = groupMapper.findGroupByCondition(group);
+        long count = groupMapper.findCountGroupByCondition(group);
         return JsonResultUtil.success(count, list);
     }
 

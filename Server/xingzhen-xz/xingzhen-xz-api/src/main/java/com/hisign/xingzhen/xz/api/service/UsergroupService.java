@@ -18,4 +18,6 @@ public interface UsergroupService extends BaseService<Usergroup,UsergroupModel, 
 
     public JsonResult getUsergroupPage(SysUserInfo info);
 
+    public JsonResult getGroupMemberList(SysUserInfo info);
+
 }
