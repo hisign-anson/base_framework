@@ -138,13 +138,15 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                         taskFkModel.setTaskfkFileModels(taskfkFiles);
                     }
                     //查看更新未确认的反馈信息
-                    if(taskModel.getJsr()!=null && taskModel.getJsr().equals(task.getUserId()) && !"1".equals(taskFkModel.getQrzt())) {
+                    if(taskModel.getCreator()!=null && taskModel.getCreator().equals(task.getUserId()) && !"1".equals(taskFkModel.getQrzt())) {
                         TaskFk taskFk=new TaskFk();
                         taskFk.setTaskid(task.getId());
                         taskFk.setQrzt("1");
                         taskFk.setQrTime(now);
                         taskFk.setLastupdatetime(now);
                         taskFkMapper.updateNotNull(taskFk);
+                        //第一次进去现在已确认
+                        taskFkModel.setQrzt("1");
                     }
                 }
                 taskModel.setTaskFkModels(taskFkModels);
@@ -158,6 +160,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                 t.setQsTime(now);
                 t.setLastupdatetime(now);
                 taskMapper.updateNotNull(t);
+                task.setQszt("1");
             }
         }
         return JsonResultUtil.success(taskModel);
