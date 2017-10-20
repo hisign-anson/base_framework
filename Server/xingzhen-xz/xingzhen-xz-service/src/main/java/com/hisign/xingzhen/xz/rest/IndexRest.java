@@ -6,6 +6,7 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.xz.api.entity.Task;
+import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.service.IndexService;
 import com.hisign.xingzhen.xz.api.service.TaskService;
 import io.swagger.annotations.Api;
@@ -37,33 +38,27 @@ public class IndexRest extends BaseController {
     @ApiImplicitParam(name = "userId",value = "当前用户id",required = true,dataType = "String")
     @RequestMapping(value = "/getTaskCountInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult getTaskCountInfo(@ApiParam @RequestParam(value="userId") String userId) {
-        //已反馈 未确认 下发人
-        Conditions conditions = new Conditions(Task.class);
-        Conditions.Criteria criteria = conditions.createCriteria();
-
-        criteria.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
-                .add(Task.TaskEnum.qrzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
-                .add(Task.TaskEnum.fqr.get(), BaseEnum.ConditionEnum.EQ, userId);
-        Long count1 = taskService.getCount(conditions);
+        //未确认
+        Long count1 = indexService.getNotConfirmCountByCreator(userId);
 
         //未反馈 未签收 未过期 接收人
         Conditions conditions2 = new Conditions(Task.class);
-        Conditions.Criteria criteria2 = conditions.createCriteria();
+        Conditions.Criteria criteria2 = conditions2.createCriteria();
 
-        criteria.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
+        criteria2.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
                 .add(Task.TaskEnum.qszt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
                 .add(Task.TaskEnum.fkjzTime.get(), BaseEnum.ConditionEnum.GT, new Date())
                 .add(Task.TaskEnum.jsr.get(), BaseEnum.ConditionEnum.EQ, userId);
-        Long count2 = taskService.getCount(conditions);
+        Long count2 = taskService.getCount(conditions2);
 
         //未反馈 已过期 接收人
         Conditions conditions3 = new Conditions(Task.class);
-        Conditions.Criteria criteria3 = conditions.createCriteria();
+        Conditions.Criteria criteria3 = conditions3.createCriteria();
 
-        criteria.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
+        criteria3.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
                 .add(Task.TaskEnum.fkjzTime.get(), BaseEnum.ConditionEnum.LTE, new Date())
                 .add(Task.TaskEnum.jsr.get(), BaseEnum.ConditionEnum.EQ, userId);
-        Long count3 = taskService.getCount(conditions);
+        Long count3 = taskService.getCount(conditions3);
 
         Map<String, Long> map = new HashMap<String,Long>();
         map.put("feedback",count1);

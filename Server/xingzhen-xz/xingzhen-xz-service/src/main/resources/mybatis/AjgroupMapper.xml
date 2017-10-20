@@ -227,7 +227,7 @@
 				DELETEFLAG = #{deleteflag,jdbcType=VARCHAR}
 			</if>
 		</trim>
-		ID = #{id,jdbcType=VARCHAR}
+		WHERE ID = #{id,jdbcType=VARCHAR}
 	</update>
 
 	<update id="updateCustom" parameterType="com.hisign.bfun.bmodel.UpdateParams">

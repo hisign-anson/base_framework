@@ -36,7 +36,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork>
-                    <mainClass>com.hisign.xingzhen.nt.NtServerStartApplication</mainClass>
+                    <mainClass>com.hisign.xingzhen.NtServerStartApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

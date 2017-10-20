@@ -4,7 +4,7 @@ package com.hisign.xingzhen.xz.api.entity;
 import java.io.Serializable;
 import java.util.*;
 import com.hisign.bfun.bannotation.*;
-import com.hisign.framework.common.model.BaseModel;
+import com.hisign.xingzhen.common.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -145,7 +145,7 @@ public class TaskfkFile extends BaseModel implements Serializable {
 		return this.fileSize;
 	}
 	/**
-	 * @param FILE_SIZE 文件大小 单位K
+	 * @param fileSize 文件大小 单位K
 	 */
 	public void setFileSize(Double fileSize){
 		this.fileSize = fileSize;
@@ -157,7 +157,7 @@ public class TaskfkFile extends BaseModel implements Serializable {
 		return this.deleteFlag;
 	}
 	/**
-	 * @param DELETE_FLAG 删除标志
+	 * @param deleteFlag 删除标志
 	 */
 	public void setDeleteFlag(String deleteFlag){
 		this.deleteFlag = deleteFlag;
@@ -169,7 +169,7 @@ public class TaskfkFile extends BaseModel implements Serializable {
 		return this.creator;
 	}
 	/**
-	 * @param CREATOR 创建人
+	 * @param creator 创建人
 	 */
 	public void setCreator(String creator){
 		this.creator = creator;
@@ -181,7 +181,7 @@ public class TaskfkFile extends BaseModel implements Serializable {
 		return this.createtime;
 	}
 	/**
-	 * @param CREATETIME 创建时间
+	 * @param createtime 创建时间
 	 */
 	public void setCreatetime(Date createtime){
 		this.createtime = createtime;

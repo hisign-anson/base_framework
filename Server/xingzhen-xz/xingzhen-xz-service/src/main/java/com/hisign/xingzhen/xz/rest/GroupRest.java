@@ -1,7 +1,11 @@
 package com.hisign.xingzhen.xz.rest;
 
+import com.hisign.bfun.benum.BaseEnum;
+import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseRest;
+import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.service.GroupService;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.concurrent.locks.Condition;
 
 
 /**
@@ -33,6 +39,14 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
         super.setBaseService(baseService);
     }
 
+    @Override
+    @ApiOperation(value = "添加专案组",httpMethod ="POST",response = JsonResult.class)
+    @RequestMapping(value = "/getGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult addNotNull(Group entity) throws BusinessException {
+
+        return baseService.addNotNull(entity);
+    }
+
     /**
      * 查询分页
      * @param group
@@ -42,6 +56,21 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
     @RequestMapping(value = "/getGroupPage", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult getGroupPage(@ApiParam Group group) {
         return baseService.getGroupPage(group);
+    }
+
+    /**
+     * 查询子专案组列表
+     * @param pGroupId
+     * @return
+     */
+    @ApiOperation(value = "查询子专案组列表",httpMethod ="GET",response = GroupModel.class)
+    @RequestMapping(value = "/getChildGroupList", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    public JsonResult getChildGroupList(@ApiParam String pGroupId) {
+        Conditions conditions = new Conditions(Group.class);
+        Conditions.Criteria criteria = conditions.createCriteria();
+        criteria.add(Group.GroupEnum.pgroupid.get(), BaseEnum.ConditionEnum.EQ,pGroupId);
+        List<GroupModel> list = baseService.getList(conditions);
+        return JsonResultUtil.success(list);
     }
 
 }

@@ -459,5 +459,10 @@
 			MAX(id)
 		FROM t_task_fk
 	</select>
+
+	<!--查询用户待确认的反馈数量-->
+	<select id="findNotConfirmCountByCreator" parameterType="java.lang.String" resultType="java.lang.Long">
+		select COUNT(1) from T_TASK T1,T_TASK_FK T2 where T1."ID"=T2.TASKID AND T1.FQR=#{userId,jdbcType=VARCHAR} AND T2.QRZT=1 AND T2.DELETEFLAG=0 AND T1.DELETEFLAG=0
+	</select>
    
 </mapper>

@@ -13,6 +13,8 @@ import com.hisign.xingzhen.xz.api.service.IndexService;
 import com.hisign.xingzhen.xz.mapper.AjgroupMapper;
 import com.hisign.xingzhen.xz.mapper.AsjAjMapper;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
+import com.hisign.xingzhen.xz.mapper.TaskFkMapper;
+import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,9 @@ public class IndexServiceImpl implements IndexService{
 
     @Autowired
     private AjgroupMapper ajgroupMapper;
+
+    @Autowired
+    private TaskFkMapper taskFkMapper;
 
     @Override
     public JsonResult getAchievementList() {
@@ -86,6 +91,11 @@ public class IndexServiceImpl implements IndexService{
     public JsonResult getGroupCaseInfo(String backupStatus) {
         Map<String, Long> map = groupMapper.findGroupCaseInfo(backupStatus);
         return JsonResultUtil.success(map);
+    }
+
+    @Override
+    public Long getNotConfirmCountByCreator(String creator) {
+        return taskFkMapper.findNotConfirmCountByCreator(creator);
     }
 
 }
