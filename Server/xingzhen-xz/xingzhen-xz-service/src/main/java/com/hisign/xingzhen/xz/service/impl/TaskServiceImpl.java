@@ -122,13 +122,14 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         if(taskModel==null){
             return error("该任务不存在");
         }
-        Conditions conditions = new Conditions(TaskFk.class);
-        Conditions.Criteria criteria = conditions.createCriteria();
-        criteria.add(TaskFk.TaskFkEnum.taskid.get());
         //已反馈的才能有反馈信息
         if("1".equals(taskModel.getFkzt())){
+            Conditions conditions = new Conditions(TaskFk.class);
+            Conditions.Criteria criteria = conditions.createCriteria();
+            criteria.add(TaskFk.TaskFkEnum.taskid.get());
             List<TaskFkModel> taskFkModels=taskFkMapper.findList(conditions);
             if(taskFkModels!=null){
+                Date now=new Date();
                 for(TaskFkModel taskFkModel:taskFkModels){
                     TaskfkFile file=new TaskfkFile();
                     file.setTaskfkId(taskFkModel.getId());
@@ -136,17 +137,17 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                     if(taskfkFiles!=null) {
                         taskFkModel.setTaskfkFileModels(taskfkFiles);
                     }
+                    //查看更新未确认的反馈信息
+                    if(taskModel.getJsr()!=null && taskModel.getJsr().equals(task.getUserId()) && !"1".equals(taskFkModel.getQrzt())) {
+                        TaskFk taskFk=new TaskFk();
+                        taskFk.setTaskid(task.getId());
+                        taskFk.setQrzt("1");
+                        taskFk.setQrTime(now);
+                        taskFk.setLastupdatetime(now);
+                        taskFkMapper.updateNotNull(taskFk);
+                    }
                 }
-            }
-            taskModel.setTaskFkModels(taskFkModels);
-            if(taskModel.getJsr().equals(task.getUserId())) {
-                Date now=new Date();
-                TaskFk taskFk=new TaskFk();
-                taskFk.setTaskid(task.getId());
-                taskFk.setQrzt("1");
-                taskFk.setQrTime(now);
-                taskFk.setLastupdatetime(now);
-                taskFkMapper.updateTaskQrzt(taskFk);
+                taskModel.setTaskFkModels(taskFkModels);
             }
         } else{
             if(!"1".equals(taskModel.getQszt()) && taskModel.getJsr()!=null && taskModel.getJsr().equals(task.getUserId())) {

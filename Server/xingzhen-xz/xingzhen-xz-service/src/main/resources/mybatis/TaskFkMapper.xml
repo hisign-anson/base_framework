@@ -507,15 +507,4 @@
 	<select id="findNotConfirmCountByCreator" parameterType="java.lang.String" resultType="java.lang.Long">
 		select COUNT(1) from T_TASK T1,T_TASK_FK T2 where T1."ID"=T2.TASKID AND T1.FQR=#{userId,jdbcType=VARCHAR} AND T2.QRZT=1 AND T2.DELETEFLAG=0 AND T1.DELETEFLAG=0
 	</select>
-
-    <update id="updateTaskQrzt"  parameterType="com.hisign.xingzhen.xz.api.entity.TaskFk">
-        update t_cb set qrzt=#{qrzt,jdbcType=VARCHAR}
-        <if test="qrTime !=null">
-            ,qr_time=#{qrTime,jdbcType=TIMESTAMP}
-        </if>
-        <if test="lastupdatetime !=null ">
-            #{lastupdatetime,jdbcType=TIMESTAMP},
-        </if>
-        where taskId=#{taskid,jdbcType=VARCHAR} and qrzt=0
-    </update>
 </mapper>
