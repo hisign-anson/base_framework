@@ -1311,7 +1311,17 @@ public class AsjAj extends BaseModel implements Serializable {
 	private Date transferTime; //传输时间
 
 	//-----------------------------------------接收字段
+	@ApiModelProperty(value = "专案组ID")
 	private String groupId;//专案组ID
+
+	@ApiModelProperty(value = "专案组ID")
+	private String pgroupId;//专案组ID
+
+	@ApiModelProperty(value = "受理开始时间")
+	private Date slStartTime;//受理开始时间
+
+	@ApiModelProperty(value = "受理结束时间")
+	private Date slEndTime;//受理结束时间
 	
     
 	/**
@@ -5209,7 +5219,31 @@ public class AsjAj extends BaseModel implements Serializable {
 	public static String getTbName() {
 		return "b_asj_aj";
 	}
-	
+
+	public String getPgroupId() {
+		return pgroupId;
+	}
+
+	public void setPgroupId(String pgroupId) {
+		this.pgroupId = pgroupId;
+	}
+
+	public Date getSlStartTime() {
+		return slStartTime;
+	}
+
+	public void setSlStartTime(Date slStartTime) {
+		this.slStartTime = slStartTime;
+	}
+
+	public Date getSlEndTime() {
+		return slEndTime;
+	}
+
+	public void setSlEndTime(Date slEndTime) {
+		this.slEndTime = slEndTime;
+	}
+
 	@Override
 	public String toString(){
 		StringBuilder builder = new StringBuilder();

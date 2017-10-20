@@ -13,4 +13,7 @@ public interface IndexService {
 
     public JsonResult getGroupCaseInfo(String backupStatus);
 
+    //查询用户待确认的反馈数量
+    public Long getNotConfirmCountByCreator(String creator);
+
 }

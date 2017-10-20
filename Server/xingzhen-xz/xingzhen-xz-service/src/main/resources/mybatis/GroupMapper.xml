@@ -536,7 +536,6 @@
         <if test="userId!=null and userId!=''">
             ,T_USERGROUP c
         </if>
-
         where 1=1
         <if test="ajbh!=null and ajbh!=''">
             and a.id=b.groupid
@@ -563,6 +562,12 @@
         </if>
         <if test="backupStatu!=null and backupStatu!=''">
             and a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
+        </if>
+        <if test='isParent==null or isParent==false'>
+            and a.pgroupid IS NOT NULL
+        </if>
+        <if test='isParent!=null and isParent==true'>
+            and a.pgroupid IS NULL
         </if>
         ) t
         ) q
@@ -624,7 +629,12 @@
         <if test="backupStatu!=null and backupStatu!=''">
             and a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
         </if>
-
+        <if test='isParent!=null and isParent==false'>
+            and a.pgroupid IS NOT NULL
+        </if>
+        <if test='isParent!=null and isParent==true'>
+            and a.pgroupid IS NULL
+        </if>
         ) d
     </select>
     

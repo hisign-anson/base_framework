@@ -158,7 +158,7 @@ public class BaseEnum {
 	 */
 	public enum BusinessExceptionEnum{
 		
-		PARAMSEXCEPTION("paramsexception",1001,"参数错误"),
+		PARAMSEXCEPTION("paramsexception",1001,"抱歉,参数错误"),
 		SYSBUSYEXCEPTION("sysbusyexception",1002,"系统繁忙"),
 		INSERT("insert",1003,"添加记录失败,请稍后再试"),
 		DELETE("delete",1004,"删除记录失败,请稍后再试"),

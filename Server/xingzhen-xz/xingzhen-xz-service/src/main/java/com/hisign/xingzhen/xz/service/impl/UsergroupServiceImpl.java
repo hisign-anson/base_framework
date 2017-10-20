@@ -3,7 +3,9 @@ package com.hisign.xingzhen.xz.service.impl;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.UsergroupModel;
+import com.hisign.xingzhen.xz.mapper.GroupMapper;
 import com.hisign.xingzhen.xz.mapper.UsergroupMapper;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.service.UsergroupService;
@@ -32,6 +34,9 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
 
     @Autowired
     protected UsergroupMapper usergroupMapper;
+
+    @Autowired
+    private GroupMapper groupMapper;
 
     @Override
     protected BaseMapper<Usergroup,UsergroupModel, String> initMapper() {
@@ -91,19 +96,34 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     }
 
     @Override
-    public JsonResult deleteUsergroup(String userId, String groupId) {
-        if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(groupId)){
+    public JsonResult deleteUsergroup(Usergroup usergroup) {
+        if (StringUtils.isEmpty(usergroup.getUserid()) || StringUtils.isEmpty(usergroup.getGroupid()) || StringUtils.isEmpty(usergroup.getCreator())){
             return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
         }
 
-        Usergroup usergroup = new Usergroup();
-        usergroup.setUserid(userId);
-        usergroup.setGroupid(groupId);
+        //获取专案组
+        GroupModel group = groupMapper.findById(usergroup.getGroupid());
+        if (group==null){
+            return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+        }
+
+        //判断该专案组创建人是否是该用户
+        if (!usergroup.getCreator().equals(group.getCreator())){
+            return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+        }
+
+        //判断该被移除人员是否是创建人
+        if (usergroup.getUserid().equals(group.getCreator())){
+            return error("抱歉,该用户是该专案组的创建人,不能被移除");
+        }
 
         Conditions conditions = new Conditions();
-        conditions.createCriteria().add(Usergroup.UsergroupEnum.userid.get(), BaseEnum.ConditionEnum.EQ,userId)
-                .add(Usergroup.UsergroupEnum.groupid.get(), BaseEnum.ConditionEnum.EQ,groupId);
-        usergroupMapper.deleteCustom(conditions);
+        conditions.createCriteria().add(Usergroup.UsergroupEnum.userid.get(), BaseEnum.ConditionEnum.EQ,usergroup.getUserid())
+                .add(Usergroup.UsergroupEnum.groupid.get(), BaseEnum.ConditionEnum.EQ,usergroup.getGroupid());
+        UpdateParams updateParams = new UpdateParams(Usergroup.class);
+        updateParams.add(Usergroup.UsergroupEnum.deleteflag.get(),Constants.DELETE_TRUE);
+        updateParams.setConditions(conditions);
+        usergroupMapper.updateCustom(updateParams);
 
         return success("移除组内成员成功");
     }

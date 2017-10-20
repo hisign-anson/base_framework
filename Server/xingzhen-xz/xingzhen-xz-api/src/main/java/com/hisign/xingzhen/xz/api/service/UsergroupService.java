@@ -14,7 +14,7 @@ import com.hisign.xingzhen.xz.api.model.UsergroupModel;
  */
 public interface UsergroupService extends BaseService<Usergroup,UsergroupModel, String> {
 
-    public JsonResult deleteUsergroup(String userId, String groupId);
+    public JsonResult deleteUsergroup(Usergroup usergroup);
 
     public JsonResult getUsergroupPage(SysUserInfo info);
 

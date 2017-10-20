@@ -71,18 +71,24 @@ public class Group extends BaseModel implements Serializable {
 	private String deleteflag; //删除标识
 
 	//-------------------------------------- 返回字段
+	@ApiModelProperty(value = "返回字段-成员数")
 	private int num;//成员数
 
+	@ApiModelProperty(value = "返回字段-涉及案件数")
 	private int caseNum;//涉及案件数
 
 
 	//--------------------------------------- 接收字段
+	@ApiModelProperty(value = "接收字段-关联案件")
 	private String ajbh;//关联案件
 
+	@ApiModelProperty(value = "接收字段-人员名称")
 	private String userId;//人员名称
 
-	
-    
+	@ApiModelProperty(value = "接收字段-是否是父专案组")
+	private boolean isParent;//是否是父专案组
+
+
 	/**
 	 *默认空构造函数
 	 */

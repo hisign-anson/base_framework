@@ -42,8 +42,8 @@ public class UsergroupRest extends BaseRest<Usergroup,UsergroupModel, String, Us
     @Override
     @ApiOperation(value = "移除组内成员",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/deleteUsergroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult deleteUsergroup(@ApiParam(required = true,name = "userId") @RequestParam String userId,@ApiParam(required = true,name="groupId") @RequestParam String groupId) {
-        return baseService.deleteUsergroup(userId, groupId);
+    public JsonResult deleteUsergroup(@RequestBody Usergroup usergroup) {
+        return baseService.deleteUsergroup(usergroup);
     }
 
     /**

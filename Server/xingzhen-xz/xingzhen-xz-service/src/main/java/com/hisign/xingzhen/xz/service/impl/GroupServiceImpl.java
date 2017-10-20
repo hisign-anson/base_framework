@@ -10,6 +10,7 @@ import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.SerialNumGenerater;
+import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.service.GroupService;
@@ -55,6 +56,25 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         entity.setDeleteflag(Constants.DELETE_FALSE);
         entity.setLastupdatetime(new Date());
         return super.add(entity);
+    }
+
+    @Override
+    public JsonResult addNotNull(Group entity) throws BusinessException {
+        //获取父专案组
+        Group pgroup = new Group();
+        pgroup.setPgroupid(entity.getPgroupid());
+        GroupModel pgroupModel = getByEntity(pgroup);
+
+        //如果为空或者父专案组有父id
+        if (pgroupModel==null || StringUtils.isEmpty(pgroupModel.getPgroupid())){
+            return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+        }
+
+        entity.setId(UUID.randomUUID().toString());
+        entity.setCreatetime(new Date());
+        entity.setDeleteflag(Constants.DELETE_FALSE);
+        entity.setLastupdatetime(new Date());
+        return super.addNotNull(entity);
     }
 
     @Override
@@ -109,6 +129,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
     @Override
     public JsonResult getGroupPage(Group group) {
+        //获取父专案组
         List<GroupModel> list = groupMapper.getGroupByCondition(group);
         long count = groupMapper.getCountGroupByCondition(group);
         return JsonResultUtil.success(count, list);
