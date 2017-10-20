@@ -13,14 +13,13 @@ import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Cb;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
+import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
+import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
 import com.hisign.xingzhen.xz.api.service.TaskService;
-import com.hisign.xingzhen.xz.mapper.CbMapper;
-import com.hisign.xingzhen.xz.mapper.GroupMapper;
-import com.hisign.xingzhen.xz.mapper.TaskFkMapper;
-import com.hisign.xingzhen.xz.mapper.TaskMapper;
+import com.hisign.xingzhen.xz.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +49,9 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
     @Autowired
     protected CbMapper cbMapper;
+
+    @Autowired
+    protected TaskfkFileMapper taskfkFileMapper;
 
     @Override
     protected BaseMapper<Task,TaskModel, String> initMapper() {
@@ -103,8 +105,8 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     @Override
     public JsonResult getTaskPage(Task task) {
         task.setYjzt("0");
-        List<TaskModel> list = taskMapper.getTaskByCondition(task);
-        long count = taskMapper.getCountTaskByCondition(task);
+        List<TaskModel> list = taskMapper.findTaskByEntity(task);
+        long count = taskMapper.findCountTaskByEntity(task);
         return JsonResultUtil.success(count,list);
     }
     /**
@@ -120,21 +122,34 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         if(taskModel==null){
             return error("该任务不存在");
         }
-        Conditions conditions = new Conditions(TaskFk.class);
-        Conditions.Criteria criteria = conditions.createCriteria();
-        criteria.add(TaskFk.TaskFkEnum.taskid.get());
         //已反馈的才能有反馈信息
         if("1".equals(taskModel.getFkzt())){
+            Conditions conditions = new Conditions(TaskFk.class);
+            Conditions.Criteria criteria = conditions.createCriteria();
+            criteria.add(TaskFk.TaskFkEnum.taskid.get());
             List<TaskFkModel> taskFkModels=taskFkMapper.findList(conditions);
-            taskModel.setTaskFkModels(taskFkModels);
-            if(taskModel.getJsr().equals(task.getUserId())) {
+            if(taskFkModels!=null){
                 Date now=new Date();
-                TaskFk taskFk=new TaskFk();
-                taskFk.setTaskid(task.getId());
-                taskFk.setQrzt("1");
-                taskFk.setQrTime(now);
-                taskFk.setLastupdatetime(now);
-                taskFkMapper.updateTaskQrzt(taskFk);
+                for(TaskFkModel taskFkModel:taskFkModels){
+                    TaskfkFile file=new TaskfkFile();
+                    file.setTaskfkId(taskFkModel.getId());
+                    List<TaskfkFileModel> taskfkFiles=taskfkFileMapper.findListByEntity(file);
+                    if(taskfkFiles!=null) {
+                        taskFkModel.setTaskfkFileModels(taskfkFiles);
+                    }
+                    //查看更新未确认的反馈信息
+                    if(taskModel.getCreator()!=null && taskModel.getCreator().equals(task.getUserId()) && !"1".equals(taskFkModel.getQrzt())) {
+                        TaskFk taskFk=new TaskFk();
+                        taskFk.setTaskid(task.getId());
+                        taskFk.setQrzt("1");
+                        taskFk.setQrTime(now);
+                        taskFk.setLastupdatetime(now);
+                        taskFkMapper.updateNotNull(taskFk);
+                        //第一次进去现在已确认
+                        taskFkModel.setQrzt("1");
+                    }
+                }
+                taskModel.setTaskFkModels(taskFkModels);
             }
         } else{
             if(!"1".equals(taskModel.getQszt()) && taskModel.getJsr()!=null && taskModel.getJsr().equals(task.getUserId())) {
@@ -145,6 +160,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                 t.setQsTime(now);
                 t.setLastupdatetime(now);
                 taskMapper.updateNotNull(t);
+                task.setQszt("1");
             }
         }
         return JsonResultUtil.success(taskModel);
@@ -211,7 +227,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
 
     private String createTaskNo(String deparmentcode) {
-        String maxNo = taskMapper.getMaxNo(deparmentcode);
+        String maxNo = taskMapper.findMaxNo(deparmentcode);
         String nextNumber;
         if(StringUtils.isEmpty(maxNo)){
             nextNumber="000000";

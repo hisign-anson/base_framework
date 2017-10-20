@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  *
  */
 @RestController
-public class TaskfkFileRest extends BaseRest<TaskfkFile, TaskfkFileModel, String, TaskfkFileService> {
+public class TaskfkFileRest extends BaseRest<TaskfkFile, TaskfkFileModel, String, TaskfkFileService> implements TaskfkFileService {
 
 	@Override
 	@Autowired
@@ -24,4 +24,4 @@ public class TaskfkFileRest extends BaseRest<TaskfkFile, TaskfkFileModel, String
 	public void setBaseService(TaskfkFileService baseService) {
 		super.setBaseService(baseService);
 	}
-}
+ }

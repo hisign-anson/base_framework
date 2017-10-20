@@ -1,6 +1,7 @@
 
 package com.hisign.xingzhen.xz.api.service;
 
+import com.hisign.bfun.bif.BaseService;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import com.hisign.bfun.bif.BaseService;
 import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
@@ -10,5 +11,4 @@ import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
  * @author 何建辉
  */
 public interface TaskfkFileService extends BaseService<TaskfkFile,TaskfkFileModel, String>{
-
 }

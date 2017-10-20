@@ -14,6 +14,7 @@ import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.model.CbModel;
 import com.hisign.xingzhen.xz.api.service.CbService;
 import com.hisign.xingzhen.xz.mapper.CbMapper;
+import com.hisign.xingzhen.xz.mapper.TaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,8 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 
 	@Autowired
 	protected CbMapper cbMapper;
+    @Autowired
+    protected TaskMapper taskMapper;
 	
 	@Override
 	protected BaseMapper<Cb,CbModel, String> initMapper() {
@@ -94,6 +97,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
          task.setId(cb.getTaskid());
          task.setCbzt("1");
          task.setLastupdatetime(now);
+         taskMapper.updateNotNull(task);
          return super.addNotNull(cb);
      }
  }

@@ -11,10 +11,12 @@ import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
+import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
 import com.hisign.xingzhen.xz.api.service.TaskFkService;
 import com.hisign.xingzhen.xz.mapper.TaskFkMapper;
 import com.hisign.xingzhen.xz.mapper.TaskMapper;
+import com.hisign.xingzhen.xz.mapper.TaskfkFileMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,9 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
 
     @Autowired
     protected TaskMapper taskMapper;
+
+    @Autowired
+    protected TaskfkFileMapper taskfkFileMapper;
 	
 	@Override
 	protected BaseMapper<TaskFk,TaskFkModel, String> initMapper() {
@@ -102,6 +107,14 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
          task.setFkTime(now);
          task.setLastupdatetime(now);
          taskMapper.updateNotNull(task);
+         if(taskFk.getTaskfkFiles()!=null){
+             for(TaskfkFile file:taskFk.getTaskfkFiles()) {
+                 file.setId(UUID.randomUUID().toString());
+                 file.setCreatetime(now);
+                 file.setDeleteFlag(Constants.DELETE_FALSE);
+                 taskfkFileMapper.insertNotNull(file);
+             }
+         }
          return super.addNotNull(taskFk);
      }
  }

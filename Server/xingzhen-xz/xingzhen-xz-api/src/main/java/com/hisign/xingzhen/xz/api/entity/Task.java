@@ -144,6 +144,9 @@ public class Task extends BaseModel implements Serializable {
 
     @ApiModelProperty(value = "反馈结束时间")
     private Date fkendTime;
+
+    @ApiModelProperty(value = "反馈确认状态")
+    private String fkqrzt;
     /**
      *默认空构造函数
      */
@@ -522,6 +525,14 @@ public class Task extends BaseModel implements Serializable {
 
     public void setFkendTime(Date fkendTime) {
         this.fkendTime = fkendTime;
+    }
+
+    public String getFkqrzt() {
+        return fkqrzt;
+    }
+
+    public void setFkqrzt(String fkqrzt) {
+        this.fkqrzt = fkqrzt;
     }
 
     @Override

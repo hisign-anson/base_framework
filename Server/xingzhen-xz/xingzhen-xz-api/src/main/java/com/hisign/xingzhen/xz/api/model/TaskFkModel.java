@@ -3,6 +3,8 @@ package com.hisign.xingzhen.xz.api.model;
 import java.io.Serializable;
 import com.alibaba.fastjson.JSON;
 import java.util.*;
+
+import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -55,7 +57,9 @@ public class TaskFkModel implements Serializable {
     @ApiModelProperty(value = "删除标识")
     private String deleteflag; //删除标识
 
-
+    //-------------------------返回字段
+    @ApiModelProperty(value = "反馈附件信息")
+    private List<TaskfkFileModel> taskfkFileModels;
     /**
      *默认空构造函数
      */
@@ -219,6 +223,14 @@ public class TaskFkModel implements Serializable {
      */
     public void setDeleteflag(String deleteflag){
         this.deleteflag = deleteflag;
+    }
+
+    public List<TaskfkFileModel> getTaskfkFileModels() {
+        return taskfkFileModels;
+    }
+
+    public void setTaskfkFileModels(List<TaskfkFileModel> taskfkFileModels) {
+        this.taskfkFileModels = taskfkFileModels;
     }
 
     @Override
