@@ -4,11 +4,13 @@ import com.hisign.bfun.bannotation.Column;
 import com.hisign.bfun.bannotation.PK;
 import com.hisign.bfun.bannotation.Table;
 import com.hisign.xingzhen.common.model.BaseModel;
+import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 《任务反馈》 实体
@@ -72,7 +74,9 @@ public class TaskFk extends BaseModel implements Serializable {
     @ApiModelProperty(value = "删除标识")
     private String deleteflag; //删除标识
 
-
+    //-------------------------接受字段
+    @ApiModelProperty(value = "反馈附件信息")
+    private List<TaskfkFile> taskfkFiles;
     /**
      *默认空构造函数
      */
@@ -235,6 +239,14 @@ public class TaskFk extends BaseModel implements Serializable {
      */
     public void setDeleteflag(String deleteflag){
         this.deleteflag = deleteflag;
+    }
+
+    public List<TaskfkFile> getTaskfkFiles() {
+        return taskfkFiles;
+    }
+
+    public void setTaskfkFiles(List<TaskfkFile> taskfkFiles) {
+        this.taskfkFiles = taskfkFiles;
     }
 
     public static String getTbName() {

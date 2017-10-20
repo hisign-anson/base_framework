@@ -1,18 +1,22 @@
 package com.hisign.xingzhen.xz.service.impl;
 
-import com.hisign.xingzhen.xz.mapper.TaskfkFileMapper;
+import com.hisign.bfun.benum.BaseEnum;
+import com.hisign.bfun.bexception.BusinessException;
+import com.hisign.bfun.bif.BaseMapper;
+import com.hisign.bfun.bif.BaseServiceImpl;
+import com.hisign.bfun.bmodel.Conditions;
+import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.bfun.bmodel.UpdateParams;
+import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
-import com.hisign.xingzhen.xz.api.entity.TaskfkFileModel;
+import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
 import com.hisign.xingzhen.xz.api.service.TaskfkFileService;
-import java.util.List;
+import com.hisign.xingzhen.xz.mapper.TaskfkFileMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.hisign.bfun.benum.BaseEnum;
-import com.hisign.bfun.bif.*;
-import com.hisign.bfun.butils.JsonResultUtil;
-import com.hisign.bfun.bexception.BusinessException;
-import com.hisign.bfun.bmodel.*;
+
+import java.util.List;
 
 
  /**
@@ -75,4 +79,4 @@ public class TaskfkFileServiceImpl extends BaseServiceImpl<TaskfkFile,TaskfkFile
 		return JsonResultUtil.success();
 	}
 
-}
+ }

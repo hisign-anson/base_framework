@@ -5,7 +5,9 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
 import com.hisign.xingzhen.xz.api.service.TaskService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,5 +93,4 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
     public JsonResult moveTask(@ApiParam @RequestBody Task task) {
         return baseService.moveTask(task);
     }
-
 }

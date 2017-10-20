@@ -833,7 +833,7 @@
         FROM t_task
     </select>
 
-    <select id="getMaxNo" parameterType="java.lang.String" resultType="java.lang.String" >
+    <select id="findMaxNo" parameterType="java.lang.String" resultType="java.lang.String" >
         SELECT substr(TASK_NO,19) as TASK_NO FROM (
             SELECT TASK_NO FROM t_task t
             WHERE TASK_NO is not NULL AND SUBSTR (TASK_NO, 15,4)=TO_CHAR(SYSDATE,'YYYY')
@@ -842,7 +842,7 @@
         )  	where ROWNUM=1
 	</select>
 
-    <select id="getTaskByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultMap="BaseResultMap">
+    <select id="findTaskByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultMap="BaseResultMap">
         select p.* from(
         select rownum as rn,q.* from (
         select t.* from T_TASK  t where t.deleteFlag='0'
@@ -905,7 +905,7 @@
         </if>
     </select>
 
-    <select id="getCountTaskByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultType="java.lang.Long">
+    <select id="findCountTaskByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultType="java.lang.Long">
         select count(1) from T_TASK t where deleteFlag='0'
         <choose>
             <when test="userId != null and userId !=''">

@@ -177,7 +177,7 @@ public interface BaseService<T,M,PK> {
 	public abstract Long getCount(@RequestBody Conditions conditions);
 
 	/**
-	 * @category 分页 
+	 * @category 分页
 	 * @param condition
 	 * @param page
 	 * @return
@@ -186,5 +186,16 @@ public interface BaseService<T,M,PK> {
 	@RequestMapping(value = "/getPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public abstract JsonResult getPage(@RequestBody Conditions conditions);
+
+    /**
+     * @category 查询list
+     * @param condition
+     * @param page
+     * @return
+     * @time 2016年10月14日 下午8:13:05
+     */
+    @RequestMapping(value = "/getListByEntity", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public abstract JsonResult getListByEntity(@RequestBody T entity);
 
 }

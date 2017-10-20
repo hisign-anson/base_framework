@@ -145,4 +145,13 @@ public interface BaseMapper<T,M, PK> {
 	public abstract PaginatedList<M> findPage(Conditions condition,
                                               PaginatedList<T> page);
 
+    /**
+     * @category 查找列表
+     * @param entity
+     * @param params
+     * @return
+     * @time 2017年10月14日 下午8:13:05
+     */
+    public abstract List<M> findListByEntity(T entity);
+
 }

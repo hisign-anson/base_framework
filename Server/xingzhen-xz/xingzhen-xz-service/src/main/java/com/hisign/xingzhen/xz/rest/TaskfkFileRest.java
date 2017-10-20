@@ -1,15 +1,13 @@
 package com.hisign.xingzhen.xz.rest;
 
+import com.hisign.bfun.bif.BaseRest;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
+import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
 import com.hisign.xingzhen.xz.api.service.TaskfkFileService;
-import java.util.List;
-import javax.annotation.Resource;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.hisign.bfun.bif.*;
-import com.hisign.bfun.butils.JsonResultUtil;
-import com.hisign.bfun.bexception.BusinessException;
-import com.hisign.bfun.bmodel.*;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 
  /**
@@ -18,7 +16,7 @@ import com.hisign.bfun.bmodel.*;
  *
  */
 @RestController
-public class TaskfkFileRest extends BaseRest<TaskfkFile, TaskfkFileModel, String, TaskfkFileService> {
+public class TaskfkFileRest extends BaseRest<TaskfkFile, TaskfkFileModel, String, TaskfkFileService> implements TaskfkFileService {
 
 	@Override
 	@Autowired
@@ -26,4 +24,4 @@ public class TaskfkFileRest extends BaseRest<TaskfkFile, TaskfkFileModel, String
 	public void setBaseService(TaskfkFileService baseService) {
 		super.setBaseService(baseService);
 	}
-}
+ }

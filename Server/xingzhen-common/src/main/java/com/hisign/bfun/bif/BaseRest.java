@@ -151,4 +151,14 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     public JsonResult getPage(@RequestBody Conditions conditions) {
         return baseService.getPage(conditions);
     }
+
+
+    @Override
+    @ApiOperation(value = "根据对象获取",httpMethod ="GET",response = JsonResult.class)
+    @RequestMapping(value = "/getListByEntity", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonResult getListByEntity(@RequestBody T entity) {
+        return baseService.getListByEntity(entity);
+    }
+
 }

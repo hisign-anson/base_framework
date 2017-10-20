@@ -5,6 +5,7 @@ import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 import org.springframework.beans.BeanUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -199,4 +200,9 @@ public abstract class BaseServiceImpl<T,M,PK> implements BaseService<T,M, PK>{
         return jsonResult;
     }
 
+    @Override
+    public JsonResult getListByEntity(@RequestBody T entity) {
+        List<M> list = getMapper().findListByEntity(entity);
+        return success(list);
+    }
 }

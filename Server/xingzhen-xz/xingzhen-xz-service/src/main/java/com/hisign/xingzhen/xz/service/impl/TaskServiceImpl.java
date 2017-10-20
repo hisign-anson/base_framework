@@ -13,14 +13,13 @@ import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Cb;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
+import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
+import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
 import com.hisign.xingzhen.xz.api.service.TaskService;
-import com.hisign.xingzhen.xz.mapper.CbMapper;
-import com.hisign.xingzhen.xz.mapper.GroupMapper;
-import com.hisign.xingzhen.xz.mapper.TaskFkMapper;
-import com.hisign.xingzhen.xz.mapper.TaskMapper;
+import com.hisign.xingzhen.xz.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +49,9 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
     @Autowired
     protected CbMapper cbMapper;
+
+    @Autowired
+    protected TaskfkFileMapper taskfkFileMapper;
 
     @Override
     protected BaseMapper<Task,TaskModel, String> initMapper() {
@@ -103,8 +105,8 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     @Override
     public JsonResult getTaskPage(Task task) {
         task.setYjzt("0");
-        List<TaskModel> list = taskMapper.getTaskByCondition(task);
-        long count = taskMapper.getCountTaskByCondition(task);
+        List<TaskModel> list = taskMapper.findTaskByCondition(task);
+        long count = taskMapper.findCountTaskByCondition(task);
         return JsonResultUtil.success(count,list);
     }
     /**
@@ -126,6 +128,16 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         //已反馈的才能有反馈信息
         if("1".equals(taskModel.getFkzt())){
             List<TaskFkModel> taskFkModels=taskFkMapper.findList(conditions);
+            if(taskFkModels!=null){
+                for(TaskFkModel taskFkModel:taskFkModels){
+                    TaskfkFile file=new TaskfkFile();
+                    file.setTaskfkId(taskFkModel.getId());
+                    List<TaskfkFileModel> taskfkFiles=taskfkFileMapper.findListByEntity(file);
+                    if(taskfkFiles!=null) {
+                        taskFkModel.setTaskfkFileModels(taskfkFiles);
+                    }
+                }
+            }
             taskModel.setTaskFkModels(taskFkModels);
             if(taskModel.getJsr().equals(task.getUserId())) {
                 Date now=new Date();
@@ -211,7 +223,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
 
     private String createTaskNo(String deparmentcode) {
-        String maxNo = taskMapper.getMaxNo(deparmentcode);
+        String maxNo = taskMapper.findMaxNo(deparmentcode);
         String nextNumber;
         if(StringUtils.isEmpty(maxNo)){
             nextNumber="000000";
