@@ -86,6 +86,7 @@ $(document).ready(function () {
                 localData.set('path', window.path);
                 // localData.set('servicePath', "");
                 localData.set('servicePath', window.servicePath);
+                localData.set('servicePath_xz', window.servicePath_xz);
                 localData.set('token', res.data.token);
                 localData.set('limits', res.data.limits);
                 localData.set('currentUser', res.data.currentUser);

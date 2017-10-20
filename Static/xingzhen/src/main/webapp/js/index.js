@@ -1,6 +1,7 @@
 
 top.path=localData.get('path');
 top.servicePath=localData.get('servicePath');
+top.servicePath_xz=localData.get('servicePath_xz');
 top.token = localData.get('token');
 top.ftpServer = localData.get('ftpServer');
 top.limits = localData.get('limits');
@@ -642,19 +643,19 @@ importing('utility.js','main.js','fullscreen','socket', 'dict', function(){
     //默认载入首页
     $('.accordion-toggle')[0].click();
     $('a[direct$=html]')[0].click();
-    //打开收件箱页面
-    $('#msg-count-wrap').on('click',function(){
-        //如果已经打开过,并且没有被关闭清除, 那就直接选中现在这个
-        if(typeof window.msgTab=='object' && window.msgTab.children().length>0){
-            var html ='<em id="newsTitle">收件箱</em>';
-            window.msgTab=$openOnce(getViewPath('fstPage/newsMessage.html'), html);
-            $("#msg-left-content div.li:eq(0) .cc").trigger("click");
-        }else{
-            var html ='<em id="newsTitle">收件箱</em>';
-            window.msgTab=$open(getViewPath('fstPage/newsMessage.html'),html);
-        }
-    	
-    });
+    // //打开收件箱页面
+    // $('#msg-count-wrap').on('click',function(){
+    //     //如果已经打开过,并且没有被关闭清除, 那就直接选中现在这个
+    //     if(typeof window.msgTab=='object' && window.msgTab.children().length>0){
+    //         var html ='<em id="newsTitle">收件箱</em>';
+    //         window.msgTab=$openOnce(getViewPath('fstPage/newsMessage.html'), html);
+    //         $("#msg-left-content div.li:eq(0) .cc").trigger("click");
+    //     }else{
+    //         var html ='<em id="newsTitle">收件箱</em>';
+    //         window.msgTab=$open(getViewPath('fstPage/newsMessage.html'),html);
+    //     }
+    //
+    // });
     
     // $post(top.servicePath+'/sys/message/findReceivePageCount',{receiverId:top.userName,msgState:"0"},function (res) {
     //     if(res.flag == 1){

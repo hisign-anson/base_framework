@@ -174,7 +174,9 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     @Override
     @Transactional
     public JsonResult deleteTaskById(String id) {
-        return super.delById(id);
+        Task task=new Task();
+        task.setDeleteflag(Constants.DELETE_TRUE);
+        return super.updateNotNull(task);
     }
     /**
      * 移交任务

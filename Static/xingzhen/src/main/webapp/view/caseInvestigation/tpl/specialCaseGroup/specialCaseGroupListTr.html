@@ -1,16 +1,20 @@
 <%_.each(data, function(item){%>
 <tr>
+<<<<<<< HEAD
     <td><input type="checkbox" name="group" groupId="<%=item.id%>" value="<%=item.id%>"></td>
+=======
+    <td><input type="checkbox" name="group" groupId="<%=item.groupnum%>" value="<%=item.id%>"></td>
+>>>>>>> 246fbe2ee7baa3538f585681b33acb70ebd4499a
     <td><%=item.rownum%></td>
-    <td><a class="link-text"><%=item.groupId%></a></td>
-    <td><%=item.groupName%></td>
-    <td><%=item.groupType%></td>
+    <td><a class="link-text"><%=item.groupnum%></a></td>
+    <td><%=item.groupname%></td>
+    <td><%=item.grouptype%></td>
     <td><%=item.caseNum%></td>
-    <td><%=item.createName%></td>
-    <td><%=item.staffNum%></td>
-    <td><%=rangeUtil.formatDate(item.createTime,'yyyy-MM-dd')%></td>
-    <td><%=item.fileStatus%></td>
-    <td><%=rangeUtil.formatDate(item.fileTime,'yyyy-MM-dd')%></td>
+    <td><%=item.creator%></td>
+    <td><%=item.num%></td>
+    <td><%=rangeUtil.formatDate(item.createtime,'yyyy-MM-dd')%></td>
+    <td><%=item.backupStatu%></td>
+    <td><%=rangeUtil.formatDate(item.backupTime,'yyyy-MM-dd')%></td>
     <td>
         <a class="into-archive icon-archive" id="<%=item.id%>" title="归档"></a>
         <a class="into-broadcast icon-broadcast" id="<%=item.id%>" title="广播"></a>

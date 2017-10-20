@@ -1,35 +1,49 @@
 <div class="query-block-tabs">
     <form class="query-block">
         <div class="query-block-row">
-            <div class="fl qc-group-m">
-                <span class="qc-label-m">任务类型：</span>
+            <div class="fl qc-group-l">
+                <span class="qc-label-xl">任务类型：</span>
                 <span class="option" id="changeTaskType">
                     <u class="active default" val="">全部</u>
                     <u class="" val="1">本人接收</u>
                     <u class="" val="0">本人下发</u>
                 </span>
             </div>
-            <div class="fl qc-group-m">
-                <span class="qc-label-m">任务名称：</span>
+            <div class="fl qc-group-l">
+                <span class="qc-label-xl">任务名称：</span>
                 <input class="common-input" type="text" id="taskName" name="">
             </div>
         </div>
         <div class="query-block-row">
-            <div class="fl qc-group-m">
-                <span class="qc-label-m">任务编号：</span>
+            <div class="fl qc-group-l">
+                <span class="qc-label-xl">任务编号：</span>
                 <input class="common-input" type="text" id="taskId" name="">
             </div>
-            <div class="fl qc-group-m">
-                <span class="qc-label-m">所属专案组：</span>
-                <input class="common-input" type="text" id="belongGroup" name="">
+            <div class="fl qc-group-l">
+                <span class="qc-label-xl">所属专案组：</span>
+                <div class="dict-opener">
+                    <input class="common-input" type="text" id="belongGroup" name="">
+                    <i id="chooseBelongGroup" class="icon-list cur-p button steelblue" title="所属专案组" dict-value="CFMC"></i>
+                </div>
             </div>
         </div>
 
         <div class="query-block-row">
-            <div class="fl qc-group-m">
-                <span class="qc-label-m">创建人：</span>
-                <input class="common-input" type="text" id="createName" name="">
+            <div class="fl qc-group-l">
+                <span class="qc-label-xl">创建人：</span>
+                <div class="dict-opener">
+                    <input class="common-input" type="text" id="createName" name="">
+                    <i id="chooseCreateName" class="icon-list cur-p button steelblue" title="创建人" dict-value="CFMC"></i>
+                </div>
             </div>
+            <div class="fl qc-group-l">
+                <span class="qc-label-xl">接收人：</span>
+                <div class="dict-opener">
+                    <input class="common-input" type="text" id="recipient" name="">
+                    <i id="chooseRecipient" class="icon-list cur-p button steelblue" title="接收人" dict-value="CFMC"></i>
+                </div>
+            </div>
+<<<<<<< HEAD
             <div class="fl qc-group-m">
                 <span class="qc-label-m">接收人：</span>
                 <input class="common-input" type="text" id="recipient" name="">
@@ -39,6 +53,13 @@
         <div class="query-block-row">
             <div class="fl qc-group-xl">
                 <span class="qc-label-m hook-label">创建时间：</span>
+=======
+
+        </div>
+        <div class="query-block-row">
+            <div class="fl qc-group-xxl">
+                <span class="qc-label-xl hook-label">创建时间：</span>
+>>>>>>> 246fbe2ee7baa3538f585681b33acb70ebd4499a
                 <div class="text-time">
                     <input class="cm-input date-range-picker" type="text" id="createDate" placeholder="请输入时间范围" readonly>
                     <i class="icon-calendar icon-time"></i>
@@ -58,7 +79,7 @@
             <div class="query-block-row">
 
                 <div class="fl qc-group-xl">
-                    <span class="qc-label-m">任务状态：</span>
+                    <span class="qc-label-xl">任务状态：</span>
                     <span class="option" id="changeTaskStatus">
                         <u class="active default" val="">全部</u>
                         <u class="" val="1">已反馈</u>
@@ -69,13 +90,19 @@
                 </div>
             </div>
             <div class="query-block-row">
-                <div class="fl qc-group-m">
-                    <span class="qc-label-m">所属单位：</span>
-                    <input class="common-input" type="text" id="belongUnit" name="">
+                <div class="fl qc-group-l">
+                    <span class="qc-label-xl">所属单位：</span>
+                    <div class="dict-opener">
+                        <input class="common-input" type="text" id="belongUnit" name="">
+                        <i id="chooseBelongUnit" class="icon-list cur-p button steelblue" title="所属单位" dict-value="CFMC"></i>
+                    </div>
                 </div>
-                <div class="fl qc-group-m">
-                    <span class="qc-label-m">要求反馈时间：</span>
-                    <input class="common-input" type="text" id="submitDate" name="">
+                <div class="fl qc-group-l">
+                    <span class="qc-label-xl">要求反馈时间：</span>
+                    <div class="text-time">
+                        <input class="common-input" type="text" id="submitDate" name="">
+                        <i class="icon-calendar icon-time"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -120,69 +147,4 @@
         </table>
     </div>
     <div class="paging"></div>
-</div>
-
-<div id="userListDiv" class="hide">
-    <div class="panel-container">
-        <form class="query-block"  id="query-condition">
-            <div class="query-block-row">
-                <div class="fl qc-group-l">
-                    <span class="qc-label-m">警号：</span>
-                    <input class="common-input" id="repayAmount" type="text">
-                </div>
-                <div class="fl qc-group-l">
-                    <span class="qc-label-m">姓名：</span>
-                    <input class="common-input" id="name" type="text">
-                </div>
-            </div>
-            <div class="query-block-row">
-                <div class="fl qc-group-l">
-                    <span class="qc-label-m">单位：</span>
-                    <input class="common-input" id="unit" type="text">
-                </div>
-            </div>
-            <div class="query-widget-wrap">
-                <hr class="cm-dash ">
-                <p class="query-reset ">
-                    <button id="resetBtn" class="cm-reset-btn">重 置</button>
-                    <button id="queryBtn" class="cm-query-btn">查 询</button>
-                </p>
-            </div>
-        </form>
-        <div id="" class="query-result">
-            <div class="new-color-bar">
-                <i class="icon-search fs14 mr10"></i>
-                <span class="title">查询结果（共找到<span class="total-count"></span>条数据）</span>
-            </div>
-            <div class="div-table-wrap">
-                <table id="" class="userInfoList-table typical-tb">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>序号</th>
-                        <th>成员姓名</th>
-                        <th>警号</th>
-                        <th>联系方式</th>
-                        <th>职位</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="radio" id=""></td>
-                            <td>1</td>
-                            <td>李四</td>
-                            <td>J001</td>
-                            <td>15111441569</td>
-                            <td>警官</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="paging"></div>
-        </div>
-        <div class="form-btn-block">
-            <button id="cancelBtn" class="cm-cancel-btn">取 消</button>
-            <button id="transferBtn" class="cm-save-btn">移 交</button>
-        </div>
-    </div>
 </div>

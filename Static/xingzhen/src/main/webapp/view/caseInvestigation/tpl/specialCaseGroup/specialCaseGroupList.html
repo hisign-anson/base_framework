@@ -1,17 +1,18 @@
 <div class="tab-pane active">
     <form class="query-block"  id="queryCondition">
         <div class="query-block-row">
-            <div class="fl qc-group-m">
-                <span class="qc-label-m">专案组名称：</span>
-                <input class="common-input" type="text" id="" name="">
+            <div class="fl qc-group-l">
+                <span class="qc-label-xl">专案组名称：</span>
+                <input class="common-input" type="text" id="groupname" name="">
             </div>
 
-            <div class="fl qc-group-m">
-                <span class="qc-label-m">专案组编号：</span>
-                <input class="common-input" type="text" id="" name="">
+            <div class="fl qc-group-l">
+                <span class="qc-label-xl">专案组编号：</span>
+                <input class="common-input" type="text" id="groupnum" name="">
             </div>
         </div>
         <div class="query-block-row">
+<<<<<<< HEAD
             <div class="fl qc-group-m">
                 <span class="qc-label-m">创建人：</span>
                 <div class="dict-opener">
@@ -23,6 +24,19 @@
                 <span class="qc-label-m hook-label">创建时间：</span>
                 <div class="text-time">
                     <input class="cm-input date-range-picker" type="text" id="createDate" placeholder="请输入时间范围" readonly>
+=======
+            <div class="fl qc-group-l">
+                <span class="qc-label-xl">创建人：</span>
+                <div class="dict-opener">
+                    <input class="common-input" type="text" id="creator" name="">
+                    <i id="chooseCreatName" class="icon-list cur-p button steelblue" title="创建人" dict-value="CFMC"></i>
+                </div>
+            </div>
+            <div class="fl qc-group-xxl">
+                <span class="qc-label-xl hook-label">创建时间：</span>
+                <div class="text-time">
+                    <input class="cm-input date-range-picker" type="text" id="createtime" placeholder="请输入时间范围" readonly>
+>>>>>>> 246fbe2ee7baa3538f585681b33acb70ebd4499a
                     <i class="icon-calendar icon-time"></i>
                     <input type="hidden" name="startTime" id="startTime" />
                     <input type="hidden" name="endTime" id="endTime" />
@@ -37,34 +51,47 @@
             </div>
         </div>
         <div class="query-block-row">
+<<<<<<< HEAD
             <div class="fl qc-group-m">
                 <span class="qc-label-m">人员名称：</span>
+=======
+            <div class="fl qc-group-l">
+                <span class="qc-label-xl">人员名称：</span>
+>>>>>>> 246fbe2ee7baa3538f585681b33acb70ebd4499a
                 <div class="dict-opener">
                     <input class="common-input" type="text" id="" name="">
                     <i id="chooseStaff" class="icon-list cur-p button steelblue" title="人员名称" dict-value="CFMC"></i>
                 </div>
             </div>
+<<<<<<< HEAD
             <div class="fl qc-group-m">
                 <span class="qc-label-m">所属单位：</span>
                 <div class="dict-opener">
                     <input class="common-input" type="text" id="" name="">
+=======
+            <div class="fl qc-group-l">
+                <span class="qc-label-xl">所属单位：</span>
+                <div class="dict-opener">
+                    <input class="common-input" type="text" id="deparmentcode" name="">
+>>>>>>> 246fbe2ee7baa3538f585681b33acb70ebd4499a
                     <i id="chooseUnit" class="icon-list cur-p button steelblue" title="所属单位" dict-value="CFMC"></i>
                 </div>
             </div>
         </div>
         <div class="collapse" id="queryBlockRowMore">
             <div class="query-block-row">
-                <div class="fl qc-group-m">
-                    <span class="qc-label-m">关联案件：</span>
+                <div class="fl qc-group-l">
+                    <span class="qc-label-xl">关联案件：</span>
                     <input class="common-input" type="text" id="" name="">
                 </div>
-                <div class="fl">
-                    <span class="qc-label-m">是否归档：</span>
-                    <span class="option" id="changeYesOrNo">
+                <div class="fl qc-group-l">
+                    <span class="qc-label-xl">是否归档：</span>
+                    <span class="option" id="changeBackupStatu">
                         <u class="active default " val="">全部</u>
                         <u class="  " val="0">是</u>
                         <u class="  " val="1">否</u>
                     </span>
+                    <input id='backupStatu' name="" type="hidden" value="">
                 </div>
             </div>
         </div>
