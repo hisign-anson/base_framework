@@ -14,7 +14,7 @@ import java.util.Map;
  *
  */
 public interface TaskFkMapper extends BaseMapper<TaskFk,TaskFkModel,String> {
-
+    public String updateTaskQrzt(TaskFk taskFk);
     //查询用户待确认的反馈数量
     public Long findNotConfirmCountByCreator(@Param(value = "userId") String creator);
 

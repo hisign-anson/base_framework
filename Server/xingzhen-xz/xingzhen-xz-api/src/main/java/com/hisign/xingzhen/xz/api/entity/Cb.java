@@ -49,9 +49,12 @@ public class Cb extends BaseModel implements Serializable {
 	@Column(value="DELETEFLAG")
 	@ApiModelProperty(value = "删除标识")
 	private String deleteflag; //删除标识
-	
-    
-	/**
+
+    //-------------------------------------- 接受字段
+    private String  old_taskid;
+
+
+    /**
 	 *默认空构造函数
 	 */
 	public Cb() {
@@ -154,8 +157,16 @@ public class Cb extends BaseModel implements Serializable {
 	public void setDeleteflag(String deleteflag){
 		this.deleteflag = deleteflag;
 	}
-	
-	public static String getTbName() {
+
+    public String getOld_taskid() {
+        return old_taskid;
+    }
+
+    public void setOld_taskid(String old_taskid) {
+        this.old_taskid = old_taskid;
+    }
+
+    public static String getTbName() {
 		return "t_cb";
 	}
 	

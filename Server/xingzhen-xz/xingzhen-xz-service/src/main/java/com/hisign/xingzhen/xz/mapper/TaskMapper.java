@@ -14,8 +14,7 @@ import java.util.List;
  */
 public interface TaskMapper extends BaseMapper<Task,TaskModel,String> {
 
-     public String getMaxNo();
-
+    public String getMaxNo(String deparmentcode);
 
     public List<TaskModel> getTaskByCondition(Task task);
 

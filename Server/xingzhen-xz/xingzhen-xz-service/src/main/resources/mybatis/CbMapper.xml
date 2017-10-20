@@ -182,8 +182,7 @@
 			LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP},
 			DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
 		</trim>
-		WHERE
-		ID = #{id,jdbcType=VARCHAR}
+		WHERE ID = #{id,jdbcType=VARCHAR}
 	</update>
 
 	<update id="updateNotNull" parameterType="com.hisign.xingzhen.xz.api.entity.Cb">
@@ -211,7 +210,7 @@
 				DELETEFLAG = #{deleteflag,jdbcType=VARCHAR}
 			</if>
 		</trim>
-		ID = #{id,jdbcType=VARCHAR}
+		WHERE ID = #{id,jdbcType=VARCHAR}
 	</update>
 
 	<update id="updateCustom" parameterType="com.hisign.bfun.bmodel.UpdateParams">
@@ -392,5 +391,9 @@
 			MAX(id)
 		FROM t_cb
 	</select>
-   
+
+    <update id="updateCbTaskid"  parameterType="com.hisign.xingzhen.xz.api.entity.Cb">
+        update t_cb set taskId=#{taskid,jdbcType=VARCHAR} where taskId=#{old_taskid,jdbcType=VARCHAR}
+    </update>
+
 </mapper>

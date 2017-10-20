@@ -1,6 +1,7 @@
 
 package com.hisign.xingzhen.xz.api.service;
 
+import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.bfun.bif.BaseService;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
@@ -10,5 +11,5 @@ import com.hisign.xingzhen.xz.api.model.TaskFkModel;
  * @author 何建辉
  */
 public interface TaskFkService extends BaseService<TaskFk,TaskFkModel, String>{
-
+    public JsonResult addTaskFk(TaskFk taskFk);
 }

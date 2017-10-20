@@ -38,26 +38,32 @@ public class IndexRest extends BaseController {
     @ApiImplicitParam(name = "userId",value = "当前用户id",required = true,dataType = "String")
     @RequestMapping(value = "/getTaskCountInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult getTaskCountInfo(@ApiParam @RequestParam(value="userId") String userId) {
+
         //未确认
         Long count1 = indexService.getNotConfirmCountByCreator(userId);
 
         //未反馈 未签收 未过期 接收人
         Conditions conditions2 = new Conditions(Task.class);
+
         Conditions.Criteria criteria2 = conditions2.createCriteria();
+
 
         criteria2.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
                 .add(Task.TaskEnum.qszt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
                 .add(Task.TaskEnum.fkjzTime.get(), BaseEnum.ConditionEnum.GT, new Date())
                 .add(Task.TaskEnum.jsr.get(), BaseEnum.ConditionEnum.EQ, userId);
+
         Long count2 = taskService.getCount(conditions2);
 
         //未反馈 已过期 接收人
         Conditions conditions3 = new Conditions(Task.class);
+
         Conditions.Criteria criteria3 = conditions3.createCriteria();
 
         criteria3.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
                 .add(Task.TaskEnum.fkjzTime.get(), BaseEnum.ConditionEnum.LTE, new Date())
                 .add(Task.TaskEnum.jsr.get(), BaseEnum.ConditionEnum.EQ, userId);
+
         Long count3 = taskService.getCount(conditions3);
 
         Map<String, Long> map = new HashMap<String,Long>();
