@@ -79,7 +79,7 @@ public class StringUtils {
     }
 
     /**
-     * @param src 源字符串
+     * @param str 源字符串
      * @return str
      * @category 去掉字符串最后一位
      */
@@ -203,9 +203,8 @@ public class StringUtils {
     }
 
     /**
-     * @param len    　字符串长度　长度计量单位为一个GBK汉字　　两个英文字母计算为一个单位长度
+     * @param len 　字符串长度　长度计量单位为一个GBK汉字　　两个英文字母计算为一个单位长度
      * @param str
-     * @param symbol
      * @category 截取字符串　超出的字符用...代替
      * @return12
      */
@@ -720,30 +719,6 @@ public class StringUtils {
     }
 
     /**
-     * @param str
-     * @return
-     * @category Wap页面的非法字符检查
-     * @author hugh115
-     * @date 2007-06-29
-     */
-    public static String replaceWapStr(String str) {
-
-        if (str != null) {
-            str = str.replaceAll("<span class=\"keyword\">", "");
-            str = str.replaceAll("</span>", "");
-            str = str.replaceAll("<strong class=\"keyword\">", "");
-            str = str.replaceAll("<strong>", "");
-            str = str.replaceAll("</strong>", "");
-            str = str.replace('$', '＄');
-            str = str.replaceAll("&amp;", "＆");
-            str = str.replace('&', '＆');
-            str = str.replace('<', '＜');
-            str = str.replace('>', '＞');
-        }
-        return str;
-    }
-
-    /**
      * @param s 输入的字符串
      * @return 转换后的float
      * @category 字符串转float 如果异常返回0.00
@@ -760,26 +735,6 @@ public class StringUtils {
 
     /**
      * @param str
-     * @return
-     * @category 页面中去除字符串中的空格、回车、换行符、制表符
-     * @author shazao
-     * @date 2007-08-17
-     */
-    public static String replaceBlank(String str) {
-
-        if (str != null) {
-            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
-            Matcher m = p.matcher(str);
-            str = m.replaceAll("");
-        }
-        return str;
-    }
-
-    /**
-     * @param str
-     * @return
-     * @category 全角生成半角
-     * @author bailong
      * @date 2007-08-29
      */
     public static String Q2B(String QJstr) {
@@ -1015,7 +970,7 @@ public class StringUtils {
 	 */
 
 	/*
-	 * String aaa="abcdefgllhijklmn5465"; String[] bbb=StringProcessor.midString(aaa, "b","l"); //ab cdefg llhijklmn5465 // 元素0 元素1
+     * String aaa="abcdefgllhijklmn5465"; String[] bbb=StringProcessor.midString(aaa, "b","l"); //ab cdefg llhijklmn5465 // 元素0 元素1
 	 */
     public static String[] midString(String s, String b, String e) {
 
@@ -1637,7 +1592,7 @@ public class StringUtils {
     }
 
     /**
-     * @param realName
+     * @param s
      * @return
      * @category 首字母大写
      */
@@ -1650,7 +1605,7 @@ public class StringUtils {
 
 
     /**
-     * @param realName
+     * @param s
      * @return
      * @category 首字母小写
      */
@@ -2452,24 +2407,6 @@ public class StringUtils {
     /**
      * @param sourceStr
      * @return String
-     * @category 去掉将web敏感性的符号转换
-     * @author xsh
-     * @date 2015-9-11
-     * @time 上午10:32:07
-     */
-    public static String getWebTagReplace(String sourceStr) {
-        if (StringUtils.isEmpty(sourceStr)) {
-            return "";
-        }
-        sourceStr = sourceStr.replace('＜', '<').replace('＞', '>').replace("“", "'").replace("‘", "'").replace("’", "'").replace("“", "'").replace("＆", "&");
-
-        return sourceStr;
-
-    }
-
-    /**
-     * @param sourceStr
-     * @return String
      * @category 去掉后面字符串的0，然后+1，再补0 ，字符串前面非0字符串的长度必须为偶数且不能包含0
      * @author hejianhui
      * @date 2015-8-20
@@ -2597,10 +2534,11 @@ public class StringUtils {
 
     /**
      * 拼接字符串
+     *
      * @param strs
      * @return
      */
-    public static String concat(String...strs){
+    public static String concat(String... strs) {
         StringBuilder sb = new StringBuilder();
         for (String str : strs) {
             sb.append(str);

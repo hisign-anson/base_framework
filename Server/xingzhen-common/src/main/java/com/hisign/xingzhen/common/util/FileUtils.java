@@ -53,7 +53,7 @@ public class FileUtils {
      * @param response
      * @throws IOException
      */
-    /*public void downloadZipFile(String fileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    /*public void downloadZipFile(file, HttpServletRequest request, HttpServletResponse response) throws IOException {
         ZipUtil zu = new ZipUtil();
         zu.setComment("压缩文件");
         String outputDir = "";
