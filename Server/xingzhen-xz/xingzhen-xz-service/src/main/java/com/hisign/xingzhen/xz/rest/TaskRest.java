@@ -9,10 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -72,14 +69,14 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
 
     /**
      * 删除任务
-     * @param task
+     * @param
      * @return
      */
     @Override
     @ApiOperation(value = "删除任务",httpMethod ="DELETE",response = String.class)
     @RequestMapping(value = "/deleteTaskById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult deleteTaskById(@ApiParam @RequestBody Task task) {
-        return baseService.deleteTaskById(task);
+    public JsonResult deleteTaskById(@ApiParam @RequestParam String id,@RequestParam String userId) {
+        return baseService.deleteTaskById(id,userId);
     }
 
     /**

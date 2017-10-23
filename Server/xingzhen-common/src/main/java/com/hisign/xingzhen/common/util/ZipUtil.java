@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -85,7 +84,7 @@ public class ZipUtil {
 	public void unZip(String srcFile, String dest, boolean deleteFile)  throws Exception {
         File file = new File(srcFile);
         if(!file.exists()) {  
-            throw new Exception("��ѹ�ļ�������!");
+            throw new Exception("文件不存在!");
         }  
         ZipFile zipFile = new ZipFile(file);  
         Enumeration e = zipFile.getEntries();
@@ -139,26 +138,11 @@ public class ZipUtil {
   
             zipFile.close();  
         } catch (Exception e) {
-            System.out.println("��ȡzip�ļ�ע����Ϣʧ��:" + e.getMessage());
+            System.out.println(e.getMessage());
         }  
   
         return comment;  
     }  
-  
-    public static void main(String[] args) throws Exception {
-        long begin = System.currentTimeMillis();
-        ZipUtil zu = new ZipUtil();  
-        List<String> filter = new ArrayList<String>();
-        //filter.add("Bll.java");  
-        //filter.add("BllImpl.java");  
-        zu.setComment("��ѹ������Codegen�������������ɵ�");
-        zu.zip("e:\\QtoneProject\\TengenCode", "e:/TengenCode.zip",filter);  
-        System.out.println(ZipUtil.getZipComment("e:/TengenCode.zip"));
-        //new ZipUtil().unZip("D:/TengenCode.zip", "D:/codegen/", true);
-        //File f = new File("c:/hh.zip");  
-        //f.deleteOnExit();  
-        long end = System.currentTimeMillis();
-        System.out.println(end-begin);
-    }  
+
 }  
 

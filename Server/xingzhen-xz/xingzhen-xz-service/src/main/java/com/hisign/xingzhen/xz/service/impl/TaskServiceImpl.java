@@ -214,14 +214,16 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     }
 
     @Override
-    public JsonResult deleteTaskById(Task task) {
+    public JsonResult deleteTaskById(String id,String userId) {
+        Task task=new Task();
+        task.setId(id);
         Date now=new Date();
         task.setDeleteflag(Constants.DELETE_TRUE);
         task.setLastupdatetime(now);
         JsonResult result = super.updateNotNull(task);
 
         String content="任务删除（ID=" + task.getId() + "）";
-        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , task.getCreator(), now, task.getId());
+        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , userId, now, task.getId());
         xzLogMapper.insertNotNull(xzLog);
         return result;
     }

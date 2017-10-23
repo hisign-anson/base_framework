@@ -20,7 +20,7 @@ public class XzLogModel implements Serializable {
     @ApiModelProperty(value = "主键ID")
 	private String id; //主键ID
 	
-    @ApiModelProperty(value = "日志类型（专案组，任务，反馈等）")
+    @ApiModelProperty(value = "日志类型（专案组，任务等）")
 	private String logType; //日志类型（专案组，任务，登录等）
 	
     @ApiModelProperty(value = "日志内容")
@@ -71,13 +71,13 @@ public class XzLogModel implements Serializable {
 		this.id = id;
 	}
 	/**
-	 * @return LOG_TYPE 日志类型（专案组，任务，反馈等）
+	 * @return LOG_TYPE 日志类型（专案组，任务等）
 	 */
 	public String getLogType(){
 		return this.logType;
 	}
 	/**
-	 * @param LOG_TYPE 日志类型（专案组，任务，反馈等）
+	 * @param LOG_TYPE 日志类型（专案组，任务等）
 	 */
 	public void setLogType(String logType){
 		this.logType = logType;

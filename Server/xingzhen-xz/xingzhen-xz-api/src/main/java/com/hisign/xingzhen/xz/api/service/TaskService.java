@@ -17,7 +17,7 @@ public interface TaskService extends BaseService<Task,TaskModel, String>{
 
     public JsonResult addTask(Task task);
 
-    public JsonResult deleteTaskById(Task task);
+    public JsonResult deleteTaskById(String id,String userId);
 
     public JsonResult moveTask(Task task);
 }
