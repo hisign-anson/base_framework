@@ -199,7 +199,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         task.setCreatetime(now);
         task.setLastupdatetime(now);
         task.setDeleteflag(Constants.DELETE_FALSE);
-        JsonResult result =  super.addNotNull(task);
+        JsonResult result = super.addNotNull(task);
 
         String content="任务新增（ID=" + task.getId() + "）";
         if(!StringUtils.isEmpty(task.getBcrwid())) {
@@ -214,8 +214,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     }
 
     @Override
-    public JsonResult deleteTaskById(String id) {
-        Task task=new Task();
+    public JsonResult deleteTaskById(Task task) {
         Date now=new Date();
         task.setDeleteflag(Constants.DELETE_TRUE);
         task.setLastupdatetime(now);

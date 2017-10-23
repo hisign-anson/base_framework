@@ -72,14 +72,14 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
 
     /**
      * 删除任务
-     * @param id
+     * @param task
      * @return
      */
     @Override
     @ApiOperation(value = "删除任务",httpMethod ="DELETE",response = String.class)
     @RequestMapping(value = "/deleteTaskById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult deleteTaskById(@ApiParam String id) {
-        return baseService.deleteTaskById(id);
+    public JsonResult deleteTaskById(@ApiParam @RequestBody Task task) {
+        return baseService.deleteTaskById(task);
     }
 
     /**

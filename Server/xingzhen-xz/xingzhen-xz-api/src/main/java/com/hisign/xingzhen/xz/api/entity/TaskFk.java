@@ -4,7 +4,6 @@ import com.hisign.bfun.bannotation.Column;
 import com.hisign.bfun.bannotation.PK;
 import com.hisign.bfun.bannotation.Table;
 import com.hisign.xingzhen.common.model.BaseModel;
-import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
