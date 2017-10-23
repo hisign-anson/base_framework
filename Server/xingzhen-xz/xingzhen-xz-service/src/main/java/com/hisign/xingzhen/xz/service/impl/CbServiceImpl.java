@@ -95,7 +95,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
          cb.setDeleteflag(Constants.DELETE_FALSE);
          Task task=new Task();
          task.setId(cb.getTaskid());
-         task.setCbzt("1");
+         task.setCbzt(Constants.YES);
          task.setLastupdatetime(now);
          taskMapper.updateNotNull(task);
          return super.addNotNull(cb);

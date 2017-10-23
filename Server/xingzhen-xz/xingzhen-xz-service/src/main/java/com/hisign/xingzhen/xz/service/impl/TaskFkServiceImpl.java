@@ -103,7 +103,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
          taskFk.setDeleteflag(Constants.DELETE_FALSE);
          Task task=new Task();
          task.setId(taskFk.getTaskid());
-         task.setFkzt("1");
+         task.setFkzt(Constants.YES);
          task.setFkTime(now);
          task.setLastupdatetime(now);
          taskMapper.updateNotNull(task);

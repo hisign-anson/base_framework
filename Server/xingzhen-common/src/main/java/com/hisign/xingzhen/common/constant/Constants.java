@@ -64,13 +64,13 @@ public class Constants {
 	 */
 	public static class XZLogType{
 		/** 专案组 1 **/
-		public static final Integer GROUP = 1;
+		public static final String GROUP = "1";
 		/** 任务 2 **/
-		public static final Integer TASK = 2;
+		public static final String TASK = "2";
 		/** 登录 3 **/
-		public static final Integer LOGIN = 3;
+		public static final String LOGIN = "3";
 		/** 聊天 4 **/
-		public static final Integer CHAT = 4;
+		public static final String CHAT = "4";
 	}
 
 	/**

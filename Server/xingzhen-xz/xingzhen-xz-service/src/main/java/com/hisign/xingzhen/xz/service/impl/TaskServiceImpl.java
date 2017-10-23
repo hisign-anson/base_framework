@@ -10,10 +10,7 @@ import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.StringUtils;
-import com.hisign.xingzhen.xz.api.entity.Cb;
-import com.hisign.xingzhen.xz.api.entity.Task;
-import com.hisign.xingzhen.xz.api.entity.TaskFk;
-import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
+import com.hisign.xingzhen.xz.api.entity.*;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
@@ -24,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +50,9 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
     @Autowired
     protected TaskfkFileMapper taskfkFileMapper;
+
+    @Autowired
+    protected XzLogMapper xzLogMapper;
 
     @Override
     protected BaseMapper<Task,TaskModel, String> initMapper() {
@@ -123,7 +124,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             return error("该任务不存在");
         }
         //已反馈的才能有反馈信息
-        if("1".equals(taskModel.getFkzt())){
+        if(Constants.YES.equals(taskModel.getFkzt())){
             Conditions conditions = new Conditions(TaskFk.class);
             Conditions.Criteria criteria = conditions.createCriteria();
             criteria.add(TaskFk.TaskFkEnum.taskid.get());
@@ -138,29 +139,29 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                         taskFkModel.setTaskfkFileModels(taskfkFiles);
                     }
                     //查看更新未确认的反馈信息
-                    if(taskModel.getCreator()!=null && taskModel.getCreator().equals(task.getUserId()) && !"1".equals(taskFkModel.getQrzt())) {
+                    if(taskModel.getCreator()!=null && taskModel.getCreator().equals(task.getUserId()) && !Constants.YES.equals(taskFkModel.getQrzt())) {
                         TaskFk taskFk=new TaskFk();
                         taskFk.setTaskid(task.getId());
-                        taskFk.setQrzt("1");
+                        taskFk.setQrzt(Constants.YES);
                         taskFk.setQrTime(now);
                         taskFk.setLastupdatetime(now);
                         taskFkMapper.updateNotNull(taskFk);
                         //第一次进去现在已确认
-                        taskFkModel.setQrzt("1");
+                        taskFkModel.setQrzt(Constants.YES);
                     }
                 }
                 taskModel.setTaskFkModels(taskFkModels);
             }
         } else{
-            if(!"1".equals(taskModel.getQszt()) && taskModel.getJsr()!=null && taskModel.getJsr().equals(task.getUserId())) {
+            if(!Constants.YES.equals(taskModel.getQszt()) && taskModel.getJsr()!=null && taskModel.getJsr().equals(task.getUserId())) {
                 Date now=new Date();
                 Task t = new Task();
                 t.setId(task.getId());
-                t.setQszt("1");
+                t.setQszt(Constants.YES);
                 t.setQsTime(now);
                 t.setLastupdatetime(now);
                 taskMapper.updateNotNull(t);
-                task.setQszt("1");
+                task.setQszt(Constants.YES);
             }
         }
         return JsonResultUtil.success(taskModel);
@@ -168,7 +169,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
     @Override
     @Transactional
-    public JsonResult addTask(Task task) {
+    public JsonResult addTask(Task task, HttpServletRequest request) {
         GroupModel group=groupMapper.findById(task.getGroupid());
         if(group==null) {
             return error("添加记录失败,专案组不存在");
@@ -184,6 +185,15 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         task.setCreatetime(now);
         task.setLastupdatetime(now);
         task.setDeleteflag(Constants.DELETE_FALSE);
+
+        XzLog xzLog=new XzLog();
+        xzLog.setId(UUID.randomUUID().toString());
+        xzLog.setLogType(Constants.XZLogType.TASK);
+        xzLog.setContent("新增任务（id=" + task.getId() + "）");
+        xzLog.setCreator(task.getCreator());
+        xzLog.setCreateTime(now);
+        xzLog.setDeleteFlag(Constants.DELETE_FALSE);
+        xzLogMapper.insertNotNull(xzLog);
         return super.addNotNull(task);
     }
 
@@ -208,7 +218,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             Date now=new Date();
             new_task.setId(UUID.randomUUID().toString());
             new_task.setLastupdatetime(now);
-            new_task.setYjzt("1");
+            new_task.setYjzt(Constants.YES);
             new_task.setYjTime(now);
             taskMapper.insertNotNull(new_task);
             entity.setCreatetime(now);

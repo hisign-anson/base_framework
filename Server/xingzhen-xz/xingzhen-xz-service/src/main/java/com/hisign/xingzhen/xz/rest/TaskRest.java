@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -66,8 +67,8 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
     @Override
     @ApiOperation(value = "新增任务",httpMethod ="POST",response = String.class)
     @RequestMapping(value = "/addTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addTask(@ApiParam @RequestBody Task task) {
-        return baseService.addTask(task);
+    public JsonResult addTask(@ApiParam @RequestBody Task task, HttpServletRequest request) {
+        return baseService.addTask(task,request);
     }
 
     /**
