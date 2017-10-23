@@ -3,13 +3,12 @@ package com.hisign.xingzhen.sys.controller;
 
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.model.JsonResult;
-import com.hisign.xingzhen.sys.api.model.SysRole;
-import com.hisign.xingzhen.sys.api.model.SysUser;
-import com.hisign.xingzhen.sys.api.model.SysUserInfo;
-import com.hisign.xingzhen.sys.api.model.SysUserRole;
+import com.hisign.xingzhen.sys.api.model.*;
 import com.hisign.xingzhen.sys.api.service.SysRoleService;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.common.util.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -25,6 +24,7 @@ import java.util.Map;
 
 @RequestMapping("/sys/user")
 @RestController
+@Api("用户")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     /**
@@ -46,6 +46,7 @@ public class UserController {
      * @return
      * @	
      */
+    @ApiOperation(value = "获得登录用户管理列表数据",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/list", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult getSysUserList(@RequestBody SysUser filter) {
@@ -75,6 +76,7 @@ public class UserController {
      * @return
      * @
      */
+    @ApiOperation(value = "删除登录用户",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/{userId}/delete", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult deleteSysUserList(@PathVariable String userId)  {
@@ -95,6 +97,7 @@ public class UserController {
      * @return 登录用户
      * @
      */
+    @ApiOperation(value = "查看登录用户",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/view", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult findSysUser(@RequestParam(value = "id", required = true) String id)  {
@@ -116,6 +119,7 @@ public class UserController {
      * @return
      * @
      */
+    @ApiOperation(value = "获得登录用户编辑数据",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/_edit", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public Map<String, Object> intoSysUserEdit(@RequestParam(value = "id", required = true) String id) {
@@ -167,6 +171,7 @@ public class UserController {
      * @param sysUser
      * @return
      */
+    @ApiOperation(value = "用户管理修改",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/edit", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult submitSysUserEdit(@RequestBody SysUser sysUser) {
@@ -190,6 +195,7 @@ public class UserController {
      * @param sysUser
      * @return
      */
+    @ApiOperation(value = "用户管理新增",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public Map<String, Object> submitSysUserSave(@RequestBody SysUser sysUser) {
@@ -221,6 +227,7 @@ public class UserController {
      * @param user
      * @return
      */
+    @ApiOperation(value = "修改密码",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/password", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult editPassword(@RequestBody SysUser user) {
@@ -246,6 +253,7 @@ public class UserController {
      * @return 用户信息
      * @
      */
+    @ApiOperation(value = "根据token获得用户信息",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/token_info", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult getUserByToken(@RequestParam(value = "token", required = true) String token)  {
@@ -259,7 +267,8 @@ public class UserController {
             return JsonResultUtil.error("根据token获得用户信息失败");
         }
     }
-    
+
+    @ApiOperation(value = "添加用户信息",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/addUserInfo", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult addUserInfo(@RequestBody SysUserInfo param)  {
@@ -270,7 +279,8 @@ public class UserController {
             return JsonResultUtil.error("新增人员信息失败！");
         }
     }
-    
+
+    @ApiOperation(value = "更新用户信息",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/editUserInfo", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult editUserInfo(@RequestBody SysUserInfo param)  {
@@ -281,7 +291,8 @@ public class UserController {
             return JsonResultUtil.error("修改人员信息失败！");
         }
     }
-    
+
+    @ApiOperation(value = "根据单位id获取用户列表",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/getUserInfoListByOrgId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult getUserInfoListByOrgId(@RequestBody SysUserInfo param)  {
@@ -294,7 +305,8 @@ public class UserController {
             return JsonResultUtil.error("获取用户信息失败");
         }
     }
-    
+
+    @ApiOperation(value = "获取用户信息",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult getUserInfo(@RequestParam String userId)  {
@@ -306,7 +318,8 @@ public class UserController {
             return JsonResultUtil.error("获取用户信息失败");
         }
     }
-    
+
+    @ApiOperation(value = "删除用户",httpMethod ="DELETE",response = SysOrgInfo.class)
     @RequestMapping(value = "/{userId}/delUserInfo", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult delUserInfo(@PathVariable String userId)  {
@@ -318,7 +331,8 @@ public class UserController {
             return JsonResultUtil.error("删除失败");
         }
     }
-    
+
+    @ApiOperation(value = "选中用户",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/choosePerson", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult choosePerson(@RequestBody SysUserInfo param)  {
@@ -345,6 +359,7 @@ public class UserController {
      * 创建时间: 2017年4月28日
      * 最后修改时间: 2017年4月28日
      */
+    @ApiOperation(value = "人员信息导入",httpMethod ="POST",response = SysOrgInfo.class)
     @SuppressWarnings("deprecation")
 	@RequestMapping(value = "/importExcel", method = RequestMethod.POST)
     public JsonResult importExcel(@RequestParam("file")MultipartFile file)  {

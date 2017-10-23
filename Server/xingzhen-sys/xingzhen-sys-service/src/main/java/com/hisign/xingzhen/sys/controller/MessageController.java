@@ -22,6 +22,8 @@ import com.hisign.xingzhen.sys.api.model.SysOrgInfo;
 import com.hisign.xingzhen.sys.api.service.MessageService;
 import com.hisign.xingzhen.sys.api.service.ReceiveBoxService;
 import com.hisign.xingzhen.sys.api.service.SysOrgInfoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -42,6 +44,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/sys/message")
+@Api("消息接口")
 public class MessageController extends BaseController {
 	
 	private Logger logger = LoggerFactory.getLogger(MessageController.class);
@@ -58,11 +61,13 @@ public class MessageController extends BaseController {
 	private SysOrgInfoService sysOrgInfoService;
 	
 	@RequestMapping(value="add",method = RequestMethod.POST , produces = {"application/json;charset=UTF-8"})
+	@ApiOperation(value = "添加消息",httpMethod ="POST",response = JsonResult.class)
 	public JsonResult add(@RequestBody Message message){
 			return this.messageService.saveAndPush(message);
 	}
 	
 	@RequestMapping(value="del",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ApiOperation(value = "删除消息",httpMethod ="POST",response = JsonResult.class)
 	public JsonResult del(@RequestBody Map<String, Object> map){
 		@SuppressWarnings("unchecked")
 		List<String> ids =  (List<String>) map.get("ids");
@@ -71,12 +76,13 @@ public class MessageController extends BaseController {
 	}
 	
 	@RequestMapping(value="update",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ApiOperation(value = "修改消息",httpMethod ="POST",response = JsonResult.class)
 	public JsonResult update(@RequestBody Message message){
 		return messageService.updateAndPush(message);
 	}
 	
 	@RequestMapping(value="findById",method = RequestMethod.GET)
-	@ResponseBody
+	@ApiOperation(value = "根据id获取消息",httpMethod ="GET",response = JsonResult.class)
 	public JsonResult findById(@RequestParam String id){
 		Message message = messageService.getById(id);
 		if (message==null) {
@@ -90,6 +96,7 @@ public class MessageController extends BaseController {
 	
 
 	@RequestMapping(value="findPage",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ApiOperation(value = "消息分页",httpMethod ="POST",response = JsonResult.class)
 	public JsonResult findPage(@RequestBody Message message){
 		
 		Conditions conditions = new Conditions(Message.class);
@@ -136,6 +143,7 @@ public class MessageController extends BaseController {
 	
 	
 	@RequestMapping(value="publish",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ApiOperation(value = "发布消息",httpMethod ="POST",response = JsonResult.class)
 	public JsonResult publish(@RequestBody Map<String, Object> map){
 		
 		String id = (String) map.get("id");
@@ -150,7 +158,7 @@ public class MessageController extends BaseController {
 	
 	
 	@RequestMapping(value="findRePage",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-	@ResponseBody
+	@ApiOperation(value = "收件箱分页",httpMethod ="POST",response = JsonResult.class)
 	public JsonResult findRePage(@RequestBody ReceiveBox box){
 		String prefix = ReceiveBox.getTableName()+".";
 		String mprefix = Message.getTableName()+".";
@@ -195,7 +203,7 @@ public class MessageController extends BaseController {
 	
 	
 	@RequestMapping(value="findReceivePage",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-	@ResponseBody
+	@ApiOperation(value = "收件箱分页",httpMethod ="POST",response = JsonResult.class)
 	public JsonResult findReceivePage(@RequestBody ReceiveBox box){
 		Conditions conditions = new Conditions(ReceiveBox.class);
 		Criteria criteria = conditions.createCriteria();
@@ -233,7 +241,7 @@ public class MessageController extends BaseController {
 	}
 	
 	@RequestMapping(value="findReceivePageCount",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-	@ResponseBody
+	@ApiOperation(value = "收件箱数量",httpMethod ="POST",response = JsonResult.class)
 	public JsonResult findReceivePageCount(@RequestBody ReceiveBox box){
 		Conditions conditions = new Conditions(ReceiveBox.class);
 		Criteria criteria = conditions.createCriteria();
@@ -258,7 +266,7 @@ public class MessageController extends BaseController {
 	
 	
 	@RequestMapping(value="view",method = RequestMethod.GET , produces = {"application/json;charset=UTF-8"})
-	@ResponseBody
+	@ApiOperation(value = "查看消息",httpMethod ="GET",response = JsonResult.class)
 	public JsonResult view(@RequestParam(required=true)String id){
 		ReceiveBox box = receiveBoxService.getById(id);
 		if (box!=null && StringUtils.isNotBlank(box.getMsgId())) {
@@ -278,7 +286,7 @@ public class MessageController extends BaseController {
 	
 	
 	@RequestMapping(value="setRead",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-	@ResponseBody
+	@ApiOperation(value = "设置已读",httpMethod ="POST",response = JsonResult.class)
 	public JsonResult setRead(@RequestBody Map<String, Object> map){
 		
 		@SuppressWarnings("unchecked")
@@ -295,6 +303,7 @@ public class MessageController extends BaseController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="delRevMsgs",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ApiOperation(value = "删除收件箱消息",httpMethod ="POST",response = JsonResult.class)
 	public JsonResult delRevMsgs(@RequestBody Map<String, Object> map){
 		
 		List<String> ids = (List<String>) map.get("ids");
@@ -304,6 +313,7 @@ public class MessageController extends BaseController {
 	
 	
 	@RequestMapping(value="getUnSendOrg",method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	@ApiOperation(value = "根据消息id获取未发送单位",httpMethod ="GET",response = JsonResult.class)
 	public JsonResult getUnSendOrg(@RequestParam String id){
 		
 		Conditions conditions = new Conditions();
@@ -326,6 +336,7 @@ public class MessageController extends BaseController {
 	}
 	
 	@RequestMapping(value="getSendedOrg",method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	@ApiOperation(value = "获取已发送单位",httpMethod ="GET",response = JsonResult.class)
 	public JsonResult getSendedOrg(@RequestParam String id){
 		
 		Conditions conditions = new Conditions();
@@ -350,6 +361,7 @@ public class MessageController extends BaseController {
 	}
 	
 	@RequestMapping(value="/sendMsg")
+	@ApiOperation(value = "发送短信",httpMethod ="GET",response = JsonResult.class)
 	public JsonResult sendMsg(String url,String mobiles,String eAccount,String uAccount,String uPassword,String lang,String func,String data) throws Exception{
 		StringBuilder sb = new StringBuilder();
 		sb.append(url).append("?").append("func=").append(func).append("&eAccount=").append(eAccount).append("&uAccount=").append(uAccount).append("&uPassword=").append(uPassword).

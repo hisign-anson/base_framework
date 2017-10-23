@@ -9,6 +9,8 @@ import com.hisign.bfun.bannotation.Column;
 import com.hisign.bfun.bannotation.PK;
 import com.hisign.bfun.bannotation.Table;
 import com.hisign.xingzhen.common.model.BaseModel;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 《系统消息》 实体
@@ -16,61 +18,80 @@ import com.hisign.xingzhen.common.model.BaseModel;
  *
  */
 @Table(value="sys_message")
+@ApiModel("系统消息")
 public class Message extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@PK(value="ID")
+	@ApiModelProperty("主键")
 	private String id; //主键
 	
 	@Column(value="SUBJECT")
+	@ApiModelProperty("消息标题")
 	private String subject; //消息标题
 	
 	@Column(value="CONTENT")
+	@ApiModelProperty("消息内容")
 	private String content; //消息内容
 	
 	@Column(value="TYPE")
+	@ApiModelProperty("消息类型")
 	private String type; //消息类型
 	
 	@Column(value="MSG_LEVEL")
+	@ApiModelProperty("消息等级")
 	private String msgLevel; //消息等级
 	
 	@Column(value="DEL")
+	@ApiModelProperty("是否删除")
 	private String del; //是否删除
 	
 	@Column(value="SECRECY")
+	@ApiModelProperty("密级")
 	private String secrecy; //密级
 	
 	@Column(value="CREATE_DATE")
+	@ApiModelProperty("录入时间")
 	private Date createDate; //录入时间
 	
 	@Column(value="CREATE_PID")
+	@ApiModelProperty("录入员姓名")
 	private String createPid; //录入员姓名
 	
 	@Column(value="MODIFY_DATE")
+	@ApiModelProperty("修改时间")
 	private Date modifyDate; //修改时间
 	
 	@Column(value="MODIFY_PID")
+	@ApiModelProperty("修改人员姓名")
 	private String modifyPid; //修改人员姓名
 	
 	@Column(value="REV1")
+	@ApiModelProperty("附件")
 	private String rev1; //附件
 	
 	@Column(value="REV2")
+	@ApiModelProperty("发布人")
 	private String rev2; //发布人
 	
 	@Column(value="REV3")
+	@ApiModelProperty("发布时间")
 	private Date rev3; //发布时间
 	
 	@Column(value="REV4")
+	@ApiModelProperty("是否发布 0未发布，1已发布")
 	private String rev4; //是否发布 0未发布，1已发布
 	
 	@Column(value="MSG_VEST")
+	@ApiModelProperty("消息归属")
 	private String msgVest; //消息归属
 	
 	@Column(value="TSLB")
+	@ApiModelProperty("类别")
 	private String tslb; //类别
 	
 	@Column(value="ATT_ID")
+	@ApiModelProperty("关注编号")
 	private String attId; //关注编号
 	
     

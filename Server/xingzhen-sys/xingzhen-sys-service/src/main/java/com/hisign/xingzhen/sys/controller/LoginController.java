@@ -152,7 +152,6 @@ public class LoginController {
      * @return
      */
     @SuppressWarnings("deprecation")
-    @ApiOperation(value = "获取登录用户的模块权限",httpMethod ="GET",response = Index.class)
 	public JsonResult searchUserLimt(SysUser user,String tokenId) {
         JsonResult jsonResult = new JsonResult();
         List<SysModule> parentList = new ArrayList<SysModule>();//父id
