@@ -3,20 +3,24 @@ package com.hisign.xingzhen.xz.service.impl;
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseMapper;
+import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bif.BaseServiceImpl;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
+import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
 import com.hisign.xingzhen.xz.api.service.TaskFkService;
 import com.hisign.xingzhen.xz.mapper.TaskFkMapper;
 import com.hisign.xingzhen.xz.mapper.TaskMapper;
 import com.hisign.xingzhen.xz.mapper.TaskfkFileMapper;
+import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +46,9 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
 
     @Autowired
     protected TaskfkFileMapper taskfkFileMapper;
+
+    @Autowired
+    protected XzLogMapper xzLogMapper;
 	
 	@Override
 	protected BaseMapper<TaskFk,TaskFkModel, String> initMapper() {
@@ -95,26 +102,38 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
      @Override
      @Transactional
      public JsonResult addTaskFk(TaskFk taskFk) {
-         Date now=new Date();
-         taskFk.setId(UUID.randomUUID().toString());
-         taskFk.setFkTime(now);
-         taskFk.setCreatetime(now);
-         taskFk.setLastupdatetime(now);
-         taskFk.setDeleteflag(Constants.DELETE_FALSE);
-         Task task=new Task();
-         task.setId(taskFk.getTaskid());
-         task.setFkzt(Constants.YES);
-         task.setFkTime(now);
-         task.setLastupdatetime(now);
-         taskMapper.updateNotNull(task);
-         if(taskFk.getTaskfkFiles()!=null){
-             for(TaskfkFile file:taskFk.getTaskfkFiles()) {
-                 file.setId(UUID.randomUUID().toString());
-                 file.setCreatetime(now);
-                 file.setDeleteFlag(Constants.DELETE_FALSE);
-                 taskfkFileMapper.insertNotNull(file);
+         try {
+             Date now=new Date();
+             taskFk.setId(UUID.randomUUID().toString());
+             taskFk.setFkTime(now);
+             taskFk.setCreatetime(now);
+             taskFk.setLastupdatetime(now);
+             taskFk.setDeleteflag(Constants.DELETE_FALSE);
+             JsonResult result =  super.addNotNull(taskFk);
+
+             Task task=new Task();
+             task.setId(taskFk.getTaskid());
+             task.setFkzt(Constants.YES);
+             task.setFkTime(now);
+             task.setLastupdatetime(now);
+             taskMapper.updateNotNull(task);
+
+             if(taskFk.getTaskfkFiles()!=null){
+                 for(TaskfkFile file:taskFk.getTaskfkFiles()) {
+                     file.setId(UUID.randomUUID().toString());
+                     file.setCreatetime(now);
+                     file.setDeleteFlag(Constants.DELETE_FALSE);
+                     taskfkFileMapper.insertNotNull(file);
+                 }
              }
+
+             String content="任务反馈（ID=" + taskFk.getId() + ",TASKID"+ taskFk.getTaskid() + "）";
+             XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , task.getCreator(), now, task.getId());
+             xzLogMapper.insertNotNull(xzLog);
+             return result;
+         }  catch (Exception e) {
+             throw new BusinessException(BaseEnum.BusinessExceptionEnum.UPDATE,e);
          }
-         return super.addNotNull(taskFk);
+
      }
  }

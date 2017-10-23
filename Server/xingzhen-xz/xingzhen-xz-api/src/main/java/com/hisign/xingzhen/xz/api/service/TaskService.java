@@ -6,8 +6,6 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * 《任务》 业务逻辑服务接口
  * @author 何建辉
@@ -17,7 +15,7 @@ public interface TaskService extends BaseService<Task,TaskModel, String>{
 
     public JsonResult taskDetail(Task task);
 
-    public JsonResult addTask(Task task, HttpServletRequest request);
+    public JsonResult addTask(Task task);
 
     public JsonResult deleteTaskById(String id);
 

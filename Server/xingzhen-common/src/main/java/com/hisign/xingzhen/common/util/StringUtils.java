@@ -1400,7 +1400,7 @@ public class StringUtils {
 
 		boolean flag = true;
 		if (str != null && !str.equals("")) {
-			if (str.toString().length() > 0) {
+			if (str.length() > 0) {
 				flag = true;
 			}
 		} else {
