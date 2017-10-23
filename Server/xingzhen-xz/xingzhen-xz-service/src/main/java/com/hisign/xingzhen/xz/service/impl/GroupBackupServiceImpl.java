@@ -1,6 +1,7 @@
 package com.hisign.xingzhen.xz.service.impl;
 
 import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupBackupModel;
 import com.hisign.xingzhen.xz.mapper.GroupBackupMapper;
@@ -48,8 +49,9 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
         entity.setDeleteflag(Constants.DELETE_FALSE);
         JsonResult result = super.add(entity);
 
+
         //保存操作日志
-        XzLog xzLog = new XzLog(Constants.XZLogType.GROUP.toString(), "专案组新增(ID:)" + entity.getId(), entity.getCreator(), entity.getCreatetime(), entity.getId());
+        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, "专案组归档(ID:)" + entity.getId(), entity.getCreator(), entity.getCreatetime(), entity.getId());
         xzLogMapper.insertNotNull(xzLog);
         return result;
     }
