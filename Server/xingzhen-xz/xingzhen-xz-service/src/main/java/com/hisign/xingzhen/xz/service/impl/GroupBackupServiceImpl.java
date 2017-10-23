@@ -44,15 +44,26 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
 
     @Override
     public JsonResult add(GroupBackup entity) throws BusinessException {
+        return addNotNull(entity);
+    }
+
+    @Override
+    public JsonResult addNotNull(GroupBackup entity) throws BusinessException {
         entity.setId(UUID.randomUUID().toString());
         entity.setCreatetime(new Date());
         entity.setDeleteflag(Constants.DELETE_FALSE);
-        JsonResult result = super.add(entity);
+        JsonResult result = super.addNotNull(entity);
 
+        try {
+            if (result.getFlag()==1){
+                //保存操作日志
+                XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, "专案组归档(ID:" + entity.getId()+")", entity.getCreator(), entity.getCreatetime(), entity.getId());
+                xzLogMapper.insertNotNull(xzLog);
+            }
+        } catch (Exception e) {
 
-        //保存操作日志
-        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, "专案组归档(ID:)" + entity.getId(), entity.getCreator(), entity.getCreatetime(), entity.getId());
-        xzLogMapper.insertNotNull(xzLog);
+        }
+
         return result;
     }
 

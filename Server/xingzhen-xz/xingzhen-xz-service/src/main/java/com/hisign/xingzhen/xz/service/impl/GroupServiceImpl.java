@@ -58,30 +58,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
     @Override
     public JsonResult add(Group entity) throws BusinessException {
-        //获取父专案组
-        Group pgroup = new Group();
-        pgroup.setPgroupid(entity.getPgroupid());
-        GroupModel pgroupModel = getByEntity(pgroup);
-
-        //如果为空或者父专案组有父id
-        if (pgroupModel==null || StringUtils.isEmpty(pgroupModel.getPgroupid())){
-            return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
-        }
-
-        //保存专案组
-        entity.setId(UUID.randomUUID().toString());
-        entity.setCreatetime(new Date());
-        entity.setDeleteflag(Constants.DELETE_FALSE);
-        entity.setLastupdatetime(new Date());
-        JsonResult result = super.addNotNull(entity);
-
-        String content = "专案组新增(ID:"+entity.getId()+")";
-        if (StringUtils.isNotBlank(entity.getPgroupid())){
-            content = content.replace("新增","组内建组");
-        }
-        //保存操作日志
-        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP.toString(),content , entity.getCreator(), entity.getCreatetime(), entity.getId());
-        return super.add(entity);
+        return addNotNull(entity);
     }
 
     @Override
@@ -103,13 +80,20 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         entity.setLastupdatetime(new Date());
         JsonResult result = super.addNotNull(entity);
 
-        String content = "专案组新增(ID:"+entity.getId()+")";
-        if (StringUtils.isNotBlank(entity.getPgroupid())){
-            content = content.replace("新增","组内建组");
+        try {
+            if (result.getFlag()==1){
+                String content = "专案组新增(ID:"+entity.getId()+")";
+                if (StringUtils.isNotBlank(entity.getPgroupid())){
+                    content = content.replace("新增","组内建组");
+                }
+                //保存操作日志
+                XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP.toString(),content , entity.getCreator(), entity.getCreatetime(), entity.getId());
+                xzLogMapper.insertNotNull(xzLog);
+            }
+        } catch (Exception e) {
+
         }
-        //保存操作日志
-        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP.toString(),content , entity.getCreator(), entity.getCreatetime(), entity.getId());
-        xzLogMapper.insertNotNull(xzLog);
+
         return result;
     }
 

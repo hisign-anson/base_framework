@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,11 +41,14 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     @Autowired
     private GroupMapper groupMapper;
 
+    @Autowired
+    private XzLogMapper xzLogMapper;
+
     @Override
     protected BaseMapper<Usergroup,UsergroupModel, String> initMapper() {
         return usergroupMapper;
     }
-
+    
     @Override
     @Transactional
     public JsonResult add(List<Usergroup> list) throws BusinessException {
@@ -91,10 +95,27 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
 
     @Override
     public JsonResult add(Usergroup entity) throws BusinessException {
+        return addNotNull(entity);
+    }
+
+    @Override
+    public JsonResult addNotNull(Usergroup entity) throws BusinessException {
         entity.setId(UUID.randomUUID().toString());
         entity.setCreatetime(new Date());
         entity.setDeleteflag(Constants.DELETE_FALSE);
-        return super.add(entity);
+        JsonResult result = super.addNotNull(entity);
+
+        if (result.getFlag()==1){
+            //保存操作日志
+            try {
+                String content = StringUtils.concat("专案组(ID:", entity.getGroupid(), ")", "人员(ID:", entity.getUserid(), ")添加");
+                XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, content, entity.getCreator(), entity.getCreatetime(), entity.getGroupid());
+                xzLogMapper.insert(xzLog);
+            } catch (Exception e) {
+
+            }
+        }
+        return result;
     }
 
     @Override
@@ -127,10 +148,14 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
         updateParams.setConditions(conditions);
         usergroupMapper.updateCustom(updateParams);
 
-        //保存操作日志
-        StringBuilder sb = new StringBuilder();
-        sb.append("用户(ID:").append(usergroup.getUserid()).append(")被用户(ID:").append(usergroup.getCreator()).append(")从专案组(ID:").append(usergroup.getGroupid()).append("移除");
-        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, sb.toString(), usergroup.getCreator(), new Date(), group.getId());
+        try {
+            //保存操作日志
+            StringBuilder sb = new StringBuilder();
+            sb.append("用户(ID:").append(usergroup.getUserid()).append(")被用户(ID:").append(usergroup.getCreator()).append(")从专案组(ID:").append(usergroup.getGroupid()).append("移除");
+            XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, sb.toString(), usergroup.getCreator(), new Date(), group.getId());
+        } catch (Exception e) {
+
+        }
         return success("移除组内成员成功");
     }
 

@@ -5,6 +5,7 @@ import com.hisign.xingzhen.common.model.JsonResult;
 import com.hisign.xingzhen.common.util.JsonResultUtil;
 import com.hisign.xingzhen.sys.api.model.SysModule;
 import com.hisign.xingzhen.sys.api.service.SysModuleService;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RequestMapping("/sys")
 @RestController
+@Api("系统模块")
 public class ModuleController {
 	private static final Logger logger = LoggerFactory.getLogger(ModuleController.class);
     /**

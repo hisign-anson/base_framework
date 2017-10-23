@@ -28,7 +28,7 @@ public class Swagger2Config {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.hisign.xingzhen.xz"))
+                .apis(RequestHandlerSelectors.basePackage("com.hisign.xingzhen"))
                 .paths(PathSelectors.any())
                 .build();
     }

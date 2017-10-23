@@ -21,7 +21,7 @@ public class OrgInfoController {
 	@Autowired
 	private SysOrgInfoService sysOrgInfoService;
 
-    @ApiOperation(value = "获取单位信息",httpMethod ="GET",response = SysOrgInfo.class)
+    @ApiOperation(value = "获取单位信息",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value ="/getOrgTreeList",method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult queryListByCondition(@RequestBody SysOrgInfo param) {
@@ -33,6 +33,7 @@ public class OrgInfoController {
             return JsonResultUtil.error("获取单位信息失败");
         }
     }
+    @ApiOperation(value = "获取单位信息",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value ="/getOrgInfo",method = RequestMethod.GET,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult getOrgInfo(@RequestParam String orgId) {
@@ -44,6 +45,8 @@ public class OrgInfoController {
             return JsonResultUtil.error("获取单位信息失败");
         }
     }
+
+    @ApiOperation(value = "获取单位信息",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value ="/getOrgTreeListBySuperId",method = RequestMethod.GET,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult getOrgTreeListBySuperId(@RequestParam String superId) {
@@ -55,8 +58,8 @@ public class OrgInfoController {
             return JsonResultUtil.error("获取单位信息失败");
         }
     }
-    
-    
+
+    @ApiOperation(value = "添加单位信息",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult add(@RequestBody SysOrgInfo param) {
@@ -67,6 +70,8 @@ public class OrgInfoController {
             return JsonResultUtil.error("新增单位信息失败");
         }
     }
+
+    @ApiOperation(value = "修改单位信息",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult update(@RequestBody SysOrgInfo param) {
@@ -77,6 +82,8 @@ public class OrgInfoController {
             return JsonResultUtil.error("修改单位信息失败");
         }
     }
+
+    @ApiOperation(value = "删除单位信息",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult delete(@PathVariable("id") String id) {
