@@ -1,8 +1,10 @@
 package com.hisign.xingzhen.xz.service.impl;
 
 import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.UsergroupModel;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
@@ -125,6 +127,10 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
         updateParams.setConditions(conditions);
         usergroupMapper.updateCustom(updateParams);
 
+        //保存操作日志
+        StringBuilder sb = new StringBuilder();
+        sb.append("用户(ID:").append(usergroup.getUserid()).append(")被用户(ID:").append(usergroup.getCreator()).append(")从专案组(ID:").append(usergroup.getGroupid()).append("移除");
+        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, sb.toString(), usergroup.getCreator(), new Date(), group.getId());
         return success("移除组内成员成功");
     }
 

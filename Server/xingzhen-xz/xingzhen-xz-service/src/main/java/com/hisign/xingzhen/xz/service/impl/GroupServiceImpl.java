@@ -3,12 +3,14 @@ package com.hisign.xingzhen.xz.service.impl;
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseMapper;
+import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bif.BaseServiceImpl;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.SerialNumGenerater;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Group;
@@ -73,8 +75,12 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         entity.setLastupdatetime(new Date());
         JsonResult result = super.addNotNull(entity);
 
+        String content = "专案组新增(ID:"+entity.getId()+")";
+        if (StringUtils.isNotBlank(entity.getPgroupid())){
+            content = content.replace("新增","组内建组");
+        }
         //保存操作日志
-        XzLog xzLog = new XzLog(Constants.XZLogType.GROUP.toString(), "专案组新增(ID:)" + entity.getId(), entity.getCreator(), entity.getCreatetime(), entity.getId());
+        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP.toString(),content , entity.getCreator(), entity.getCreatetime(), entity.getId());
         return super.add(entity);
     }
 
@@ -97,8 +103,12 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         entity.setLastupdatetime(new Date());
         JsonResult result = super.addNotNull(entity);
 
+        String content = "专案组新增(ID:"+entity.getId()+")";
+        if (StringUtils.isNotBlank(entity.getPgroupid())){
+            content = content.replace("新增","组内建组");
+        }
         //保存操作日志
-        XzLog xzLog = new XzLog(Constants.XZLogType.GROUP.toString(), "专案组新增(ID:)" + entity.getId(), entity.getCreator(), entity.getCreatetime(), entity.getId());
+        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP.toString(),content , entity.getCreator(), entity.getCreatetime(), entity.getId());
         xzLogMapper.insertNotNull(xzLog);
         return result;
     }

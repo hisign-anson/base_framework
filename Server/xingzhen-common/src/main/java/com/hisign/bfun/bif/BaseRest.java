@@ -7,10 +7,15 @@ import com.hisign.bfun.bmodel.UpdateParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements BaseService<T,M, PK> {
     protected C baseService;
+
+    public static ThreadLocal<HttpServletRequest> Thread_Local_Request = new ThreadLocal<HttpServletRequest>();
+    public static ThreadLocal<HttpServletResponse> Thread_Local_Response = new ThreadLocal<HttpServletResponse>();
 
     public void setBaseService(C baseService){
         this.baseService = baseService;
@@ -159,6 +164,38 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     @ResponseBody
     public JsonResult getListByEntity(@RequestBody T entity) {
         return baseService.getListByEntity(entity);
+    }
+
+    //==========================================================
+
+    public static HttpServletRequest getRequest() {
+
+        return Thread_Local_Request.get();
+    }
+
+    public static void setRequest(HttpServletRequest request) {
+
+        Thread_Local_Request.set(request);
+    }
+
+    public static void removeRequest() {
+
+        Thread_Local_Request.remove();
+    }
+
+    public static HttpServletResponse getResponse() {
+
+        return Thread_Local_Response.get();
+    }
+
+    public static void setResponse(HttpServletResponse response) {
+
+        Thread_Local_Response.set(response);
+    }
+
+    public static void removeResponse() {
+
+        Thread_Local_Response.remove();
     }
 
 }

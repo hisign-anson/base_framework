@@ -69,7 +69,8 @@ public class XzLog extends BaseModel implements Serializable {
 	/**
 	 *构造函数
 	 */
-	public XzLog(String logType,String content,String creator,Date createTime,String reserveField1) {
+	public XzLog(String ip,String logType,String content,String creator,Date createTime,String reserveField1) {
+		this.ip = ip;
 		this.id = UUID.randomUUID().toString();
 		this.content = content;
 		this.logType = logType;
