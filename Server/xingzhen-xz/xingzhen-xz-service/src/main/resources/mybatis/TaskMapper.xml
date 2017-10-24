@@ -602,9 +602,9 @@
         SELECT
         <include refid="Base_Column_List" />
         FROM t_task
-        WHERE
-        ID = #{id,jdbcType=VARCHAR}
-        and rownum = 1
+        <!--WHERE-->
+        <!--ID = #{id,jdbcType=VARCHAR}-->
+        <!--and rownum = 1-->
     </select>
 
     <select id="findByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultMap="BaseResultMap">

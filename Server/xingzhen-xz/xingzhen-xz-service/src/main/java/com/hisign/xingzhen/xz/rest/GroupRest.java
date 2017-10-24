@@ -51,7 +51,7 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
     }
     @Override
     @ApiOperation(value = "添加专案组",httpMethod ="POST",response = JsonResult.class)
-    @RequestMapping(value = "/getGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/addNotNull", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addNotNull(Group entity) throws BusinessException {
         if(StringUtils.isEmpty(entity.getCreator()) || StringUtils.isEmpty(entity.getCreatename())){
             return JsonResultUtil.error("添加记录失败,当前登陆用户不能为空");

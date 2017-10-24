@@ -174,7 +174,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                         taskFkModel.setQrzt(Constants.YES);
                     }
                 }
-                taskModel.setTaskFkModels(taskFkModels);
+                //taskModel.setTaskFkModels(taskFkModels);
             }
         } else{
             //查看更新未确认的反馈信息

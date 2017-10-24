@@ -525,12 +525,12 @@
         FROM t_group
     </select>
 
-    <select id="findMaxNo" resultType="java.lang.String" resultMap="java.lang.String" >
-         SELECT substr(GROUPNUM,19) as TASK_NO FROM (
+    <select id="findMaxNo" parameterType="java.lang.String" resultType="java.lang.String" >
+         SELECT substr(GROUPNUM,19) as GROUPNUM FROM (
             SELECT GROUPNUM FROM t_group t
-            WHERE GROUPNUM is not NULL AND SUBSTR (TASK_NO, 15,4)=TO_CHAR(SYSDATE,'YYYY')
-            AND  SUBSTR (TASK_NO, 3,12)=#{deparmentcode,jdbcType=VARCHAR}
-            ORDER BY SUBSTR (TASK_NO, 19) DESC
+            WHERE GROUPNUM is not NULL AND SUBSTR (GROUPNUM, 15,4)=TO_CHAR(SYSDATE,'YYYY')
+            AND  SUBSTR (GROUPNUM, 3,12)=#{deparmentcode,jdbcType=VARCHAR}
+            ORDER BY SUBSTR (GROUPNUM, 19) DESC
         )  	where ROWNUM=1
     </select>
 
