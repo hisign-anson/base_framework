@@ -14,16 +14,16 @@ import java.io.Serializable;
 public class TaskMoveParam implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "任务ID")
+    @ApiModelProperty(value = "任务ID",required = true)
     private String id; //任务名称
 
-    @ApiModelProperty(value = "接收人")
+    @ApiModelProperty(value = "接收人",required = true)
     private String jsr; //接收人
 
-    @ApiModelProperty(value = "创建人")
+    @ApiModelProperty(value = "创建人",required = true)
     private String creator; //创建人
 
-    @ApiModelProperty(value = "创建人单位")
+    @ApiModelProperty(value = "创建人单位",required = true)
     private String deparmentcode; //创建人单位
 
     public String getId() {

@@ -17,7 +17,6 @@
         <result column="JSR" property="jsr" jdbcType="VARCHAR"/>
         <result column="FQ_TIME" property="fqTime" jdbcType="TIMESTAMP"/>
         <result column="FKJZ_TIME" property="fkjzTime" jdbcType="TIMESTAMP"/>
-        <result column="LXFS" property="lxfs" jdbcType="VARCHAR"/>
         <result column="FKZT" property="fkzt" jdbcType="VARCHAR"/>
         <result column="FK_TIME" property="fkTime" jdbcType="TIMESTAMP"/>
         <result column="CBZT" property="cbzt" jdbcType="VARCHAR"/>
@@ -84,7 +83,6 @@
         JSR,
         FQ_TIME,
         FKJZ_TIME,
-        LXFS,
         FKZT,
         FK_TIME,
         CBZT,
@@ -119,7 +117,6 @@
         JSR,
         FQ_TIME,
         FKJZ_TIME,
-        LXFS,
         FKZT,
         FK_TIME,
         CBZT,
@@ -148,7 +145,6 @@
         #{jsr,jdbcType=VARCHAR},
         #{fqTime,jdbcType=TIMESTAMP},
         #{fkjzTime,jdbcType=TIMESTAMP},
-        #{lxfs,jdbcType=VARCHAR},
         #{fkzt,jdbcType=VARCHAR},
         #{fkTime,jdbcType=TIMESTAMP},
         #{cbzt,jdbcType=VARCHAR},
@@ -212,9 +208,6 @@
             </if>
             <if test="fkjzTime !=null ">
                 FKJZ_TIME,
-            </if>
-            <if test="lxfs !=null  and lxfs != '' ">
-                LXFS,
             </if>
             <if test="fkzt !=null  and fkzt != '' ">
                 FKZT,
@@ -300,9 +293,6 @@
             <if test="fkjzTime !=null ">
                 #{fkjzTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="lxfs !=null  and lxfs != '' ">
-                #{lxfs,jdbcType=VARCHAR},
-            </if>
             <if test="fkzt !=null  and fkzt != '' ">
                 #{fkzt,jdbcType=VARCHAR},
             </if>
@@ -361,7 +351,6 @@
         JSR,
         FQ_TIME,
         FKJZ_TIME,
-        LXFS,
         FKZT,
         FK_TIME,
         CBZT,
@@ -392,7 +381,6 @@
             #{item.jsr,jdbcType=VARCHAR},
             #{item.fqTime,jdbcType=TIMESTAMP},
             #{item.fkjzTime,jdbcType=TIMESTAMP},
-            #{item.lxfs,jdbcType=VARCHAR},
             #{item.fkzt,jdbcType=VARCHAR},
             #{item.fkTime,jdbcType=TIMESTAMP},
             #{item.cbzt,jdbcType=VARCHAR},
@@ -427,7 +415,6 @@
             JSR=#{jsr,jdbcType=VARCHAR},
             FQ_TIME=#{fqTime,jdbcType=TIMESTAMP},
             FKJZ_TIME=#{fkjzTime,jdbcType=TIMESTAMP},
-            LXFS=#{lxfs,jdbcType=VARCHAR},
             FKZT=#{fkzt,jdbcType=VARCHAR},
             FK_TIME=#{fkTime,jdbcType=TIMESTAMP},
             CBZT=#{cbzt,jdbcType=VARCHAR},
@@ -487,9 +474,6 @@
             </if>
             <if test="fkjzTime !=null ">
                 FKJZ_TIME = #{fkjzTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lxfs !=null  and lxfs != '' ">
-                LXFS = #{lxfs,jdbcType=VARCHAR},
             </if>
             <if test="fkzt !=null  and fkzt != '' ">
                 FKZT = #{fkzt,jdbcType=VARCHAR},
@@ -622,9 +606,6 @@
         <if test="fkjzTime != null ">
             and FKJZ_TIME=#{fkjzTime,jdbcType=TIMESTAMP}
         </if>
-        <if test="lxfs != null  and lxfs != '' ">
-            and LXFS=#{lxfs,jdbcType=VARCHAR}
-        </if>
         <if test="fkzt != null  and fkzt != '' ">
             and FKZT=#{fkzt,jdbcType=VARCHAR}
         </if>
@@ -713,9 +694,6 @@
         </if>
         <if test="fkjzTime != null ">
             and FKJZ_TIME=#{fkjzTime,jdbcType=TIMESTAMP}
-        </if>
-        <if test="lxfs != null  and lxfs != '' ">
-            and LXFS=#{lxfs,jdbcType=VARCHAR}
         </if>
         <if test="fkzt != null  and fkzt != '' ">
             and FKZT=#{fkzt,jdbcType=VARCHAR}

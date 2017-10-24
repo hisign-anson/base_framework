@@ -1,10 +1,11 @@
 
 package com.hisign.xingzhen.xz.api.param;
 
-import com.hisign.bfun.bannotation.Column;
 import com.hisign.bfun.bannotation.Table;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
 
 /**
  * 《任务反馈文件表》 实体
@@ -13,32 +14,23 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel(value = "任务反馈文件表")
 @Table(value="t_taskfk_file")
-public class TaskfkFileAddParam{
+public class TaskfkFileAddParam implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Column(value="FILE_NAME")
-    @ApiModelProperty(value = "新文件名")
+    @ApiModelProperty(value = "新文件名",required = true)
 	private String fileName; //新文件名
 
-	@Column(value="FILE_OLD_NAME")
-    @ApiModelProperty(value = "原文件名")
+    @ApiModelProperty(value = "原文件名",required = true)
 	private String fileOldName; //原文件名
 
-	@Column(value="FILE_PATH")
-    @ApiModelProperty(value = "文件路径")
+    @ApiModelProperty(value = "文件路径",required = true)
 	private String filePath; //文件路径
 
-	@Column(value="FILE_TYPE")
-    @ApiModelProperty(value = "文件类型")
+    @ApiModelProperty(value = "文件类型",required = true)
 	private String fileType; //文件类型
 
-	@Column(value="FILE_SIZE")
-    @ApiModelProperty(value = "文件大小 单位K")
+    @ApiModelProperty(value = "文件大小 单位K",required = true)
 	private Double fileSize; //文件大小 单位K
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getFileName() {
         return fileName;

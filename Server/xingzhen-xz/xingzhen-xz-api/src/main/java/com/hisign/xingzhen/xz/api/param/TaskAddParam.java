@@ -1,6 +1,5 @@
 package com.hisign.xingzhen.xz.api.param;
 
-import com.hisign.bfun.bannotation.Column;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -19,34 +18,33 @@ public class TaskAddParam implements Serializable {
     @ApiModelProperty(value = "任务名称")
     private String taskName; //任务名称
 
-    @ApiModelProperty(value = "任务内容")
+    @ApiModelProperty(value = "任务内容",required = true)
     private String taskContent; //任务内容
 
-    @ApiModelProperty(value = "专案组ID")
+    @ApiModelProperty(value = "专案组ID",required = true)
     private String groupid; //专案组ID
 
     @ApiModelProperty(value = "接收联系方式")
     private String jsrLxfs; //接收联系方式
 
-    @ApiModelProperty(value = "接收人")
+    @ApiModelProperty(value = "接收人",required = true)
     private String jsr; //接收人
 
-    @ApiModelProperty(value = "反馈截止时间")
+    @ApiModelProperty(value = "反馈截止时间",required = true)
     private Date fkjzTime; //反馈截止时间
 
-    @ApiModelProperty(value = "创建人")
+    @ApiModelProperty(value = "创建人",required = true)
     private String creator; //创建人
 
-    @ApiModelProperty(value = "创建人单位")
+    @ApiModelProperty(value = "创建人单位",required = true)
     private String deparmentcode; //创建人单位
 
-    @ApiModelProperty(value = "创建人单位名称")
+    @ApiModelProperty(value = "创建人单位名称",required = true)
     private String deparmentname; //创建人单位名称
 
     @ApiModelProperty(value = "补充任务ID")
     private String bcrwid; //补充任务ID
 
-    @Column(value="FKID")
     @ApiModelProperty(value = "反馈ID")
     private String fkid; //反馈ID
 
