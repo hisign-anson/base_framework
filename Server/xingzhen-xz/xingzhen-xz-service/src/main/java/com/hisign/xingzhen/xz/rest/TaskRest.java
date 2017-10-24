@@ -38,8 +38,8 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      * @return
      */
     @Override
-    @ApiOperation(value = "任务管理查询分页",httpMethod ="GET",response = TaskModel.class)
-    @RequestMapping(value = "/getTaskPage", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "任务管理查询分页",httpMethod ="POST",response = TaskModel.class)
+    @RequestMapping(value = "/getTaskPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getTaskPage(@ApiParam @RequestBody TaskSelectParam taskSelectParam) {
         return baseService.getTaskPage(taskSelectParam);
     }
@@ -76,7 +76,7 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
     @Override
     @ApiOperation(value = "删除任务",httpMethod ="DELETE",response = String.class)
     @ApiImplicitParams({ @ApiImplicitParam(name="id",value = "任务id",required = true,dataType = "String"),@ApiImplicitParam(name="userId",value = "当前用户id",required = true,dataType = "String")})
-    @RequestMapping(value = "/deleteTaskById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/deleteTaskById", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     public JsonResult deleteTaskById(@RequestParam String id,@RequestParam String userId) {
         return baseService.deleteTaskById(id,userId);
     }
