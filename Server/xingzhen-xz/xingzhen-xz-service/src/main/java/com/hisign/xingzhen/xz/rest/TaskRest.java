@@ -82,8 +82,8 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      * @return
      */
     @Override
-    @ApiOperation(value = "删除任务",httpMethod ="POST",response = String.class)
-    @RequestMapping(value = "/deleteTaskById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "删除任务",httpMethod ="DELETE",response = String.class)
+    @RequestMapping(value = "/deleteTaskById", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     public JsonResult deleteTaskById(@RequestParam String id,@RequestParam String userId) {
         if(StringUtils.isEmpty(userId)){
             return JsonResultUtil.error("删除记录失败,当前登陆用户不能为空");

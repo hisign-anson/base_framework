@@ -525,10 +525,13 @@
         FROM t_group
     </select>
 
-    <select id="findMaxNo" resultType="java.lang.String">
-        SELECT
-            MAX(id)
-        FROM t_group
+    <select id="findMaxNo" parameterType="java.lang.String" resultType="java.lang.String" >
+         SELECT substr(GROUPNUM,19) as GROUPNUM FROM (
+            SELECT GROUPNUM FROM t_group t
+            WHERE GROUPNUM is not NULL AND SUBSTR (GROUPNUM, 15,4)=TO_CHAR(SYSDATE,'YYYY')
+            AND  SUBSTR (GROUPNUM, 3,12)=#{deparmentcode,jdbcType=VARCHAR}
+            ORDER BY SUBSTR (GROUPNUM, 19) DESC
+        )  	where ROWNUM=1
     </select>
 
     <select id="findGroupByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Group" resultMap="BaseResultMap">

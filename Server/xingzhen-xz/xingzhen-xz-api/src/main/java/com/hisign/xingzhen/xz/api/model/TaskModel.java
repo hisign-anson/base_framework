@@ -106,7 +106,7 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "删除标识")
     private String deleteflag; //删除标识
 
-    //-------------------------返回字段
+  /*  //-------------------------返回字段
     @ApiModelProperty(value = "任务关联的反馈信息")
     private List<TaskFkModel>  taskFkModels;
 
@@ -115,7 +115,7 @@ public class TaskModel implements Serializable {
 
     @ApiModelProperty(value = "专案组名称")
     private String groupName;
-
+*/
 
     /**
      *默认空构造函数
@@ -131,7 +131,7 @@ public class TaskModel implements Serializable {
         return this.id;
     }
     /**
-     * @param ID 任务ID
+     * @param id 任务ID
      */
     public void setId(String id){
         this.id = id;
@@ -143,7 +143,7 @@ public class TaskModel implements Serializable {
         return this.taskNo;
     }
     /**
-     * @param TASK_NO 任务编号
+     * @param taskNo 任务编号
      */
     public void setTaskNo(String taskNo){
         this.taskNo = taskNo;
@@ -485,7 +485,7 @@ public class TaskModel implements Serializable {
         this.deleteflag = deleteflag;
     }
 
-    public List<TaskFkModel> getTaskFkModels() {
+   /* public List<TaskFkModel> getTaskFkModels() {
         return taskFkModels;
     }
 
@@ -508,7 +508,7 @@ public class TaskModel implements Serializable {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
-
+*/
     @Override
     public String toString(){
         return JSON.toJSONString(this);
