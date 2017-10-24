@@ -13,8 +13,7 @@ import com.hisign.xingzhen.xz.api.service.GroupBackupService;
 import javax.annotation.Resource;
 
 import com.hisign.xingzhen.xz.api.service.GroupService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.hisign.bfun.bif.*;
@@ -44,7 +43,8 @@ public class GroupBackupRest extends BaseRest<GroupBackup, GroupBackupModel, Str
     @Override
     @ApiOperation(value = "归档",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult add(GroupBackup entity) throws BusinessException {
+    @ApiImplicitParams({@ApiImplicitParam(name = "")})
+    public JsonResult add(@ApiParam(hidden = true) GroupBackup entity) throws BusinessException {
 
         GroupModel groupModel = groupService.getById(entity.getGroupid());
         if (groupModel==null){

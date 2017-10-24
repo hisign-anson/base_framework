@@ -31,6 +31,7 @@ import java.util.concurrent.locks.Condition;
  *
  */
 @RestController
+@RequestMapping("xzlog")
 public class XzLogRest extends BaseRest<XzLog, XzLogModel, String, XzLogService> {
 
 	@Autowired

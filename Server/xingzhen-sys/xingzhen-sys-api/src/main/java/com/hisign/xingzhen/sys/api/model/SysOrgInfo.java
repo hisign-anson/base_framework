@@ -5,13 +5,14 @@ import java.util.Date;
 import com.hisign.xingzhen.common.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import springfox.documentation.annotations.ApiIgnore;
 
 @ApiModel(description = "组织机构")
 public class SysOrgInfo extends BaseModel{
     /** **/
 	private static final long serialVersionUID = -1833115062500267643L;
 	/** 组织机构ID**/
-	@ApiModelProperty(value = "组织机构ID")
+	@ApiModelProperty(value = "组织机构ID",hidden = true)
     private String orgId;
 
     /** 组织机构名称**/
@@ -55,15 +56,13 @@ public class SysOrgInfo extends BaseModel{
     private String createPid;
 
     /** **/
-	@ApiModelProperty(value = "创建时间")
+	@ApiModelProperty(value = "创建时间",hidden = true)
     private Date createTime;
 
     /** **/
 	@ApiModelProperty(value = "修改人")
     private String modifyPid;
 
-    /** **/
-	@ApiModelProperty(value = "修改时间")
     private Date modifyTime;
     public SysOrgInfo() {
 	}

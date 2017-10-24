@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
- /**
+/**
  * 《任务反馈文件表》 rest服务类
  * @author 何建辉
  *
@@ -23,5 +24,10 @@ public class TaskfkFileRest extends BaseRest<TaskfkFile, TaskfkFileModel, String
 	@Resource(name = "taskfkFileService")
 	public void setBaseService(TaskfkFileService baseService) {
 		super.setBaseService(baseService);
+	}
+
+
+	public void downloadZip(List<TaskfkFileModel> list,String zipName){
+		//ZipUtil zu = new ZipUtil();
 	}
  }

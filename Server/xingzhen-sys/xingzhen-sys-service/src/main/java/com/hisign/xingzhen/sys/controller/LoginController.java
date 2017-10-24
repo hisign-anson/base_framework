@@ -8,8 +8,7 @@ import com.hisign.xingzhen.common.util.RsaHelper;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.*;
 import com.hisign.xingzhen.sys.api.service.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -54,16 +53,15 @@ public class LoginController {
      * @param request 请求对象
      * @return
      */
-    @ApiOperation(value = "用户登录",httpMethod ="GET",response = JsonResult.class)
-    @RequestMapping(value = "/login", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
-    @ResponseBody
-    public JsonResult login(@RequestBody SysUser user, HttpServletRequest request) {
+    @ApiOperation(value = "用户登录",httpMethod ="POST",response = JsonResult.class)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public JsonResult login(@RequestParam String userName,@RequestParam String userPwd, HttpServletRequest request) {
         JsonResult result = new JsonResult();
         result.setFlag(1);
         boolean loginFlag = false;
         String msg = "";
-        String username = user.getUserName();
-        String password = user.getUserPwd();
+        String username = userName;
+        String password = userPwd;
         try {
             logger.info("对用户[{}]进行登录验证..验证开始", username);
             SysUser sysUser = sysUserService.findSysUserByUserName(username);
@@ -87,6 +85,7 @@ public class LoginController {
             		loginFlag = true;
                     String tokenId = sysUserService.addUserToken(sysUser.getId());//添加token和用户id的关联
                     result = searchUserLimt(sysUser, tokenId);
+
                     sysUser.setIpAddress(this.getIpAddress(request));
                     sysLogService.insertLogUserInfo(sysUser);	
             	}
@@ -107,7 +106,7 @@ public class LoginController {
     /**
      * 注销
     **/
-    @ApiOperation(value = "注销",httpMethod ="GET",response = JsonResult.class)
+    @ApiOperation(value = "注销",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/logout", method = RequestMethod.POST,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult logout(HttpServletRequest request) {
@@ -128,7 +127,7 @@ public class LoginController {
      * 初始化系统标题参数
      * @return
      */
-    @ApiOperation(value = "初始化系统标题参数",httpMethod ="GET",response = JsonResult.class)
+    @ApiOperation(value = "初始化系统标题参数",response = JsonResult.class)
     @RequestMapping(value = "/sys/dict/GXSDM",method=RequestMethod.GET,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult initDictForGXSDM(@RequestParam String userUnit) {
