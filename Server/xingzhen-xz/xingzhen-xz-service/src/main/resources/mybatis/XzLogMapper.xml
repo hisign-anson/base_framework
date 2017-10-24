@@ -242,6 +242,7 @@
             <if test="reserveField2 !=null  and reserveField2 != '' ">
                 RESERVE_FIELD2 = #{reserveField2,jdbcType=VARCHAR}
             </if>
+        </trim>
             WHERE ID = #{id,jdbcType=VARCHAR}
     </update>
 

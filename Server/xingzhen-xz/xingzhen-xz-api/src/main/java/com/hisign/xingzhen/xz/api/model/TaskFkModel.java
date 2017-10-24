@@ -3,8 +3,6 @@ package com.hisign.xingzhen.xz.api.model;
 import java.io.Serializable;
 import com.alibaba.fastjson.JSON;
 import java.util.*;
-
-import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -36,6 +34,9 @@ public class TaskFkModel implements Serializable {
     @ApiModelProperty(value = "反馈人")
     private String fkr; //反馈人
 
+    @ApiModelProperty(value = "反馈人姓名")
+    private String fkrname; //反馈人姓名
+
     @ApiModelProperty(value = "反馈时间")
     private Date fkTime; //反馈时间
 
@@ -50,6 +51,9 @@ public class TaskFkModel implements Serializable {
 
     @ApiModelProperty(value = "创建人")
     private String creator; //创建人
+
+    @ApiModelProperty(value = "创建人姓名")
+    private String createname; //创建人姓名
 
     @ApiModelProperty(value = "创建时间")
     private Date createtime; //创建时间
@@ -146,6 +150,18 @@ public class TaskFkModel implements Serializable {
         this.fkr = fkr;
     }
     /**
+     * @return FKRNAME 反馈人姓名
+     */
+    public String getFkrname(){
+        return this.fkrname;
+    }
+    /**
+     * @param FKRNAME 反馈人姓名
+     */
+    public void setFkrname(String fkrname){
+        this.fkrname = fkrname;
+    }
+    /**
      * @return FK_TIME 反馈时间
      */
     public Date getFkTime(){
@@ -175,7 +191,6 @@ public class TaskFkModel implements Serializable {
     public Date getQrTime(){
         return this.qrTime;
     }
-
     /**
      * @param QR_TIME 确认时间
      */
@@ -205,6 +220,18 @@ public class TaskFkModel implements Serializable {
      */
     public void setCreator(String creator){
         this.creator = creator;
+    }
+    /**
+     * @return CREATENAME 创建人姓名
+     */
+    public String getCreatename(){
+        return this.createname;
+    }
+    /**
+     * @param CREATENAME 创建人姓名
+     */
+    public void setCreatename(String createname){
+        this.createname = createname;
     }
     /**
      * @return CREATETIME 创建时间

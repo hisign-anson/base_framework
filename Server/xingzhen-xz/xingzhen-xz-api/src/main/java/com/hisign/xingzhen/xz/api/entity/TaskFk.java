@@ -46,6 +46,10 @@ public class TaskFk extends BaseModel implements Serializable {
     @ApiModelProperty(value = "反馈人")
     private String fkr; //反馈人
 
+    @Column(value="FKRNAME")
+    @ApiModelProperty(value = "反馈人姓名")
+    private String fkrname; //反馈人姓名
+
     @Column(value="FK_TIME")
     @ApiModelProperty(value = "反馈时间")
     private Date fkTime; //反馈时间
@@ -65,6 +69,10 @@ public class TaskFk extends BaseModel implements Serializable {
     @Column(value="CREATOR")
     @ApiModelProperty(value = "创建人")
     private String creator; //创建人
+
+    @Column(value="CREATENAME")
+    @ApiModelProperty(value = "创建人姓名")
+    private String createname; //创建人姓名
 
     @Column(value="CREATETIME")
     @ApiModelProperty(value = "创建时间")
@@ -165,6 +173,18 @@ public class TaskFk extends BaseModel implements Serializable {
         this.fkr = fkr;
     }
     /**
+     * @return FKRNAME 反馈人姓名
+     */
+    public String getFkrname(){
+        return this.fkrname;
+    }
+    /**
+     * @param FKRNAME 反馈人姓名
+     */
+    public void setFkrname(String fkrname){
+        this.fkrname = fkrname;
+    }
+    /**
      * @return FK_TIME 反馈时间
      */
     public Date getFkTime(){
@@ -223,6 +243,18 @@ public class TaskFk extends BaseModel implements Serializable {
      */
     public void setCreator(String creator){
         this.creator = creator;
+    }
+    /**
+     * @return CREATENAME 创建人姓名
+     */
+    public String getCreatename(){
+        return this.createname;
+    }
+    /**
+     * @param CREATENAME 创建人姓名
+     */
+    public void setCreatename(String createname){
+        this.createname = createname;
     }
     /**
      * @return CREATETIME 创建时间
@@ -295,11 +327,13 @@ public class TaskFk extends BaseModel implements Serializable {
                 .append(",pgroupid=").append(this.getPgroupid())
                 .append(",fkxs=").append(this.getFkxs())
                 .append(",fkr=").append(this.getFkr())
+                .append(",fkrname=").append(this.getFkrname())
                 .append(",fkTime=").append(this.getFkTime())
                 .append(",qrzt=").append(this.getQrzt())
                 .append(",qrTime=").append(this.getQrTime())
                 .append(",bz=").append(this.getBz())
                 .append(",creator=").append(this.getCreator())
+                .append(",createname=").append(this.getCreatename())
                 .append(",createtime=").append(this.getCreatetime())
                 .append(",deparmentcode=").append(this.getDeparmentcode())
                 .append(",lastupdatetime=").append(this.getLastupdatetime())
@@ -315,11 +349,13 @@ public class TaskFk extends BaseModel implements Serializable {
         pgroupid("PGROUPID","父专案组ID"),
         fkxs("FKXS","反馈线索"),
         fkr("FKR","反馈人"),
+        fkrname("FKRNAME","反馈人姓名"),
         fkTime("FK_TIME","反馈时间"),
         qrzt("QRZT","确认状态"),
         qrTime("QR_TIME","确认时间"),
         bz("BZ","备注"),
         creator("CREATOR","创建人"),
+        createname("CREATENAME","创建人姓名"),
         createtime("CREATETIME","创建时间"),
         deparmentcode("DEPARMENTCODE","创建人单位"),
         lastupdatetime("LASTUPDATETIME","修改时间"),

@@ -1,4 +1,3 @@
-
 package com.hisign.xingzhen.xz.api.entity;
 
 import java.io.Serializable;
@@ -10,41 +9,44 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 《案件专案组关联》 实体
- * @author 何建辉
+ * @author 刘玉兰
  *
  */
 @ApiModel(value = "案件专案组关联")
 @Table(value="t_ajgroup")
 public class Ajgroup extends BaseModel implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+
 
 	@PK(value="ID")
 	@ApiModelProperty(value = "案件关联ID",hidden = true)
 	private String id; //案件关联ID
 
-	@Column(value="AJID")
-	@ApiModelProperty(value = "案件ID")
-	private String ajid; //案件ID
+    @Column(value="AJID")
+    @ApiModelProperty(value = "案件ID")
+    private String ajid; //案件ID
 
-	@Column(value="AJBH")
-	@ApiModelProperty(value = "案件编号")
-	private String ajbh; //案件编号
+    @Column(value="AJBH")
+    @ApiModelProperty(value = "案件编号")
+    private String ajbh; //案件编号
 
-	@Column(value="GROUPID")
-	@ApiModelProperty(value = "专案组ID")
-	private String groupid; //专案组ID
+    @Column(value="GROUPID")
+    @ApiModelProperty(value = "专案组ID")
+    private String groupid; //专案组ID
 
-	@Column(value="CREATOR")
-	@ApiModelProperty(value = "创建人")
-	private String creator; //创建人
+    @Column(value="PGROUPID")
+    @ApiModelProperty(value = "父专案组ID")
+    private String pgroupid; //父专案组ID
+
 
 	@Column(value="CREATETIME")
 	@ApiModelProperty(value = "创建时间",hidden = true)
 	private Date createtime; //创建时间
 
-	@Column(value="DEPARMENTCODE")
-	@ApiModelProperty(value = "创建人单位")
-	private String deparmentcode; //创建人单位
+    @Column(value="CREATETIME")
+    @ApiModelProperty(value = "创建时间")
+    private Date createtime; //创建时间
+
 
 	@Column(value="LASTUPDATETIME")
 	@ApiModelProperty(value = "修改时间",hidden = true)

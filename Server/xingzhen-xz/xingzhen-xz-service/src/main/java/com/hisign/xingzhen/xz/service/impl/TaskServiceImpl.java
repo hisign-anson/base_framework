@@ -22,6 +22,8 @@ import com.hisign.xingzhen.xz.api.param.TaskMoveParam;
 import com.hisign.xingzhen.xz.api.param.TaskSelectParam;
 import com.hisign.xingzhen.xz.api.service.TaskService;
 import com.hisign.xingzhen.xz.mapper.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,8 @@ import java.util.UUID;
  */
 @Service("taskService")
 public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> implements TaskService {
+
+    Logger log = LoggerFactory.getLogger(TaskServiceImpl.class);
 
     @Autowired
     protected TaskMapper taskMapper;
@@ -156,11 +160,16 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                         taskFk.setQrzt(Constants.YES);
                         taskFk.setQrTime(now);
                         taskFk.setLastupdatetime(now);
-                        taskFkMapper.updateNotNull(taskFk);
-
-                        String content="任务反馈确认（ID=" + taskFkModel.getId() + "）";
-                        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , userId, now, taskFkModel.getId());
-                        xzLogMapper.insertNotNull(xzLog);
+                        long result=taskFkMapper.updateNotNull(taskFk);
+                        if(result>0){
+                            try {
+                                String content="任务反馈确认（ID=" + taskFkModel.getId() + "）";
+                                XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , userId, now, taskFkModel.getId());
+                                xzLogMapper.insertNotNull(xzLog);
+                            }catch (Exception e) {
+                                log.error(e.getMessage());
+                            }
+                        }
                         //第一次进去现在已确认
                         taskFkModel.setQrzt(Constants.YES);
                     }
@@ -176,12 +185,16 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                 t.setQszt(Constants.YES);
                 t.setQsTime(now);
                 t.setLastupdatetime(now);
-                taskMapper.updateNotNull(t);
-
-                String content="任务签收（ID=" + taskModel.getId() + "）";
-                XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskModel.getCreator(), now, taskModel.getId());
-                xzLogMapper.insertNotNull(xzLog);
-
+                long result=taskMapper.updateNotNull(t);
+                if(result>0){
+                     try {
+                         String content="任务签收（ID=" + taskModel.getId() + "）";
+                         XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskModel.getCreator(), now, taskModel.getId());
+                         xzLogMapper.insertNotNull(xzLog);
+                     } catch (Exception e) {
+                         log.error(e.getMessage());
+                     }
+                }
                 taskModel.setQszt(Constants.YES);
             }
         }
@@ -190,6 +203,18 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
     @Override
     public JsonResult addTask(TaskAddParam taskAddParam) {
+        if(!StringUtils.isEmpty(taskAddParam.getBcrwid())){
+            TaskModel t=super.getById(taskAddParam.getBcrwid());
+            if(t==null){
+                return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+            }
+        }
+        if(!StringUtils.isEmpty(taskAddParam.getFkid())){
+            TaskFkModel t=taskFkMapper.findById(taskAddParam.getFkid());
+            if(t==null){
+                return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+            }
+        }
         Task task=new Task();
         BeanUtils.copyProperties(taskAddParam,task);
         GroupModel group=groupMapper.findById(task.getGroupid());
@@ -204,21 +229,27 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         task.setTaskNo(createTaskNo(group.getDeparmentcode()));
         task.setPgroupid(group.getPgroupid());
         task.setFqr(task.getCreator());
+        task.setFqrname(task.getCreatename());
         task.setFqTime(now);
         task.setCreatetime(now);
         task.setLastupdatetime(now);
         task.setDeleteflag(Constants.DELETE_FALSE);
         JsonResult result = super.addNotNull(task);
-
-        String content="任务新增（ID=" + task.getId() + "）";
-        if(!StringUtils.isEmpty(task.getBcrwid())) {
-            content ="任务补充（ID=" + task.getId() + ",BCRWID"+ task.getBcrwid() + "）";
+        if(result.getFlag()==1){
+            try {
+                String content="任务新增（ID=" + task.getId() + "）";
+                if(!StringUtils.isEmpty(task.getBcrwid())) {
+                    content ="任务补充（ID=" + task.getId() + ",BCRWID"+ task.getBcrwid() + "）";
+                }
+                if(!StringUtils.isEmpty(task.getFkid())) {
+                    content ="任务追加（ID=" + task.getId() + ",FKID"+ task.getFkid() + "）";
+                }
+                XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , task.getCreator(), now, task.getId());
+                xzLogMapper.insertNotNull(xzLog);
+            } catch (Exception e){
+                log.error(e.getMessage());
+            }
         }
-        if(!StringUtils.isEmpty(task.getFkid())) {
-            content ="任务追加（ID=" + task.getId() + ",FKID"+ task.getFkid() + "）";
-        }
-        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , task.getCreator(), now, task.getId());
-        xzLogMapper.insertNotNull(xzLog);
         return result;
     }
 
@@ -230,10 +261,15 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         task.setDeleteflag(Constants.DELETE_TRUE);
         task.setLastupdatetime(now);
         JsonResult result = super.updateNotNull(task);
-
-        String content="任务删除（ID=" + task.getId() + "）";
-        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , userId, now, task.getId());
-        xzLogMapper.insertNotNull(xzLog);
+        if(result.getFlag()==1){
+             try {
+                 String content="任务删除（ID=" + task.getId() + "）";
+                 XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , userId, now, task.getId());
+                 xzLogMapper.insertNotNull(xzLog);
+             } catch (Exception e){
+                 log.error(e.getMessage());
+             }
+        }
         return result;
     }
     /**
@@ -269,10 +305,15 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             entity.setYjrwid(new_task.getId());
             entity.setJsr(taskMoveParam.getJsr());
             JsonResult result = super.updateNotNull(entity);
-
-            String content="任务移交（ID=" + taskMoveParam.getId() + ",YJRWID="+ new_task.getId()+ "）";
-            XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskMoveParam.getCreator(), now, taskMoveParam.getId());
-            xzLogMapper.insertNotNull(xzLog);
+            if(result.getFlag()==1){
+                try {
+                    String content="任务移交（ID=" + taskMoveParam.getId() + ",YJRWID="+ new_task.getId()+ "）";
+                    XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskMoveParam.getCreator(), now, taskMoveParam.getId());
+                    xzLogMapper.insertNotNull(xzLog);
+                } catch (Exception e){
+                    log.error(e.getMessage());
+                }
+            }
             return result;
         } catch (Exception e) {
             throw new BusinessException(BaseEnum.BusinessExceptionEnum.UPDATE,e);

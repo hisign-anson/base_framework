@@ -1,7 +1,5 @@
 package com.hisign.xingzhen.common.model;
 
-
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import springfox.documentation.annotations.ApiIgnore;
 
