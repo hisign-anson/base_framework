@@ -24,6 +24,12 @@ public class TaskFkModel implements Serializable {
     @ApiModelProperty(value = "任务ID")
     private String taskid; //任务ID
 
+    @ApiModelProperty(value = "专案组ID")
+    private String groupid; //专案组ID
+
+    @ApiModelProperty(value = "父专案组ID")
+    private String pgroupid; //父专案组ID
+
     @ApiModelProperty(value = "反馈线索")
     private String fkxs; //反馈线索
 
@@ -90,6 +96,30 @@ public class TaskFkModel implements Serializable {
      */
     public void setTaskid(String taskid){
         this.taskid = taskid;
+    }
+    /**
+     * @return GROUPID 专案组ID
+     */
+    public String getGroupid(){
+        return this.groupid;
+    }
+    /**
+     * @param GROUPID 专案组ID
+     */
+    public void setGroupid(String groupid){
+        this.groupid = groupid;
+    }
+    /**
+     * @return PGROUPID 父专案组ID
+     */
+    public String getPgroupid(){
+        return this.pgroupid;
+    }
+    /**
+     * @param PGROUPID 父专案组ID
+     */
+    public void setPgroupid(String pgroupid){
+        this.pgroupid = pgroupid;
     }
     /**
      * @return FKXS 反馈线索

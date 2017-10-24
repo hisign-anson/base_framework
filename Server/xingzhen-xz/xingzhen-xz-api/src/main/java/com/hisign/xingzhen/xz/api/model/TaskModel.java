@@ -58,9 +58,6 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "反馈截止时间")
     private Date fkjzTime; //反馈截止时间
 
-    @ApiModelProperty(value = "联系方式")
-    private String lxfs; //联系方式
-
     @ApiModelProperty(value = "反馈状态")
     private String fkzt; //反馈状态
 
@@ -281,18 +278,6 @@ public class TaskModel implements Serializable {
      */
     public void setFkjzTime(Date fkjzTime){
         this.fkjzTime = fkjzTime;
-    }
-    /**
-     * @return LXFS 联系方式
-     */
-    public String getLxfs(){
-        return this.lxfs;
-    }
-    /**
-     * @param LXFS 联系方式
-     */
-    public void setLxfs(String lxfs){
-        this.lxfs = lxfs;
     }
     /**
      * @return FKZT 反馈状态

@@ -1,12 +1,11 @@
 package com.hisign.xingzhen.common.util;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
-
-import javax.servlet.http.HttpServletRequest;
 
 public class IpUtil {
 
@@ -44,11 +43,11 @@ public class IpUtil {
 			Enumeration<InetAddress> address = ni.getInetAddresses();
 			while (address.hasMoreElements()) {
 				ip = address.nextElement();
-				if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 外网IP
+				if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && !ip.getHostAddress().contains(":")) {// 外网IP
 					netip = ip.getHostAddress();
 					finded = true;
 					break;
-				} else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 内网IP
+				} else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && !ip.getHostAddress().contains(":")) {// 内网IP
 					localip = ip.getHostAddress();
 				}
 			}
@@ -138,7 +137,7 @@ public class IpUtil {
 			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
 		}
 		// 如果是多级代理，那么取第一个ip为客户ip
-		if (ip != null && ip.indexOf(",") != -1) {
+		if (ip != null && ip.contains(",")) {
 			ip = ip.substring(ip.lastIndexOf(",") + 1, ip.length()).trim();
 		}
 		return ip;

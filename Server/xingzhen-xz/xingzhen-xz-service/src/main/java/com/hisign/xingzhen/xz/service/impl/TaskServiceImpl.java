@@ -3,23 +3,26 @@ package com.hisign.xingzhen.xz.service.impl;
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseMapper;
+import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bif.BaseServiceImpl;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
-import com.hisign.xingzhen.xz.api.entity.Cb;
-import com.hisign.xingzhen.xz.api.entity.Task;
-import com.hisign.xingzhen.xz.api.entity.TaskFk;
-import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
+import com.hisign.xingzhen.xz.api.entity.*;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
 import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
+import com.hisign.xingzhen.xz.api.param.TaskAddParam;
+import com.hisign.xingzhen.xz.api.param.TaskMoveParam;
+import com.hisign.xingzhen.xz.api.param.TaskSelectParam;
 import com.hisign.xingzhen.xz.api.service.TaskService;
 import com.hisign.xingzhen.xz.mapper.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,6 +55,9 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
     @Autowired
     protected TaskfkFileMapper taskfkFileMapper;
+
+    @Autowired
+    protected XzLogMapper xzLogMapper;
 
     @Override
     protected BaseMapper<Task,TaskModel, String> initMapper() {
@@ -102,28 +108,34 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         return JsonResultUtil.success();
     }
 
+    /**
+     * 任务分页
+     * @param  taskSelectParam
+     * 刘玉兰 2017/10/23
+     */
     @Override
-    public JsonResult getTaskPage(Task task) {
-        task.setYjzt("0");
+    public JsonResult getTaskPage(TaskSelectParam taskSelectParam) {
+        Task task=new Task();
+        BeanUtils.copyProperties(taskSelectParam,task);
         List<TaskModel> list = taskMapper.findTaskByEntity(task);
         long count = taskMapper.findCountTaskByEntity(task);
         return JsonResultUtil.success(count,list);
     }
     /**
      * 查看任务
-     * @param  task
+     * @param  id   userId
      * 刘玉兰
      * 接收人查看未反馈的信息，将任务单状态改为已签收，接收人查看已反馈的信息，反馈信息的状态改为已确认
      */
     @Override
     @Transactional
-    public JsonResult taskDetail(Task task) {
-        TaskModel taskModel=taskMapper.findById(task.getId());
+    public JsonResult taskDetail(String id,String userId) {
+        TaskModel taskModel=taskMapper.findById(id);
         if(taskModel==null){
             return error("该任务不存在");
         }
         //已反馈的才能有反馈信息
-        if("1".equals(taskModel.getFkzt())){
+        if(Constants.YES.equals(taskModel.getFkzt())){
             Conditions conditions = new Conditions(TaskFk.class);
             Conditions.Criteria criteria = conditions.createCriteria();
             criteria.add(TaskFk.TaskFkEnum.taskid.get());
@@ -138,37 +150,48 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                         taskFkModel.setTaskfkFileModels(taskfkFiles);
                     }
                     //查看更新未确认的反馈信息
-                    if(taskModel.getCreator()!=null && taskModel.getCreator().equals(task.getUserId()) && !"1".equals(taskFkModel.getQrzt())) {
+                    if(!Constants.YES.equals(taskFkModel.getQrzt()) && taskModel.getCreator()!=null && taskModel.getCreator().equals(userId)) {
                         TaskFk taskFk=new TaskFk();
-                        taskFk.setTaskid(task.getId());
-                        taskFk.setQrzt("1");
+                        taskFk.setId(taskFkModel.getId());
+                        taskFk.setQrzt(Constants.YES);
                         taskFk.setQrTime(now);
                         taskFk.setLastupdatetime(now);
                         taskFkMapper.updateNotNull(taskFk);
+
+                        String content="任务反馈确认（ID=" + taskFkModel.getId() + "）";
+                        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , userId, now, taskFkModel.getId());
+                        xzLogMapper.insertNotNull(xzLog);
                         //第一次进去现在已确认
-                        taskFkModel.setQrzt("1");
+                        taskFkModel.setQrzt(Constants.YES);
                     }
                 }
                 taskModel.setTaskFkModels(taskFkModels);
             }
         } else{
-            if(!"1".equals(taskModel.getQszt()) && taskModel.getJsr()!=null && taskModel.getJsr().equals(task.getUserId())) {
+            //查看更新未确认的反馈信息
+            if(!Constants.YES.equals(taskModel.getQszt()) && taskModel.getJsr()!=null && taskModel.getJsr().equals(userId)) {
                 Date now=new Date();
                 Task t = new Task();
-                t.setId(task.getId());
-                t.setQszt("1");
+                t.setId(id);
+                t.setQszt(Constants.YES);
                 t.setQsTime(now);
                 t.setLastupdatetime(now);
                 taskMapper.updateNotNull(t);
-                task.setQszt("1");
+
+                String content="任务签收（ID=" + taskModel.getId() + "）";
+                XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskModel.getCreator(), now, taskModel.getId());
+                xzLogMapper.insertNotNull(xzLog);
+
+                taskModel.setQszt(Constants.YES);
             }
         }
         return JsonResultUtil.success(taskModel);
     }
 
     @Override
-    @Transactional
-    public JsonResult addTask(Task task) {
+    public JsonResult addTask(TaskAddParam taskAddParam) {
+        Task task=new Task();
+        BeanUtils.copyProperties(taskAddParam,task);
         GroupModel group=groupMapper.findById(task.getGroupid());
         if(group==null) {
             return error("添加记录失败,专案组不存在");
@@ -180,46 +203,77 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         task.setId(UUID.randomUUID().toString());
         task.setTaskNo(createTaskNo(group.getDeparmentcode()));
         task.setPgroupid(group.getPgroupid());
+        task.setFqr(task.getCreator());
         task.setFqTime(now);
         task.setCreatetime(now);
         task.setLastupdatetime(now);
         task.setDeleteflag(Constants.DELETE_FALSE);
-        return super.addNotNull(task);
+        JsonResult result = super.addNotNull(task);
+
+        String content="任务新增（ID=" + task.getId() + "）";
+        if(!StringUtils.isEmpty(task.getBcrwid())) {
+            content ="任务补充（ID=" + task.getId() + ",BCRWID"+ task.getBcrwid() + "）";
+        }
+        if(!StringUtils.isEmpty(task.getFkid())) {
+            content ="任务追加（ID=" + task.getId() + ",FKID"+ task.getFkid() + "）";
+        }
+        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , task.getCreator(), now, task.getId());
+        xzLogMapper.insertNotNull(xzLog);
+        return result;
     }
 
     @Override
-    @Transactional
-    public JsonResult deleteTaskById(String id) {
+    public JsonResult deleteTaskById(String id,String userId) {
         Task task=new Task();
+        task.setId(id);
+        Date now=new Date();
         task.setDeleteflag(Constants.DELETE_TRUE);
-        return super.updateNotNull(task);
+        task.setLastupdatetime(now);
+        JsonResult result = super.updateNotNull(task);
+
+        String content="任务删除（ID=" + task.getId() + "）";
+        XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , userId, now, task.getId());
+        xzLogMapper.insertNotNull(xzLog);
+        return result;
     }
     /**
      * 移交任务
-     * @param  entity
+     * @param  taskMoveParam
      * 刘玉兰
      * 本方法移交是创建一条新数据用来保存历史，修改旧数据作为移交后的数据，移交后需要修改提醒记录中的taskid
      */
     @Override
     @Transactional
-    public JsonResult moveTask(Task entity) {
+    public JsonResult moveTask(TaskMoveParam taskMoveParam) {
         try {
-            Task new_task  = super.getEntityById(entity.getId());
+            Task entity=new Task();
+            entity.setId(taskMoveParam.getId());
+            Task new_task  = super.getEntityById(taskMoveParam.getId());
             Date now=new Date();
             new_task.setId(UUID.randomUUID().toString());
             new_task.setLastupdatetime(now);
-            new_task.setYjzt("1");
+            new_task.setYjzt(Constants.YES);
             new_task.setYjTime(now);
             taskMapper.insertNotNull(new_task);
+
+            Cb cb=new Cb();
+            cb.setTaskid(new_task.getId());
+            cb.setOld_taskid(taskMoveParam.getId());
+            cbMapper.updateCbTaskid(cb);
+
+            entity.setCreator(taskMoveParam.getCreator());
             entity.setCreatetime(now);
+            entity.setDeparmentcode(taskMoveParam.getDeparmentcode());
             entity.setLastupdatetime(now);
             entity.setDeleteflag(Constants.DELETE_FALSE);
             entity.setYjrwid(new_task.getId());
-            Cb cb=new Cb();
-            cb.setTaskid(new_task.getId());
-            cb.setOld_taskid(entity.getId());
-            cbMapper.updateCbTaskid(cb);
-            return super.updateNotNull(entity);
+            entity.setJsr(taskMoveParam.getJsr());
+            JsonResult result = super.updateNotNull(entity);
+
+            String content="任务移交（ID=" + taskMoveParam.getId() + ",YJRWID="+ new_task.getId()+ "）";
+            XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskMoveParam.getCreator(), now, taskMoveParam.getId());
+            xzLogMapper.insertNotNull(xzLog);
+            return result;
         } catch (Exception e) {
             throw new BusinessException(BaseEnum.BusinessExceptionEnum.UPDATE,e);
         }

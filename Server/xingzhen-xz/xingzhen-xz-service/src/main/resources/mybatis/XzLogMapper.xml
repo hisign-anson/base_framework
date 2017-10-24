@@ -13,7 +13,6 @@
       <result column="DELETE_FLAG" property="deleteFlag" jdbcType="CHAR"/>
       <result column="RESERVE_FIELD1" property="reserveField1" jdbcType="VARCHAR"/>
       <result column="RESERVE_FIELD2" property="reserveField2" jdbcType="VARCHAR"/>
-      <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<sql id="Conditions_Where_Clause">
@@ -62,8 +61,7 @@
         IP,
         DELETE_FLAG,
         RESERVE_FIELD1,
-        RESERVE_FIELD2,
-        REMARK
+        RESERVE_FIELD2
     </sql>
     
     <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.XzLog">
@@ -80,8 +78,7 @@
 		    IP,
 		    DELETE_FLAG,
 		    RESERVE_FIELD1,
-		    RESERVE_FIELD2,
-		    REMARK
+		    RESERVE_FIELD2
         ) VALUES (
 		    #{id,jdbcType=VARCHAR},
 		    #{logType,jdbcType=CHAR},
@@ -92,8 +89,7 @@
 		    #{ip,jdbcType=VARCHAR},
 		    #{deleteFlag,jdbcType=CHAR},
 		    #{reserveField1,jdbcType=VARCHAR},
-		    #{reserveField2,jdbcType=VARCHAR},
-		    #{remark,jdbcType=VARCHAR}
+		    #{reserveField2,jdbcType=VARCHAR}
         )
     </insert>
     
@@ -131,10 +127,7 @@
 	    RESERVE_FIELD1,
 	    </if>
 	    <if test="reserveField2 !=null  and reserveField2 != '' ">
-	    RESERVE_FIELD2,
-	    </if>
-	    <if test="remark !=null  and remark != '' ">
-	    REMARK
+	    RESERVE_FIELD2
 	    </if>
     </trim>
     values
@@ -167,10 +160,7 @@
 	    #{reserveField1,jdbcType=VARCHAR},
 	    </if>
      	<if test="reserveField2 !=null  and reserveField2 != '' ">
-	    #{reserveField2,jdbcType=VARCHAR},
-	    </if>
-     	<if test="remark !=null  and remark != '' ">
-	    #{remark,jdbcType=VARCHAR}
+	    #{reserveField2,jdbcType=VARCHAR}
 	    </if>
     </trim>
   </insert>
@@ -186,8 +176,7 @@
 		   	IP,
 		   	DELETE_FLAG,
 		   	RESERVE_FIELD1,
-		   	RESERVE_FIELD2,
-		   	REMARK
+		   	RESERVE_FIELD2
         ) 
 		<foreach collection="list" open="(" close=")" item="item" index="index" separator="union all" > 
 			 select
@@ -200,8 +189,7 @@
 		    #{item.ip,jdbcType=VARCHAR},
 		    #{item.deleteFlag,jdbcType=CHAR},
 		    #{item.reserveField1,jdbcType=VARCHAR},
-		    #{item.reserveField2,jdbcType=VARCHAR},
-		    #{item.remark,jdbcType=VARCHAR}
+		    #{item.reserveField2,jdbcType=VARCHAR}
 	        from dual
 		</foreach> 
 	</insert>
@@ -218,8 +206,7 @@
 		    IP=#{ip,jdbcType=VARCHAR},
 		    DELETE_FLAG=#{deleteFlag,jdbcType=CHAR},
 		    RESERVE_FIELD1=#{reserveField1,jdbcType=VARCHAR},
-		    RESERVE_FIELD2=#{reserveField2,jdbcType=VARCHAR},
-		    REMARK=#{remark,jdbcType=VARCHAR}
+		    RESERVE_FIELD2=#{reserveField2,jdbcType=VARCHAR}
         </trim>
         WHERE
         ID = #{id,jdbcType=VARCHAR}
@@ -253,12 +240,8 @@
                 RESERVE_FIELD1 = #{reserveField1,jdbcType=VARCHAR},
             </if>
             <if test="reserveField2 !=null  and reserveField2 != '' ">
-                RESERVE_FIELD2 = #{reserveField2,jdbcType=VARCHAR},
+                RESERVE_FIELD2 = #{reserveField2,jdbcType=VARCHAR}
             </if>
-            <if test="remark !=null  and remark != '' ">
-                REMARK = #{remark,jdbcType=VARCHAR}
-            </if>
-        </trim>
             WHERE ID = #{id,jdbcType=VARCHAR}
     </update>
 
@@ -338,9 +321,6 @@
 	     	<if test="reserveField2 != null  and reserveField2 != '' ">
 		   	 and RESERVE_FIELD2=#{reserveField2,jdbcType=VARCHAR}
 		    </if>
-	     	<if test="remark != null  and remark != '' ">
-		   	 and REMARK=#{remark,jdbcType=VARCHAR}
-		    </if>
 	 	and rownum = 1 
     </select>
     
@@ -378,9 +358,6 @@
 		    </if>
 	     	<if test="reserveField2 != null  and reserveField2 != '' ">
                 and RESERVE_FIELD2=#{reserveField2,jdbcType=VARCHAR}
-		    </if>
-	     	<if test="remark != null  and remark != '' ">
-                and REMARK=#{remark,jdbcType=VARCHAR}
 		    </if>
     </select>
     

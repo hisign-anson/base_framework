@@ -76,10 +76,6 @@ public class Task extends BaseModel implements Serializable {
     @ApiModelProperty(value = "反馈截止时间")
     private Date fkjzTime; //反馈截止时间
 
-    @Column(value="LXFS")
-    @ApiModelProperty(value = "联系方式")
-    private String lxfs; //联系方式
-
     @Column(value="FKZT")
     @ApiModelProperty(value = "反馈状态")
     private String fkzt; //反馈状态
@@ -323,18 +319,6 @@ public class Task extends BaseModel implements Serializable {
         this.fkjzTime = fkjzTime;
     }
     /**
-     * @return LXFS 联系方式
-     */
-    public String getLxfs(){
-        return this.lxfs;
-    }
-    /**
-     * @param LXFS 联系方式
-     */
-    public void setLxfs(String lxfs){
-        this.lxfs = lxfs;
-    }
-    /**
      * @return FKZT 反馈状态
      */
     public String getFkzt(){
@@ -553,7 +537,6 @@ public class Task extends BaseModel implements Serializable {
                 .append(",jsr=").append(this.getJsr())
                 .append(",fqTime=").append(this.getFqTime())
                 .append(",fkjzTime=").append(this.getFkjzTime())
-                .append(",lxfs=").append(this.getLxfs())
                 .append(",fkzt=").append(this.getFkzt())
                 .append(",fkTime=").append(this.getFkTime())
                 .append(",cbzt=").append(this.getCbzt())
@@ -586,7 +569,6 @@ public class Task extends BaseModel implements Serializable {
         jsr("JSR","接收人"),
         fqTime("FQ_TIME","发起时间"),
         fkjzTime("FKJZ_TIME","反馈截止时间"),
-        lxfs("LXFS","联系方式"),
         fkzt("FKZT","反馈状态"),
         fkTime("FK_TIME","反馈时间"),
         cbzt("CBZT","催办状态"),

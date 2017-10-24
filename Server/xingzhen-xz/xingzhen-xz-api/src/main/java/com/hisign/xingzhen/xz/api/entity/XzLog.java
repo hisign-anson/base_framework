@@ -1,12 +1,16 @@
 
 package com.hisign.xingzhen.xz.api.entity;
 
-import java.io.Serializable;
-import java.util.*;
-import com.hisign.bfun.bannotation.*;
+import com.hisign.bfun.bannotation.Column;
+import com.hisign.bfun.bannotation.PK;
+import com.hisign.bfun.bannotation.Table;
 import com.hisign.xingzhen.common.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * 《日志》 实体
@@ -23,8 +27,8 @@ public class XzLog extends BaseModel implements Serializable {
 	private String id; //主键ID
 	
 	@Column(value="LOG_TYPE")
-    @ApiModelProperty(value = "日志类型（专案组，任务，反馈等）")
-	private String logType; //日志类型（专案组，任务，反馈等）
+    @ApiModelProperty(value = "日志类型（专案组，任务等）")
+	private String logType; //日志类型（专案组，任务等）
 	
 	@Column(value="CONTENT")
     @ApiModelProperty(value = "日志内容")
@@ -92,13 +96,13 @@ public class XzLog extends BaseModel implements Serializable {
 		this.id = id;
 	}
 	/**
-	 * @return LOG_TYPE 日志类型（专案组，任务，反馈等）
+	 * @return LOG_TYPE 日志类型（专案组，任务等）
 	 */
 	public String getLogType(){
 		return this.logType;
 	}
 	/**
-	 * @param logType 日志类型（专案组，任务，反馈等）
+	 * @param logType 日志类型（专案组，任务等）
 	 */
 	public void setLogType(String logType){
 		this.logType = logType;
@@ -224,7 +228,7 @@ public class XzLog extends BaseModel implements Serializable {
 	
 	public static enum XzLogEnum{
 		id("ID","主键ID"),
-		logType("LOG_TYPE","日志类型（专案组，任务，反馈等）"),
+		logType("LOG_TYPE","日志类型（专案组，任务等）"),
 		content("CONTENT","日志内容"),
 		logLevel("LOG_LEVEL","日志级别"),
 		creator("CREATOR","创建人"),

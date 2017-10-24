@@ -3,18 +3,22 @@ package com.hisign.xingzhen.xz.service.impl;
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseMapper;
+import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bif.BaseServiceImpl;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.xz.api.entity.Cb;
 import com.hisign.xingzhen.xz.api.entity.Task;
+import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.CbModel;
 import com.hisign.xingzhen.xz.api.service.CbService;
 import com.hisign.xingzhen.xz.mapper.CbMapper;
 import com.hisign.xingzhen.xz.mapper.TaskMapper;
+import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +40,8 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 	protected CbMapper cbMapper;
     @Autowired
     protected TaskMapper taskMapper;
+    @Autowired
+    protected XzLogMapper xzLogMapper;
 	
 	@Override
 	protected BaseMapper<Cb,CbModel, String> initMapper() {
@@ -87,17 +93,33 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 	}
 
      @Override
-     public JsonResult addCb(Cb cb) {
-         Date now=new Date();
-         cb.setId(UUID.randomUUID().toString());
-         cb.setCreatetime(now);
-         cb.setLastupdatetime(now);
-         cb.setDeleteflag(Constants.DELETE_FALSE);
-         Task task=new Task();
-         task.setId(cb.getTaskid());
-         task.setCbzt("1");
-         task.setLastupdatetime(now);
-         taskMapper.updateNotNull(task);
-         return super.addNotNull(cb);
+     @Transactional
+     public JsonResult addCb(String id,String userId,String deparmentcode) {
+         try {
+             Cb cb=new Cb();
+             Date now=new Date();
+             cb.setId(UUID.randomUUID().toString());
+             cb.setCbTime(now);
+             cb.setTaskid(id);
+             cb.setCreator(userId);
+             cb.setCreatetime(now);
+             cb.setDeparmentcode(deparmentcode);
+             cb.setLastupdatetime(now);
+             cb.setDeleteflag(Constants.DELETE_FALSE);
+             JsonResult result =  super.addNotNull(cb);
+
+             Task task=new Task();
+             task.setId(cb.getTaskid());
+             task.setCbzt(Constants.YES);
+             task.setLastupdatetime(now);
+             taskMapper.updateNotNull(task);
+
+             String content="任务催办（ID=" + cb.getId() + ",TASKID="+ cb.getTaskid()+ "）";
+             XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , cb.getCreator(), now, cb.getId());
+             xzLogMapper.insertNotNull(xzLog);
+             return result;
+         }catch (Exception e) {
+             throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT,e);
+         }
      }
  }
