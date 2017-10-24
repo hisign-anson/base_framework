@@ -1,6 +1,7 @@
 package com.hisign.xingzhen.sys.api.service;
 
 import com.hisign.xingzhen.common.model.JsonResult;
+import com.hisign.xingzhen.sys.api.model.SysOrgInfo;
 import com.hisign.xingzhen.sys.api.model.SysUser;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -176,4 +177,5 @@ public interface SysUserService {
     @RequestMapping(value = "/getReceiverList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public List<Map<String, Object>> getReceiverList(@RequestBody Map<String, List<String>> param);
+
 }

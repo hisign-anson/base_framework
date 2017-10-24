@@ -1,6 +1,7 @@
 package com.hisign.xingzhen.sys.api.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.hisign.xingzhen.common.model.BaseModel;
 import io.swagger.annotations.ApiModel;
@@ -64,6 +65,11 @@ public class SysOrgInfo extends BaseModel{
     private String modifyPid;
 
     private Date modifyTime;
+
+    private long userNum;//用户人数
+
+    private List<SysUserInfo> userInfoList;
+
     public SysOrgInfo() {
 	}
 	public SysOrgInfo(String orgCode) {
@@ -262,5 +268,19 @@ public class SysOrgInfo extends BaseModel{
 		this.superName = superName;
 	}
 
-    
+	public List<SysUserInfo> getUserInfoList() {
+		return userInfoList;
+	}
+
+	public void setUserInfoList(List<SysUserInfo> userInfoList) {
+		this.userInfoList = userInfoList;
+	}
+
+	public long getUserNum() {
+		return userNum;
+	}
+
+	public void setUserNum(long userNum) {
+		this.userNum = userNum;
+	}
 }

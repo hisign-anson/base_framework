@@ -5,7 +5,9 @@ import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.Md5Helper;
 import com.hisign.xingzhen.common.util.StringUtils;
+import com.hisign.xingzhen.sys.api.model.LoginResponse;
 import com.hisign.xingzhen.sys.api.model.SysUser;
+import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.sys.api.service.SysLogService;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.sys.controller.LoginController;
@@ -26,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(description = "App登录")
 @RestController
-@RequestMapping("sys")
+@RequestMapping("app")
 public class AppLoginRest {
 
     private static final Logger logger = LoggerFactory.getLogger(AppLoginRest.class);
@@ -37,7 +39,7 @@ public class AppLoginRest {
     @Resource
     private SysLogService sysLogService;
 
-    @ApiOperation(value = "用户登录",httpMethod ="POST",response = JsonResult.class)
+    @ApiOperation(value = "用户登录",httpMethod ="POST",response = SysUserInfo.class)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public JsonResult login(@RequestParam String userName, @RequestParam String userPwd) {
         JsonResult result = new JsonResult();
@@ -46,6 +48,7 @@ public class AppLoginRest {
         String msg = "";
         String username = userName;
         String password = userPwd;
+
         try {
             logger.info("对用户[{}]进行登录验证..验证开始", username);
             SysUser sysUser = sysUserService.findSysUserByUserName(username);
@@ -68,6 +71,18 @@ public class AppLoginRest {
                 }else{
                     loginFlag = true;
                     String tokenId = sysUserService.addUserToken(sysUser.getId());//添加token和用户id的关联
+                    //获取userinfo
+                    SysUserInfo userInfo = sysUserService.getUserInfoByUserId(sysUser.getUserId());
+
+                    LoginResponse loginResponse = new LoginResponse();
+                    loginResponse.setAccount(sysUser.getUserName());
+                    loginResponse.setUserId(sysUser.getUserId());
+                    loginResponse.setToken(tokenId);
+                    loginResponse.setUserInfo(userInfo);
+                    loginResponse.setSysCode(userInfo.getOrgId());
+                    loginResponse.setCreateDate(sysUser.getCreateDate());
+                    result.setFlag(1);
+                    result.setData(loginResponse);
 
                     sysUser.setIpAddress(IpUtil.getRemotIpAddr(BaseController.getRequest()));
                     sysLogService.insertLogUserInfo(sysUser);

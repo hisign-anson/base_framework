@@ -46,4 +46,8 @@ public interface SysOrgInfoService {
 	@ResponseBody
 	public List<SysOrgInfo> getOrgIn(@RequestBody List<String> orgIds);
 
+	@RequestMapping(value = "/getTreeListBySuperId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public JsonResult getTreeListBySuperId(String superId);
+
 }

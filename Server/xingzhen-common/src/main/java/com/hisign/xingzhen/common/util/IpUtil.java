@@ -10,7 +10,7 @@ import java.util.Enumeration;
 public class IpUtil {
 
 	/**
-	 * @category 获取本机IP
+	 *  获取本机IP
 	 */
 	public static String getIp() {
 
@@ -26,7 +26,7 @@ public class IpUtil {
 	}
 
 	/**
-	 * @category 获取本机IP 如果没有配置外网IP 就用本地IP
+	 *  获取本机IP 如果没有配置外网IP 就用本地IP
 	 * @return 本机IP
 	 * @throws SocketException
 	 */

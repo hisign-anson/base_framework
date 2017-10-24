@@ -237,4 +237,14 @@
     </trim>
     where CID = #{cid,jdbcType=VARCHAR}
   </update>
+
+    <!--根据SuperId获取该组织下所有人数-->
+  <select id="findAllCountBySuperId" parameterType="java.lang.String" resultType="java.lang.Long">
+      SELECT count(1) FROM SYS_USER_INFO WHERE STATUS=0 AND (ORG_ID IN (
+          SELECT
+              S.ORG_ID
+          FROM SYS_ORGANIZATION S WHERE s.STATUS=0 START WITH S.ORG_ID=#{superId,jdbcType=VARCHAR} CONNECT BY PRIOR ORG_ID
+                                                                                                              = SUPER_ID
+      ) OR ORG_ID=#{superId,jdbcType=VARCHAR})
+  </select>
 </mapper>

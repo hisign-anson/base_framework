@@ -59,6 +59,19 @@ public class OrgInfoController {
         }
     }
 
+    @ApiOperation(value = "获取单位信息",httpMethod ="GET",response = SysOrgInfo.class)
+    @RequestMapping(value ="/getTreeListBySuperId",method = RequestMethod.GET,produces={"application/json; charset=UTF-8"})
+    @ResponseBody
+    public JsonResult getTreeListBySuperId(@RequestParam(required = false,defaultValue = "-1") String superId) {
+        try {
+            JsonResult result = sysOrgInfoService.getTreeListBySuperId(superId);
+            return result;
+        } catch (Exception e) {
+            logger.error("获取单位信息失败", e);
+            return JsonResultUtil.error("获取单位信息失败");
+        }
+    }
+
     @ApiOperation(value = "添加单位信息",httpMethod ="POST",response = SysOrgInfo.class)
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody

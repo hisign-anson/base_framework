@@ -3,6 +3,7 @@ package com.hisign.xingzhen.sys.mapper;
 import java.util.List;
 
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import org.apache.ibatis.annotations.Param;
 
 public interface SysUserInfoMapper {
     int deleteByKey(String userId);
@@ -12,4 +13,7 @@ public interface SysUserInfoMapper {
     int queryCountByCondition(SysUserInfo userInfo);
     int update(SysUserInfo userInfo);
     int updateNotNull(SysUserInfo userInfo);
+
+    //根据SuperId获取该组织下所有人数
+    long findAllCountBySuperId(@Param("superId") String superId);
 }

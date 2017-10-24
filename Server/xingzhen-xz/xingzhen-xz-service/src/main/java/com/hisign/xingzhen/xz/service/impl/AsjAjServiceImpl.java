@@ -1,10 +1,13 @@
 package com.hisign.xingzhen.xz.service.impl;
 
 import com.hisign.xingzhen.xz.api.model.AsjAjModel;
+import com.hisign.xingzhen.xz.api.param.AsjAjParam;
 import com.hisign.xingzhen.xz.mapper.AsjAjMapper;
 import com.hisign.xingzhen.xz.api.entity.AsjAj;
 import com.hisign.xingzhen.xz.api.service.AsjAjService;
 import java.util.List;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +79,10 @@ public class AsjAjServiceImpl extends BaseServiceImpl<AsjAj,AsjAjModel, String> 
 	}
 
 	 @Override
-	 public JsonResult getAjGroupPage(AsjAj aj) {
+	 public JsonResult getAjGroupPage(AsjAjParam param) {
+		 AsjAj aj = new AsjAj();
+		 BeanUtils.copyProperties(param,aj);
+
 		 List<AsjAjModel> list = asjAjMapper.findAjGroupPage(aj);
 		 long count = asjAjMapper.findAjGroupPageCount(aj);
 		 return JsonResultUtil.success(count,list);

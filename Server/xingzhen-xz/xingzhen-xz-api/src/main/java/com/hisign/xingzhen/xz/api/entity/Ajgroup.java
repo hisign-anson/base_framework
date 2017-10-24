@@ -19,7 +19,7 @@ public class Ajgroup extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@PK(value="ID")
-	@ApiModelProperty(value = "案件关联ID")
+	@ApiModelProperty(value = "案件关联ID",hidden = true)
 	private String id; //案件关联ID
 
 	@Column(value="AJID")
@@ -39,7 +39,7 @@ public class Ajgroup extends BaseModel implements Serializable {
 	private String creator; //创建人
 
 	@Column(value="CREATETIME")
-	@ApiModelProperty(value = "创建时间")
+	@ApiModelProperty(value = "创建时间",hidden = true)
 	private Date createtime; //创建时间
 
 	@Column(value="DEPARMENTCODE")
@@ -47,11 +47,11 @@ public class Ajgroup extends BaseModel implements Serializable {
 	private String deparmentcode; //创建人单位
 
 	@Column(value="LASTUPDATETIME")
-	@ApiModelProperty(value = "修改时间")
+	@ApiModelProperty(value = "修改时间",hidden = true)
 	private Date lastupdatetime; //修改时间
 
 	@Column(value="DELETEFLAG")
-	@ApiModelProperty(value = "删除标识")
+	@ApiModelProperty(value = "删除标识",hidden = true)
 	private String deleteflag; //删除标识
 	
     

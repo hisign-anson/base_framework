@@ -79,4 +79,11 @@ public class SysOrgInfoRest implements SysOrgInfoService {
     public List<SysOrgInfo> getOrgIn(@RequestBody List<String> orgIds) {
         return sysOrgInfoService.getOrgIn(orgIds);
     }
+
+    @Override
+    @RequestMapping(value = "/getTreeListBySuperId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonResult getTreeListBySuperId(@RequestParam String superId) {
+        return sysOrgInfoService.getTreeListBySuperId(superId);
+    }
 }

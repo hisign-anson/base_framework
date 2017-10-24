@@ -1,6 +1,7 @@
 package com.hisign.xingzhen.sys.rest;
 
 import com.hisign.xingzhen.common.model.JsonResult;
+import com.hisign.xingzhen.sys.api.model.SysOrgInfo;
 import com.hisign.xingzhen.sys.api.model.SysUser;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
@@ -172,4 +173,5 @@ public class SysUserRest implements SysUserService {
     public List<Map<String, Object>> getReceiverList(@RequestBody Map<String, List<String>> param) {
         return sysUserService.getReceiverList(param);
     }
+
 }
