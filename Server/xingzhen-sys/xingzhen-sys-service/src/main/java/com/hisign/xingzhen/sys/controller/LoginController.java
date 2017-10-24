@@ -28,6 +28,7 @@ import java.util.Map;
  */
 @Api(description = "登录")
 @RestController
+@RequestMapping("sys")
 public class LoginController {
 
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
