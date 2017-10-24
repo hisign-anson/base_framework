@@ -36,4 +36,44 @@ public class TaskFkAddParam implements Serializable {
 
     @ApiModelProperty(value = "反馈附件信息")
     private List<TaskfkFileAddParam> taskfkFileAddParams;
+
+    public String getTaskid() {
+        return taskid;
+    }
+
+    public void setTaskid(String taskid) {
+        this.taskid = taskid;
+    }
+
+    public String getFkxs() {
+        return fkxs;
+    }
+
+    public void setFkxs(String fkxs) {
+        this.fkxs = fkxs;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public String getDeparmentcode() {
+        return deparmentcode;
+    }
+
+    public void setDeparmentcode(String deparmentcode) {
+        this.deparmentcode = deparmentcode;
+    }
+
+    public List<TaskfkFileAddParam> getTaskfkFileAddParams() {
+        return taskfkFileAddParams;
+    }
+
+    public void setTaskfkFileAddParams(List<TaskfkFileAddParam> taskfkFileAddParams) {
+        this.taskfkFileAddParams = taskfkFileAddParams;
+    }
 }

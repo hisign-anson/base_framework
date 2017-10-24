@@ -16,6 +16,7 @@ import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
+import com.hisign.xingzhen.xz.api.model.TaskModel;
 import com.hisign.xingzhen.xz.api.param.TaskFkAddParam;
 import com.hisign.xingzhen.xz.api.param.TaskfkFileAddParam;
 import com.hisign.xingzhen.xz.api.service.TaskFkService;
@@ -106,10 +107,16 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
      @Transactional
      public JsonResult addTaskFk(TaskFkAddParam taskFkAddParam) {
          try {
+             TaskModel taskModel=taskMapper.findById(taskFkAddParam.getTaskid());
+             if(taskModel==null || Constants.DELETE_TRUE.equals(taskModel.getDeleteflag())){
+                 return error("该任务不存在");
+             }
              TaskFk taskFk=new TaskFk();
              BeanUtils.copyProperties(taskFkAddParam,taskFk);
              Date now=new Date();
              taskFk.setId(UUID.randomUUID().toString());
+             taskFk.setGroupid(taskModel.getGroupid());
+             taskFk.setPgroupid(taskModel.getPgroupid());
              taskFk.setFkTime(now);
              taskFk.setFkr(taskFk.getCreator());
              taskFk.setCreatetime(now);
@@ -142,6 +149,5 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
          }  catch (Exception e) {
              throw new BusinessException(BaseEnum.BusinessExceptionEnum.UPDATE,e);
          }
-
      }
  }

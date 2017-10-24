@@ -30,6 +30,14 @@ public class TaskFk extends BaseModel implements Serializable {
     @ApiModelProperty(value = "任务ID")
     private String taskid; //任务ID
 
+    @Column(value="GROUPID")
+    @ApiModelProperty(value = "专案组ID")
+    private String groupid; //专案组ID
+
+    @Column(value="PGROUPID")
+    @ApiModelProperty(value = "父专案组ID")
+    private String pgroupid; //父专案组ID
+
     @Column(value="FKXS")
     @ApiModelProperty(value = "反馈线索")
     private String fkxs; //反馈线索
@@ -107,6 +115,30 @@ public class TaskFk extends BaseModel implements Serializable {
      */
     public void setTaskid(String taskid){
         this.taskid = taskid;
+    }
+    /**
+     * @return GROUPID 专案组ID
+     */
+    public String getGroupid(){
+        return this.groupid;
+    }
+    /**
+     * @param GROUPID 专案组ID
+     */
+    public void setGroupid(String groupid){
+        this.groupid = groupid;
+    }
+    /**
+     * @return PGROUPID 父专案组ID
+     */
+    public String getPgroupid(){
+        return this.pgroupid;
+    }
+    /**
+     * @param PGROUPID 父专案组ID
+     */
+    public void setPgroupid(String pgroupid){
+        this.pgroupid = pgroupid;
     }
     /**
      * @return FKXS 反馈线索
@@ -259,6 +291,8 @@ public class TaskFk extends BaseModel implements Serializable {
         builder.append("TaskFk [")
                 .append("id=").append(this.getId())
                 .append(",taskid=").append(this.getTaskid())
+                .append(",groupid=").append(this.getGroupid())
+                .append(",pgroupid=").append(this.getPgroupid())
                 .append(",fkxs=").append(this.getFkxs())
                 .append(",fkr=").append(this.getFkr())
                 .append(",fkTime=").append(this.getFkTime())
@@ -277,6 +311,8 @@ public class TaskFk extends BaseModel implements Serializable {
     public static enum TaskFkEnum{
         id("ID","任务反馈ID"),
         taskid("TASKID","任务ID"),
+        groupid("GROUPID","专案组ID"),
+        pgroupid("PGROUPID","父专案组ID"),
         fkxs("FKXS","反馈线索"),
         fkr("FKR","反馈人"),
         fkTime("FK_TIME","反馈时间"),
