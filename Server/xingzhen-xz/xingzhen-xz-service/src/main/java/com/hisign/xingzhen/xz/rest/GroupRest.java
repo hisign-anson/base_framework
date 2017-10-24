@@ -49,17 +49,16 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
         group.setGroupname(groupName);
         return super.add(group);
     }
-    @Override
     @ApiOperation(value = "添加专案组",httpMethod ="POST",response = JsonResult.class)
-    @RequestMapping(value = "/getGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addNotNull(Group entity) throws BusinessException {
-        if(StringUtils.isEmpty(entity.getCreator()) || StringUtils.isEmpty(entity.getCreatename())){
+    @RequestMapping(value = "/addGroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult addGroup(@RequestBody Group group) throws BusinessException {
+        if(StringUtils.isEmpty(group.getCreator()) || StringUtils.isEmpty(group.getCreatename())){
             return JsonResultUtil.error("添加记录失败,当前登陆用户不能为空");
         }
-        if(StringUtils.isEmpty(entity.getDeparmentcode())){
+        if(StringUtils.isEmpty(group.getDeparmentcode())){
             return JsonResultUtil.error("添加记录失败,当前登陆用户单位不能为空");
         }
-        return baseService.addNotNull(entity);
+        return baseService.addNotNull(group);
     }
 
     /**
