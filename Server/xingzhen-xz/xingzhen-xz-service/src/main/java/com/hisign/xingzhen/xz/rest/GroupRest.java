@@ -6,6 +6,7 @@ import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.butils.JsonResultUtil;
+import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.service.GroupService;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.concurrent.locks.Condition;
 
 
 /**
@@ -43,7 +43,9 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
     @ApiOperation(value = "添加专案组",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/getGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addNotNull(Group entity) throws BusinessException {
-
+        if(StringUtils.isEmpty(entity.getCreator()) || StringUtils.isEmpty(entity.getCreatename())){
+            return JsonResultUtil.error("添加记录失败,当前登陆用户不能为空");
+        }
         return baseService.addNotNull(entity);
     }
 

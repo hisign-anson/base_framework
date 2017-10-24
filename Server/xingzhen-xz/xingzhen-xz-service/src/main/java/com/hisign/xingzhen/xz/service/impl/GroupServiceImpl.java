@@ -63,14 +63,13 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
     @Override
     public JsonResult addNotNull(Group entity) throws BusinessException {
-        //获取父专案组
-        Group pgroup = new Group();
-        pgroup.setPgroupid(entity.getPgroupid());
-        GroupModel pgroupModel = getByEntity(pgroup);
-
         //如果为空或者父专案组有父id
-        if (pgroupModel==null || StringUtils.isEmpty(pgroupModel.getPgroupid())){
-            return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+        if (StringUtils.isEmpty(entity.getPgroupid())){
+            //获取父专案组
+            Group pgroup = new Group();
+            pgroup.setPgroupid(entity.getPgroupid());
+            GroupModel pgroupModel = getByEntity(pgroup);
+            if(pgroup==null) return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
         }
 
         //保存专案组

@@ -11,6 +11,7 @@ import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
+import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
@@ -107,6 +108,9 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
      @Transactional
      public JsonResult addTaskFk(TaskFkAddParam taskFkAddParam) {
          try {
+             if(StringUtils.isEmpty(taskFkAddParam.getCreator())){
+                 return error("反馈任务失败,当前登陆用户不能为空");
+             }
              TaskModel taskModel=taskMapper.findById(taskFkAddParam.getTaskid());
              if(taskModel==null || Constants.DELETE_TRUE.equals(taskModel.getDeleteflag())){
                  return error("该任务不存在");

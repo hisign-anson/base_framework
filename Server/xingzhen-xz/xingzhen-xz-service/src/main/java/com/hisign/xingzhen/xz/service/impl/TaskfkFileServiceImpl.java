@@ -12,6 +12,7 @@ import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.FileUtils;
 import com.hisign.xingzhen.common.util.IpUtil;
+import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
@@ -92,6 +93,9 @@ public class TaskfkFileServiceImpl extends BaseServiceImpl<TaskfkFile,TaskfkFile
 
      @Override
      public JsonResult downloadTaskfkFile(String taskfkId, String userId) {
+         if(StringUtils.isEmpty(userId)){
+             return error("下载附件失败,当前登陆用户不能为空");
+         }
          TaskfkFile file=new TaskfkFile();
          file.setTaskfkId(taskfkId);
          List<TaskfkFileModel> taskfkFiles=taskfkFileMapper.findListByEntity(file);

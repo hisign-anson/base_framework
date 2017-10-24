@@ -11,6 +11,7 @@ import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
+import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Cb;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
@@ -96,6 +97,9 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
      @Transactional
      public JsonResult addCb(String id,String userId,String deparmentcode) {
          try {
+             if(StringUtils.isEmpty(userId)){
+                 return error("任务催办失败,当前登陆用户不能为空");
+             }
              Cb cb=new Cb();
              Date now=new Date();
              cb.setId(UUID.randomUUID().toString());

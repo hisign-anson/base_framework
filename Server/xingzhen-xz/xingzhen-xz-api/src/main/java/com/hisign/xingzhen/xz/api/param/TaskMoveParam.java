@@ -23,6 +23,9 @@ public class TaskMoveParam implements Serializable {
     @ApiModelProperty(value = "创建人",required = true)
     private String creator; //创建人
 
+    @ApiModelProperty(value = "创建人姓名",required = true)
+    private String createname; //创建人
+
     @ApiModelProperty(value = "创建人单位",required = true)
     private String deparmentcode; //创建人单位
 
@@ -48,6 +51,14 @@ public class TaskMoveParam implements Serializable {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public String getCreatename() {
+        return createname;
+    }
+
+    public void setCreatename(String createname) {
+        this.createname = createname;
     }
 
     public String getDeparmentcode() {

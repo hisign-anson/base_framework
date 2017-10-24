@@ -30,11 +30,17 @@ public class TaskAddParam implements Serializable {
     @ApiModelProperty(value = "接收人",required = true)
     private String jsr; //接收人
 
+    @ApiModelProperty(value = "接收人姓名",required = true)
+    private String jsrname; //接收人
+
     @ApiModelProperty(value = "反馈截止时间",required = true)
     private Date fkjzTime; //反馈截止时间
 
     @ApiModelProperty(value = "创建人",required = true)
     private String creator; //创建人
+
+    @ApiModelProperty(value = "创建人姓名",required = true)
+    private String createname; //创建人
 
     @ApiModelProperty(value = "创建人单位",required = true)
     private String deparmentcode; //创建人单位
@@ -47,10 +53,6 @@ public class TaskAddParam implements Serializable {
 
     @ApiModelProperty(value = "反馈ID")
     private String fkid; //反馈ID
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getTaskName() {
         return taskName;
@@ -92,6 +94,14 @@ public class TaskAddParam implements Serializable {
         this.jsr = jsr;
     }
 
+    public String getJsrname() {
+        return jsrname;
+    }
+
+    public void setJsrname(String jsrname) {
+        this.jsrname = jsrname;
+    }
+
     public Date getFkjzTime() {
         return fkjzTime;
     }
@@ -106,6 +116,14 @@ public class TaskAddParam implements Serializable {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public String getCreatename() {
+        return createname;
+    }
+
+    public void setCreatename(String createname) {
+        this.createname = createname;
     }
 
     public String getDeparmentcode() {
