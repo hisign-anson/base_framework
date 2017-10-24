@@ -94,11 +94,16 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 
      @Override
      @Transactional
-     public JsonResult addCb(Cb cb) {
+     public JsonResult addCb(String id,String userId,String deparmentcode) {
          try {
+             Cb cb=new Cb();
              Date now=new Date();
              cb.setId(UUID.randomUUID().toString());
+             cb.setCbTime(now);
+             cb.setTaskid(id);
+             cb.setCreator(userId);
              cb.setCreatetime(now);
+             cb.setDeparmentcode(deparmentcode);
              cb.setLastupdatetime(now);
              cb.setDeleteflag(Constants.DELETE_FALSE);
              JsonResult result =  super.addNotNull(cb);

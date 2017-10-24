@@ -4,6 +4,7 @@ import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
+import com.hisign.xingzhen.xz.api.param.TaskFkAddParam;
 import com.hisign.xingzhen.xz.api.service.TaskFkService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,13 +38,13 @@ public class TaskFkRest extends BaseRest<TaskFk,TaskFkModel, String, TaskFkServi
 
     /**
      * 新增任务反馈
-     * @param taskFk
+     * @param taskFkAddParam
      * @return
      */
     @Override
     @ApiOperation(value = "新增任务反馈",httpMethod ="POST",response = String.class)
     @RequestMapping(value = "/addTaskFk", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addTaskFk(@ApiParam @RequestBody TaskFk taskFk) {
-        return baseService.addTaskFk(taskFk);
+    public JsonResult addTaskFk(@ApiParam @RequestBody TaskFkAddParam taskFkAddParam) {
+        return baseService.addTaskFk(taskFkAddParam);
     }
 }

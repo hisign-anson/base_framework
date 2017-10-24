@@ -11,6 +11,6 @@ import com.hisign.xingzhen.xz.api.model.CbModel;
  * @author 何建辉
  */
 public interface CbService extends BaseService<Cb,CbModel, String>{
-    public JsonResult addCb(Cb cb);
+    public JsonResult addCb(String id,String userId,String deparmentcode);
 
 }

@@ -5,14 +5,9 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.xz.api.entity.Cb;
 import com.hisign.xingzhen.xz.api.model.CbModel;
 import com.hisign.xingzhen.xz.api.service.CbService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -41,8 +36,13 @@ public class CbRest extends BaseRest<Cb, CbModel, String, CbService> implements 
      */
     @Override
     @ApiOperation(value = "催办任务",httpMethod ="POST",response = String.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="id",value = "任务id",required = true,dataType = "String"),
+            @ApiImplicitParam(name="userId",value = "当前用户id",required = true,dataType = "String"),
+            @ApiImplicitParam(name="deparmentcode",value = "当前用户机构",required = true,dataType = "String")
+    })
     @RequestMapping(value = "/addCb", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addCb(@ApiParam @RequestBody Cb cb) {
-        return baseService.addCb(cb);
+    public JsonResult addCb(@RequestParam String id,@RequestParam String userId,@RequestParam String deparmentcode) {
+        return baseService.addCb(id,userId,deparmentcode);
     }
 }

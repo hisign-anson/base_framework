@@ -4,6 +4,7 @@ import com.hisign.bfun.bannotation.Column;
 import com.hisign.bfun.bannotation.PK;
 import com.hisign.bfun.bannotation.Table;
 import com.hisign.xingzhen.common.model.BaseModel;
+import com.hisign.xingzhen.xz.api.param.TaskfkFileAddParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -75,7 +76,7 @@ public class TaskFk extends BaseModel implements Serializable {
 
     //-------------------------接受字段
     @ApiModelProperty(value = "反馈附件信息")
-    private List<TaskfkFile> taskfkFiles;
+    private List<TaskfkFileAddParam> taskfkFileAddParams;
     /**
      *默认空构造函数
      */
@@ -240,12 +241,12 @@ public class TaskFk extends BaseModel implements Serializable {
         this.deleteflag = deleteflag;
     }
 
-    public List<TaskfkFile> getTaskfkFiles() {
-        return taskfkFiles;
+    public List<TaskfkFileAddParam> getTaskfkFileAddParams() {
+        return taskfkFileAddParams;
     }
 
-    public void setTaskfkFiles(List<TaskfkFile> taskfkFiles) {
-        this.taskfkFiles = taskfkFiles;
+    public void setTaskfkFileAddParams(List<TaskfkFileAddParam> taskfkFileAddParams) {
+        this.taskfkFileAddParams = taskfkFileAddParams;
     }
 
     public static String getTbName() {

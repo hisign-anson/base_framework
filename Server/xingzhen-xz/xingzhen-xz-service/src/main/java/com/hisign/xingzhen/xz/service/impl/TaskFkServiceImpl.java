@@ -16,11 +16,14 @@ import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
+import com.hisign.xingzhen.xz.api.param.TaskFkAddParam;
+import com.hisign.xingzhen.xz.api.param.TaskfkFileAddParam;
 import com.hisign.xingzhen.xz.api.service.TaskFkService;
 import com.hisign.xingzhen.xz.mapper.TaskFkMapper;
 import com.hisign.xingzhen.xz.mapper.TaskMapper;
 import com.hisign.xingzhen.xz.mapper.TaskfkFileMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,11 +104,14 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
 
      @Override
      @Transactional
-     public JsonResult addTaskFk(TaskFk taskFk) {
+     public JsonResult addTaskFk(TaskFkAddParam taskFkAddParam) {
          try {
+             TaskFk taskFk=new TaskFk();
+             BeanUtils.copyProperties(taskFkAddParam,taskFk);
              Date now=new Date();
              taskFk.setId(UUID.randomUUID().toString());
              taskFk.setFkTime(now);
+             taskFk.setFkr(taskFk.getCreator());
              taskFk.setCreatetime(now);
              taskFk.setLastupdatetime(now);
              taskFk.setDeleteflag(Constants.DELETE_FALSE);
@@ -118,12 +124,14 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
              task.setLastupdatetime(now);
              taskMapper.updateNotNull(task);
 
-             if(taskFk.getTaskfkFiles()!=null){
-                 for(TaskfkFile file:taskFk.getTaskfkFiles()) {
-                     file.setId(UUID.randomUUID().toString());
-                     file.setCreatetime(now);
-                     file.setDeleteFlag(Constants.DELETE_FALSE);
-                     taskfkFileMapper.insertNotNull(file);
+             if(taskFk.getTaskfkFileAddParams()!=null){
+                 for(TaskfkFileAddParam file:taskFk.getTaskfkFileAddParams()) {
+                     TaskfkFile taskfkFile=new TaskfkFile();
+                     BeanUtils.copyProperties(file,taskfkFile);
+                     taskfkFile.setId(UUID.randomUUID().toString());
+                     taskfkFile.setCreatetime(now);
+                     taskfkFile.setDeleteFlag(Constants.DELETE_FALSE);
+                     taskfkFileMapper.insertNotNull(taskfkFile);
                  }
              }
 
