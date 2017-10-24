@@ -37,29 +37,4 @@ public class FileUtils {
         }
     }
 
-    /**
-     * 打包下载 zip
-     * @param fileName
-     * @param response
-     * @throws IOException
-     */
-    /*public void downloadZipFile(file, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ZipUtil zu = new ZipUtil();
-        zu.setComment("压缩文件");
-        String outputDir = "";
-        String zipFilename = request.getRealPath("/"+projectName+".zip");
-        List<String> filter = new ArrayList<String>();
-        if("packModule".equals(method)){
-            for(Entry<String,OutputModel> entry : omMap.entrySet()){
-                if(entry.getValue().getType()==InOutType.FILE){
-                    String f1 = entry.getValue().getOutput().replace("\\", "/").toLowerCase().replace(outputDir.replace("\\", "/").toLowerCase(), "");
-                    if(f1.startsWith("/")){
-                        f1= f1.substring(1);
-                    }
-                    filter.add(f1);
-                }
-            }
-        }
-        zu.zip(outputDir, zipFilename, filter);
-    }*/
 }

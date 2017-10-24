@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import java.net.URLDecoder;
@@ -23,7 +24,7 @@ import java.util.Map;
  * 系统字典控件控制器
  *
  */
-@Api(description="系统字典控件")
+@ApiIgnore
 @RequestMapping("/sys/dict")
 @RestController
 public class DictController {

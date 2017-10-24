@@ -1,11 +1,15 @@
 package com.hisign.xingzhen.common.model;
 
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import springfox.documentation.annotations.ApiIgnore;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-
+@ApiIgnore
 public class BaseModel implements Serializable {
 
     /**
@@ -13,28 +17,49 @@ public class BaseModel implements Serializable {
 	 */
 	private static final long serialVersionUID = -1006038627276588176L;
 
+	@ApiModelProperty(hidden = true)
 	private String rownum;
-   
+
+	@ApiModelProperty(hidden = true)
     private int begin = 0;
 
+	@ApiModelProperty(hidden = true)
     private int end = 0;
 
+	@ApiModelProperty(hidden = true)
     private String sortOrder; //desc
 
+	@ApiModelProperty(hidden = true)
     private String sortName;
+
+	@ApiModelProperty(hidden = true)
     private String key;
+
+	@ApiModelProperty(hidden = true)
     private String value;
-    
+
+	@ApiModelProperty(hidden = true)
     private Date startTime;
+
+	@ApiModelProperty(hidden = true)
     private Date endTime;
-    
+
+	@ApiModelProperty(hidden = true)
     private String orgId;
     /** 上级机构ID**/
+	@ApiModelProperty(hidden = true)
     private String superId;
+
+	@ApiModelProperty(hidden = true)
     private Integer orgLevel;
+
+	@ApiModelProperty(hidden = true)
     private String userId;
+
+	@ApiModelProperty(hidden = true)
     private String trueName;
-    
+
+	@ApiModelProperty(hidden = true)
     private List<String> orgIds;
 
 

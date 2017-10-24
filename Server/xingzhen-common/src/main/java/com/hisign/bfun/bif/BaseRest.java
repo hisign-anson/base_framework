@@ -71,7 +71,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
 
     @Override
     @ApiOperation(value = "自定义更新",httpMethod ="PUT",response = JsonResult.class)
-    @RequestMapping(value = "/updateParams", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/updateParams", method = RequestMethod.PUT, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult update(@RequestBody UpdateParams params) throws BusinessException {
         return baseService.update(params);
@@ -79,9 +79,9 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
 
     @Override
     @ApiOperation(value = "根据id删除",httpMethod ="DELETE",response = JsonResult.class)
-    @RequestMapping(value = "/delById", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonResult delById(@RequestParam(value="id") PK id) throws BusinessException {
+    public JsonResult delById(@PathVariable(value="id") PK id) throws BusinessException {
         return baseService.delById(id);
     }
 

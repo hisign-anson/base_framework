@@ -19,7 +19,7 @@ public class GroupBackup extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@PK(value="ID")
-	@ApiModelProperty(value = "归档记录ID")
+	@ApiModelProperty(value = "归档记录ID",hidden = true)
 	private String id; //归档记录ID
 
 	@Column(value="GROUPID")
@@ -51,7 +51,6 @@ public class GroupBackup extends BaseModel implements Serializable {
 	private Date lastupdatetime; //修改时间
 
 	@Column(value="DELETEFLAG")
-	@ApiModelProperty(value = "删除标识")
 	private String deleteflag; //删除标识
 	
     

@@ -1,6 +1,8 @@
 package com.hisign.xingzhen.xz.rest;
 
+import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseRest;
+import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.xz.api.entity.Ajgroup;
 import com.hisign.xingzhen.xz.api.model.AjgroupModel;
 import com.hisign.xingzhen.xz.api.service.AjgroupService;

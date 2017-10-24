@@ -8,9 +8,11 @@ import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.AsjAj;
 import com.hisign.xingzhen.xz.api.entity.AsjAj.AsjAjEnum;
 import com.hisign.xingzhen.xz.api.model.AsjAjModel;
+import com.hisign.xingzhen.xz.api.param.AsjAjParam;
 import com.hisign.xingzhen.xz.api.service.AsjAjService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +44,10 @@ public class AsjAjRest extends BaseRest<AsjAj,AsjAjModel, String, AsjAjService> 
      */
     @ApiOperation(value = "所有案件查询分页",httpMethod ="POST",response = AsjAjModel.class)
     @RequestMapping(value = "/getAjPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getAjPage(@RequestBody AsjAj aj) {
+    public JsonResult getAjPage(@RequestBody AsjAjParam param) {
+        AsjAj aj = new AsjAj();
+        BeanUtils.copyProperties(param,aj);
+
         Conditions conditions = new Conditions(AsjAj.class);
         Conditions.Criteria criteria = conditions.createCriteria();
         //案件编号

@@ -33,7 +33,7 @@ public class OrgInfoController {
             return JsonResultUtil.error("获取单位信息失败");
         }
     }
-    @ApiOperation(value = "获取单位信息",httpMethod ="POST",response = SysOrgInfo.class)
+    @ApiOperation(value = "获取单位信息",httpMethod ="GET",response = SysOrgInfo.class)
     @RequestMapping(value ="/getOrgInfo",method = RequestMethod.GET,produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public JsonResult getOrgInfo(@RequestParam String orgId) {
@@ -46,10 +46,10 @@ public class OrgInfoController {
         }
     }
 
-    @ApiOperation(value = "获取单位信息",httpMethod ="POST",response = SysOrgInfo.class)
+    @ApiOperation(value = "获取单位信息",httpMethod ="GET",response = SysOrgInfo.class)
     @RequestMapping(value ="/getOrgTreeListBySuperId",method = RequestMethod.GET,produces={"application/json; charset=UTF-8"})
     @ResponseBody
-    public JsonResult getOrgTreeListBySuperId(@RequestParam String superId) {
+    public JsonResult getOrgTreeListBySuperId(@RequestParam(required = false,defaultValue = "1212121212121") String superId) {
         try {
         	List<SysOrgInfo> list= sysOrgInfoService.getOrgTreeListBySuperId(superId);
             return JsonResultUtil.success(list);
@@ -83,7 +83,7 @@ public class OrgInfoController {
         }
     }
 
-    @ApiOperation(value = "删除单位信息",httpMethod ="POST",response = SysOrgInfo.class)
+    @ApiOperation(value = "删除单位信息",httpMethod ="DELETE",response = SysOrgInfo.class)
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult delete(@PathVariable("id") String id) {
