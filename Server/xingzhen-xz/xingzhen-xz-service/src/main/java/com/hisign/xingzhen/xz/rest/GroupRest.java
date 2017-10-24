@@ -46,6 +46,9 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
         if(StringUtils.isEmpty(entity.getCreator()) || StringUtils.isEmpty(entity.getCreatename())){
             return JsonResultUtil.error("添加记录失败,当前登陆用户不能为空");
         }
+        if(StringUtils.isEmpty(entity.getDeparmentcode())){
+            return JsonResultUtil.error("添加记录失败,当前登陆用户单位不能为空");
+        }
         return baseService.addNotNull(entity);
     }
 

@@ -11,7 +11,6 @@ import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
-import com.hisign.xingzhen.common.util.SerialNumGenerater;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
@@ -21,10 +20,13 @@ import com.hisign.xingzhen.xz.mapper.AjgroupMapper;
 import com.hisign.xingzhen.xz.mapper.AsjAjMapper;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -50,6 +52,8 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     @Autowired
     private XzLogMapper xzLogMapper;
 
+    Logger log = LoggerFactory.getLogger(GroupServiceImpl.class);
+
     @Override
     protected BaseMapper<Group, GroupModel, String> initMapper() {
         return groupMapper;
@@ -63,36 +67,35 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
     @Override
     public JsonResult addNotNull(Group entity) throws BusinessException {
-        //如果为空或者父专案组有父id
-        if (StringUtils.isEmpty(entity.getPgroupid())){
+        if (!StringUtils.isEmpty(entity.getPgroupid())){
             //获取父专案组
             Group pgroup = new Group();
             pgroup.setPgroupid(entity.getPgroupid());
             GroupModel pgroupModel = getByEntity(pgroup);
-            if(pgroup==null) return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+            if(pgroupModel==null) {
+                return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+            }
         }
-
+        Date now=new Date();
         //保存专案组
         entity.setId(UUID.randomUUID().toString());
-        entity.setCreatetime(new Date());
+        entity.setGroupnum(createGroupNum(entity.getDeparmentcode()));
+        entity.setCreatetime(now);
+        entity.setLastupdatetime(now);
         entity.setDeleteflag(Constants.DELETE_FALSE);
-        entity.setLastupdatetime(new Date());
         JsonResult result = super.addNotNull(entity);
-
-        try {
-            if (result.getFlag()==1){
+        if (result.getFlag()==1){
+            try {
                 String content = "专案组新增(ID:"+entity.getId()+")";
                 if (StringUtils.isNotBlank(entity.getPgroupid())){
                     content = content.replace("新增","组内建组");
                 }
                 //保存操作日志
-                XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP.toString(),content , entity.getCreator(), entity.getCreatetime(), entity.getId());
-                xzLogMapper.insertNotNull(xzLog);
+                XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP,content , entity.getCreator(), now, entity.getId());
+                xzLogMapper.insertNotNull(xzLog);  } catch (Exception e) {
+                log.error(e.getMessage());
             }
-        } catch (Exception e) {
-
         }
-
         return result;
     }
 
@@ -140,10 +143,18 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         return JsonResultUtil.success();
     }
 
-    private String createGroupNo(String orgId) {
-        String maxNo = groupMapper.findMaxNo();
-        String nextNumber = SerialNumGenerater.getInstance().getNextNumber(orgId,maxNo, 4);
-        return "ZAZ" + nextNumber;
+    private synchronized String createGroupNum(String deparmentcode) {
+        String maxNo = groupMapper.findMaxNo(deparmentcode);
+        String nextNumber;
+        if(StringUtils.isEmpty(maxNo)){
+            nextNumber="00000";
+        }  else{
+            nextNumber=String.valueOf(Integer.parseInt(maxNo)+1);
+            while (nextNumber.length()<6){
+                nextNumber="0"+nextNumber;
+            }
+        }
+        return "ZAZ" + deparmentcode+new SimpleDateFormat("yyyy").format(new Date())+nextNumber;
     }
 
     @Override

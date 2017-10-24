@@ -524,13 +524,14 @@
         MAX(id)
         FROM t_group
     </select>
-    <select id="findMaxNo" resultType="java.lang.String">
-        SELECT substr(GROUPNUM, 3) AS GROUPNUM
-        FROM (SELECT GROUPNUM
-              FROM t_group
-              WHERE GROUPNUM IS NOT NULL AND SUBSTR(GROUPNUM, 4, 8) = TO_CHAR(SYSDATE, 'YYYYMMDD')
-              ORDER BY CREATETIME DESC) s
-        WHERE ROWNUM = 1
+
+    <select id="findMaxNo" resultType="java.lang.String" resultMap="java.lang.String" >
+         SELECT substr(GROUPNUM,19) as TASK_NO FROM (
+            SELECT GROUPNUM FROM t_group t
+            WHERE GROUPNUM is not NULL AND SUBSTR (TASK_NO, 15,4)=TO_CHAR(SYSDATE,'YYYY')
+            AND  SUBSTR (TASK_NO, 3,12)=#{deparmentcode,jdbcType=VARCHAR}
+            ORDER BY SUBSTR (TASK_NO, 19) DESC
+        )  	where ROWNUM=1
     </select>
 
     <select id="findGroupByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Group" resultMap="BaseResultMap">

@@ -203,6 +203,18 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
     @Override
     public JsonResult addTask(TaskAddParam taskAddParam) {
+        if(!StringUtils.isEmpty(taskAddParam.getBcrwid())){
+            TaskModel t=super.getById(taskAddParam.getBcrwid());
+            if(t==null){
+                return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+            }
+        }
+        if(!StringUtils.isEmpty(taskAddParam.getFkid())){
+            TaskFkModel t=taskFkMapper.findById(taskAddParam.getFkid());
+            if(t==null){
+                return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+            }
+        }
         Task task=new Task();
         BeanUtils.copyProperties(taskAddParam,task);
         GroupModel group=groupMapper.findById(task.getGroupid());

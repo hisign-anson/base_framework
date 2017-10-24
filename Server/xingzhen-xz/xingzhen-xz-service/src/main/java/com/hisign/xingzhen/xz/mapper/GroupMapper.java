@@ -20,7 +20,7 @@ public interface GroupMapper extends BaseMapper<Group,GroupModel, String> {
      * 获取专案组编号
      * @return
      */
-    public String findMaxNo();
+    public String findMaxNo(String deparmentcode);
 
     public List<GroupModel> findGroupByCondition(Group group);
 
