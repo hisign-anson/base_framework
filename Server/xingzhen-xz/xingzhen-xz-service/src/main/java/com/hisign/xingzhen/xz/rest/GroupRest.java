@@ -14,10 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -68,7 +65,7 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
      */
     @ApiOperation(value = "专案组查询分页",httpMethod ="GET",response = GroupModel.class)
     @RequestMapping(value = "/getGroupPage", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getGroupPage(@ApiParam Group group) {
+    public JsonResult getGroupPage(@RequestBody Group group) {
         return baseService.getGroupPage(group);
     }
 
@@ -79,7 +76,7 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
      */
     @ApiOperation(value = "查询子专案组列表",httpMethod ="GET",response = GroupModel.class)
     @RequestMapping(value = "/getChildGroupList", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getChildGroupList(@ApiParam String pGroupId) {
+    public JsonResult getChildGroupList(@RequestParam String pGroupId) {
         Conditions conditions = new Conditions(Group.class);
         Conditions.Criteria criteria = conditions.createCriteria();
         criteria.add(Group.GroupEnum.pgroupid.get(), BaseEnum.ConditionEnum.EQ,pGroupId);

@@ -17,6 +17,8 @@
         <result column="DEPARMENTCODE" property="deparmentcode" jdbcType="VARCHAR"/>
         <result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
         <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
+        <result column="num" property="num" jdbcType="DECIMAL"/>
+        <result column="caseNum" property="caseNum" jdbcType="DECIMAL"/>
     </resultMap>
 
     <sql id="Conditions_Where_Clause">
