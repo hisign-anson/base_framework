@@ -145,10 +145,10 @@ public class Task extends BaseModel implements Serializable {
     private String taskType;//1表示本人接收，2表示本人下发
 
     @ApiModelProperty(value = "反馈开始时间")
-    private Date fkstartTime;
+    private Date fkjzstartTime;
 
     @ApiModelProperty(value = "反馈结束时间")
-    private Date fkendTime;
+    private Date fkjzendTime;
 
     @ApiModelProperty(value = "反馈确认状态")
     private String fkqrzt;
@@ -538,20 +538,20 @@ public class Task extends BaseModel implements Serializable {
         this.taskType = taskType;
     }
 
-    public Date getFkstartTime() {
-        return fkstartTime;
+    public Date getFkjzstartTime() {
+        return fkjzstartTime;
     }
 
-    public void setFkstartTime(Date fkstartTime) {
-        this.fkstartTime = fkstartTime;
+    public void setFkjzstartTime(Date fkjzstartTime) {
+        this.fkjzstartTime = fkjzstartTime;
     }
 
-    public Date getFkendTime() {
-        return fkendTime;
+    public Date getFkjzendTime() {
+        return fkjzendTime;
     }
 
-    public void setFkendTime(Date fkendTime) {
-        this.fkendTime = fkendTime;
+    public void setFkjzendTime(Date fkjzendTime) {
+        this.fkjzendTime = fkjzendTime;
     }
 
     public String getFkqrzt() {

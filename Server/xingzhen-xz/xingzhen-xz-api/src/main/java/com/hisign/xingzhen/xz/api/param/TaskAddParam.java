@@ -2,6 +2,7 @@ package com.hisign.xingzhen.xz.api.param;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,33 +19,42 @@ public class TaskAddParam implements Serializable {
     @ApiModelProperty(value = "任务名称")
     private String taskName; //任务名称
 
+    @NotEmpty(message = "任务内容不能为空")
     @ApiModelProperty(value = "任务内容",required = true)
     private String taskContent; //任务内容
 
+    @NotEmpty(message = "专案组不能为空")
     @ApiModelProperty(value = "专案组ID",required = true)
     private String groupid; //专案组ID
 
     @ApiModelProperty(value = "接收联系方式")
     private String jsrLxfs; //接收联系方式
 
+    @NotEmpty(message = "接收人不能为空")
     @ApiModelProperty(value = "接收人",required = true)
     private String jsr; //接收人
 
+    @NotEmpty(message = "接收人姓名不能为空")
     @ApiModelProperty(value = "接收人姓名",required = true)
     private String jsrname; //接收人
 
+    @NotEmpty(message = "反馈截止时间不能为空")
     @ApiModelProperty(value = "反馈截止时间",required = true)
     private Date fkjzTime; //反馈截止时间
 
+    @NotEmpty(message = "创建人不能为空")
     @ApiModelProperty(value = "创建人",required = true)
     private String creator; //创建人
 
+    @NotEmpty(message = "创建人姓名不能为空")
     @ApiModelProperty(value = "创建人姓名",required = true)
     private String createname; //创建人
 
+    @NotEmpty(message = "创建人单位不能为空")
     @ApiModelProperty(value = "创建人单位",required = true)
     private String deparmentcode; //创建人单位
 
+    @NotEmpty(message = "创建人单位名称不能为空")
     @ApiModelProperty(value = "创建人单位名称",required = true)
     private String deparmentname; //创建人单位名称
 

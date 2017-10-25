@@ -7326,41 +7326,37 @@
 
     <select id="findAjGroupPage" parameterType="com.hisign.xingzhen.xz.api.entity.AsjAj" resultMap="BaseResultMap">
         select p.* from(
-        select
-        rownum,rownum as rn,a.* from (
-        select t.* from (
-        select * from b_asj_aj b where 1=1
-        <if test="ajbh!=null and ajbh!=''">
-            and b.ajbh like '%'||#{ajbh,jdbcType=VARCHAR}||'%' escape '\'
-        </if>
-        <if test="ab!=null and ab!=''">
-            and b.ab=#{ab,jdbcType=VARCHAR}
-        </if>
-        <if test="ajmc!=null and ajmc!=''">
-            and b.ajmc like '%'||#{ajmc,jdbcType=VARCHAR}||'%' escape '\'
-        </if>
-        <if test="startTime!=null and endTime!=null">
-            and b.fasjcz BETWEEN #{startTime,jdbcType=TIMESTAMP} AND #{endTime,jdbcType=TIMESTAMP}
-        </if>
-        <if test="ajstate!=null and ajstate!=''">
-            and b.ajstate=#{ajstate,jdbcType=VARCHAR}
-        </if>
-        <if test="sljsdw!=null and sljsdw!=''">
-            and b.sljsdw=#{sljsdw,jdbcType=VARCHAR}
-        </if>
-        <if test="fadd!=null and fadd!=''">
-            and b.fadd=#{fadd,jdbcType=VARCHAR}
-        </if>
-        <if test="slStartTime!=null and slEndTime!=null">
-            and b.SL_LRSJ BETWEEN #{slStartTime,jdbcType=TIMESTAMP} AND #{slEndTime,jdbcType=TIMESTAMP}
-        </if>
-        and b.id in (select AJID from t_ajgroup ag where ag.groupId=#{groupId,jdbcType=VARCHAR})
-
-        ) t
-        ) a
-        <if test="end !=null and end !=0">
-            where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
-        </if>
+            select rownum as rn,q.* from (
+                select * from b_asj_aj b where 1=1
+                <if test="ajbh!=null and ajbh!=''">
+                    and b.ajbh like '%'||#{ajbh,jdbcType=VARCHAR}||'%' escape '\'
+                </if>
+                <if test="ab!=null and ab!=''">
+                    and b.ab=#{ab,jdbcType=VARCHAR}
+                </if>
+                <if test="ajmc!=null and ajmc!=''">
+                    and b.ajmc like '%'||#{ajmc,jdbcType=VARCHAR}||'%' escape '\'
+                </if>
+                <if test="startTime!=null and endTime!=null">
+                    and b.fasjcz BETWEEN #{startTime,jdbcType=TIMESTAMP} AND #{endTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="ajstate!=null and ajstate!=''">
+                    and b.ajstate=#{ajstate,jdbcType=VARCHAR}
+                </if>
+                <if test="sljsdw!=null and sljsdw!=''">
+                    and b.sljsdw=#{sljsdw,jdbcType=VARCHAR}
+                </if>
+                <if test="fadd!=null and fadd!=''">
+                    and b.fadd=#{fadd,jdbcType=VARCHAR}
+                </if>
+                <if test="slStartTime!=null and slEndTime!=null">
+                    and b.SL_LRSJ BETWEEN #{slStartTime,jdbcType=TIMESTAMP} AND #{slEndTime,jdbcType=TIMESTAMP}
+                </if>
+                and b.id in (select AJID from t_ajgroup ag where ag.groupId=#{groupId,jdbcType=VARCHAR})
+            ) q
+            <if test="end !=null and end !=0">
+                where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+            </if>
         ) p
         <if test="begin !=null and begin !=0">
             where rn >= #{begin,jdbcType=INTEGER}

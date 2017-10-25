@@ -939,8 +939,8 @@
                 <if test="deparmentcode!=null and deparmentcode!=''">
                     and t.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
                 </if>
-                <if test="fkstartTime!=null and fkendTime!=null">
-                    and t.fk_time between #{fkstartTime,jdbcType=TIMESTAMP} and #{fkendTime,jdbcType=TIMESTAMP}
+                <if test="fkjzstartTime!=null and fkjzendTime!=null">
+                    and t.fk_time between #{fkjzstartTime,jdbcType=TIMESTAMP} and #{fkjzendTime,jdbcType=TIMESTAMP}
                 </if>
             </when>
             <otherwise>
@@ -1009,8 +1009,8 @@
                 <if test="deparmentcode!=null and deparmentcode!=''">
                     and t.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
                 </if>
-                <if test="fkstartTime!=null and fkendTime!=null">
-                    and t.fk_time between #{fkstartTime,jdbcType=TIMESTAMP} and #{fkendTime,jdbcType=TIMESTAMP}
+                <if test="fkjzstartTime!=null and fkjzendTime!=null">
+                    and t.fkjz_time between #{fkjzstartTime,jdbcType=TIMESTAMP} and #{fkjzendTime,jdbcType=TIMESTAMP}
                 </if>
             </when>
             <otherwise>
