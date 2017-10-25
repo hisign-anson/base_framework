@@ -27,4 +27,13 @@ public class BaseExceptionHandler {
 		return JsonResultUtil.error(e.getMsg());
 	}
 
+	@ExceptionHandler(Exception.class)
+	@ResponseBody
+	public JsonResult defaultExceptionHandler(Exception e,HttpServletResponse response) {
+		StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw, true));
+		logger.error(sw.toString());
+		return JsonResultUtil.error(e.getMessage());
+	}
+
 }

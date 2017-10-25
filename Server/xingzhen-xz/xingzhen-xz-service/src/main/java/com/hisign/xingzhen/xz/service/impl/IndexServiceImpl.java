@@ -1,10 +1,12 @@
 package com.hisign.xingzhen.xz.service.impl;
 
 import com.hisign.bfun.benum.BaseEnum;
+import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.util.DateUtil;
 import com.hisign.xingzhen.xz.api.entity.Ajgroup;
 import com.hisign.xingzhen.xz.api.entity.AsjAj;
 import com.hisign.xingzhen.xz.api.entity.Group;
@@ -87,7 +89,12 @@ public class IndexServiceImpl implements IndexService{
 
     @Override
     public JsonResult getGroupCaseInfo(Date[] dateSection,String backupStatus) {
-        Map<String, Long> map = groupMapper.findGroupCaseInfo(backupStatus);
+        Map<String, Long> map = null;
+        try {
+            map = groupMapper.findGroupCaseInfo(DateUtil.getDateTime(dateSection[0]),DateUtil.getDateTime(dateSection[1]),backupStatus);
+        } catch (Exception e) {
+            return JsonResultUtil.error("对不起，时间参数格式错误");
+        }
         return JsonResultUtil.success(map);
     }
 

@@ -121,7 +121,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
 
     @Override
 
-    @ApiOperation(value = "根据对象获取",response = JsonResult.class)
+    @ApiOperation(value = "根据对象获取",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getByEntity", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public M getByEntity(@RequestBody T entity) {
         return baseService.getByEntity(entity);
@@ -129,7 +129,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
 
     @Override
 
-    @ApiOperation(value = "获取列表",response = JsonResult.class)
+    @ApiOperation(value = "获取列表",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public List<M> getList(@RequestBody Conditions conditions) {
         return baseService.getList(conditions);
@@ -165,7 +165,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
 
     @Override
 
-    @ApiOperation(value = "根据对象获取",response = JsonResult.class)
+    @ApiOperation(value = "根据对象获取",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getListByEntity", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getListByEntity(@RequestBody T entity) {
         return baseService.getListByEntity(entity);

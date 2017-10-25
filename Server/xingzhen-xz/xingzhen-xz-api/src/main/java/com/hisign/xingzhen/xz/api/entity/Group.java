@@ -20,7 +20,6 @@ public class Group extends BaseModel implements Serializable {
 
     @PK(value="ID")
     @ApiModelProperty(value = "专案组ID",hidden = true)
-    @NotEmpty(message = "专案组名称不能为空")
     private String id; //专案组ID
 
     @Column(value="PGROUPID")
@@ -29,6 +28,7 @@ public class Group extends BaseModel implements Serializable {
 
     @Column(value="GROUPNUM")
     @ApiModelProperty(value = "专案组编号",hidden = true)
+    @NotEmpty(message = "专案组编号不能为空")
     private String groupnum; //专案组编号
 
     @Column(value="GROUPNAME")
@@ -68,6 +68,7 @@ public class Group extends BaseModel implements Serializable {
     private Date createtime; //创建时间
 
     @Column(value="DEPARMENTCODE")
+    @NotEmpty(message = "用户单位信息不能为空")
     @ApiModelProperty(value = "创建人单位",required = true)
     private String deparmentcode; //创建人单位
 

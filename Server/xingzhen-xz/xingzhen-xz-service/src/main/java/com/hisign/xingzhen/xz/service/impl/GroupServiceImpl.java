@@ -68,9 +68,6 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     @Override
     @Transactional
     public JsonResult addNotNull(Group entity) throws BusinessException {
-        if(entity.getDeparmentcode()==null||entity.getDeparmentcode().length()!=12){
-            return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
-        }
         if (!StringUtils.isEmpty(entity.getPgroupid())){
             //获取父专案组
             Group pgroup = new Group();
