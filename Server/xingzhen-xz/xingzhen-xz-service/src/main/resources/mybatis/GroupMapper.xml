@@ -610,6 +610,9 @@
                 <if test="startTime!=null and entTime!=null">
                     and a.CREATETIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
                 </if>
+                <if test="crewname!=null and crewname!=''">
+                    and exists (select 1 from t_usergroup ug where ug.groupid=g.id and ug.deleteFlag=0 and ug.userid=#{crewname,jdbcType=VARCHAR})
+                </if>
                 <if test="deparmentcode!=null and deparmentcode!=''">
                     and a.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
                 </if>

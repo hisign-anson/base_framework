@@ -10,9 +10,9 @@ import com.hisign.xingzhen.xz.api.param.TaskAddParam;
 import com.hisign.xingzhen.xz.api.param.TaskMoveParam;
 import com.hisign.xingzhen.xz.api.param.TaskSelectParam;
 import com.hisign.xingzhen.xz.api.service.TaskService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -62,27 +62,15 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
         }
         return baseService.taskDetail(id, userId);
     }
-
     /**
      * 新增任务
      * @param taskAddParam
      * @return
      */
-    public JsonResult addTask(@Valid @RequestBody TaskAddParam taskAddParam) {
-        if(StringUtils.isEmpty(taskAddParam.getCreator()) || StringUtils.isEmpty(taskAddParam.getCreatename())){
-            return JsonResultUtil.error("添加记录失败,当前登陆用户不能为空");
-        }
-        return baseService.addTask(taskAddParam);
-    }
-
-    /**
-     * 新增任务
-     * @param taskAddParam
-     * @return
-     */
+    @Override
     @ApiOperation(value = "新增任务",httpMethod ="POST",response = String.class)
     @RequestMapping(value = "/addTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addTask1(@Valid @RequestBody TaskAddParam taskAddParam, BindingResult result) {
+    public JsonResult addTask(@Valid @RequestBody TaskAddParam taskAddParam) {
         if(StringUtils.isEmpty(taskAddParam.getCreator()) || StringUtils.isEmpty(taskAddParam.getCreatename())){
             return JsonResultUtil.error("添加记录失败,当前登陆用户不能为空");
         }

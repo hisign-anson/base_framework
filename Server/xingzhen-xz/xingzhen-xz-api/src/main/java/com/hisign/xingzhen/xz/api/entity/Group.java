@@ -89,6 +89,9 @@ public class Group extends BaseModel implements Serializable {
     @ApiModelProperty(value = "接收字段-是否是父专案组")
     private boolean isParent;//是否是父专案组
 
+    @ApiModelProperty(value = "接收字段-人员名称")
+    private String crewname;
+
     /**
      *默认空构造函数
      */
@@ -287,6 +290,14 @@ public class Group extends BaseModel implements Serializable {
 
     public void setParent(boolean parent) {
         isParent = parent;
+    }
+
+    public String getCrewname() {
+        return crewname;
+    }
+
+    public void setCrewname(String crewname) {
+        this.crewname = crewname;
     }
 
     public static String getTbName() {
