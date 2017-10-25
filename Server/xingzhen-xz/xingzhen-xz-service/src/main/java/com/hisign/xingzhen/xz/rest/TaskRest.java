@@ -12,9 +12,11 @@ import com.hisign.xingzhen.xz.api.param.TaskSelectParam;
 import com.hisign.xingzhen.xz.api.service.TaskService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 
 /**
@@ -66,10 +68,21 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      * @param taskAddParam
      * @return
      */
-    @Override
+    public JsonResult addTask(@Valid @RequestBody TaskAddParam taskAddParam) {
+        if(StringUtils.isEmpty(taskAddParam.getCreator()) || StringUtils.isEmpty(taskAddParam.getCreatename())){
+            return JsonResultUtil.error("添加记录失败,当前登陆用户不能为空");
+        }
+        return baseService.addTask(taskAddParam);
+    }
+
+    /**
+     * 新增任务
+     * @param taskAddParam
+     * @return
+     */
     @ApiOperation(value = "新增任务",httpMethod ="POST",response = String.class)
     @RequestMapping(value = "/addTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addTask(@RequestBody TaskAddParam taskAddParam) {
+    public JsonResult addTask1(@Valid @RequestBody TaskAddParam taskAddParam, BindingResult result) {
         if(StringUtils.isEmpty(taskAddParam.getCreator()) || StringUtils.isEmpty(taskAddParam.getCreatename())){
             return JsonResultUtil.error("添加记录失败,当前登陆用户不能为空");
         }
@@ -82,7 +95,7 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      * @return
      */
     @Override
-    @ApiOperation(value = "删除任务",httpMethod ="DELETE",response = String.class)
+    @ApiOperation(value = "删除任务",httpMethod ="DE",response = String.class)
     @RequestMapping(value = "/deleteTaskById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult deleteTaskById(@RequestParam String id,@RequestParam String userId) {
         if(StringUtils.isEmpty(userId)){
