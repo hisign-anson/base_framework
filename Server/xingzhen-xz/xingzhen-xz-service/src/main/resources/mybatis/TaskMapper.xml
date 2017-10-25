@@ -602,9 +602,7 @@
         SELECT
         <include refid="Base_Column_List" />
         FROM t_task
-        <!--WHERE-->
-        <!--ID = #{id,jdbcType=VARCHAR}-->
-        <!--and rownum = 1-->
+        WHERE ID = #{id,jdbcType=VARCHAR}
     </select>
 
     <select id="findByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultMap="BaseResultMap">
@@ -936,7 +934,7 @@
                     and exists (select 1 from T_TASK_FK fk where fk.taskid=t.id and fk.qrzt='1')
                 </if>
                 <if test="taskNo!=null and taskNo!=''">
-                    and t.task_no=#{task_no,jdbcType=VARCHAR}
+                    and t.task_no like '%'||#{taskNo,jdbcType=VARCHAR}||'%' escape '\'
                 </if>
                 <if test="deparmentcode!=null and deparmentcode!=''">
                     and t.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
@@ -1006,7 +1004,7 @@
                     and exists (select 1 from T_TASK_FK fk where fk.taskid=t.id and fk.qrzt='1')
                 </if>
                 <if test="taskNo!=null and taskNo!=''">
-                    and t.task_no=#{task_no,jdbcType=VARCHAR}
+                    and t.task_no like '%'||#{taskNo,jdbcType=VARCHAR}||'%' escape '\'
                 </if>
                 <if test="deparmentcode!=null and deparmentcode!=''">
                     and t.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}

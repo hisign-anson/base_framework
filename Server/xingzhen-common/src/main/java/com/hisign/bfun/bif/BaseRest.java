@@ -22,7 +22,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "添加",httpMethod ="POST",response = JsonResult.class)
+    @ApiOperation(value = "添加",httpMethod ="POST",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult add(@RequestBody T entity) throws BusinessException {
@@ -30,7 +30,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "添加非空",httpMethod ="POST",response = JsonResult.class)
+    @ApiOperation(value = "添加非空",httpMethod ="POST",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/addNotNull", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult addNotNull(@RequestBody T entity) throws BusinessException {
@@ -38,7 +38,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "添加列表",httpMethod ="POST",response = JsonResult.class)
+    @ApiOperation(value = "添加列表",httpMethod ="POST",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/addList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult add(@RequestBody List<T> list) throws BusinessException {
@@ -46,7 +46,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "更新",httpMethod ="PUT",response = JsonResult.class)
+    @ApiOperation(value = "更新",httpMethod ="PUT",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult update(@RequestBody T entity) throws BusinessException {
@@ -54,7 +54,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "更新非空",httpMethod ="PUT",response = JsonResult.class)
+    @ApiOperation(value = "更新非空",httpMethod ="PUT",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/updateNotNull", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult updateNotNull(@RequestBody T entity) throws BusinessException {
@@ -62,7 +62,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "批量更新",httpMethod ="PUT",response = JsonResult.class)
+    @ApiOperation(value = "批量更新",httpMethod ="PUT",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/updateBatch", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult updateBatch(@RequestBody List<T> entity) throws BusinessException {
@@ -70,7 +70,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "自定义更新",httpMethod ="PUT",response = JsonResult.class)
+    @ApiOperation(value = "自定义更新",httpMethod ="PUT",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/updateParams", method = RequestMethod.PUT, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult update(@RequestBody UpdateParams params) throws BusinessException {
@@ -78,7 +78,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "根据id删除",httpMethod ="DELETE",response = JsonResult.class)
+    @ApiOperation(value = "根据id删除",httpMethod ="DELETE",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult delById(@PathVariable(value="id") PK id) throws BusinessException {
@@ -86,7 +86,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "根据id集合删除",httpMethod ="DELETE",response = JsonResult.class)
+    @ApiOperation(value = "根据id集合删除",httpMethod ="DELETE",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/delByIds", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult delByIds(@RequestBody List<PK> ids) throws BusinessException {
@@ -94,7 +94,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "自定义删除",httpMethod ="DELETE",response = JsonResult.class)
+    @ApiOperation(value = "自定义删除",httpMethod ="DELETE",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/delBy", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult delBy(@RequestBody Conditions conditions) throws BusinessException {
@@ -102,7 +102,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "根据id查询",httpMethod ="GET",response = JsonResult.class)
+    @ApiOperation(value = "根据id查询",httpMethod ="GET",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public M getById(@RequestParam(value="id") PK id) {
@@ -110,7 +110,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "根据id查询",httpMethod ="GET",response = JsonResult.class)
+    @ApiOperation(value = "根据id查询",httpMethod ="GET",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getEntityById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public T getEntityById(@RequestParam(value="id") PK id) throws InstantiationException, IllegalAccessException {
@@ -118,7 +118,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "根据对象获取",httpMethod ="GET",response = JsonResult.class)
+    @ApiOperation(value = "根据对象获取",httpMethod ="GET",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getByEntity", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public M getByEntity(@RequestBody T entity) {
@@ -126,7 +126,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "获取列表",httpMethod ="GET",response = JsonResult.class)
+    @ApiOperation(value = "获取列表",httpMethod ="GET",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getList", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public List<M> getList(@RequestBody Conditions conditions) {
@@ -134,7 +134,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "获取对象",httpMethod ="GET",response = JsonResult.class)
+    @ApiOperation(value = "获取对象",httpMethod ="GET",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getBy", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public M getBy(@RequestBody Conditions conditions) {
@@ -142,7 +142,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "获取数量",httpMethod ="GET",response = JsonResult.class)
+    @ApiOperation(value = "获取数量",httpMethod ="GET",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getCount", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public Long getCount(@RequestBody Conditions conditions) {
@@ -150,7 +150,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-    @ApiOperation(value = "获取分页",httpMethod ="GET",response = JsonResult.class)
+    @ApiOperation(value = "获取分页",httpMethod ="GET",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getPage", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult getPage(@RequestBody Conditions conditions) {
@@ -159,7 +159,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
 
 
     @Override
-    @ApiOperation(value = "根据对象获取",httpMethod ="GET",response = JsonResult.class)
+    @ApiOperation(value = "根据对象获取",httpMethod ="GET",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getListByEntity", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult getListByEntity(@RequestBody T entity) {

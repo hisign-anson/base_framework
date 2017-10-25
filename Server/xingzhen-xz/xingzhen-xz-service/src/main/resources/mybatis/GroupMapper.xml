@@ -535,128 +535,93 @@
     </select>
 
     <select id="findGroupByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Group" resultMap="BaseResultMap">
-        select p.* from(
-        select rownum,rownum as rn,q.* from (
-        select t.* from (
-        select
-        a.id,
-        a.GROUPNUM,
-        a.GROUPNAME,
-        a.GROUPTYPE,
-        (select count(1) from T_AJGROUP b1 where b1.groupid=a.id) as caseNum,
-        (select USER_NAME from SYS_USER_INFO d where d.USER_ID=a.CREATOR) as creator,
-        (select count(1) from T_USERGROUP c1 where c1.groupid=a.id) as num,
-        a.CREATETIME,
-        a.BACKUP_STATU,
-        a.BACKUP_TIME
-        from
-        T_GROUP a
-        <if test="ajbh!=null and ajbh!=''">
-            ,T_AJGROUP b
-        </if>
-        <if test="userId!=null and userId!=''">
-            ,T_USERGROUP c
-        </if>
-        where 1=1
-        <if test="ajbh!=null and ajbh!=''">
-            and a.id=b.groupid
-            and b.ajbh like '%'||#{ajbh,jdbcType=VARCHAR}||'%' escape '\'
-        </if>
-        <if test="userId!=null and userId!=''">
-            and a.id=c.groupid
-            and c.USERID=#{userId,jdbcType=VARCHAR}
-        </if>
-        <if test="groupname!=null and groupname!=''">
-            and a.GROUPNAME like '%'||#{groupname,jdbcType=VARCHAR}||'%' escape '\'
-        </if>
-        <if test="creator!=null and creator!=''">
-            and a.CREATOR=#{creator,jdbcType=VARCHAR}
-        </if>
-        <if test="startTime!=null and entTime!=null">
-            and a.CREATETIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
-        </if>
-        <if test="groupnum!=null and groupnum!=''">
-            and a.groupnum like '%'||#{groupnum,jdbcType=VARCHAR}||'%' escape '\'
-        </if>
-        <if test="deparmentcode!=null and deparmentcode!=''">
-            and a.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
-        </if>
-        <if test="backupStatu!=null and backupStatu!=''">
-            and a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
-        </if>
-        <if test='isParent==null or isParent==false'>
-            and a.pgroupid IS NOT NULL
-        </if>
-        <if test='isParent!=null and isParent==true'>
-            and a.pgroupid IS NULL
-        </if>
-        ) t
-        ) q
-        <if test="end !=null and end !=0">
-            where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
-        </if>
+        select p.*,
+            (select count(1) from T_AJGROUP t1 where t1.groupid=p.id and t1.deleteFlag=0) as caseNum,
+            (select count(1) from T_USERGROUP t2 where t2.groupid=p.id and t2.deleteFlag=0) as crewNum
+        from(
+            select rownum as rn,q.* from (
+                select g.* from T_GROUP g where g.deleteFlag=0 and g.pgroupid is null
+                <choose>
+                    <when test="userId != null and userId !=''">
+                        and (
+                          exists (select 1 from t_usergroup ug where ug.groupid=g.id and ug.deleteFlag=0 and ug.userid=#{userId,jdbcType=VARCHAR})
+                          or g.creator=#{userId,jdbcType=VARCHAR}
+                        )
+                        <if test="groupname!=null and groupname!=''">
+                            and a.GROUPNAME like '%'||#{groupname,jdbcType=VARCHAR}||'%' escape '\'
+                        </if>
+                        <if test="groupnum!=null and groupnum!=''">
+                            and a.groupnum like '%'||#{groupnum,jdbcType=VARCHAR}||'%' escape '\'
+                        </if>
+                        <if test="creator!=null and creator!=''">
+                            and a.CREATOR=#{creator,jdbcType=VARCHAR}
+                        </if>
+                        <if test="startTime!=null and entTime!=null">
+                            and a.CREATETIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+                        </if>
+                        <if test="crewname!=null and crewname!=''">
+                            and exists (select 1 from t_usergroup ug where ug.groupid=g.id and ug.deleteFlag=0 and ug.userid=#{crewname,jdbcType=VARCHAR})
+                        </if>
+                        <if test="deparmentcode!=null and deparmentcode!=''">
+                            and a.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
+                        </if>
+                        <if test="ajbh!=null and ajbh!=''">
+                            exists (select 1 from t_ajgroup aj where aj.groupid=g.id and aj.deleteFlag=0 and aj.ajbh like '%'||#{userId,jdbcType=VARCHAR}||'%' escape '\')
+                        </if>
+                        <if test="backupStatu!=null and backupStatu!=''">
+                            and a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
+                        </if>
+                    </when>
+                    <otherwise>
+                      and 1=2
+                    </otherwise>
+                </choose>
+                order by g.createTime desc
+            ) q
+            <if test="end !=null and end !=0">
+                where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+            </if>
         ) p
         <if test="begin !=null and begin !=0">
-            where rn >= #{begin,jdbcType=INTEGER}
+            where rn <![CDATA[>=]]> #{begin,jdbcType=INTEGER}
         </if>
     </select>
 
     <select id="findCountGroupByCondition" parameterType="com.hisign.xingzhen.xz.api.entity.Group"
             resultType="java.lang.Long">
-        select count(1) from ( SELECT
-        a.id,
-        a.GROUPNUM,
-        a.GROUPNAME,
-        a.GROUPTYPE,
-        (select count(1) from T_AJGROUP b1 where b1.groupid=a.id) as caseNum,
-        (select USER_NAME from SYS_USER_INFO d where d.USER_ID=a.CREATOR) as creator,
-        (select count(1) from T_USERGROUP c1 where c1.groupid=a.id) as num,
-        a.CREATETIME,
-        a.BACKUP_STATU,
-        a.BACKUP_TIME
-        from
-        T_GROUP a
-        <if test="ajbh!=null and ajbh!=''">
-            ,T_AJGROUP b
-        </if>
-        <if test="userId!=null and userId!=''">
-            ,T_USERGROUP c
-        </if>
-
-        where 1=1
-        <if test="ajbh!=null and ajbh!=''">
-            and a.id=b.groupid
-            and b.ajbh like '%'||#{ajbh,jdbcType=VARCHAR}||'%' escape '\'
-        </if>
-        <if test="userId!=null and userId!=''">
-            and a.id=c.groupid
-            and c.USERID=#{userId,jdbcType=VARCHAR}
-        </if>
-        <if test="groupname!=null and groupname!=''">
-            and a.GROUPNAME like '%'||#{groupname,jdbcType=VARCHAR}||'%' escape '\'
-        </if>
-        <if test="creator!=null and creator!=''">
-            and a.CREATOR=#{creator,jdbcType=VARCHAR}
-        </if>
-        <if test="startTime!=null and entTime!=null">
-            and a.CREATETIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
-        </if>
-        <if test="groupnum!=null and groupnum!=''">
-            and a.groupnum like '%'||#{groupnum,jdbcType=VARCHAR}||'%' escape '\'
-        </if>
-        <if test="deparmentcode!=null and deparmentcode!=''">
-            and a.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
-        </if>
-        <if test="backupStatu!=null and backupStatu!=''">
-            and a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
-        </if>
-        <if test='isParent!=null and isParent==false'>
-            and a.pgroupid IS NOT NULL
-        </if>
-        <if test='isParent!=null and isParent==true'>
-            and a.pgroupid IS NULL
-        </if>
-        ) d
+        select count(1) from T_GROUP g where g.deleteFlag=0 and g.pgroupid is null
+        <choose>
+            <when test="userId != null and userId !=''">
+                and (
+                exists (select 1 from t_usergroup ug where ug.groupid=g.id and ug.deleteFlag=0 and ug.userid=#{userId,jdbcType=VARCHAR})
+                or g.creator=#{userId,jdbcType=VARCHAR}
+                )
+                <if test="groupname!=null and groupname!=''">
+                    and a.GROUPNAME like '%'||#{groupname,jdbcType=VARCHAR}||'%' escape '\'
+                </if>
+                <if test="groupnum!=null and groupnum!=''">
+                    and a.groupnum like '%'||#{groupnum,jdbcType=VARCHAR}||'%' escape '\'
+                </if>
+                <if test="creator!=null and creator!=''">
+                    and a.CREATOR=#{creator,jdbcType=VARCHAR}
+                </if>
+                <if test="startTime!=null and entTime!=null">
+                    and a.CREATETIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="deparmentcode!=null and deparmentcode!=''">
+                    and a.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
+                </if>
+                <if test="ajbh!=null and ajbh!=''">
+                    exists (select 1 from t_ajgroup aj where aj.groupid=g.id and aj.deleteFlag=0 and aj.ajbh like '%'||#{userId,jdbcType=VARCHAR}||'%' escape '\')
+                </if>
+                <if test="backupStatu!=null and backupStatu!=''">
+                    and a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
+                </if>
+            </when>
+            <otherwise>
+                and 1=2
+            </otherwise>
+        </choose>
     </select>
 
     <select id="findGroupCaseInfo" parameterType="java.lang.String" resultType="java.util.Map">
@@ -669,4 +634,13 @@
         GROUP BY t1.id
         ) a ORDER BY a.createtime
     </select>
+
+
+    <select id="getChildGroupList" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select g.*,
+          (select count(1) from T_AJGROUP t1 where t1.groupid=p.id and t1.deleteFlag=0) as caseNum,
+          (select count(1) from T_USERGROUP t2 where t2.groupid=p.id and t2.deleteFlag=0) as crewNum
+        from T_GROUP g where g.deleteFlag=0 and g.pgroupid=#{pgroupid,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

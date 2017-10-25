@@ -5,6 +5,7 @@ import com.hisign.bfun.bif.BaseService;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
+import com.hisign.xingzhen.xz.api.param.GroupParam;
 
 /**
  * 《专案组》 业务逻辑服务接口
@@ -13,6 +14,7 @@ import com.hisign.xingzhen.xz.api.model.GroupModel;
  */
 public interface GroupService extends BaseService<Group,GroupModel, String> {
 
-    public JsonResult getGroupPage(Group group);
+    public JsonResult getGroupPage(GroupParam groupParam);
 
+    public JsonResult getChildGroupList(String pgroupid);
 }

@@ -52,8 +52,8 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      * @return
      */
     @Override
-    @ApiOperation(value = "任务详情",httpMethod ="POST",response = TaskModel.class)
-    @RequestMapping(value = "/taskDetail", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "任务详情",httpMethod ="GET",response = TaskModel.class)
+    @RequestMapping(value = "/taskDetail", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult taskDetail(@RequestParam String id,@RequestParam String userId) {
         if(StringUtils.isEmpty(userId)){
             return JsonResultUtil.error("查看记录失败,当前登陆用户不能为空");
