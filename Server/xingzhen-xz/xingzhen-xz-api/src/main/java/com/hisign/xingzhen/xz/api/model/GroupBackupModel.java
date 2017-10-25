@@ -43,6 +43,9 @@ public class GroupBackupModel implements Serializable {
 	
     @ApiModelProperty(value = "删除标识")
 	private String deleteflag; //删除标识
+
+	@ApiModelProperty(value = "警号")
+	private String policeId; //警号
 	
     
 	/**
@@ -164,5 +167,13 @@ public class GroupBackupModel implements Serializable {
 	@Override
 	public String toString(){
 		return JSON.toJSONString(this);
+	}
+
+	public String getPoliceId() {
+		return policeId;
+	}
+
+	public void setPoliceId(String policeId) {
+		this.policeId = policeId;
 	}
 }

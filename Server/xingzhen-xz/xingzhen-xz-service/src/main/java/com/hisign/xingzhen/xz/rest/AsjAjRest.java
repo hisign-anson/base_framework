@@ -26,7 +26,7 @@ import javax.annotation.Resource;
  */
 @Api(description="案件")
 @RestController
-@RequestMapping("asjAj")
+@RequestMapping("/xz/asjAj")
 public class AsjAjRest extends BaseRest<AsjAj,AsjAjModel, String, AsjAjService> implements AsjAjService{
 
     @Override

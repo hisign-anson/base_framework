@@ -20,7 +20,7 @@ public class Group extends BaseModel implements Serializable {
 
     @PK(value="ID")
     @ApiModelProperty(value = "专案组ID",hidden = true)
-    @NotEmpty(message = "1专案组名称不能为空")
+    @NotEmpty(message = "专案组名称不能为空")
     private String id; //专案组ID
 
     @Column(value="PGROUPID")
@@ -78,19 +78,6 @@ public class Group extends BaseModel implements Serializable {
     @Column(value="DELETEFLAG")
     @ApiModelProperty(value = "删除标识",hidden = true)
     private String deleteflag; //删除标识
-
-    //--------------------------------------- 接收字段
-    @ApiModelProperty(value = "接收字段-关联案件")
-    private String ajbh;//关联案件
-
-    @ApiModelProperty(value = "接收字段-人员名称")
-    private String userId;//人员名称
-
-    @ApiModelProperty(value = "接收字段-是否是父专案组")
-    private boolean isParent;//是否是父专案组
-
-    @ApiModelProperty(value = "接收字段-人员名称")
-    private String crewname;
 
     /**
      *默认空构造函数
@@ -266,38 +253,6 @@ public class Group extends BaseModel implements Serializable {
      */
     public void setDeleteflag(String deleteflag){
         this.deleteflag = deleteflag;
-    }
-
-    public String getAjbh() {
-        return ajbh;
-    }
-
-    public void setAjbh(String ajbh) {
-        this.ajbh = ajbh;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public boolean isParent() {
-        return isParent;
-    }
-
-    public void setParent(boolean parent) {
-        isParent = parent;
-    }
-
-    public String getCrewname() {
-        return crewname;
-    }
-
-    public void setCrewname(String crewname) {
-        this.crewname = crewname;
     }
 
     public static String getTbName() {

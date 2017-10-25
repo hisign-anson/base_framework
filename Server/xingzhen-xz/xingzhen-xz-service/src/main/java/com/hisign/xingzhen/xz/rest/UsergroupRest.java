@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @Api(description = "人员专案组关联")
 @RestController
-@RequestMapping("usergroup")
+@RequestMapping("/xz/usergroup")
 public class UsergroupRest extends BaseRest<Usergroup,UsergroupModel, String, UsergroupService> implements UsergroupService{
 
     @Override

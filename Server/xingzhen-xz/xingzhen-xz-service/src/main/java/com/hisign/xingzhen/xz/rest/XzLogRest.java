@@ -30,7 +30,7 @@ import java.util.List;
  *
  */
 @RestController
-@RequestMapping("xzlog")
+@RequestMapping("/xz/xzlog")
 public class XzLogRest extends BaseRest<XzLog, XzLogModel, String, XzLogService> {
 
 	@Autowired

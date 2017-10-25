@@ -7,6 +7,7 @@ import com.hisign.bfun.bannotation.*;
 import com.hisign.xingzhen.common.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 《专案组归档记录》 实体
@@ -32,10 +33,12 @@ public class GroupBackup extends BaseModel implements Serializable {
 
 	@Column(value="BACKUP_REASON")
 	@ApiModelProperty(value = "归档原因")
+	@NotEmpty(message = "归档原因不能为空")
 	private String backupReason; //归档原因
 
 	@Column(value="CREATOR")
 	@ApiModelProperty(value = "创建人")
+	@NotEmpty(message = "归档人不能为空")
 	private String creator; //创建人
 
 	@Column(value="CREATETIME")
@@ -52,6 +55,10 @@ public class GroupBackup extends BaseModel implements Serializable {
 
 	@Column(value="DELETEFLAG")
 	private String deleteflag; //删除标识
+
+	@Column(value="POLICE_ID")
+	@ApiModelProperty(value = "警号")
+	private String policeId; //警号
 	
     
 	/**
@@ -169,28 +176,39 @@ public class GroupBackup extends BaseModel implements Serializable {
 	public void setDeleteflag(String deleteflag){
 		this.deleteflag = deleteflag;
 	}
+
+	public String getPoliceId(){
+		return this.policeId;
+	}
+	/**
+	 * @param POLICE_ID
+	 */
+	public void setPoliceId(String policeId){
+		this.policeId = policeId;
+	}
 	
 	public static String getTbName() {
 		return "t_group_backup";
 	}
-	
+
 	@Override
 	public String toString(){
 		StringBuilder builder = new StringBuilder();
 		builder.append("GroupBackup [")
-		.append("id=").append(this.getId())
-		.append(",groupid=").append(this.getGroupid())
-		.append(",backupTime=").append(this.getBackupTime())
-		.append(",backupReason=").append(this.getBackupReason())
-		.append(",creator=").append(this.getCreator())
-		.append(",createtime=").append(this.getCreatetime())
-		.append(",deparmentcode=").append(this.getDeparmentcode())
-		.append(",lastupdatetime=").append(this.getLastupdatetime())
-		.append(",deleteflag=").append(this.getDeleteflag())
-		.append("]");
+				.append("id=").append(this.getId())
+				.append(",groupid=").append(this.getGroupid())
+				.append(",backupTime=").append(this.getBackupTime())
+				.append(",backupReason=").append(this.getBackupReason())
+				.append(",creator=").append(this.getCreator())
+				.append(",createtime=").append(this.getCreatetime())
+				.append(",deparmentcode=").append(this.getDeparmentcode())
+				.append(",lastupdatetime=").append(this.getLastupdatetime())
+				.append(",deleteflag=").append(this.getDeleteflag())
+				.append(",policeId=").append(this.getPoliceId())
+				.append("]");
 		return builder.toString();
 	}
-	
+
 	public static enum GroupBackupEnum{
 		id("ID","归档记录ID"),
 		groupid("GROUPID","专案组ID"),
@@ -200,20 +218,21 @@ public class GroupBackup extends BaseModel implements Serializable {
 		createtime("CREATETIME","创建时间"),
 		deparmentcode("DEPARMENTCODE","创建人单位"),
 		lastupdatetime("LASTUPDATETIME","修改时间"),
-		deleteflag("DELETEFLAG","删除标识");
-		
+		deleteflag("DELETEFLAG","删除标识"),
+		policeId("POLICE_ID","");
+
 		private String fieldName;
 		private String remark;
-		
+
 		GroupBackupEnum(String fieldName,String remark){
 			this.fieldName = fieldName;
 			this.remark = remark;
 		}
-		
+
 		public String get(){
 			return this.fieldName;
 		}
-		
+
 		public String getRemark(){
 			return this.remark;
 		}

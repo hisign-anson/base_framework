@@ -26,7 +26,7 @@ import com.hisign.bfun.bif.*;
  */
 @Api(description = "专案组归档记录")
 @RestController
-@RequestMapping("groupBackup")
+@RequestMapping("/xz/groupBackup")
 public class GroupBackupRest extends BaseRest<GroupBackup, GroupBackupModel, String, GroupBackupService> implements GroupBackupService {
 
     @Autowired
@@ -43,8 +43,7 @@ public class GroupBackupRest extends BaseRest<GroupBackup, GroupBackupModel, Str
     @Override
     @ApiOperation(value = "归档",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    @ApiImplicitParams({@ApiImplicitParam(name = "")})
-    public JsonResult add(@ApiParam(hidden = true) GroupBackup entity) throws BusinessException {
+    public JsonResult add(@RequestBody GroupBackup entity) throws BusinessException {
 
         GroupModel groupModel = groupService.getById(entity.getGroupid());
         if (groupModel==null){

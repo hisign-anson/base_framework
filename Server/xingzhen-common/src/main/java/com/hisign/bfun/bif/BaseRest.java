@@ -6,12 +6,16 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements BaseService<T,M, PK> {
@@ -24,8 +28,12 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
         this.baseService = baseService;
     }
 
-    @Override
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"), true));
+    }
 
+    @Override
     @ApiOperation(value = "添加",httpMethod ="POST",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult add(@RequestBody T entity) throws BusinessException {
@@ -129,7 +137,8 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
 
     @Override
 
-    @ApiOperation(value = "获取对象",response = JsonResult.class)
+
+    @ApiOperation(value = "获取对象",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getBy", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public M getBy(@RequestBody Conditions conditions) {
         return baseService.getBy(conditions);
@@ -137,7 +146,8 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
 
     @Override
 
-    @ApiOperation(value = "获取数量",response = JsonResult.class)
+
+    @ApiOperation(value = "获取数量",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getCount", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public Long getCount(@RequestBody Conditions conditions) {
         return baseService.getCount(conditions);
@@ -145,7 +155,8 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
 
     @Override
 
-    @ApiOperation(value = "获取分页",response = JsonResult.class)
+
+    @ApiOperation(value = "获取分页",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getPage(@RequestBody Conditions conditions) {
         return baseService.getPage(conditions);

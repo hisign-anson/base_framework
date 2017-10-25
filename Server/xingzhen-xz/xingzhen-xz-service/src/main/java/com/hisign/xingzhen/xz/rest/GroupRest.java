@@ -25,7 +25,7 @@ import javax.validation.Valid;
  */
 @Api(description = "专案组")
 @RestController
-@RequestMapping("group")
+@RequestMapping("/xz/group")
 public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> implements GroupService{
 
     @Override
