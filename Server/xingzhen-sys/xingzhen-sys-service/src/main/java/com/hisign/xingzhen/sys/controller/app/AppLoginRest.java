@@ -39,7 +39,7 @@ public class AppLoginRest {
     @Resource
     private SysLogService sysLogService;
 
-    @ApiOperation(value = "用户登录",httpMethod ="POST",response = SysUserInfo.class)
+    @ApiOperation(value = "用户登录",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public JsonResult login(@RequestParam String userName, @RequestParam String userPwd) {
         JsonResult result = new JsonResult();

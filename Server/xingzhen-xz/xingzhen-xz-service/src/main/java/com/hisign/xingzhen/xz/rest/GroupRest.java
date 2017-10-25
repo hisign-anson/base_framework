@@ -1,6 +1,5 @@
 package com.hisign.xingzhen.xz.rest;
 
-import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.butils.JsonResultUtil;
@@ -37,18 +36,17 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
     public void setBaseService(GroupService baseService) {
         super.setBaseService(baseService);
     }
-
     @Override
     @ApiOperation(value = "添加专案组",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/addGroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addNotNull(Group entity) throws BusinessException {
-        if(StringUtils.isEmpty(entity.getCreator()) || StringUtils.isEmpty(entity.getCreatename())){
+    public JsonResult addNotNull(@ApiParam Group group) {
+        if(StringUtils.isEmpty(group.getCreator()) || StringUtils.isEmpty(group.getCreatename())){
             return JsonResultUtil.error("添加记录失败,当前登陆用户不能为空");
         }
-        if(StringUtils.isEmpty(entity.getDeparmentcode())){
+        if(StringUtils.isEmpty(group.getDeparmentcode())){
             return JsonResultUtil.error("添加记录失败,当前登陆用户单位不能为空");
         }
-        return baseService.addNotNull(entity);
+        return baseService.addNotNull(group);
     }
 
     /**
@@ -69,7 +67,7 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
      */
     @ApiOperation(value = "查询子专案组列表",httpMethod ="GET",response = GroupModel.class)
     @RequestMapping(value = "/getChildGroupList", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getChildGroupList(@ApiParam String pGroupId) {
+    public JsonResult getChildGroupList(@RequestParam String pGroupId) {
         return baseService.getChildGroupList(pGroupId);
     }
 

@@ -4,6 +4,7 @@ package com.hisign.xingzhen.xz.mapper;
 import com.hisign.bfun.bif.BaseMapper;
 import com.hisign.xingzhen.xz.api.entity.AsjAj;
 import com.hisign.xingzhen.xz.api.model.AsjAjModel;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,12 +13,13 @@ import java.util.List;
  *
  * @author 何建辉
  */
+@Repository
 public interface AsjAjMapper extends BaseMapper<AsjAj,AsjAjModel, String> {
 
-    public List<AsjAjModel> findAjGroupPage(AsjAj aj);
+    List<AsjAjModel> findAjGroupPage(AsjAj aj);
 
-    public long findAjGroupPageCount(AsjAj aj);
+    long findAjGroupPageCount(AsjAj aj);
 
-    public AsjAj findFirstCaseByGroupId(String id);
+    AsjAj findFirstCaseByGroupId(String id);
 
 }
