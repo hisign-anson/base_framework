@@ -5293,7 +5293,7 @@
         <include refid="Base_Column_List" />
         FROM b_asj_aj
         WHERE
-        and rownum = 1
+        ID = #{id,jdbcType=VARCHAR}
     </select>
 
     <select id="findByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.AsjAj" resultMap="BaseResultMap">

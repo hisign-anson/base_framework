@@ -106,8 +106,8 @@
         DELETEFLAG
     </sql>
 
-    <insert id="insert" keyProperty="creator" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
-        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="creator">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
             SELECT sys_guid() from DUAL
         </selectKey>
         INSERT INTO t_task (
@@ -177,8 +177,8 @@
         )
     </insert>
 
-    <insert id="insertNotNull" keyProperty="creator" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
-        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="creator">
+    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
             SELECT sys_guid() from DUAL
         </selectKey>
         insert into t_task
@@ -473,6 +473,7 @@
             QS_TIME=#{qsTime,jdbcType=TIMESTAMP},
             YJZT=#{yjzt,jdbcType=VARCHAR},
             YJ_TIME=#{yjTime,jdbcType=TIMESTAMP},
+            CREATOR=#{creator,jdbcType=VARCHAR},
             CREATENAME=#{createname,jdbcType=VARCHAR},
             CREATETIME=#{createtime,jdbcType=TIMESTAMP},
             DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR},
@@ -482,7 +483,6 @@
         </trim>
         WHERE
         ID = #{id,jdbcType=VARCHAR}
-        CREATOR = #{creator,jdbcType=VARCHAR} AND
     </update>
 
     <update id="updateNotNull" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
@@ -557,6 +557,9 @@
             <if test="yjTime !=null ">
                 YJ_TIME = #{yjTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="creator !=null  and creator != '' ">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
             <if test="createname !=null  and createname != '' ">
                 CREATENAME = #{createname,jdbcType=VARCHAR},
             </if>
@@ -577,7 +580,6 @@
             </if>
         </trim>
         WHERE ID = #{id,jdbcType=VARCHAR}
-        WHERE CREATOR = #{creator,jdbcType=VARCHAR} AND
     </update>
 
     <update id="updateCustom" parameterType="com.hisign.bfun.bmodel.UpdateParams">
@@ -597,7 +599,6 @@
     <delete id="deleteById" parameterType="java.lang.String">
         DELETE FROM t_task WHERE
          ID = #{id,jdbcType=VARCHAR}
-         CREATOR = #{creator,jdbcType=VARCHAR}
     </delete>
 
     <!--根据list(ids)删除对象-->
@@ -619,7 +620,6 @@
         FROM t_task
         WHERE
         ID = #{id,jdbcType=VARCHAR}
-        CREATOR = #{creator,jdbcType=VARCHAR}
         and rownum = 1
     </select>
 
