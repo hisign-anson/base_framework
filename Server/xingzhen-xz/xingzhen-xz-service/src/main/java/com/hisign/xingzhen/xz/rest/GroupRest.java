@@ -14,9 +14,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -38,23 +40,14 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
         super.setBaseService(baseService);
     }
 
-    @ApiOperation(value = "新增专案组demo-非正式", httpMethod = "POST", response = JsonResult.class, notes = "{\"groupName\":\"123123\"}")
-    @RequestMapping(value = "/add2", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult add(@RequestBody Map<String, Object> params) throws BusinessException {
-        Group group = new Group();
-        String groupName = params.get("groupName").toString();
-        group.setGroupname(groupName);
-        return super.add(group);
-    }
     @ApiOperation(value = "添加专案组",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/addGroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addGroup(@RequestBody Group group) throws BusinessException {
-        if(StringUtils.isEmpty(group.getCreator()) || StringUtils.isEmpty(group.getCreatename())){
-            return JsonResultUtil.error("添加记录失败,当前登陆用户不能为空");
+    public JsonResult addGroup(@Valid @RequestBody Group group, BindingResult result) throws BusinessException {
+        JsonResult jr = handleResult(result);
+        if (jr.getFlag()!=1){
+            return jr;
         }
-        if(StringUtils.isEmpty(group.getDeparmentcode())){
-            return JsonResultUtil.error("添加记录失败,当前登陆用户单位不能为空");
-        }
+
         return baseService.addNotNull(group);
     }
 

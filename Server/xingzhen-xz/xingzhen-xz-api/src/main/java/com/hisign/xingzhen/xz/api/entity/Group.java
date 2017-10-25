@@ -6,6 +6,7 @@ import com.hisign.bfun.bannotation.*;
 import com.hisign.xingzhen.common.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 《专案组》 实体
@@ -19,6 +20,7 @@ public class Group extends BaseModel implements Serializable {
 
     @PK(value="ID")
     @ApiModelProperty(value = "专案组ID",hidden = true)
+    @NotEmpty(message = "1专案组名称不能为空")
     private String id; //专案组ID
 
     @Column(value="PGROUPID")
@@ -31,10 +33,12 @@ public class Group extends BaseModel implements Serializable {
 
     @Column(value="GROUPNAME")
     @ApiModelProperty(value = "专案组名称",required = true)
+    @NotEmpty(message = "专案组名称不能为空")
     private String groupname; //专案组名称
 
     @Column(value="GROUPTYPE")
     @ApiModelProperty(value = "专案组类别",required = true)
+    @NotEmpty(message = "专案组类别不能为空")
     private String grouptype; //专案组类别
 
     @Column(value="BACKUP_STATU")
@@ -51,10 +55,12 @@ public class Group extends BaseModel implements Serializable {
 
     @Column(value="CREATOR")
     @ApiModelProperty(value = "创建人",required = true)
+    @NotEmpty(message = "当前登陆用户不能为空")
     private String creator; //创建人
 
     @Column(value="CREATENAME")
     @ApiModelProperty(value = "创建人姓名",required = true)
+    @NotEmpty(message = "当前登陆用户姓名不能为空")
     private String createname; //创建人姓名
 
     @Column(value="CREATETIME")
