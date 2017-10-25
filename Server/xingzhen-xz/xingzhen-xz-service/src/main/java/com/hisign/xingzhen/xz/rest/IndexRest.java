@@ -83,7 +83,7 @@ public class IndexRest extends BaseController {
 
     @ApiOperation(value = "专案组破案情况",notes = "专案组破案情况",httpMethod = "GET", response = Map.class)
     @RequestMapping(value = "/getSolveCaseInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getSolveCaseInfo(@RequestParam(defaultValue = "1" ,required = false) int dateType) {
+    public JsonResult getSolveCaseInfo(@RequestParam(defaultValue = "0" ,required = false) int dateType) {
         Date[] dateSection = DateUtil.getDateSection(dateType, new Date());
         return indexService.getGroupCaseInfo(dateSection,Constants.YES);
     }

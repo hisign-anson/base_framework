@@ -80,11 +80,11 @@ public class Constants {
 	 */
 	public static class DateType{
 		/** 月度 1 **/
-		public static final Integer MONTH = 1;
+		public static final Integer MONTH = 0;
 		/** 季度 2 **/
-		public static final Integer QUARTER = 2;
+		public static final Integer QUARTER = 1;
 		/** 年度 3 **/
-		public static final Integer YEAR = 3;
+		public static final Integer YEAR = 2;
 	}
 
 	/**

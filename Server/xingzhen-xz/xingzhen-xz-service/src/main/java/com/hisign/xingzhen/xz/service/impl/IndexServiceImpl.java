@@ -17,6 +17,9 @@ import com.hisign.xingzhen.xz.mapper.AsjAjMapper;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
 import com.hisign.xingzhen.xz.mapper.TaskFkMapper;
 import com.netflix.discovery.converters.Auto;
+import org.apache.commons.collections.map.HashedMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +33,8 @@ import java.util.*;
 */
 @Service("indexService")
 public class IndexServiceImpl implements IndexService{
+
+    Logger log = LoggerFactory.getLogger(IndexServiceImpl.class);
 
     @Autowired
     private GroupMapper groupMapper;
@@ -93,7 +98,11 @@ public class IndexServiceImpl implements IndexService{
         try {
             map = groupMapper.findGroupCaseInfo(DateUtil.getDateTime(dateSection[0]),DateUtil.getDateTime(dateSection[1]),backupStatus);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return JsonResultUtil.error("对不起，时间参数格式错误");
+        }
+        if (map==null){
+            map = new HashedMap();
         }
         return JsonResultUtil.success(map);
     }
