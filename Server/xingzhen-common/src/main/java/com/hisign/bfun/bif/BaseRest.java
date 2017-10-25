@@ -181,7 +181,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
             List<ObjectError> list = result.getAllErrors();
             StringBuilder sb = new StringBuilder();
             for (int i = 1; i <= list.size(); i++) {
-                sb.append(i).append("、").append(list.get(i).getDefaultMessage()).append("  ");
+                sb.append(i).append("、").append(list.get(i-1).getDefaultMessage()).append("  ");
             }
             return JsonResultUtil.error(sb.toString());
         }else{

@@ -203,7 +203,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         return JsonResultUtil.success(taskModel);
     }
 
-
+    @Override
     public JsonResult addTask(TaskAddParam taskAddParam) {
         if(!StringUtils.isEmpty(taskAddParam.getBcrwid())){
             TaskModel t=super.getById(taskAddParam.getBcrwid());
@@ -251,6 +251,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             } catch (Exception e){
                 log.error(e.getMessage());
             }
+            return JsonResultUtil.success(super.getById(task.getId()));
         }
         return result;
     }

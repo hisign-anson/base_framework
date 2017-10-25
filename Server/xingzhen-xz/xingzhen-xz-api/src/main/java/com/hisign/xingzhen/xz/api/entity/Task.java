@@ -53,6 +53,10 @@ public class Task extends BaseModel implements Serializable {
     @ApiModelProperty(value = "移交父任务ID")
     private String yjrwid; //移交父任务ID
 
+    @Column(value="FQR_LXFS")
+    @ApiModelProperty(value = "发起人联系方式")
+    private String fqrLxfs; //发起人联系方式
+
     @Column(value="FQR")
     @ApiModelProperty(value = "发起人")
     private String fqr; //发起人
@@ -145,14 +149,13 @@ public class Task extends BaseModel implements Serializable {
     private String taskType;//1表示本人接收，2表示本人下发
 
     @ApiModelProperty(value = "反馈开始时间")
-    private Date fkstartTime;
+    private Date fkjzstartTime;
 
     @ApiModelProperty(value = "反馈结束时间")
-    private Date fkendTime;
+    private Date fkjzendTime;
 
     @ApiModelProperty(value = "反馈确认状态")
     private String fkqrzt;
-
 
     /**
      *默认空构造函数
@@ -268,6 +271,18 @@ public class Task extends BaseModel implements Serializable {
      */
     public void setYjrwid(String yjrwid){
         this.yjrwid = yjrwid;
+    }
+    /**
+     * @return FQR_LXFS 发起人联系方式
+     */
+    public String getFqrLxfs(){
+        return this.fqrLxfs;
+    }
+    /**
+     * @param FQR_LXFS 发起人联系方式
+     */
+    public void setFqrLxfs(String fqrLxfs){
+        this.fqrLxfs = fqrLxfs;
     }
     /**
      * @return FQR 发起人
@@ -538,20 +553,20 @@ public class Task extends BaseModel implements Serializable {
         this.taskType = taskType;
     }
 
-    public Date getFkstartTime() {
-        return fkstartTime;
+    public Date getFkjzstartTime() {
+        return fkjzstartTime;
     }
 
-    public void setFkstartTime(Date fkstartTime) {
-        this.fkstartTime = fkstartTime;
+    public void setFkjzstartTime(Date fkjzstartTime) {
+        this.fkjzstartTime = fkjzstartTime;
     }
 
-    public Date getFkendTime() {
-        return fkendTime;
+    public Date getFkjzendTime() {
+        return fkjzendTime;
     }
 
-    public void setFkendTime(Date fkendTime) {
-        this.fkendTime = fkendTime;
+    public void setFkjzendTime(Date fkjzendTime) {
+        this.fkjzendTime = fkjzendTime;
     }
 
     public String getFkqrzt() {
@@ -579,6 +594,7 @@ public class Task extends BaseModel implements Serializable {
                 .append(",bcrwid=").append(this.getBcrwid())
                 .append(",fkid=").append(this.getFkid())
                 .append(",yjrwid=").append(this.getYjrwid())
+                .append(",fqrLxfs=").append(this.getFqrLxfs())
                 .append(",fqr=").append(this.getFqr())
                 .append(",fqrname=").append(this.getFqrname())
                 .append(",jsrLxfs=").append(this.getJsrLxfs())
@@ -614,6 +630,7 @@ public class Task extends BaseModel implements Serializable {
         bcrwid("BCRWID","补充任务ID"),
         fkid("FKID","追加父反馈ID"),
         yjrwid("YJRWID","移交父任务ID"),
+        fqrLxfs("FQR_LXFS","发起人联系方式"),
         fqr("FQR","发起人"),
         fqrname("FQRNAME","发起人姓名"),
         jsrLxfs("JSR_LXFS","接收联系方式"),

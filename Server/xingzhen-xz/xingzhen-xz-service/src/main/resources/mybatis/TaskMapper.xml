@@ -12,6 +12,7 @@
         <result column="BCRWID" property="bcrwid" jdbcType="VARCHAR"/>
         <result column="FKID" property="fkid" jdbcType="VARCHAR"/>
         <result column="YJRWID" property="yjrwid" jdbcType="VARCHAR"/>
+        <result column="FQR_LXFS" property="fqrLxfs" jdbcType="VARCHAR"/>
         <result column="FQR" property="fqr" jdbcType="VARCHAR"/>
         <result column="FQRNAME" property="fqrname" jdbcType="VARCHAR"/>
         <result column="JSR_LXFS" property="jsrLxfs" jdbcType="VARCHAR"/>
@@ -81,6 +82,7 @@
         BCRWID,
         FKID,
         YJRWID,
+        FQR_LXFS,
         FQR,
         FQRNAME,
         JSR_LXFS,
@@ -118,6 +120,7 @@
         BCRWID,
         FKID,
         YJRWID,
+        FQR_LXFS,
         FQR,
         FQRNAME,
         JSR_LXFS,
@@ -149,6 +152,7 @@
         #{bcrwid,jdbcType=VARCHAR},
         #{fkid,jdbcType=VARCHAR},
         #{yjrwid,jdbcType=VARCHAR},
+        #{fqrLxfs,jdbcType=VARCHAR},
         #{fqr,jdbcType=VARCHAR},
         #{fqrname,jdbcType=VARCHAR},
         #{jsrLxfs,jdbcType=VARCHAR},
@@ -205,6 +209,9 @@
             </if>
             <if test="yjrwid !=null  and yjrwid != '' ">
                 YJRWID,
+            </if>
+            <if test="fqrLxfs !=null  and fqrLxfs != '' ">
+                FQR_LXFS,
             </if>
             <if test="fqr !=null  and fqr != '' ">
                 FQR,
@@ -299,6 +306,9 @@
             <if test="yjrwid !=null  and yjrwid != '' ">
                 #{yjrwid,jdbcType=VARCHAR},
             </if>
+            <if test="fqrLxfs !=null  and fqrLxfs != '' ">
+                #{fqrLxfs,jdbcType=VARCHAR},
+            </if>
             <if test="fqr !=null  and fqr != '' ">
                 #{fqr,jdbcType=VARCHAR},
             </if>
@@ -376,6 +386,7 @@
         BCRWID,
         FKID,
         YJRWID,
+        FQR_LXFS,
         FQR,
         FQRNAME,
         JSR_LXFS,
@@ -409,6 +420,7 @@
             #{item.bcrwid,jdbcType=VARCHAR},
             #{item.fkid,jdbcType=VARCHAR},
             #{item.yjrwid,jdbcType=VARCHAR},
+            #{item.fqrLxfs,jdbcType=VARCHAR},
             #{item.fqr,jdbcType=VARCHAR},
             #{item.fqrname,jdbcType=VARCHAR},
             #{item.jsrLxfs,jdbcType=VARCHAR},
@@ -446,6 +458,7 @@
             BCRWID=#{bcrwid,jdbcType=VARCHAR},
             FKID=#{fkid,jdbcType=VARCHAR},
             YJRWID=#{yjrwid,jdbcType=VARCHAR},
+            FQR_LXFS=#{fqrLxfs,jdbcType=VARCHAR},
             FQR=#{fqr,jdbcType=VARCHAR},
             FQRNAME=#{fqrname,jdbcType=VARCHAR},
             JSR_LXFS=#{jsrLxfs,jdbcType=VARCHAR},
@@ -498,6 +511,9 @@
             </if>
             <if test="yjrwid !=null  and yjrwid != '' ">
                 YJRWID = #{yjrwid,jdbcType=VARCHAR},
+            </if>
+            <if test="fqrLxfs !=null  and fqrLxfs != '' ">
+                FQR_LXFS = #{fqrLxfs,jdbcType=VARCHAR},
             </if>
             <if test="fqr !=null  and fqr != '' ">
                 FQR = #{fqr,jdbcType=VARCHAR},
@@ -602,7 +618,9 @@
         SELECT
         <include refid="Base_Column_List" />
         FROM t_task
-        WHERE ID = #{id,jdbcType=VARCHAR}
+        WHERE
+        ID = #{id,jdbcType=VARCHAR}
+        and rownum = 1
     </select>
 
     <select id="findByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultMap="BaseResultMap">
@@ -636,6 +654,9 @@
         </if>
         <if test="yjrwid != null  and yjrwid != '' ">
             and YJRWID=#{yjrwid,jdbcType=VARCHAR}
+        </if>
+        <if test="fqrLxfs != null  and fqrLxfs != '' ">
+            and FQR_LXFS=#{fqrLxfs,jdbcType=VARCHAR}
         </if>
         <if test="fqr != null  and fqr != '' ">
             and FQR=#{fqr,jdbcType=VARCHAR}
@@ -734,6 +755,9 @@
         </if>
         <if test="yjrwid != null  and yjrwid != '' ">
             and YJRWID=#{yjrwid,jdbcType=VARCHAR}
+        </if>
+        <if test="fqrLxfs != null  and fqrLxfs != '' ">
+            and FQR_LXFS=#{fqrLxfs,jdbcType=VARCHAR}
         </if>
         <if test="fqr != null  and fqr != '' ">
             and FQR=#{fqr,jdbcType=VARCHAR}
@@ -939,8 +963,8 @@
                 <if test="deparmentcode!=null and deparmentcode!=''">
                     and t.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
                 </if>
-                <if test="fkstartTime!=null and fkendTime!=null">
-                    and t.fk_time between #{fkstartTime,jdbcType=TIMESTAMP} and #{fkendTime,jdbcType=TIMESTAMP}
+                <if test="fkjzstartTime!=null and fkjzendTime!=null">
+                    and t.fk_time between #{fkjzstartTime,jdbcType=TIMESTAMP} and #{fkjzendTime,jdbcType=TIMESTAMP}
                 </if>
             </when>
             <otherwise>
@@ -1009,8 +1033,8 @@
                 <if test="deparmentcode!=null and deparmentcode!=''">
                     and t.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
                 </if>
-                <if test="fkstartTime!=null and fkendTime!=null">
-                    and t.fk_time between #{fkstartTime,jdbcType=TIMESTAMP} and #{fkendTime,jdbcType=TIMESTAMP}
+                <if test="fkjzstartTime!=null and fkjzendTime!=null">
+                    and t.fkjz_time between #{fkjzstartTime,jdbcType=TIMESTAMP} and #{fkjzendTime,jdbcType=TIMESTAMP}
                 </if>
             </when>
             <otherwise>

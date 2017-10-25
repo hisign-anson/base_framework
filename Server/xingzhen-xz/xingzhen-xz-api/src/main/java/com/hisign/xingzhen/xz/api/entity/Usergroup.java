@@ -6,6 +6,7 @@ import com.hisign.bfun.bannotation.Table;
 import com.hisign.xingzhen.common.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,43 +22,49 @@ public class Usergroup extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PK(value="ID")
-    @ApiModelProperty(value = "人员关联ID")
+    @ApiModelProperty(value = "人员关联ID",hidden = true)
     private String id; //人员关联ID
 
     @Column(value="USERID")
-    @ApiModelProperty(value = "人员ID")
+    @ApiModelProperty(value = "人员ID",required = true)
+    @NotEmpty(message = "人员ID不能为空")
     private String userid; //人员ID
 
     @Column(value="USERNAME")
-    @ApiModelProperty(value = "人员姓名")
+    @ApiModelProperty(value = "人员姓名",required = true)
+    @NotEmpty(message = "人员姓名不能为空")
     private String username; //人员姓名
 
     @Column(value="JH")
-    @ApiModelProperty(value = "警号")
+    @ApiModelProperty(value = "警号",required = true)
+    @NotEmpty(message = "警号不能为空")
     private String jh; //警号
 
     @Column(value="GROUPID")
-    @ApiModelProperty(value = "专案组ID")
+    @ApiModelProperty(value = "专案组ID",required = true)
+    @NotEmpty(message = "专案组ID不能为空")
     private String groupid; //专案组ID
 
     @Column(value="CREATOR")
-    @ApiModelProperty(value = "创建人")
+    @ApiModelProperty(value = "创建人",required = true)
+    @NotEmpty(message = "创建人不能为空")
     private String creator; //创建人
 
     @Column(value="CREATETIME")
-    @ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "创建时间",hidden = true)
     private Date createtime; //创建时间
 
     @Column(value="DEPARMENTCODE")
-    @ApiModelProperty(value = "创建人单位")
+    @NotEmpty(message = "创建人单位不能为空")
+    @ApiModelProperty(value = "创建人单位",required = true)
     private String deparmentcode; //创建人单位
 
     @Column(value="LASTUPDATETIME")
-    @ApiModelProperty(value = "修改时间")
+    @ApiModelProperty(value = "修改时间",hidden = true)
     private Date lastupdatetime; //修改时间
 
     @Column(value="DELETEFLAG")
-    @ApiModelProperty(value = "删除标识")
+    @ApiModelProperty(value = "删除标识",hidden = true)
     private String deleteflag; //删除标识
 
 
