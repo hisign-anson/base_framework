@@ -43,6 +43,9 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "移交父任务ID")
     private String yjrwid; //移交父任务ID
 
+    @ApiModelProperty(value = "发起人联系方式")
+    private String fqrLxfs; //发起人联系方式
+
     @ApiModelProperty(value = "发起人")
     private String fqr; //发起人
 
@@ -131,7 +134,7 @@ public class TaskModel implements Serializable {
         return this.id;
     }
     /**
-     * @param id 任务ID
+     * @param ID 任务ID
      */
     public void setId(String id){
         this.id = id;
@@ -143,7 +146,7 @@ public class TaskModel implements Serializable {
         return this.taskNo;
     }
     /**
-     * @param taskNo 任务编号
+     * @param TASK_NO 任务编号
      */
     public void setTaskNo(String taskNo){
         this.taskNo = taskNo;
@@ -231,6 +234,18 @@ public class TaskModel implements Serializable {
      */
     public void setYjrwid(String yjrwid){
         this.yjrwid = yjrwid;
+    }
+    /**
+     * @return FQR_LXFS 发起人联系方式
+     */
+    public String getFqrLxfs(){
+        return this.fqrLxfs;
+    }
+    /**
+     * @param FQR_LXFS 发起人联系方式
+     */
+    public void setFqrLxfs(String fqrLxfs){
+        this.fqrLxfs = fqrLxfs;
     }
     /**
      * @return FQR 发起人

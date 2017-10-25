@@ -12,6 +12,7 @@
         <result column="BCRWID" property="bcrwid" jdbcType="VARCHAR"/>
         <result column="FKID" property="fkid" jdbcType="VARCHAR"/>
         <result column="YJRWID" property="yjrwid" jdbcType="VARCHAR"/>
+        <result column="FQR_LXFS" property="fqrLxfs" jdbcType="VARCHAR"/>
         <result column="FQR" property="fqr" jdbcType="VARCHAR"/>
         <result column="FQRNAME" property="fqrname" jdbcType="VARCHAR"/>
         <result column="JSR_LXFS" property="jsrLxfs" jdbcType="VARCHAR"/>
@@ -81,6 +82,7 @@
         BCRWID,
         FKID,
         YJRWID,
+        FQR_LXFS,
         FQR,
         FQRNAME,
         JSR_LXFS,
@@ -104,8 +106,8 @@
         DELETEFLAG
     </sql>
 
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
-        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+    <insert id="insert" keyProperty="creator" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="creator">
             SELECT sys_guid() from DUAL
         </selectKey>
         INSERT INTO t_task (
@@ -118,6 +120,7 @@
         BCRWID,
         FKID,
         YJRWID,
+        FQR_LXFS,
         FQR,
         FQRNAME,
         JSR_LXFS,
@@ -149,6 +152,7 @@
         #{bcrwid,jdbcType=VARCHAR},
         #{fkid,jdbcType=VARCHAR},
         #{yjrwid,jdbcType=VARCHAR},
+        #{fqrLxfs,jdbcType=VARCHAR},
         #{fqr,jdbcType=VARCHAR},
         #{fqrname,jdbcType=VARCHAR},
         #{jsrLxfs,jdbcType=VARCHAR},
@@ -173,8 +177,8 @@
         )
     </insert>
 
-    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
-        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+    <insert id="insertNotNull" keyProperty="creator" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="creator">
             SELECT sys_guid() from DUAL
         </selectKey>
         insert into t_task
@@ -205,6 +209,9 @@
             </if>
             <if test="yjrwid !=null  and yjrwid != '' ">
                 YJRWID,
+            </if>
+            <if test="fqrLxfs !=null  and fqrLxfs != '' ">
+                FQR_LXFS,
             </if>
             <if test="fqr !=null  and fqr != '' ">
                 FQR,
@@ -299,6 +306,9 @@
             <if test="yjrwid !=null  and yjrwid != '' ">
                 #{yjrwid,jdbcType=VARCHAR},
             </if>
+            <if test="fqrLxfs !=null  and fqrLxfs != '' ">
+                #{fqrLxfs,jdbcType=VARCHAR},
+            </if>
             <if test="fqr !=null  and fqr != '' ">
                 #{fqr,jdbcType=VARCHAR},
             </if>
@@ -376,6 +386,7 @@
         BCRWID,
         FKID,
         YJRWID,
+        FQR_LXFS,
         FQR,
         FQRNAME,
         JSR_LXFS,
@@ -409,6 +420,7 @@
             #{item.bcrwid,jdbcType=VARCHAR},
             #{item.fkid,jdbcType=VARCHAR},
             #{item.yjrwid,jdbcType=VARCHAR},
+            #{item.fqrLxfs,jdbcType=VARCHAR},
             #{item.fqr,jdbcType=VARCHAR},
             #{item.fqrname,jdbcType=VARCHAR},
             #{item.jsrLxfs,jdbcType=VARCHAR},
@@ -446,6 +458,7 @@
             BCRWID=#{bcrwid,jdbcType=VARCHAR},
             FKID=#{fkid,jdbcType=VARCHAR},
             YJRWID=#{yjrwid,jdbcType=VARCHAR},
+            FQR_LXFS=#{fqrLxfs,jdbcType=VARCHAR},
             FQR=#{fqr,jdbcType=VARCHAR},
             FQRNAME=#{fqrname,jdbcType=VARCHAR},
             JSR_LXFS=#{jsrLxfs,jdbcType=VARCHAR},
@@ -460,7 +473,6 @@
             QS_TIME=#{qsTime,jdbcType=TIMESTAMP},
             YJZT=#{yjzt,jdbcType=VARCHAR},
             YJ_TIME=#{yjTime,jdbcType=TIMESTAMP},
-            CREATOR=#{creator,jdbcType=VARCHAR},
             CREATENAME=#{createname,jdbcType=VARCHAR},
             CREATETIME=#{createtime,jdbcType=TIMESTAMP},
             DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR},
@@ -470,6 +482,7 @@
         </trim>
         WHERE
         ID = #{id,jdbcType=VARCHAR}
+        CREATOR = #{creator,jdbcType=VARCHAR} AND
     </update>
 
     <update id="updateNotNull" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
@@ -498,6 +511,9 @@
             </if>
             <if test="yjrwid !=null  and yjrwid != '' ">
                 YJRWID = #{yjrwid,jdbcType=VARCHAR},
+            </if>
+            <if test="fqrLxfs !=null  and fqrLxfs != '' ">
+                FQR_LXFS = #{fqrLxfs,jdbcType=VARCHAR},
             </if>
             <if test="fqr !=null  and fqr != '' ">
                 FQR = #{fqr,jdbcType=VARCHAR},
@@ -541,9 +557,6 @@
             <if test="yjTime !=null ">
                 YJ_TIME = #{yjTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="creator !=null  and creator != '' ">
-                CREATOR = #{creator,jdbcType=VARCHAR},
-            </if>
             <if test="createname !=null  and createname != '' ">
                 CREATENAME = #{createname,jdbcType=VARCHAR},
             </if>
@@ -564,6 +577,7 @@
             </if>
         </trim>
         WHERE ID = #{id,jdbcType=VARCHAR}
+        WHERE CREATOR = #{creator,jdbcType=VARCHAR} AND
     </update>
 
     <update id="updateCustom" parameterType="com.hisign.bfun.bmodel.UpdateParams">
@@ -583,6 +597,7 @@
     <delete id="deleteById" parameterType="java.lang.String">
         DELETE FROM t_task WHERE
          ID = #{id,jdbcType=VARCHAR}
+         CREATOR = #{creator,jdbcType=VARCHAR}
     </delete>
 
     <!--根据list(ids)删除对象-->
@@ -602,7 +617,10 @@
         SELECT
         <include refid="Base_Column_List" />
         FROM t_task
-        WHERE ID = #{id,jdbcType=VARCHAR}
+        WHERE
+        ID = #{id,jdbcType=VARCHAR}
+        CREATOR = #{creator,jdbcType=VARCHAR}
+        and rownum = 1
     </select>
 
     <select id="findByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultMap="BaseResultMap">
@@ -636,6 +654,9 @@
         </if>
         <if test="yjrwid != null  and yjrwid != '' ">
             and YJRWID=#{yjrwid,jdbcType=VARCHAR}
+        </if>
+        <if test="fqrLxfs != null  and fqrLxfs != '' ">
+            and FQR_LXFS=#{fqrLxfs,jdbcType=VARCHAR}
         </if>
         <if test="fqr != null  and fqr != '' ">
             and FQR=#{fqr,jdbcType=VARCHAR}
@@ -734,6 +755,9 @@
         </if>
         <if test="yjrwid != null  and yjrwid != '' ">
             and YJRWID=#{yjrwid,jdbcType=VARCHAR}
+        </if>
+        <if test="fqrLxfs != null  and fqrLxfs != '' ">
+            and FQR_LXFS=#{fqrLxfs,jdbcType=VARCHAR}
         </if>
         <if test="fqr != null  and fqr != '' ">
             and FQR=#{fqr,jdbcType=VARCHAR}

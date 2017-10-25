@@ -28,7 +28,7 @@ public class Group extends BaseModel implements Serializable {
     private String pgroupid; //父专案组ID
 
     @Column(value="GROUPNUM")
-    @ApiModelProperty(value = "专案组编号")
+    @ApiModelProperty(value = "专案组编号",hidden = true)
     private String groupnum; //专案组编号
 
     @Column(value="GROUPNAME")

@@ -1,30 +1,35 @@
 package com.hisign.xingzhen.xz.service.impl;
 
+import com.hisign.bfun.benum.BaseEnum;
+import com.hisign.bfun.bexception.BusinessException;
+import com.hisign.bfun.bif.BaseMapper;
+import com.hisign.bfun.bif.BaseRest;
+import com.hisign.bfun.bif.BaseServiceImpl;
+import com.hisign.bfun.bmodel.Conditions;
+import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.bfun.bmodel.UpdateParams;
+import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.UsergroupModel;
+import com.hisign.xingzhen.xz.api.service.UsergroupService;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
 import com.hisign.xingzhen.xz.mapper.UsergroupMapper;
-import com.hisign.xingzhen.xz.api.entity.Usergroup;
-import com.hisign.xingzhen.xz.api.service.UsergroupService;
+import com.hisign.xingzhen.xz.mapper.XzLogMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
-import com.hisign.xingzhen.xz.mapper.XzLogMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import com.hisign.bfun.benum.BaseEnum;
-import com.hisign.bfun.bif.*;
-import com.hisign.bfun.butils.JsonResultUtil;
-import com.hisign.bfun.bexception.BusinessException;
-import com.hisign.bfun.bmodel.*;
 
 
 /**
@@ -34,6 +39,8 @@ import com.hisign.bfun.bmodel.*;
  */
 @Service("usergroupService")
 public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupModel, String> implements UsergroupService {
+
+    Logger log = LoggerFactory.getLogger(UsergroupServiceImpl.class);
 
     @Autowired
     protected UsergroupMapper usergroupMapper;
@@ -100,11 +107,12 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
 
     @Override
     public JsonResult addNotNull(Usergroup entity) throws BusinessException {
+        Date now=new Date();
         entity.setId(UUID.randomUUID().toString());
-        entity.setCreatetime(new Date());
+        entity.setCreatetime(now);
         entity.setDeleteflag(Constants.DELETE_FALSE);
+        entity.setLastupdatetime(now);
         JsonResult result = super.addNotNull(entity);
-
         if (result.getFlag()==1){
             //保存操作日志
             try {
@@ -112,8 +120,9 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, content, entity.getCreator(), entity.getCreatetime(), entity.getGroupid());
                 xzLogMapper.insert(xzLog);
             } catch (Exception e) {
-
+                log.error(e.getMessage());
             }
+            return JsonResultUtil.success(super.getById(entity.getId()));
         }
         return result;
     }

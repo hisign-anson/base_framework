@@ -15,9 +15,13 @@ import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Ajgroup;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.AjgroupModel;
+import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.service.AjgroupService;
 import com.hisign.xingzhen.xz.mapper.AjgroupMapper;
+import com.hisign.xingzhen.xz.mapper.GroupMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +39,13 @@ import java.util.UUID;
 @Service("ajgroupService")
 public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, String> implements AjgroupService {
 
+    Logger log = LoggerFactory.getLogger(AjgroupService.class);
+
     @Autowired
     protected AjgroupMapper ajgroupMapper;
+
+    @Autowired
+    private GroupMapper groupMapper;
 
     @Autowired
     private XzLogMapper xzLogMapper;
@@ -54,8 +63,15 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
 
     @Override
     public JsonResult addNotNull(Ajgroup entity) throws BusinessException {
+        GroupModel groupModel=groupMapper.findById(entity.getGroupid());
+        if(groupModel==null){
+            return error("专案组不存在");
+        }
+        Date now=new Date();
         entity.setId(UUID.randomUUID().toString());
-        entity.setCreatetime(new Date());
+        entity.setCreatetime(now);
+        entity.setLastupdatetime(now);
+        entity.setPgroupid(groupModel.getPgroupid());
         entity.setDeleteflag(Constants.DELETE_FALSE);
         JsonResult result = super.addNotNull(entity);
         if (result.getFlag()==1){
@@ -67,10 +83,10 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
                     xzLogMapper.insertNotNull(xzLog);
                 }
             } catch (Exception e) {
-
+                log.error(e.getMessage());
             }
+            return JsonResultUtil.success(super.getById(entity.getId()));
         }
-
         return super.addNotNull(entity);
     }
 

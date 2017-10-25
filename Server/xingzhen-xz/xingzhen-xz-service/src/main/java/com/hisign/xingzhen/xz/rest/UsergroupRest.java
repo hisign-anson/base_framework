@@ -1,21 +1,25 @@
 package com.hisign.xingzhen.xz.rest;
 
+import com.hisign.bfun.bexception.BusinessException;
+import com.hisign.bfun.bif.BaseRest;
+import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.model.UsergroupModel;
 import com.hisign.xingzhen.xz.api.service.UsergroupService;
-
-import javax.annotation.Resource;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.hisign.bfun.bif.*;
-import com.hisign.bfun.bmodel.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +41,16 @@ public class UsergroupRest extends BaseRest<Usergroup,UsergroupModel, String, Us
     @Resource(name = "usergroupService")
     public void setBaseService(UsergroupService baseService) {
         super.setBaseService(baseService);
+    }
+
+    @ApiOperation(value = "添加组内成员",httpMethod ="POST",response = JsonResult.class)
+    @RequestMapping(value = "/addUserGroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult addGroup(@Valid @RequestBody Usergroup usergroup, BindingResult result) throws BusinessException {
+        JsonResult jr = handleResult(result);
+        if (jr.getFlag()!=1){
+            return jr;
+        }
+        return baseService.addNotNull(usergroup);
     }
 
     /**

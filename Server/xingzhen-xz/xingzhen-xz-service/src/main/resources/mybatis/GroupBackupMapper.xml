@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.hisign.xingzhen.xZ.mapper.GroupBackupMapper">
-	<resultMap type="com.hisign.xingzhen.xZ.api.model.GroupBackupModel" id="BaseResultMap">
+<mapper namespace="com.hisign.xingzhen.xz.mapper.GroupBackupMapper">
+	<resultMap type="com.hisign.xingzhen.xz.api.model.GroupBackupModel" id="BaseResultMap">
 		<result column="ID" property="id" jdbcType="VARCHAR"/>
 		<result column="GROUPID" property="groupid" jdbcType="VARCHAR"/>
 		<result column="BACKUP_TIME" property="backupTime" jdbcType="TIMESTAMP"/>
@@ -64,7 +64,7 @@
 		POLICE_ID
 	</sql>
 
-	<insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xZ.api.entity.GroupBackup">
+	<insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup">
 		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
 			SELECT sys_guid() from DUAL
 		</selectKey>
@@ -93,7 +93,7 @@
 		)
 	</insert>
 
-	<insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xZ.api.entity.GroupBackup">
+	<insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup">
 		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
 			SELECT sys_guid() from DUAL
 		</selectKey>
@@ -195,7 +195,7 @@
 	</insert>
 
 	<!-- 更新 -->
-	<update id="update" parameterType="com.hisign.xingzhen.xZ.api.entity.GroupBackup">
+	<update id="update" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup">
 		UPDATE t_group_backup
 		<trim prefix="SET" suffixOverrides=",">
 			GROUPID=#{groupid,jdbcType=VARCHAR},
@@ -212,7 +212,7 @@
 		ID = #{id,jdbcType=VARCHAR}
 	</update>
 
-	<update id="updateNotNull" parameterType="com.hisign.xingzhen.xZ.api.entity.GroupBackup">
+	<update id="updateNotNull" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup">
 		UPDATE t_group_backup
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="groupid !=null  and groupid != '' ">
@@ -287,7 +287,7 @@
 		and rownum = 1
 	</select>
 
-	<select id="findByEntity" parameterType="com.hisign.xingzhen.xZ.api.entity.GroupBackup" resultMap="BaseResultMap">
+	<select id="findByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM t_group_backup
@@ -325,7 +325,7 @@
 		and rownum = 1
 	</select>
 
-	<select id="findListByEntity" parameterType="com.hisign.xingzhen.xZ.api.entity.GroupBackup" resultMap="BaseResultMap">
+	<select id="findListByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM t_group_backup
