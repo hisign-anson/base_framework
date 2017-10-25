@@ -13,11 +13,14 @@ import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Group;
+import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
+import com.hisign.xingzhen.xz.api.model.UsergroupModel;
 import com.hisign.xingzhen.xz.api.param.GroupParam;
 import com.hisign.xingzhen.xz.api.service.GroupService;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
+import com.hisign.xingzhen.xz.mapper.UsergroupMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +49,9 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     @Autowired
     private XzLogMapper xzLogMapper;
 
+    @Autowired
+    private UsergroupMapper usergroupMapper;
+
     Logger log = LoggerFactory.getLogger(GroupServiceImpl.class);
 
     @Override
@@ -60,6 +66,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     }
 
     @Override
+    @Transactional
     public JsonResult addNotNull(Group entity) throws BusinessException {
         if(entity.getDeparmentcode()==null||entity.getDeparmentcode().length()!=12){
             return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
@@ -81,6 +88,23 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         entity.setLastupdatetime(now);
         entity.setDeleteflag(Constants.DELETE_FALSE);
         JsonResult result = super.addNotNull(entity);
+
+        //把创建人添加到关联人员
+        Usergroup usergroup = new Usergroup();
+        usergroup.setId(UUID.randomUUID().toString());
+        usergroup.setCreatetime(new Date());
+        usergroup.setCreator(entity.getCreator());
+        usergroup.setGroupid(entity.getId());
+        usergroup.setDeleteflag(Constants.DELETE_FALSE);
+        usergroup.setDeparmentcode(entity.getDeparmentcode());
+        usergroup.setUserid(entity.getCreator());
+        usergroup.setJh(entity.getPoliceId());
+
+        long num = usergroupMapper.insertNotNull(usergroup);
+        if (num!=1){
+            throw new BusinessException("对不起，关联创建人失败!");
+        }
+
         if (result.getFlag()==1){
             try {
                 String content = "专案组新增(ID:"+entity.getId()+")";

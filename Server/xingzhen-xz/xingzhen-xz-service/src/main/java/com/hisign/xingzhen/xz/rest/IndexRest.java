@@ -5,6 +5,7 @@ import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.controller.BaseController;
+import com.hisign.xingzhen.common.util.DateUtil;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.service.IndexService;
@@ -82,15 +83,16 @@ public class IndexRest extends BaseController {
 
     @ApiOperation(value = "专案组破案情况",notes = "专案组破案情况",httpMethod = "GET", response = Map.class)
     @RequestMapping(value = "/getSolveCaseInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getSolveCaseInfo() {
-        return indexService.getGroupCaseInfo(Constants.YES);
+    public JsonResult getSolveCaseInfo(@RequestParam(defaultValue = "1" ,required = false) int dateType) {
+        Date[] dateSection = DateUtil.getDateSection(dateType, new Date());
+        return indexService.getGroupCaseInfo(dateSection,Constants.YES);
     }
 
     @ApiOperation(value = "专案组创建情况",notes = "专案组创建情况",httpMethod = "GET", response = Map.class)
     @RequestMapping(value = "/getCreateInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getCreateInfo() {
-        String a = "";
-        return indexService.getGroupCaseInfo(null);
+    public JsonResult getCreateInfo(@RequestParam(defaultValue = "1" ,required = false) int dateType) {
+        Date[] dateSection = DateUtil.getDateSection(dateType, new Date());
+        return indexService.getGroupCaseInfo(dateSection,null);
     }
 
 

@@ -7,6 +7,7 @@ import com.hisign.xingzhen.xz.api.model.GroupModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public interface GroupMapper extends BaseMapper<Group,GroupModel, String> {
 
     long findCountGroupByCondition(Group group);
 
-    Map<String,Long> findGroupCaseInfo(@Param("backupStatus") String backupStatus);
+    Map<String,Long> findGroupCaseInfo(@Param("startTime") String startTime,@Param("endTime") String endTime, @Param("backupStatus") String backupStatus);
 
     public List<GroupModel> getChildGroupList(String pgroupid);
 }

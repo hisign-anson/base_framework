@@ -79,6 +79,10 @@ public class Group extends BaseModel implements Serializable {
     @ApiModelProperty(value = "删除标识",hidden = true)
     private String deleteflag; //删除标识
 
+    //===================================接收字段
+    @ApiModelProperty(value = "警号",hidden = true)
+    private String policeId; //警号
+
     /**
      *默认空构造函数
      */
@@ -257,6 +261,14 @@ public class Group extends BaseModel implements Serializable {
 
     public static String getTbName() {
         return "t_group";
+    }
+
+    public String getPoliceId() {
+        return policeId;
+    }
+
+    public void setPoliceId(String policeId) {
+        this.policeId = policeId;
     }
 
     @Override

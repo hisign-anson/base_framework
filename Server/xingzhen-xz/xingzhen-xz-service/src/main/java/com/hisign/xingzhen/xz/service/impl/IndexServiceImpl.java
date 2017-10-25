@@ -18,10 +18,7 @@ import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -89,7 +86,7 @@ public class IndexServiceImpl implements IndexService{
     }
 
     @Override
-    public JsonResult getGroupCaseInfo(String backupStatus) {
+    public JsonResult getGroupCaseInfo(Date[] dateSection,String backupStatus) {
         Map<String, Long> map = groupMapper.findGroupCaseInfo(backupStatus);
         return JsonResultUtil.success(map);
     }

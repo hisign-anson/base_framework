@@ -83,10 +83,8 @@ public class AsjAjServiceImpl extends BaseServiceImpl<AsjAj,AsjAjModel, String> 
 
 	 @Override
 	 public JsonResult getAjGroupPage(AsjAjParam param) {
-		 AsjAj aj = new AsjAj();
-		 BeanUtils.copyProperties(param,aj);
-		 List<AsjAjModel> list = asjAjMapper.findAjGroupPage(aj);
-		 long count = asjAjMapper.findAjGroupPageCount(aj);
+		 List<AsjAjModel> list = asjAjMapper.findAjGroupPage(param);
+		 long count = asjAjMapper.findAjGroupPageCount(param);
 		 return JsonResultUtil.success(count,list);
 	 }
 
