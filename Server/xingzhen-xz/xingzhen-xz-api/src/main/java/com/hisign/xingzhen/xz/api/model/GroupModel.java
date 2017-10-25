@@ -58,11 +58,12 @@ public class GroupModel implements Serializable {
     @ApiModelProperty(value = "删除标识")
     private String deleteflag; //删除标识
 
-    @ApiModelProperty(value = "成员数")
-    private int num;//成员数
-
+    //-------------------------返回字段
     @ApiModelProperty(value = "涉及案件数")
-    private int caseNum;//涉及案件数
+    private String caseNum;
+
+    @ApiModelProperty(value = "成员数")
+    private String crewNum;
 
 
     /**
@@ -241,24 +242,24 @@ public class GroupModel implements Serializable {
         this.deleteflag = deleteflag;
     }
 
-    @Override
-    public String toString(){
-        return JSON.toJSONString(this);
-    }
-
-    public int getNum() {
-        return num;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
-    }
-
-    public int getCaseNum() {
+    public String getCaseNum() {
         return caseNum;
     }
 
-    public void setCaseNum(int caseNum) {
+    public void setCaseNum(String caseNum) {
         this.caseNum = caseNum;
+    }
+
+    public String getCrewNum() {
+        return crewNum;
+    }
+
+    public void setCrewNum(String crewNum) {
+        this.crewNum = crewNum;
+    }
+
+    @Override
+    public String toString(){
+        return JSON.toJSONString(this);
     }
 }

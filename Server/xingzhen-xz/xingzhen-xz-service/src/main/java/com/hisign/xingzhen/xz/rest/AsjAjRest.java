@@ -39,7 +39,7 @@ public class AsjAjRest extends BaseRest<AsjAj,AsjAjModel, String, AsjAjService> 
     /**
      * 所有案件查询分页
      *
-     * @param group
+     * @param param
      * @return
      */
     @ApiOperation(value = "所有案件查询分页",httpMethod ="POST",response = AsjAjModel.class)
@@ -79,7 +79,7 @@ public class AsjAjRest extends BaseRest<AsjAj,AsjAjModel, String, AsjAjService> 
 
     /**
      * 组内涉及案件分页
-     * @param aj
+     * @param param
      * @return
      */
     @Override

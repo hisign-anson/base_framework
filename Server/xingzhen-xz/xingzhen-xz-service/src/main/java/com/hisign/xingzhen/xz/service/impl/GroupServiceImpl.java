@@ -15,13 +15,13 @@ import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
+import com.hisign.xingzhen.xz.api.param.GroupParam;
 import com.hisign.xingzhen.xz.api.service.GroupService;
-import com.hisign.xingzhen.xz.mapper.AjgroupMapper;
-import com.hisign.xingzhen.xz.mapper.AsjAjMapper;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,12 +44,6 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     protected GroupMapper groupMapper;
 
     @Autowired
-    private AjgroupMapper ajgroupMapper;
-
-    @Autowired
-    private AsjAjMapper asjAjMapper;
-
-    @Autowired
     private XzLogMapper xzLogMapper;
 
     Logger log = LoggerFactory.getLogger(GroupServiceImpl.class);
@@ -67,6 +61,9 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
     @Override
     public JsonResult addNotNull(Group entity) throws BusinessException {
+        if(entity.getDeparmentcode()==null||entity.getDeparmentcode().length()!=12){
+            return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+        }
         if (!StringUtils.isEmpty(entity.getPgroupid())){
             //获取父专案组
             Group pgroup = new Group();
@@ -92,7 +89,8 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
                 }
                 //保存操作日志
                 XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP,content , entity.getCreator(), now, entity.getId());
-                xzLogMapper.insertNotNull(xzLog);  } catch (Exception e) {
+                xzLogMapper.insertNotNull(xzLog);
+            } catch (Exception e) {
                 log.error(e.getMessage());
             }
         }
@@ -158,11 +156,19 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     }
 
     @Override
-    public JsonResult getGroupPage(Group group) {
+    public JsonResult getGroupPage(GroupParam groupParam) {
+        Group group=new Group();
+        BeanUtils.copyProperties(groupParam, group);
         //获取父专案组
         List<GroupModel> list = groupMapper.findGroupByCondition(group);
         long count = groupMapper.findCountGroupByCondition(group);
         return JsonResultUtil.success(count, list);
+    }
+
+    @Override
+    public JsonResult getChildGroupList(String pgroupid) {
+        List<GroupModel> list = groupMapper.getChildGroupList(pgroupid);
+        return JsonResultUtil.success(list);
     }
 
 }

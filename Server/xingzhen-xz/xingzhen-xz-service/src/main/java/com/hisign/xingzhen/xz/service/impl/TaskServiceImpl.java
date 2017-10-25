@@ -169,9 +169,9 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                             }catch (Exception e) {
                                 log.error(e.getMessage());
                             }
+                            //第一次进去现在已确认
+                            taskFkModel.setQrzt(Constants.YES);
                         }
-                        //第一次进去现在已确认
-                        taskFkModel.setQrzt(Constants.YES);
                     }
                 }
                 //taskModel.setTaskFkModels(taskFkModels);
@@ -194,8 +194,8 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                      } catch (Exception e) {
                          log.error(e.getMessage());
                      }
+                    taskModel.setQszt(Constants.YES);
                 }
-                taskModel.setQszt(Constants.YES);
             }
         }
         return JsonResultUtil.success(taskModel);

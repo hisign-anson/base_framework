@@ -9,6 +9,7 @@ import java.util.Date;
  * Created by hisign on 2017/10/23.
  */
 public class AsjAjParam implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "案件编号")
     private String ajbh; //案件编号

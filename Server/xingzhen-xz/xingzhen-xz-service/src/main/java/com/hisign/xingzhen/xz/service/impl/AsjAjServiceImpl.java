@@ -1,21 +1,24 @@
 package com.hisign.xingzhen.xz.service.impl;
 
+import com.hisign.bfun.benum.BaseEnum;
+import com.hisign.bfun.bexception.BusinessException;
+import com.hisign.bfun.bif.BaseMapper;
+import com.hisign.bfun.bif.BaseServiceImpl;
+import com.hisign.bfun.bmodel.Conditions;
+import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.bfun.bmodel.UpdateParams;
+import com.hisign.bfun.butils.JsonResultUtil;
+import com.hisign.xingzhen.xz.api.entity.AsjAj;
 import com.hisign.xingzhen.xz.api.model.AsjAjModel;
 import com.hisign.xingzhen.xz.api.param.AsjAjParam;
-import com.hisign.xingzhen.xz.mapper.AsjAjMapper;
-import com.hisign.xingzhen.xz.api.entity.AsjAj;
 import com.hisign.xingzhen.xz.api.service.AsjAjService;
-import java.util.List;
-
+import com.hisign.xingzhen.xz.mapper.AsjAjMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.hisign.bfun.benum.BaseEnum;
-import com.hisign.bfun.bif.*;
-import com.hisign.bfun.butils.JsonResultUtil;
-import com.hisign.bfun.bexception.BusinessException;
-import com.hisign.bfun.bmodel.*;
+
+import java.util.List;
 
 
  /**
@@ -82,7 +85,6 @@ public class AsjAjServiceImpl extends BaseServiceImpl<AsjAj,AsjAjModel, String> 
 	 public JsonResult getAjGroupPage(AsjAjParam param) {
 		 AsjAj aj = new AsjAj();
 		 BeanUtils.copyProperties(param,aj);
-
 		 List<AsjAjModel> list = asjAjMapper.findAjGroupPage(aj);
 		 long count = asjAjMapper.findAjGroupPageCount(aj);
 		 return JsonResultUtil.success(count,list);
@@ -92,6 +94,4 @@ public class AsjAjServiceImpl extends BaseServiceImpl<AsjAj,AsjAjModel, String> 
 	 public AsjAj getFirstCaseByGroupId(String id) {
 		 return asjAjMapper.findFirstCaseByGroupId(id);
 	 }
-
-
  }
