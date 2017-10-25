@@ -6,9 +6,11 @@ import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.Md5Helper;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.LoginResponse;
+import com.hisign.xingzhen.sys.api.model.SysOrgInfo;
 import com.hisign.xingzhen.sys.api.model.SysUser;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.sys.api.service.SysLogService;
+import com.hisign.xingzhen.sys.api.service.SysOrgInfoService;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.sys.controller.LoginController;
 import io.swagger.annotations.Api;
@@ -35,6 +37,9 @@ public class AppLoginRest {
 
     @Resource
     private SysUserService sysUserService;
+
+    @Resource
+    private SysOrgInfoService sysOrgInfoService;
 
     @Resource
     private SysLogService sysLogService;
@@ -73,16 +78,19 @@ public class AppLoginRest {
                     String tokenId = sysUserService.addUserToken(sysUser.getId());//添加token和用户id的关联
                     //获取userinfo
                     SysUserInfo userInfo = sysUserService.getUserInfoByUserId(sysUser.getUserId());
+                    //获取组织
+                    SysOrgInfo orgInfo = sysOrgInfoService.getOrgInfoByID(userInfo.getOrgId());
 
                     LoginResponse loginResponse = new LoginResponse();
                     loginResponse.setAccount(sysUser.getUserName());
                     loginResponse.setUserId(sysUser.getUserId());
                     loginResponse.setToken(tokenId);
                     loginResponse.setUserInfo(userInfo);
-                    loginResponse.setSysCode(userInfo.getOrgId());
+                    loginResponse.setSysCode(orgInfo.getOrgCode());
                     loginResponse.setCreateDate(sysUser.getCreateDate());
                     result.setFlag(1);
                     result.setData(loginResponse);
+
 
                     sysUser.setIpAddress(IpUtil.getRemotIpAddr(BaseController.getRequest()));
                     sysLogService.insertLogUserInfo(sysUser);
