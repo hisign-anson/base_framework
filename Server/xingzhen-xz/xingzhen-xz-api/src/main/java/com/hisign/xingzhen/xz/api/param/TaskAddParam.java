@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -38,7 +39,7 @@ public class TaskAddParam implements Serializable {
     @ApiModelProperty(value = "接收人姓名",required = true)
     private String jsrname; //接收人
 
-    @NotEmpty(message = "反馈截止时间不能为空")
+    @NotNull(message = "反馈截止时间不能为空")
     @ApiModelProperty(value = "反馈截止时间",required = true)
     private Date fkjzTime; //反馈截止时间
 
