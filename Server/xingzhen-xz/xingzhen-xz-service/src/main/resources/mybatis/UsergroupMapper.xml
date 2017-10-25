@@ -15,6 +15,28 @@
         <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
     </resultMap>
 
+	<resultMap id="SysUserInfoResultMap" type="com.hisign.xingzhen.sys.api.model.SysUserInfo">
+		<result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+		<result column="POLICE_ID" jdbcType="VARCHAR" property="policeId" />
+		<result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+		<result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+		<result column="SEX" jdbcType="DECIMAL" property="sex" />
+		<result column="CID" jdbcType="VARCHAR" property="cid" />
+		<result column="PHONE" jdbcType="VARCHAR" property="phone" />
+		<result column="AVATAR" jdbcType="VARCHAR" property="avatar" />
+		<result column="POST" jdbcType="VARCHAR" property="post" />
+		<result column="POST_NAME" jdbcType="VARCHAR" property="postName" />
+		<result column="BIRTH" jdbcType="TIMESTAMP" property="birth" />
+		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+		<result column="NOTE" jdbcType="VARCHAR" property="note" />
+		<result column="STATUS" jdbcType="DECIMAL" property="status" />
+		<result column="CREATE_PID" jdbcType="VARCHAR" property="createPid" />
+		<result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="MODIFY_PID" jdbcType="VARCHAR" property="modifyPid" />
+		<result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+	</resultMap>
+
     <sql id="Conditions_Where_Clause">
         <foreach collection="oredCriteria" open="where" item="o" separator="or">
             <if test="o.valid">
