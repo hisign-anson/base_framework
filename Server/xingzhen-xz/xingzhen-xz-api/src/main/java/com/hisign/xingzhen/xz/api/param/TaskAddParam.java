@@ -28,7 +28,7 @@ public class TaskAddParam implements Serializable {
     @ApiModelProperty(value = "专案组ID",required = true)
     private String groupid; //专案组ID
 
-    @ApiModelProperty(value = "接收联系方式")
+    @ApiModelProperty(value = "接收人联系方式")
     private String jsrLxfs; //接收联系方式
 
     @NotEmpty(message = "接收人不能为空")
@@ -46,6 +46,9 @@ public class TaskAddParam implements Serializable {
     @NotEmpty(message = "创建人不能为空")
     @ApiModelProperty(value = "创建人",required = true)
     private String creator; //创建人
+
+    @NotEmpty(message = "发起人联系方式")
+    private String fqrLxfs; //发起人联系方式
 
     @NotEmpty(message = "创建人姓名不能为空")
     @ApiModelProperty(value = "创建人姓名",required = true)
@@ -127,6 +130,14 @@ public class TaskAddParam implements Serializable {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public String getFqrLxfs() {
+        return fqrLxfs;
+    }
+
+    public void setFqrLxfs(String fqrLxfs) {
+        this.fqrLxfs = fqrLxfs;
     }
 
     public String getCreatename() {
