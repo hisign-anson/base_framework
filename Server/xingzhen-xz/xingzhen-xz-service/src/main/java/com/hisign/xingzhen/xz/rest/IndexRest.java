@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @Api(description = "首页")
 @RestController
-@RequestMapping("index")
+@RequestMapping("/xz/index")
 public class IndexRest extends BaseController {
 
     @Autowired

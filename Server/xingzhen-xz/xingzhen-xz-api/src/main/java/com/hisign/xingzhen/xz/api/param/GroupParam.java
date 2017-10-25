@@ -30,7 +30,7 @@ public class GroupParam implements Serializable {
     private Date endTime;
 
     @ApiModelProperty(value = "人员名称")
-    private String crewname;//人员名称
+    private String memberId;//人员ID
 
     @ApiModelProperty(value = "所属单位")
     private String deparmentcode; //所属单位
@@ -89,12 +89,12 @@ public class GroupParam implements Serializable {
         this.endTime = endTime;
     }
 
-    public String getCrewname() {
-        return crewname;
+    public String getMemberId() {
+        return memberId;
     }
 
-    public void setCrewname(String crewname) {
-        this.crewname = crewname;
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 
     public String getDeparmentcode() {

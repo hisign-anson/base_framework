@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.hisign.xingzhen.xz.mapper.GroupBackupMapper">
-	<resultMap type="com.hisign.xingzhen.xz.api.model.GroupBackupModel" id="BaseResultMap">
-      <result column="ID" property="id" jdbcType="VARCHAR"/>
-      <result column="GROUPID" property="groupid" jdbcType="VARCHAR"/>
-      <result column="BACKUP_TIME" property="backupTime" jdbcType="TIMESTAMP"/>
-      <result column="BACKUP_REASON" property="backupReason" jdbcType="VARCHAR"/>
-      <result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
-      <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP"/>
-      <result column="DEPARMENTCODE" property="deparmentcode" jdbcType="VARCHAR"/>
-      <result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
-      <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
+<mapper namespace="com.hisign.xingzhen.xZ.mapper.GroupBackupMapper">
+	<resultMap type="com.hisign.xingzhen.xZ.api.model.GroupBackupModel" id="BaseResultMap">
+		<result column="ID" property="id" jdbcType="VARCHAR"/>
+		<result column="GROUPID" property="groupid" jdbcType="VARCHAR"/>
+		<result column="BACKUP_TIME" property="backupTime" jdbcType="TIMESTAMP"/>
+		<result column="BACKUP_REASON" property="backupReason" jdbcType="VARCHAR"/>
+		<result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
+		<result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP"/>
+		<result column="DEPARMENTCODE" property="deparmentcode" jdbcType="VARCHAR"/>
+		<result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
+		<result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
+		<result column="POLICE_ID" property="policeId" jdbcType="VARCHAR"/>
 	</resultMap>
 
 	<sql id="Conditions_Where_Clause">
@@ -59,10 +60,11 @@
 		CREATETIME,
 		DEPARMENTCODE,
 		LASTUPDATETIME,
-		DELETEFLAG
+		DELETEFLAG,
+		POLICE_ID
 	</sql>
 
-	<insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup">
+	<insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xZ.api.entity.GroupBackup">
 		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
 			SELECT sys_guid() from DUAL
 		</selectKey>
@@ -75,7 +77,8 @@
 		CREATETIME,
 		DEPARMENTCODE,
 		LASTUPDATETIME,
-		DELETEFLAG
+		DELETEFLAG,
+		POLICE_ID
 		) VALUES (
 		#{id,jdbcType=VARCHAR},
 		#{groupid,jdbcType=VARCHAR},
@@ -85,11 +88,12 @@
 		#{createtime,jdbcType=TIMESTAMP},
 		#{deparmentcode,jdbcType=VARCHAR},
 		#{lastupdatetime,jdbcType=TIMESTAMP},
-		#{deleteflag,jdbcType=VARCHAR}
+		#{deleteflag,jdbcType=VARCHAR},
+		#{policeId,jdbcType=VARCHAR}
 		)
 	</insert>
 
-	<insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup">
+	<insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xZ.api.entity.GroupBackup">
 		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
 			SELECT sys_guid() from DUAL
 		</selectKey>
@@ -120,7 +124,10 @@
 				LASTUPDATETIME,
 			</if>
 			<if test="deleteflag !=null  and deleteflag != '' ">
-				DELETEFLAG
+				DELETEFLAG,
+			</if>
+			<if test="policeId !=null  and policeId != '' ">
+				POLICE_ID
 			</if>
 		</trim>
 		values
@@ -150,7 +157,10 @@
 				#{lastupdatetime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="deleteflag !=null  and deleteflag != '' ">
-				#{deleteflag,jdbcType=VARCHAR}
+				#{deleteflag,jdbcType=VARCHAR},
+			</if>
+			<if test="policeId !=null  and policeId != '' ">
+				#{policeId,jdbcType=VARCHAR}
 			</if>
 		</trim>
 	</insert>
@@ -165,7 +175,8 @@
 		CREATETIME,
 		DEPARMENTCODE,
 		LASTUPDATETIME,
-		DELETEFLAG
+		DELETEFLAG,
+		POLICE_ID
 		)
 		<foreach collection="list" open="(" close=")" item="item" index="index" separator="union all" >
 			select
@@ -177,13 +188,14 @@
 			#{item.createtime,jdbcType=TIMESTAMP},
 			#{item.deparmentcode,jdbcType=VARCHAR},
 			#{item.lastupdatetime,jdbcType=TIMESTAMP},
-			#{item.deleteflag,jdbcType=VARCHAR}
+			#{item.deleteflag,jdbcType=VARCHAR},
+			#{item.policeId,jdbcType=VARCHAR}
 			from dual
 		</foreach>
 	</insert>
 
 	<!-- 更新 -->
-	<update id="update" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup">
+	<update id="update" parameterType="com.hisign.xingzhen.xZ.api.entity.GroupBackup">
 		UPDATE t_group_backup
 		<trim prefix="SET" suffixOverrides=",">
 			GROUPID=#{groupid,jdbcType=VARCHAR},
@@ -193,13 +205,14 @@
 			CREATETIME=#{createtime,jdbcType=TIMESTAMP},
 			DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR},
 			LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP},
-			DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
+			DELETEFLAG=#{deleteflag,jdbcType=VARCHAR},
+			POLICE_ID=#{policeId,jdbcType=VARCHAR}
 		</trim>
 		WHERE
 		ID = #{id,jdbcType=VARCHAR}
 	</update>
 
-	<update id="updateNotNull" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup">
+	<update id="updateNotNull" parameterType="com.hisign.xingzhen.xZ.api.entity.GroupBackup">
 		UPDATE t_group_backup
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="groupid !=null  and groupid != '' ">
@@ -224,10 +237,13 @@
 				LASTUPDATETIME = #{lastupdatetime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="deleteflag !=null  and deleteflag != '' ">
-				DELETEFLAG = #{deleteflag,jdbcType=VARCHAR}
+				DELETEFLAG = #{deleteflag,jdbcType=VARCHAR},
+			</if>
+			<if test="policeId !=null  and policeId != '' ">
+				POLICE_ID = #{policeId,jdbcType=VARCHAR}
 			</if>
 		</trim>
-		ID = #{id,jdbcType=VARCHAR}
+		WHERE ID = #{id,jdbcType=VARCHAR}
 	</update>
 
 	<update id="updateCustom" parameterType="com.hisign.bfun.bmodel.UpdateParams">
@@ -271,7 +287,7 @@
 		and rownum = 1
 	</select>
 
-	<select id="findByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup" resultMap="BaseResultMap">
+	<select id="findByEntity" parameterType="com.hisign.xingzhen.xZ.api.entity.GroupBackup" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM t_group_backup
@@ -302,11 +318,14 @@
 		</if>
 		<if test="deleteflag != null  and deleteflag != '' ">
 			and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
+		</if>
+		<if test="policeId != null  and policeId != '' ">
+			and POLICE_ID=#{policeId,jdbcType=VARCHAR}
 		</if>
 		and rownum = 1
 	</select>
 
-	<select id="findListByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup" resultMap="BaseResultMap">
+	<select id="findListByEntity" parameterType="com.hisign.xingzhen.xZ.api.entity.GroupBackup" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM t_group_backup
@@ -337,6 +356,9 @@
 		</if>
 		<if test="deleteflag != null  and deleteflag != '' ">
 			and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
+		</if>
+		<if test="policeId != null  and policeId != '' ">
+			and POLICE_ID=#{policeId,jdbcType=VARCHAR}
 		</if>
 	</select>
 
@@ -411,8 +433,8 @@
 
 	<select id="findMaxId" resultType="java.lang.String">
 		SELECT
-			MAX(id)
+		MAX(id)
 		FROM t_group_backup
 	</select>
-   
+
 </mapper>

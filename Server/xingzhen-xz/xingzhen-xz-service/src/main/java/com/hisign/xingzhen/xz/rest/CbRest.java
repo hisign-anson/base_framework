@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  */
 @Api(description = "催办记录")
 @RestController
-@RequestMapping("cb")
+@RequestMapping("/xz/cb")
 public class CbRest extends BaseRest<Cb, CbModel, String, CbService> implements CbService {
 
     @Override

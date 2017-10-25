@@ -24,7 +24,7 @@ import javax.annotation.Resource;
  */
 @Api(description = "任务")
 @RestController
-@RequestMapping("task")
+@RequestMapping("/xz/task")
 public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> implements TaskService {
 
     @Override

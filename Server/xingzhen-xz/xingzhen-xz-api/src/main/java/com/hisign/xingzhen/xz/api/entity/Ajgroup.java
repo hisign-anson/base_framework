@@ -7,6 +7,7 @@ import com.hisign.bfun.bannotation.*;
 import com.hisign.xingzhen.common.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 《案件专案组关联》 实体
@@ -24,6 +25,7 @@ public class Ajgroup extends BaseModel implements Serializable {
 
 	@Column(value="AJID")
 	@ApiModelProperty(value = "案件ID")
+	@NotEmpty(message = "案件不能为空")
 	private String ajid; //案件ID
 
 	@Column(value="AJBH")
@@ -32,6 +34,7 @@ public class Ajgroup extends BaseModel implements Serializable {
 
 	@Column(value="GROUPID")
 	@ApiModelProperty(value = "专案组ID")
+	@NotEmpty(message = "专案组不能为空")
 	private String groupid; //专案组ID
 
 	@Column(value="CREATOR")

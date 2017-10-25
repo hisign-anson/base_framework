@@ -21,7 +21,7 @@ import javax.annotation.Resource;
  */
 @Api(description = "案件专案组关联")
 @RestController
-@RequestMapping("ajgroup")
+@RequestMapping("/xz/ajgroup")
 public class AjgroupRest extends BaseRest<Ajgroup, AjgroupModel, String, AjgroupService> implements AjgroupService {
 
     @Override

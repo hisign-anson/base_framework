@@ -23,6 +23,7 @@ import java.util.List;
  *
  */
 @RestController
+@RequestMapping("/xz/taskfkFile")
 public class TaskfkFileRest extends BaseRest<TaskfkFile, TaskfkFileModel, String, TaskfkFileService> implements TaskfkFileService {
 
 	@Override

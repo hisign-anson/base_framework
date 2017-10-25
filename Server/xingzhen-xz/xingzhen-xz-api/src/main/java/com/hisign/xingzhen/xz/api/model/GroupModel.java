@@ -63,7 +63,7 @@ public class GroupModel implements Serializable {
     private String caseNum;
 
     @ApiModelProperty(value = "成员数")
-    private String crewNum;
+    private String memberNum;
 
 
     /**
@@ -250,12 +250,12 @@ public class GroupModel implements Serializable {
         this.caseNum = caseNum;
     }
 
-    public String getCrewNum() {
-        return crewNum;
+    public String getMemberNum() {
+        return memberNum;
     }
 
-    public void setCrewNum(String crewNum) {
-        this.crewNum = crewNum;
+    public void setMemberNum(String memberNum) {
+        this.memberNum = memberNum;
     }
 
     @Override

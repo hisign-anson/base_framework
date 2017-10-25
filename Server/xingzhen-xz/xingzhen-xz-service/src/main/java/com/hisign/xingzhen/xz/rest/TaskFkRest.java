@@ -25,7 +25,7 @@ import javax.annotation.Resource;
  */
  @Api(description = "任务反馈")
 @RestController
-@RequestMapping("taskFK")
+@RequestMapping("/xz/taskFK")
 public class TaskFkRest extends BaseRest<TaskFk,TaskFkModel, String, TaskFkService> implements TaskFkService {
 
 	@Override
