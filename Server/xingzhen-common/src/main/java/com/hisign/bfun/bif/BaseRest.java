@@ -5,9 +5,7 @@ import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
-import com.hisign.xingzhen.common.util.StringUtils;
 import io.swagger.annotations.ApiOperation;
-import org.apache.poi.util.StringUtil;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -139,6 +137,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
 
     @Override
 
+
     @ApiOperation(value = "获取对象",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getBy", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public M getBy(@RequestBody Conditions conditions) {
@@ -147,6 +146,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
 
     @Override
 
+
     @ApiOperation(value = "获取数量",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getCount", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public Long getCount(@RequestBody Conditions conditions) {
@@ -154,6 +154,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
+
 
     @ApiOperation(value = "获取分页",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})

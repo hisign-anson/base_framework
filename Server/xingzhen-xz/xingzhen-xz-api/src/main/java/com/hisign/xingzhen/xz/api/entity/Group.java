@@ -20,6 +20,7 @@ public class Group extends BaseModel implements Serializable {
 
     @PK(value="ID")
     @ApiModelProperty(value = "专案组ID",hidden = true)
+    @NotEmpty(message = "专案组名称不能为空")
     private String id; //专案组ID
 
     @Column(value="PGROUPID")
@@ -77,6 +78,9 @@ public class Group extends BaseModel implements Serializable {
     @Column(value="DELETEFLAG")
     @ApiModelProperty(value = "删除标识",hidden = true)
     private String deleteflag; //删除标识
+
+    @ApiModelProperty(value = "接收字段-人员名称")
+    private String crewname;
 
     /**
      *默认空构造函数
@@ -276,6 +280,14 @@ public class Group extends BaseModel implements Serializable {
 
     public void setParent(boolean parent) {
         isParent = parent;
+    }
+
+    public String getCrewname() {
+        return crewname;
+    }
+
+    public void setCrewname(String crewname) {
+        this.crewname = crewname;
     }
 
     public static String getTbName() {
