@@ -116,6 +116,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
             } catch (Exception e) {
                 log.error(e.getMessage());
             }
+            return JsonResultUtil.success(super.getById(entity.getId()));
         }
         return result;
     }
