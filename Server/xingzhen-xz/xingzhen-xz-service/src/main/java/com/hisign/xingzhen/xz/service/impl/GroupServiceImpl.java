@@ -180,11 +180,9 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
     @Override
     public JsonResult getGroupPage(GroupParam groupParam) {
-        Group group=new Group();
-        BeanUtils.copyProperties(groupParam, group);
         //获取父专案组
-        List<GroupModel> list = groupMapper.findGroupByCondition(group);
-        long count = groupMapper.findCountGroupByCondition(group);
+        List<GroupModel> list = groupMapper.findGroupByCondition(groupParam);
+        long count = groupMapper.findCountGroupByCondition(groupParam);
         return JsonResultUtil.success(count, list);
     }
 

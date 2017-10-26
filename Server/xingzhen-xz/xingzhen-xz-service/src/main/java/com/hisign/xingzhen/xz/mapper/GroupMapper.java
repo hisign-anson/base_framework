@@ -4,6 +4,7 @@ package com.hisign.xingzhen.xz.mapper;
 import com.hisign.bfun.bif.BaseMapper;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
+import com.hisign.xingzhen.xz.api.param.GroupParam;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -25,9 +26,9 @@ public interface GroupMapper extends BaseMapper<Group,GroupModel, String> {
      */
     public String findMaxNo(@Param("deparmentcode") String deparmentcode);
 
-    List<GroupModel> findGroupByCondition(Group group);
+    List<GroupModel> findGroupByCondition(GroupParam groupParam);
 
-    long findCountGroupByCondition(Group group);
+    long findCountGroupByCondition(GroupParam groupParam);
 
     Map<String,Long> findGroupCaseInfo(@Param("startTime") String startTime,@Param("endTime") String endTime, @Param("backupStatus") String backupStatus);
 
