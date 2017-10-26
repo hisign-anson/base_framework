@@ -6,6 +6,7 @@ import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.bfun.bif.BaseService;
 import com.hisign.xingzhen.xz.api.model.UsergroupModel;
+import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
 
 import java.util.List;
 
@@ -18,8 +19,8 @@ public interface UsergroupService extends BaseService<Usergroup,UsergroupModel, 
 
     public JsonResult deleteUsergroupList(List<Usergroup> usergroupList);
 
-    public JsonResult getUsergroupPage(SysUserInfo info);
+    public JsonResult getUsergroupPage(SysUserInfoParam info);
 
-    public JsonResult getGroupMemberList(SysUserInfo info);
+    public JsonResult getGroupMemberList(String groupId);
 
 }

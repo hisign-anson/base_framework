@@ -13,11 +13,11 @@ import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
-import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.UsergroupModel;
+import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.xz.api.service.UsergroupService;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
 import com.hisign.xingzhen.xz.mapper.UsergroupMapper;
@@ -52,9 +52,6 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
 
     @Autowired
     private XzLogMapper xzLogMapper;
-
-    @Autowired
-    private SysUserService sysUserService;
 
     @Override
     protected BaseMapper<Usergroup,UsergroupModel, String> initMapper() {
@@ -202,15 +199,15 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     }
 
     @Override
-    public JsonResult getUsergroupPage(SysUserInfo info) {
+    public JsonResult getUsergroupPage(SysUserInfoParam info) {
         List<SysUserInfo> list = usergroupMapper.findGroupUserList(info);
         long count = usergroupMapper.findGroupUserCount(info);
         return JsonResultUtil.success(count,list);
     }
 
     @Override
-    public JsonResult getGroupMemberList(SysUserInfo info) {
-        List<SysUserInfo> list = usergroupMapper.findGroupMemberList(info);
+    public JsonResult getGroupMemberList(String groupId) {
+        List<SysUserInfo> list = usergroupMapper.findGroupMemberList(groupId);
         return JsonResultUtil.success(list);
     }
 }

@@ -7,16 +7,14 @@ import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.model.UsergroupModel;
+import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.xz.api.service.UsergroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -70,16 +68,17 @@ public class UsergroupRest extends BaseRest<Usergroup,UsergroupModel, String, Us
      * @param info
      * @return
      */
-    @ApiOperation(value = "组内成员分页",httpMethod ="POST",response = JsonResult.class)
+    @ApiOperation(value = "用户列表/组内成员列表",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/getUsergroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getUsergroupPage(@ApiParam SysUserInfo info){
-        return baseService.getUsergroupPage(info);
+    public JsonResult getUsergroupPage(@RequestBody SysUserInfoParam info){
+        JsonResult result = baseService.getUsergroupPage(info);
+        return result;
     }
 
-    @ApiOperation(value = "获取所有组内成员",httpMethod ="POST",response = JsonResult.class)
+    @ApiOperation(value = "首页成果详情-获取所有组内成员",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/getGroupMemberList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getGroupMemberList(@ApiParam SysUserInfo info){
-        JsonResult result = baseService.getUsergroupPage(info);
+    public JsonResult getGroupMemberList(@RequestParam String groupId){
+        JsonResult result = baseService.getGroupMemberList(groupId);
         if (result.getFlag()==1){
 
             List<SysUserInfo> parentUserList = new ArrayList<SysUserInfo>();

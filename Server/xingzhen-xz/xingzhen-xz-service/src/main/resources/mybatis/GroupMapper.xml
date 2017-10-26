@@ -549,7 +549,7 @@
         t.BACKUP_TIME,
         (SELECT count(1) from T_AJGROUP b1 where b1.groupid=t.id) as caseNum,
         (SELECT USER_NAME from SYS_USER_INFO d where d.USER_ID=t.CREATOR) as CREATOR,
-        (SELECT count(1) from T_USERGROUP c1 where c1.groupid=t.id) as memberNum,
+        (SELECT count(1) from T_USERGROUP c1 where c1.groupid=t.id) as memberNum
         FROM (
         SELECT DISTINCT a.* from T_GROUP a
         WHERE
@@ -630,7 +630,7 @@
             AND t1.BACKUP_STATU=#{backupStatus,jdbcType=VARCHAR}
         </if>
         <if test="startTime!=null and endTime!=null">
-            AND to_char(t1.BACKUP_TIME,"yyyy-MM-dd hh24:mi:ss") BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
+            AND to_char(t1.BACKUP_TIME,"yyyy-mm-dd hh24:mi:ss") BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
         </if>
         GROUP BY t1.id
         ) a ORDER BY a.createtime
@@ -638,10 +638,10 @@
 
 
     <select id="findChildGroupList" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select g.*,
-          (select count(1) from T_AJGROUP t1 where t1.groupid=p.id and t1.deleteFlag=0) as caseNum,
-          (select count(1) from T_USERGROUP t2 where t2.groupid=p.id and t2.deleteFlag=0) as memberNum,
-          (SELECT USER_NAME from SYS_USER_INFO d where d.USER_ID=t.CREATOR) as CREATOR,
+        select
+          (select count(1) from T_AJGROUP t1 where t1.groupid=g.id and t1.deleteFlag=0) as caseNum,
+          (select count(1) from T_USERGROUP t2 where t2.groupid=g.id and t2.deleteFlag=0) as memberNum,
+          (SELECT USER_NAME from SYS_USER_INFO d where d.USER_ID=g.CREATOR) as CREATOR,
             g.id,
             g.GROUPNUM,
             g.GROUPNAME,

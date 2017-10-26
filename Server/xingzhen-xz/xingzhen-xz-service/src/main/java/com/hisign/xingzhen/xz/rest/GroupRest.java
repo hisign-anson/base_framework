@@ -51,9 +51,9 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
      * @param groupParam 专案组
      * @return 返回JsonResult
      */
-    @ApiOperation(value = "专案组查询分页",httpMethod ="GET",response = GroupModel.class)
-    @RequestMapping(value = "/getGroupPage", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getGroupPage(@ApiParam GroupParam groupParam) {
+    @ApiOperation(value = "专案组查询分页",httpMethod ="POST",response = GroupModel.class)
+    @RequestMapping(value = "/getGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult getGroupPage(@RequestBody GroupParam groupParam) {
         return baseService.getGroupPage(groupParam);
     }
 
@@ -62,10 +62,10 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
      * @param pGroupId 父专案组ID
      * @return JsonResult
      */
-    @ApiOperation(value = "查询子专案组列表",httpMethod ="GET",response = GroupModel.class)
-    @RequestMapping(value = "/getChildGroupList", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getChildGroupList(@RequestParam String pGroupId) {
-        return baseService.getChildGroupList(pGroupId);
+    @ApiOperation(value = "查询子专案组列表",httpMethod ="POST",response = GroupModel.class)
+    @RequestMapping(value = "/getChildGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult getChildGroupList(@RequestParam String groupId) {
+        return baseService.getChildGroupList(groupId);
     }
 
     /**
@@ -74,14 +74,14 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
      * @return
      */
     @Override
-    @ApiOperation(value = "查看专案组详情",httpMethod ="GET",response = GroupModel.class)
-    @RequestMapping(value = "/groupDetail/{id}", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "查看专案组详情",httpMethod ="POST",response = GroupModel.class)
+    @RequestMapping(value = "/groupDetail/{id}", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public GroupModel getById(@PathVariable String id) {
         return baseService.getById(id);
     }
 
-    @ApiOperation(value = "获取所有专案组根据用户id",httpMethod ="GET",response = GroupModel.class)
-    @RequestMapping(value = "/getAllGroupByUserId", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "获取所有专案组根据用户id",httpMethod ="POST",response = GroupModel.class)
+    @RequestMapping(value = "/getAllGroupByUserId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getAllGroupByUserId(@RequestParam String userId) {
         return baseService.getAllGroupByUserId(userId);
     }

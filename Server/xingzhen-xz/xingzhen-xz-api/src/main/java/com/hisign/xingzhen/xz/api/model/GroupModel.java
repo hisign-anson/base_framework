@@ -3,6 +3,8 @@ package com.hisign.xingzhen.xz.api.model;
 import java.io.Serializable;
 import com.alibaba.fastjson.JSON;
 import java.util.*;
+
+import com.hisign.xingzhen.xz.api.entity.Group;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -64,6 +66,9 @@ public class GroupModel implements Serializable {
 
     @ApiModelProperty(value = "成员数")
     private String memberNum;
+
+    @ApiModelProperty(value = "子专案组列表")
+    private List<GroupModel> childGroupList;
 
 
     /**
@@ -256,6 +261,14 @@ public class GroupModel implements Serializable {
 
     public void setMemberNum(String memberNum) {
         this.memberNum = memberNum;
+    }
+
+    public List<GroupModel> getChildGroupList() {
+        return childGroupList;
+    }
+
+    public void setChildGroupList(List<GroupModel> childGroupList) {
+        this.childGroupList = childGroupList;
     }
 
     @Override

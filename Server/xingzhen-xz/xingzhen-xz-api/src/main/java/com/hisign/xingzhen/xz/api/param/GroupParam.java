@@ -41,6 +41,12 @@ public class GroupParam implements Serializable {
     @ApiModelProperty(value = "归档状态")
     private String backupStatu; //归档状态
 
+    @ApiModelProperty(value = "分页参数 开始序号")
+    private int begin; //开始序号
+
+    @ApiModelProperty(value = "分页参数 结束序号")
+    private int end; //结束序号
+
     public String getUserId() {
         return userId;
     }
@@ -119,5 +125,21 @@ public class GroupParam implements Serializable {
 
     public void setBackupStatu(String backupStatu) {
         this.backupStatu = backupStatu;
+    }
+
+    public int getBegin() {
+        return begin;
+    }
+
+    public void setBegin(int begin) {
+        this.begin = begin;
+    }
+
+    public int getEnd() {
+        return end;
+    }
+
+    public void setEnd(int end) {
+        this.end = end;
     }
 }

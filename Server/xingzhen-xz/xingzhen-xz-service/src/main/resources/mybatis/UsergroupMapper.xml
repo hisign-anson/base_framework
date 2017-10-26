@@ -458,7 +458,7 @@
         MAX(id)
         FROM t_usergroup
     </select>
-    <select id="findGroupUserList" parameterType="com.hisign.xingzhen.sys.api.model.SysUserInfo" resultMap="SysUserInfoResultMap">
+    <select id="findGroupUserList" parameterType="com.hisign.xingzhen.xz.api.param.SysUserInfoParam" resultMap="SysUserInfoResultMap">
         select p.* from(
         select
         rownum,rownum as rn,a.* from (
@@ -473,7 +473,7 @@
         <if test="userName!=null and userName!=''">
             and SU.USER_NAME like '%'||#{userName,jdbcType=VARCHAR}||'%' escape '\'
         </if>
-        <if test="id!=null and id!=''">
+        <if test="groupId!=null and groupId!=''">
             and SU.USER_ID IN (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR} )
         </if>
         ) t
@@ -487,7 +487,7 @@
         </if>
     </select>
 
-    <select id="findGroupUserCount" parameterType="com.hisign.xingzhen.sys.api.model.SysUserInfo" resultMap="SysUserInfoResultMap">
+    <select id="findGroupUserCount" parameterType="com.hisign.xingzhen.xz.api.param.SysUserInfoParam" resultMap="SysUserInfoResultMap">
         select count(1) from SYS_USER_INFO su where 1=1
         <if test="policeId!=null and policeId!=''">
             and SU.POLICE_ID like '%'||#{policeId,jdbcType=VARCHAR}||'%' escape '\'
@@ -498,12 +498,12 @@
         <if test="userName!=null and userName!=''">
             and SU.USER_NAME like '%'||#{userName,jdbcType=VARCHAR}||'%' escape '\'
         </if>
-        <if test="id!=null and id!=''">
+        <if test="groupId!=null and groupId!=''">
             and SU.USER_ID IN (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR} )
         </if>
     </select>
 
-    <select id="findGroupMemberList" parameterType="com.hisign.xingzhen.xz.api.entity.Usergroup" resultMap="SysUserInfoResultMap">
+    <select id="findGroupMemberList" parameterType="java.lang.String" resultMap="SysUserInfoResultMap">
 		select su.USER_ID,su.USER_NAME,su.POLICE_ID,su.ORG_NAME,t1.groupid as groupId,t2.pgroupid as pgroupId,t2.groupname,t2.creator from SYS_USER_INFO su,
 		T_USERGROUP t1,t_group t2 where	SU.USER_ID=t1.userid AND t2.id=t1.groupid AND
 		 (t1.GROUPID=#{groupId,jdbcType=VARCHAR} OR t2.pgroupid=#{groupId,jdbcType=VARCHAR})

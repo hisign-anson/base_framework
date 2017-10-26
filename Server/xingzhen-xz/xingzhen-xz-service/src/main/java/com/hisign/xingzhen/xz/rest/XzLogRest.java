@@ -16,9 +16,7 @@ import com.hisign.xingzhen.xz.api.service.XzLogService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -48,13 +46,13 @@ public class XzLogRest extends BaseRest<XzLog, XzLogModel, String, XzLogService>
 	@Override
 	@ApiOperation(value = "添加最后聊天日志",httpMethod ="POST",response = JsonResult.class)
 	@RequestMapping(value = "/addChatLog", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-	public JsonResult addNotNull(XzLog entity) throws BusinessException {
+	public JsonResult addNotNull(@RequestBody XzLog entity) throws BusinessException {
 		return super.addNotNull(entity);
 	}
 
 	@ApiOperation(value = "获取常用专案组",httpMethod ="POST",response = JsonResult.class)
 	 @RequestMapping(value = "/getCommonGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-	 public JsonResult getCommonGroupList(@ApiParam String userId){
+	 public JsonResult getCommonGroupList(@RequestParam String userId){
 		 Conditions conditions = new Conditions(XzLog.class);
 		 Conditions.Criteria criteria = conditions.createCriteria();
 		 //查找用户最近聊天的专案组列表
@@ -69,6 +67,11 @@ public class XzLogRest extends BaseRest<XzLog, XzLogModel, String, XzLogService>
 		 conditions.setLimit(0,6);
 		 //获取专案组
 		 List<XzLogModel> list = baseService.getList(conditions);
+
+		 if (list==null || list.size()==0){
+		 	return JsonResultUtil.success();
+		 }
+
 		 List<Object> groupIds = new ArrayList<>();
 		 for (XzLogModel xzlog:list){
 			 groupIds.add(xzlog.getReserveField1());

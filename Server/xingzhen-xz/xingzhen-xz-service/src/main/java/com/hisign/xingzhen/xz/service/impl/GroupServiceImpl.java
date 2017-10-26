@@ -86,6 +86,10 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         entity.setCreatetime(now);
         entity.setLastupdatetime(now);
         entity.setDeleteflag(Constants.DELETE_FALSE);
+        entity.setBackupReason(null);
+        entity.setBackupStatu(Constants.NO);
+        entity.setBackupTime(null);
+
         JsonResult result = super.addNotNull(entity);
 
         //把创建人添加到关联人员
@@ -192,6 +196,8 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         List<GroupModel> list = groupMapper.findChildGroupList(pgroupid);
         return JsonResultUtil.success(list);
     }
+
+
 
     @Override
     public JsonResult getAllGroupByUserId(String userId) {

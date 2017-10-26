@@ -104,7 +104,6 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-
     @ApiOperation(value = "根据id查询",response = JsonResult.class)
     @RequestMapping(value = "/getById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public M getById(@RequestParam(value="id") PK id) {
