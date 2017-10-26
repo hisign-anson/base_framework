@@ -118,7 +118,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
             try {
                 String content = StringUtils.concat("专案组(ID:", entity.getGroupid(), ")", "人员(ID:", entity.getUserid(), ")添加");
                 XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, content, entity.getCreator(), entity.getCreatetime(), entity.getGroupid());
-                xzLogMapper.insert(xzLog);
+                xzLogMapper.insertNotNull(xzLog);
             } catch (Exception e) {
                 log.error(e.getMessage());
             }

@@ -68,7 +68,7 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      * @param taskAddParam
      * @return
      */
-    @ApiOperation(value = "新增任务",httpMethod ="POST",response = TaskModel.class)
+    @ApiOperation(value = "新增任务",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/addTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addTask(@Valid @RequestBody TaskAddParam taskAddParam, BindingResult result) {
         JsonResult jr = handleResult(result);
@@ -90,7 +90,7 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      * @return
      */
     @Override
-    @ApiOperation(value = "删除任务",httpMethod ="GET",response = String.class)
+    @ApiOperation(value = "删除任务",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/deleteTaskById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult deleteTaskById(@RequestParam String id,@RequestParam String userId) {
         if(StringUtils.isEmpty(userId)){
@@ -112,7 +112,7 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
         return baseService.moveTask(taskMoveParam);
     }
 
-    @ApiOperation(value = "移交任务",httpMethod ="POST",response = String.class)
+    @ApiOperation(value = "移交任务",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/moveTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult moveTask(@Valid @RequestBody TaskMoveParam taskMoveParam, BindingResult result) {
         JsonResult jr = handleResult(result);

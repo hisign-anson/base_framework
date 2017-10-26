@@ -284,9 +284,12 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     @Transactional
     public JsonResult moveTask(TaskMoveParam taskMoveParam) {
         try {
-            Task entity=new Task();
-            entity.setId(taskMoveParam.getId());
             Task new_task  = super.getEntityById(taskMoveParam.getId());
+            if(new_task==null || Constants.DELETE_TRUE.equals(new_task.getDeleteflag())){
+                return error("该任务不存在");
+            }
+            Task entity=new Task();
+            BeanUtils.copyProperties(new_task,entity);
             Date now=new Date();
             new_task.setId(UUID.randomUUID().toString());
             new_task.setLastupdatetime(now);
@@ -299,14 +302,17 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             cb.setOld_taskid(taskMoveParam.getId());
             cbMapper.updateCbTaskid(cb);
 
+            entity.setId(taskMoveParam.getId());
+            entity.setJsr(taskMoveParam.getJsr());
+            entity.setJsrname(taskMoveParam.getJsrname());
+            entity.setJsrLxfs(taskMoveParam.getJsrLxfs());
             entity.setCreator(taskMoveParam.getCreator());
+            entity.setCreatename(taskMoveParam.getCreatename());
             entity.setCreatetime(now);
-            entity.setDeparmentcode(taskMoveParam.getDeparmentcode());
             entity.setLastupdatetime(now);
             entity.setDeleteflag(Constants.DELETE_FALSE);
             entity.setYjrwid(new_task.getId());
-            entity.setJsr(taskMoveParam.getJsr());
-            JsonResult result = super.updateNotNull(entity);
+            JsonResult result = super.update(entity);
             if(result.getFlag()==1){
                 try {
                     String content="任务移交（ID=" + taskMoveParam.getId() + ",YJRWID="+ new_task.getId()+ "）";

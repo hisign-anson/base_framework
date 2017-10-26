@@ -84,6 +84,9 @@ public class Group extends BaseModel implements Serializable {
     @ApiModelProperty(value = "警号",hidden = true)
     private String policeId; //警号
 
+    @ApiModelProperty(value = "案件编号",hidden = true)
+    private String ajbh; //案件编号
+
     /**
      *默认空构造函数
      */
@@ -270,6 +273,14 @@ public class Group extends BaseModel implements Serializable {
 
     public void setPoliceId(String policeId) {
         this.policeId = policeId;
+    }
+
+    public String getAjbh() {
+        return ajbh;
+    }
+
+    public void setAjbh(String ajbh) {
+        this.ajbh = ajbh;
     }
 
     @Override

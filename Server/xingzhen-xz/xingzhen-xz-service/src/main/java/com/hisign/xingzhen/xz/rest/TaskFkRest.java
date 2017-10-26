@@ -42,7 +42,7 @@ public class TaskFkRest extends BaseRest<TaskFk,TaskFkModel, String, TaskFkServi
      * @param taskFkAddParam
      * @return
      */
-    @ApiOperation(value = "新增任务反馈",httpMethod ="POST",response = TaskFkModel.class)
+    @ApiOperation(value = "新增任务反馈",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/addTaskFk", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addTaskFk(@Valid @RequestBody TaskFkAddParam taskFkAddParam, BindingResult result) {
         JsonResult jr = handleResult(result);

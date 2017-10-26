@@ -35,8 +35,8 @@ public class CbRest extends BaseRest<Cb, CbModel, String, CbService> implements 
      * @return
      */
     @Override
-    @ApiOperation(value = "催办任务",response = JsonResult.class)
-    @RequestMapping(value = "/addCb", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "催办任务",httpMethod ="GET",response = JsonResult.class)
+    @RequestMapping(value = "/addCb", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult addCb(@RequestParam String id,@RequestParam String userId,@RequestParam String deparmentcode) {
         return baseService.addCb(id,userId,deparmentcode);
     }

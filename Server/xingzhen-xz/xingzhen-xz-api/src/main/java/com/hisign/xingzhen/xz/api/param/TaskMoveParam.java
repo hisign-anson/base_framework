@@ -23,6 +23,13 @@ public class TaskMoveParam implements Serializable {
     @ApiModelProperty(value = "接收人",required = true)
     private String jsr; //接收人
 
+    @NotEmpty(message = "接收人姓名不能为空")
+    @ApiModelProperty(value = "接收人姓名",required = true)
+    private String jsrname; //接收人
+
+    @ApiModelProperty(value = "接收人联系方式")
+    private String jsrLxfs; //接收人
+
     @NotEmpty(message = "创建人不能为空")
     @ApiModelProperty(value = "创建人",required = true)
     private String creator; //创建人
@@ -49,6 +56,22 @@ public class TaskMoveParam implements Serializable {
 
     public void setJsr(String jsr) {
         this.jsr = jsr;
+    }
+
+    public String getJsrname() {
+        return jsrname;
+    }
+
+    public void setJsrname(String jsrname) {
+        this.jsrname = jsrname;
+    }
+
+    public String getJsrLxfs() {
+        return jsrLxfs;
+    }
+
+    public void setJsrLxfs(String jsrLxfs) {
+        this.jsrLxfs = jsrLxfs;
     }
 
     public String getCreator() {
