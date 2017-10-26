@@ -69,6 +69,28 @@ public class Constants {
 
 	/**
 	 *
+	 * 是否删除状态
+	 */
+	public static class IsDel{
+		/** 未删除 **/
+		public static final int DEL_0 = 0;
+		/** 已删除 **/
+		public static final int DEL_1 = 1;
+	}
+
+	/**
+	 * 用户信息状态
+	 */
+	public final static class UserInfoStatus{
+
+		/** 0 正常**/
+		public final static int NORMAL = 0;
+		/** 1 删除**/
+		public final static int DELETE = 1;
+	}
+
+	/**
+	 *
 	 * 时间类型
 	 *
 	 */

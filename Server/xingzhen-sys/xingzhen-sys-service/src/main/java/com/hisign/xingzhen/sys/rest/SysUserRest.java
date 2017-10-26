@@ -135,7 +135,7 @@ public class SysUserRest implements SysUserService {
     @Override
     @RequestMapping(value = "/addUserInfo", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonResult addUserInfo(@RequestBody SysUserInfo userInfo) {
+    public JsonResult addUserInfo(@RequestBody SysUserInfo userInfo) throws Exception {
         return sysUserService.addUserInfo(userInfo);
     }
 
