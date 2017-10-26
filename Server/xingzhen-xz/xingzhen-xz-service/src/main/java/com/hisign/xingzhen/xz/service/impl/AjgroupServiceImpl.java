@@ -13,19 +13,23 @@ import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Ajgroup;
+import com.hisign.xingzhen.xz.api.entity.AsjAj;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.AjgroupModel;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.service.AjgroupService;
 import com.hisign.xingzhen.xz.mapper.AjgroupMapper;
+import com.hisign.xingzhen.xz.mapper.AsjAjMapper;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -48,6 +52,9 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
     private GroupMapper groupMapper;
 
     @Autowired
+    private AsjAjMapper asjAjMapper;
+
+    @Autowired
     private XzLogMapper xzLogMapper;
 
     @Override
@@ -67,6 +74,11 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
         if(groupModel==null){
             return error("专案组不存在");
         }
+        //子专案组不能关联案件
+        if (StringUtils.isNotBlank(groupModel.getPgroupid())){
+            return error("抱歉，子专案组不能关联案件");
+        }
+
         Date now=new Date();
         entity.setId(UUID.randomUUID().toString());
         entity.setCreatetime(now);
@@ -92,9 +104,42 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
 
     @Override
     @Transactional
-    public JsonResult add(List<Ajgroup> list) throws BusinessException {
+    public JsonResult add(List<Ajgroup> ajgroupList) throws BusinessException {
         try {
-            ajgroupMapper.batchInsert(list);
+            List<Object> ids = new ArrayList<>();
+            String groupId = ajgroupList.get(0).getGroupid();
+            for (Ajgroup ajgroup : ajgroupList) {
+                ids.add(ajgroup.getAjid());
+                ajgroup.setGroupid(groupId);
+                ajgroup.setDeleteflag(Constants.DELETE_FALSE);
+                ajgroup.setCreatetime(new Date());
+                ajgroup.setLastupdatetime(new Date());
+                ajgroup.setId(UUID.randomUUID().toString());
+                ajgroup.setPgroupid(null);
+            }
+
+            //获取专案组对象
+            GroupModel groupModel = groupMapper.findById(groupId);
+            if (groupModel==null){
+                log.error("专案组不存在，[id=?]",groupId);
+                return error("抱歉，关联的专案组不存在，请刷新页面再试!");
+            }
+
+            Conditions conditions = new Conditions(AsjAj.class);
+            Conditions.Criteria criteria = conditions.createCriteria();
+            criteria.add(AsjAj.AsjAjEnum.id.get(), BaseEnum.IsInEnum.IN,ids);
+
+            Long count = asjAjMapper.findCount(conditions);
+            if (count.intValue()!=ajgroupList.size()){
+                log.error("关联的案件有些不存在，[ids=?]",ids);
+                return error("抱歉，参数错误，请刷新页面再试!");
+            }
+
+            //关联案件
+            long num = ajgroupMapper.batchInsert(ajgroupList);
+            if (num!=ajgroupList.size()){
+                throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT);
+            }
         } catch (Exception e) {
             throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT, e);
         }
@@ -134,4 +179,44 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
         return JsonResultUtil.success();
     }
 
+    /**
+     * 移除案件
+     * @param ajgroup
+     * @return
+     * @throws BusinessException
+     */
+    public JsonResult removeCaseList(List<Ajgroup> ajgroupList) throws BusinessException {
+
+        List<Object> ids = new ArrayList<>();
+        for (Ajgroup ajgroup : ajgroupList) {
+            ids.add(ajgroup.getId());
+        }
+
+        Conditions conditions = new Conditions(Ajgroup.class);
+        Conditions.Criteria criteria = conditions.createCriteria();
+        criteria.add(Ajgroup.AjgroupEnum.id.get(), BaseEnum.IsInEnum.IN,ids);
+
+        Long count = ajgroupMapper.findCount(conditions);
+        if (count.intValue()!=ajgroupList.size()){
+            return error("抱歉，参数错误，请刷新页面再试!");
+        }
+
+        List<AjgroupModel> ajgroupModelList = ajgroupMapper.findList(conditions);
+
+        for (AjgroupModel ajgroupModel : ajgroupModelList) {
+            //子专案组不能移除案件
+            if (StringUtils.isNotBlank(ajgroupModel.getPgroupid())){
+                return error("抱歉，子专案组不能移除案件");
+            }
+        }
+
+        UpdateParams updateParams = new UpdateParams(Ajgroup.class);
+        updateParams.setConditions(conditions);
+
+        updateParams.add(Ajgroup.AjgroupEnum.deleteflag.get(),Constants.DELETE_TRUE);
+        updateParams.add(Ajgroup.AjgroupEnum.lastupdatetime.get(),new Date());
+
+        ajgroupMapper.updateCustom(updateParams);
+        return success();
+    }
 }

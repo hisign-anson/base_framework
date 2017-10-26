@@ -17,6 +17,8 @@
         <result column="DEPARMENTCODE" property="deparmentcode" jdbcType="VARCHAR"/>
         <result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
         <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
+        <result column="memberNum" property="memberNum" jdbcType="DECIMAL"/>
+        <result column="caseNum" property="caseNum" jdbcType="DECIMAL"/>
     </resultMap>
 
     <sql id="Conditions_Where_Clause">
@@ -628,14 +630,14 @@
             AND t1.BACKUP_STATU=#{backupStatus,jdbcType=VARCHAR}
         </if>
         <if test="startTime!=null and endTime!=null">
-            AND t1.BACKUP_TIME BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
+            AND to_char(t1.BACKUP_TIME,"yyyy-MM-dd hh24:mi:ss") BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
         </if>
         GROUP BY t1.id
         ) a ORDER BY a.createtime
     </select>
 
 
-    <select id="getChildGroupList" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="findChildGroupList" parameterType="java.lang.String" resultMap="BaseResultMap">
         select g.*,
           (select count(1) from T_AJGROUP t1 where t1.groupid=p.id and t1.deleteFlag=0) as caseNum,
           (select count(1) from T_USERGROUP t2 where t2.groupid=p.id and t2.deleteFlag=0) as memberNum,
@@ -648,6 +650,10 @@
             g.BACKUP_STATU,
             g.BACKUP_TIME
         from T_GROUP g where g.deleteFlag=0 and g.pgroupid=#{pgroupid,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findAllGroupByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM T_GROUP t WHERE t.DELETEFLAG=0 AND t.ID IN (SELECT DISTINCT ug.GROUPID FROM T_USERGROUP ug WHERE ug.DELETEFLAG=0 AND ug.USERID=#{userId,jdbcType=VARCHAR})
     </select>
 
 </mapper>

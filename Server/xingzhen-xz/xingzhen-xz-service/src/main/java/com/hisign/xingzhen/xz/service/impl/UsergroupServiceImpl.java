@@ -13,6 +13,7 @@ import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -51,6 +53,9 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     @Autowired
     private XzLogMapper xzLogMapper;
 
+    @Autowired
+    private SysUserService sysUserService;
+
     @Override
     protected BaseMapper<Usergroup,UsergroupModel, String> initMapper() {
         return usergroupMapper;
@@ -60,7 +65,32 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     @Transactional
     public JsonResult add(List<Usergroup> list) throws BusinessException {
         try {
+            String creator = list.get(0).getCreator();
+            List<Object> ids = new ArrayList<>(list.size());
+            String groupId = list.get(0).getGroupid();
+            for (Usergroup usergroup : list) {
+                ids.add(usergroup.getUserid());
+                usergroup.setCreatetime(new Date());
+                usergroup.setDeleteflag(Constants.DELETE_FALSE);
+                usergroup.setId(UUID.randomUUID().toString());
+                usergroup.setLastupdatetime(new Date());
+                usergroup.setGroupid(groupId);
+            }
+
+            //获取专案组对象
+            GroupModel groupModel = groupMapper.findById(groupId);
+            if (groupModel==null){
+                return error("抱歉，该专案组不存在!");
+            }
+
             usergroupMapper.batchInsert(list);
+            try {
+                String content = StringUtils.concat("专案组(ID:", groupId, ")", "人员(ID:", ids.toString(), ")添加");
+                XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, content, creator, new Date(), groupId);
+                xzLogMapper.insert(xzLog);
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
         } catch (Exception e) {
             throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT, e);
         }
@@ -128,42 +158,45 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     }
 
     @Override
-    public JsonResult deleteUsergroup(Usergroup usergroup) {
-        if (StringUtils.isEmpty(usergroup.getUserid()) || StringUtils.isEmpty(usergroup.getGroupid()) || StringUtils.isEmpty(usergroup.getCreator())){
-            return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+    public JsonResult deleteUsergroupList(List<Usergroup> usergroupList) {
+
+        Usergroup ug = usergroupList.get(0);
+        List<Object> ids = new ArrayList<>(usergroupList.size());
+        for (Usergroup usergroup : usergroupList) {
+            ids.add(usergroup.getId());
         }
 
         //获取专案组
-        GroupModel group = groupMapper.findById(usergroup.getGroupid());
+        GroupModel group = groupMapper.findById(ug.getGroupid());
         if (group==null){
             return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
         }
 
         //判断该专案组创建人是否是该用户
-        if (!usergroup.getCreator().equals(group.getCreator())){
+        if (!ug.getCreator().equals(group.getCreator())){
             return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
         }
 
         //判断该被移除人员是否是创建人
-        if (usergroup.getUserid().equals(group.getCreator())){
+        if (ug.getUserid().equals(group.getCreator())){
             return error("抱歉,该用户是该专案组的创建人,不能被移除");
         }
 
         Conditions conditions = new Conditions();
-        conditions.createCriteria().add(Usergroup.UsergroupEnum.userid.get(), BaseEnum.ConditionEnum.EQ,usergroup.getUserid())
-                .add(Usergroup.UsergroupEnum.groupid.get(), BaseEnum.ConditionEnum.EQ,usergroup.getGroupid());
+        conditions.createCriteria().add(Usergroup.UsergroupEnum.id.get(), BaseEnum.IsInEnum.IN,ids);
         UpdateParams updateParams = new UpdateParams(Usergroup.class);
         updateParams.add(Usergroup.UsergroupEnum.deleteflag.get(),Constants.DELETE_TRUE);
+        updateParams.add(Usergroup.UsergroupEnum.lastupdatetime.get(),new Date());
         updateParams.setConditions(conditions);
         usergroupMapper.updateCustom(updateParams);
 
         try {
             //保存操作日志
             StringBuilder sb = new StringBuilder();
-            sb.append("用户(ID:").append(usergroup.getUserid()).append(")被用户(ID:").append(usergroup.getCreator()).append(")从专案组(ID:").append(usergroup.getGroupid()).append("移除");
-            XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, sb.toString(), usergroup.getCreator(), new Date(), group.getId());
+            sb.append("用户(ID:").append(ids.toString()).append(")被用户(ID:").append(ug.getCreator()).append(")从专案组(ID:").append(ug.getGroupid()).append("移除");
+            XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, sb.toString(), ug.getCreator(), new Date(), group.getId());
         } catch (Exception e) {
-
+            log.error("移除组内成员-操作日志失败",e);
         }
         return success("移除组内成员成功");
     }

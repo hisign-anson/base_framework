@@ -43,14 +43,14 @@ public class UsergroupRest extends BaseRest<Usergroup,UsergroupModel, String, Us
         super.setBaseService(baseService);
     }
 
-    @ApiOperation(value = "添加组内成员",httpMethod ="POST",response = JsonResult.class)
-    @RequestMapping(value = "/addUserGroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addGroup(@Valid @RequestBody Usergroup usergroup, BindingResult result) throws BusinessException {
+    @ApiOperation(value = "关联组内成员",httpMethod ="POST",response = JsonResult.class)
+    @RequestMapping(value = "/addUserGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult addUserGroupList(@Valid @RequestBody List<Usergroup> usergroupList, BindingResult result) throws BusinessException {
         JsonResult jr = handleResult(result);
         if (jr.getFlag()!=1){
             return jr;
         }
-        return baseService.addNotNull(usergroup);
+        return baseService.add(usergroupList);
     }
 
     /**
@@ -59,10 +59,10 @@ public class UsergroupRest extends BaseRest<Usergroup,UsergroupModel, String, Us
      * @return
      */
     @Override
-    @ApiOperation(value = "移除组内成员",httpMethod ="POST",response = JsonResult.class)
-    @RequestMapping(value = "/deleteUsergroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult deleteUsergroup(@RequestBody Usergroup usergroup) {
-        return baseService.deleteUsergroup(usergroup);
+    @ApiOperation(value = "移除组内成员列表",httpMethod ="POST",response = JsonResult.class)
+    @RequestMapping(value = "/deleteUsergroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult deleteUsergroupList(@RequestBody List<Usergroup> usergroup) {
+        return baseService.deleteUsergroupList(usergroup);
     }
 
     /**

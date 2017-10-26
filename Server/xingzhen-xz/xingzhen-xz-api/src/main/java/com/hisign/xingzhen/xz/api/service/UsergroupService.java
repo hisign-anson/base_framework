@@ -7,6 +7,8 @@ import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.bfun.bif.BaseService;
 import com.hisign.xingzhen.xz.api.model.UsergroupModel;
 
+import java.util.List;
+
 /**
  * 《人员专案组关联》 业务逻辑服务接口
  *
@@ -14,7 +16,7 @@ import com.hisign.xingzhen.xz.api.model.UsergroupModel;
  */
 public interface UsergroupService extends BaseService<Usergroup,UsergroupModel, String> {
 
-    public JsonResult deleteUsergroup(Usergroup usergroup);
+    public JsonResult deleteUsergroupList(List<Usergroup> usergroupList);
 
     public JsonResult getUsergroupPage(SysUserInfo info);
 

@@ -36,7 +36,6 @@ public class IndexRest extends BaseController {
     IndexService indexService;
 
     @ApiOperation(value = "待办任务",notes = "首页待办工作",httpMethod = "GET", response = Map.class)
-    @ApiImplicitParam(name = "userId",value = "当前用户id",required = true,dataType = "String")
     @RequestMapping(value = "/getTaskCountInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult getTaskCountInfo(@ApiParam @RequestParam(value="userId") String userId) {
 

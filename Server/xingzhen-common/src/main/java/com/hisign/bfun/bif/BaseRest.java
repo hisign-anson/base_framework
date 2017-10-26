@@ -120,7 +120,6 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-
     @ApiOperation(value = "根据对象获取",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getByEntity", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public M getByEntity(@RequestBody T entity) {

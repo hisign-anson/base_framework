@@ -23,7 +23,7 @@ public interface GroupMapper extends BaseMapper<Group,GroupModel, String> {
      * 获取专案组编号
      * @return 专案组编号
      */
-    public String findMaxNo(String deparmentcode);
+    public String findMaxNo(@Param("deparmentcode") String deparmentcode);
 
     List<GroupModel> findGroupByCondition(Group group);
 
@@ -31,5 +31,7 @@ public interface GroupMapper extends BaseMapper<Group,GroupModel, String> {
 
     Map<String,Long> findGroupCaseInfo(@Param("startTime") String startTime,@Param("endTime") String endTime, @Param("backupStatus") String backupStatus);
 
-    public List<GroupModel> getChildGroupList(String pgroupid);
+    public List<GroupModel> findChildGroupList(@Param("pgroupid") String pgroupid);
+
+    public List<GroupModel> findAllGroupByUserId(@Param("userId") String userId);
 }

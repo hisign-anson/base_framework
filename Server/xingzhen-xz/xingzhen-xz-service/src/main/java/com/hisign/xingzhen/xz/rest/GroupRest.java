@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.concurrent.locks.Condition;
 
 
 /**
@@ -67,7 +68,6 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
         return baseService.getChildGroupList(pGroupId);
     }
 
-
     /**
      * 查询任务详情
      * @param id
@@ -75,8 +75,14 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
      */
     @Override
     @ApiOperation(value = "查看专案组详情",httpMethod ="GET",response = GroupModel.class)
-    @RequestMapping(value = "/groupDetail", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public GroupModel getById(@RequestParam String id) {
+    @RequestMapping(value = "/groupDetail/{id}", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    public GroupModel getById(@PathVariable String id) {
         return baseService.getById(id);
+    }
+
+    @ApiOperation(value = "获取所有专案组根据用户id",httpMethod ="GET",response = GroupModel.class)
+    @RequestMapping(value = "/getAllGroupByUserId", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    public JsonResult getAllGroupByUserId(@RequestParam String userId) {
+        return baseService.getAllGroupByUserId(userId);
     }
 }

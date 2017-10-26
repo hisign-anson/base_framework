@@ -1,6 +1,7 @@
 package com.hisign.xingzhen.xz.rest;
 
 import com.hisign.bfun.benum.BaseEnum;
+import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
@@ -44,7 +45,14 @@ public class XzLogRest extends BaseRest<XzLog, XzLogModel, String, XzLogService>
 	}
 
 
-	 @ApiOperation(value = "获取常用专案组",httpMethod ="POST",response = JsonResult.class)
+	@Override
+	@ApiOperation(value = "添加最后聊天日志",httpMethod ="POST",response = JsonResult.class)
+	@RequestMapping(value = "/addChatLog", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	public JsonResult addNotNull(XzLog entity) throws BusinessException {
+		return super.addNotNull(entity);
+	}
+
+	@ApiOperation(value = "获取常用专案组",httpMethod ="POST",response = JsonResult.class)
 	 @RequestMapping(value = "/getCommonGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	 public JsonResult getCommonGroupList(@ApiParam String userId){
 		 Conditions conditions = new Conditions(XzLog.class);

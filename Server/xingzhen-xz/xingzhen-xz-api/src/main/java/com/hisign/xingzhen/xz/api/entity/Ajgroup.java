@@ -6,6 +6,7 @@ import com.hisign.bfun.bannotation.*;
 import com.hisign.xingzhen.common.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 《案件专案组关联》 实体
@@ -18,19 +19,22 @@ public class Ajgroup extends BaseModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PK(value="ID")
-    @ApiModelProperty(value = "案件关联ID")
+    @ApiModelProperty(value = "案件关联ID",hidden = true)
     private String id; //案件关联ID
 
     @Column(value="AJID")
     @ApiModelProperty(value = "案件ID")
+    @NotEmpty(message = "案件不能为空")
     private String ajid; //案件ID
 
     @Column(value="AJBH")
     @ApiModelProperty(value = "案件编号")
+    @NotEmpty(message = "案件编号不能为空")
     private String ajbh; //案件编号
 
     @Column(value="GROUPID")
     @ApiModelProperty(value = "专案组ID")
+    @NotEmpty(message = "专案组不能为空")
     private String groupid; //专案组ID
 
     @Column(value="PGROUPID")
@@ -39,22 +43,24 @@ public class Ajgroup extends BaseModel implements Serializable {
 
     @Column(value="CREATOR")
     @ApiModelProperty(value = "创建人")
+    @NotEmpty(message = "当前用户不能为空")
     private String creator; //创建人
 
     @Column(value="CREATETIME")
-    @ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "创建时间",hidden = true)
     private Date createtime; //创建时间
 
     @Column(value="DEPARMENTCODE")
     @ApiModelProperty(value = "创建人单位")
+    @NotEmpty(message = "当前用户单位不能为空")
     private String deparmentcode; //创建人单位
 
     @Column(value="LASTUPDATETIME")
-    @ApiModelProperty(value = "修改时间")
+    @ApiModelProperty(value = "修改时间",hidden = true)
     private Date lastupdatetime; //修改时间
 
     @Column(value="DELETEFLAG")
-    @ApiModelProperty(value = "删除标识")
+    @ApiModelProperty(value = "删除标识",hidden = true)
     private String deleteflag; //删除标识
 
 
