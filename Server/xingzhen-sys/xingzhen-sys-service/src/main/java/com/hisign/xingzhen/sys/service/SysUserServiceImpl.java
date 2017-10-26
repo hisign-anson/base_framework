@@ -7,19 +7,25 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import cn.jiguang.common.resp.ResponseWrapper;
+import cn.jmessage.api.JMessageClient;
+import cn.jmessage.api.common.model.RegisterInfo;
+import cn.jmessage.api.common.model.RegisterPayload;
+import cn.jmessage.api.common.model.UserPayload;
+import cn.jmessage.api.user.UserClient;
+import com.hisign.xingzhen.common.util.*;
 import com.hisign.xingzhen.sys.mapper.SysLogMapper;
 import com.hisign.xingzhen.sys.mapper.SysUserInfoMapper;
 import com.hisign.xingzhen.sys.mapper.SysUserMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.model.JsonResult;
-import com.hisign.xingzhen.common.util.JsonResultUtil;
-import com.hisign.xingzhen.common.util.ListUtils;
-import com.hisign.xingzhen.common.util.Md5Helper;
-import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.SysDict;
 import com.hisign.xingzhen.sys.api.model.SysOrgInfo;
 import com.hisign.xingzhen.sys.api.model.SysRole;
@@ -41,6 +47,8 @@ import com.hisign.xingzhen.sys.mapper.SysRoleMapper;
 @Service("sysUserService")
 public class SysUserServiceImpl implements SysUserService {
 
+	Logger log = LoggerFactory.getLogger(SysUserServiceImpl.class);
+
 	@Resource
 	private SysUserMapper sysUserMapper;
 	
@@ -61,6 +69,12 @@ public class SysUserServiceImpl implements SysUserService {
 
 	@Resource
 	private SysOrgInfoMapper sysOrgInfoMapper;
+
+	@Autowired
+	UserClient userClient;
+
+	@Autowired
+	JMessageClient jMessageClient;
 
 	@Override
 	public SysUser findSysUserByUserName(String userName) throws Exception {
@@ -302,12 +316,28 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public JsonResult addUserInfo(SysUserInfo userInfo) {
+	@Transactional
+	public JsonResult addUserInfo(SysUserInfo userInfo) throws Exception {
 		int count = sysUserInfoMapper.queryCountByCondition(new SysUserInfo(userInfo.getCid()));
 		if(count > 0){
 			return JsonResultUtil.error("身份证号已存在,请重新输入");
 		}
 		sysUserInfoMapper.insert(userInfo);
+
+		RegisterInfo registerInfo = RegisterInfo.newBuilder().setUsername(userInfo.getUserId()).setPassword("1234").build();
+		ResponseWrapper response = userClient.registerAdmins(registerInfo);
+		if (!response.isServerResponse()){
+			log.error("极光注册用户失败",response);
+			throw new Exception("新增用户信息错误");
+		}
+		//更新极光上用户的信息
+		UserPayload userPayload = UserPayload.newBuilder().setAddress(userInfo.getAddress()).setBirthday(DateUtil.getDateTime(userInfo.getBirth()))
+				.setNickname(userInfo.getUserName()).build();
+		response = userClient.updateUserInfo(userInfo.getUserId(), userPayload);
+				if (!response.isServerResponse()){
+			log.error("极光注册用户失败",response);
+			throw new Exception("更新用户信息错误");
+		}
 		return JsonResultUtil.success(userInfo.getUserId());
 	}
 	
@@ -366,6 +396,8 @@ public class SysUserServiceImpl implements SysUserService {
 				BeanUtils.copyProperties(sysUserInfo, oldInfo);
 				sysUserInfo = oldInfo;
 				sysUserInfoMapper.updateNotNull(sysUserInfo);
+				//修改极光上的用户信息
+				//String nickname, String birthday, String signature, int gender, String region, String address, String avatar
 			}else {
 				//不存在，则添加
 				String userId = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
@@ -374,7 +406,23 @@ public class SysUserServiceImpl implements SysUserService {
 				if (result.getFlag()!=1) {
 					throw new Exception("新增用户信息错误");
 				}
+
+				RegisterInfo registerInfo = RegisterInfo.newBuilder().setUsername(userId).setPassword("1234").build();
+				ResponseWrapper response = userClient.registerAdmins(registerInfo);
+				if (!response.isServerResponse()){
+					log.error("极光注册用户失败",response);
+					throw new Exception("新增用户信息错误");
+				}
 			}
+			//更新极光上用户的信息
+			UserPayload userPayload = UserPayload.newBuilder().setAddress(sysUserInfo.getAddress()).setBirthday(DateUtil.getDateTime(sysUserInfo.getBirth()))
+					.setNickname(sysUserInfo.getUserName()).build();
+			ResponseWrapper response = userClient.updateUserInfo(sysUserInfo.getUserId(), userPayload);
+			if (!response.isServerResponse()){
+				log.error("极光注册用户失败",response);
+				throw new Exception("更新用户信息错误");
+			}
+
 			//更新或者新增账号sysUser
 			sysUser.setCreateUserId("admin");
 			sysUser.setUserPwd("1234");

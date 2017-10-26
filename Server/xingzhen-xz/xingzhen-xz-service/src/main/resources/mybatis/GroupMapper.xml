@@ -12,13 +12,11 @@
         <result column="BACKUP_TIME" property="backupTime" jdbcType="TIMESTAMP"/>
         <result column="BACKUP_REASON" property="backupReason" jdbcType="VARCHAR"/>
         <result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
-        <result column="CREATENAME" property="createname" jdbcType="VARCHAR"/>
         <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP"/>
         <result column="DEPARMENTCODE" property="deparmentcode" jdbcType="VARCHAR"/>
         <result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
         <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
-        <result column="memberNum" property="memberNum" jdbcType="DECIMAL"/>
-        <result column="caseNum" property="caseNum" jdbcType="DECIMAL"/>
+        <result column="JMGID" property="jmgid" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Conditions_Where_Clause">
@@ -67,11 +65,11 @@
         BACKUP_TIME,
         BACKUP_REASON,
         CREATOR,
-        CREATENAME,
         CREATETIME,
         DEPARMENTCODE,
         LASTUPDATETIME,
-        DELETEFLAG
+        DELETEFLAG,
+        JMGID
     </sql>
 
     <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Group">
@@ -88,11 +86,11 @@
         BACKUP_TIME,
         BACKUP_REASON,
         CREATOR,
-        CREATENAME,
         CREATETIME,
         DEPARMENTCODE,
         LASTUPDATETIME,
-        DELETEFLAG
+        DELETEFLAG,
+        JMGID
         ) VALUES (
         #{id,jdbcType=VARCHAR},
         #{pgroupid,jdbcType=VARCHAR},
@@ -103,11 +101,11 @@
         #{backupTime,jdbcType=TIMESTAMP},
         #{backupReason,jdbcType=VARCHAR},
         #{creator,jdbcType=VARCHAR},
-        #{createname,jdbcType=VARCHAR},
         #{createtime,jdbcType=TIMESTAMP},
         #{deparmentcode,jdbcType=VARCHAR},
         #{lastupdatetime,jdbcType=TIMESTAMP},
-        #{deleteflag,jdbcType=VARCHAR}
+        #{deleteflag,jdbcType=VARCHAR},
+        #{jmgid,jdbcType=VARCHAR}
         )
     </insert>
 
@@ -144,9 +142,6 @@
             <if test="creator !=null  and creator != '' ">
                 CREATOR,
             </if>
-            <if test="createname !=null  and createname != '' ">
-                CREATENAME,
-            </if>
             <if test="createtime !=null ">
                 CREATETIME,
             </if>
@@ -157,7 +152,10 @@
                 LASTUPDATETIME,
             </if>
             <if test="deleteflag !=null  and deleteflag != '' ">
-                DELETEFLAG
+                DELETEFLAG,
+            </if>
+            <if test="jmgid !=null  and jmgid != '' ">
+                JMGID
             </if>
         </trim>
         values
@@ -189,9 +187,6 @@
             <if test="creator !=null  and creator != '' ">
                 #{creator,jdbcType=VARCHAR},
             </if>
-            <if test="createname !=null  and createname != '' ">
-                #{createname,jdbcType=VARCHAR},
-            </if>
             <if test="createtime !=null ">
                 #{createtime,jdbcType=TIMESTAMP},
             </if>
@@ -202,7 +197,10 @@
                 #{lastupdatetime,jdbcType=TIMESTAMP},
             </if>
             <if test="deleteflag !=null  and deleteflag != '' ">
-                #{deleteflag,jdbcType=VARCHAR}
+                #{deleteflag,jdbcType=VARCHAR},
+            </if>
+            <if test="jmgid !=null  and jmgid != '' ">
+                #{jmgid,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>
@@ -218,11 +216,11 @@
         BACKUP_TIME,
         BACKUP_REASON,
         CREATOR,
-        CREATENAME,
         CREATETIME,
         DEPARMENTCODE,
         LASTUPDATETIME,
-        DELETEFLAG
+        DELETEFLAG,
+        JMGID
         )
         <foreach collection="list" open="(" close=")" item="item" index="index" separator="union all" >
             select
@@ -235,11 +233,11 @@
             #{item.backupTime,jdbcType=TIMESTAMP},
             #{item.backupReason,jdbcType=VARCHAR},
             #{item.creator,jdbcType=VARCHAR},
-            #{item.createname,jdbcType=VARCHAR},
             #{item.createtime,jdbcType=TIMESTAMP},
             #{item.deparmentcode,jdbcType=VARCHAR},
             #{item.lastupdatetime,jdbcType=TIMESTAMP},
-            #{item.deleteflag,jdbcType=VARCHAR}
+            #{item.deleteflag,jdbcType=VARCHAR},
+            #{item.jmgid,jdbcType=VARCHAR}
             from dual
         </foreach>
     </insert>
@@ -256,11 +254,11 @@
             BACKUP_TIME=#{backupTime,jdbcType=TIMESTAMP},
             BACKUP_REASON=#{backupReason,jdbcType=VARCHAR},
             CREATOR=#{creator,jdbcType=VARCHAR},
-            CREATENAME=#{createname,jdbcType=VARCHAR},
             CREATETIME=#{createtime,jdbcType=TIMESTAMP},
             DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR},
             LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP},
-            DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
+            DELETEFLAG=#{deleteflag,jdbcType=VARCHAR},
+            JMGID=#{jmgid,jdbcType=VARCHAR}
         </trim>
         WHERE
         ID = #{id,jdbcType=VARCHAR}
@@ -293,9 +291,6 @@
             <if test="creator !=null  and creator != '' ">
                 CREATOR = #{creator,jdbcType=VARCHAR},
             </if>
-            <if test="createname !=null  and createname != '' ">
-                CREATENAME = #{createname,jdbcType=VARCHAR},
-            </if>
             <if test="createtime !=null ">
                 CREATETIME = #{createtime,jdbcType=TIMESTAMP},
             </if>
@@ -306,7 +301,10 @@
                 LASTUPDATETIME = #{lastupdatetime,jdbcType=TIMESTAMP},
             </if>
             <if test="deleteflag !=null  and deleteflag != '' ">
-                DELETEFLAG = #{deleteflag,jdbcType=VARCHAR}
+                DELETEFLAG = #{deleteflag,jdbcType=VARCHAR},
+            </if>
+            <if test="jmgid !=null  and jmgid != '' ">
+                JMGID = #{jmgid,jdbcType=VARCHAR}
             </if>
         </trim>
         WHERE ID = #{id,jdbcType=VARCHAR}
@@ -328,7 +326,7 @@
     <!-- 按Id删除 -->
     <delete id="deleteById" parameterType="java.lang.String">
         DELETE FROM t_group WHERE
-         ID = #{id,jdbcType=VARCHAR}
+        ID = #{id,jdbcType=VARCHAR}
     </delete>
 
     <!--根据list(ids)删除对象-->
@@ -385,9 +383,6 @@
         <if test="creator != null  and creator != '' ">
             and CREATOR=#{creator,jdbcType=VARCHAR}
         </if>
-        <if test="createname != null  and createname != '' ">
-            and CREATENAME=#{createname,jdbcType=VARCHAR}
-        </if>
         <if test="createtime != null ">
             and CREATETIME=#{createtime,jdbcType=TIMESTAMP}
         </if>
@@ -399,6 +394,9 @@
         </if>
         <if test="deleteflag != null  and deleteflag != '' ">
             and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
+        </if>
+        <if test="jmgid != null  and jmgid != '' ">
+            and JMGID=#{jmgid,jdbcType=VARCHAR}
         </if>
         and rownum = 1
     </select>
@@ -435,9 +433,6 @@
         <if test="creator != null  and creator != '' ">
             and CREATOR=#{creator,jdbcType=VARCHAR}
         </if>
-        <if test="createname != null  and createname != '' ">
-            and CREATENAME=#{createname,jdbcType=VARCHAR}
-        </if>
         <if test="createtime != null ">
             and CREATETIME=#{createtime,jdbcType=TIMESTAMP}
         </if>
@@ -449,6 +444,9 @@
         </if>
         <if test="deleteflag != null  and deleteflag != '' ">
             and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
+        </if>
+        <if test="jmgid != null  and jmgid != '' ">
+            and JMGID=#{jmgid,jdbcType=VARCHAR}
         </if>
     </select>
 
@@ -547,6 +545,7 @@
         t.CREATETIME,
         t.BACKUP_STATU,
         t.BACKUP_TIME,
+        t.JMGID,
         (SELECT count(1) from T_AJGROUP b1 where b1.groupid=t.id) as caseNum,
         (SELECT USER_NAME from SYS_USER_INFO d where d.USER_ID=t.CREATOR) as CREATOR,
         (SELECT count(1) from T_USERGROUP c1 where c1.groupid=t.id) as memberNum
@@ -630,7 +629,7 @@
             AND t1.BACKUP_STATU=#{backupStatus,jdbcType=VARCHAR}
         </if>
         <if test="startTime!=null and endTime!=null">
-            AND to_char(t1.BACKUP_TIME,"yyyy-mm-dd hh24:mi:ss") BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
+            AND to_char(t1.BACKUP_TIME,"yyyy-mm-dd h24:mi:ss") BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
         </if>
         GROUP BY t1.id
         ) a ORDER BY a.createtime
@@ -648,7 +647,8 @@
             g.GROUPTYPE,
             g.CREATETIME,
             g.BACKUP_STATU,
-            g.BACKUP_TIME
+            g.BACKUP_TIME,
+            g.JMGID
         from T_GROUP g where g.deleteFlag=0 and g.pgroupid=#{pgroupid,jdbcType=VARCHAR}
     </select>
 

@@ -46,16 +46,10 @@ public class Constants {
 	public static final String YES = "1";
 
 
-
 	/**
 	 * token名
 	 */
 	public static final String TOKEN = "token";
-
-	/**
-	 * 需要局审批的最大总价
-	 */
-	public static final int NEED_JU_APPLY_MAX_AMOUNT = 2000;
 
 	/**
 	 *
@@ -88,204 +82,12 @@ public class Constants {
 	}
 
 	/**
-	 *
-	 * 车辆状态
-	 */
-	public static class CarInfoStatus{
-
-		/** 可用  1**/
-		public static final Integer AVAILABLE = 1;
-		/** 维修中  2**/
-		public static final Integer MAINTAINING = 2;
-		/** 出车中 3 **/
-		public static final Integer OUTSIDE = 3;
-	}
-	/**
-	 *
-	 * 车辆申请状态
-	 */
-	public static class CarApplyStatus{
-
-		/** 0 暂存 **/
-		public static final Integer STATUS_0 = 0;
-		/** 1 待科领导审批 **/
-		public static final Integer STATUS_1 = 1;
-		/** 2 待处领导审批 **/
-		public static final Integer STATUS_2 = 2;
-		/** 3 待决策处领导审批 **/
-		public static final Integer STATUS_3 = 3;
-		/** 4 待局领导审批 **/
-		public static final Integer STATUS_4 = 4;
-		/** 5待派车 **/
-		public static final Integer STATUS_5 = 5;
-		/** 6待回车 **/
-		public static final Integer STATUS_6 = 6;
-		/** 7已回车 **/
-		public static final Integer STATUS_7 = 7;
-
-		/** -1 科领导审批不通过 **/
-		public static final Integer STATUS_1_ = -1;
-		/** -2 处领导审批不通过 **/
-		public static final Integer STATUS_2_ = -2;
-		/** -3 决策处领导不通过 **/
-		public static final Integer STATUS_3_ = -3;
-		/** -4 局领导审批不通过 **/
-		public static final Integer STATUS_4_ = -4;
-	}
-
-	/**
-	 *
-	 * 领物申领状态
-	 */
-	public static class ItemApplyStatus{
-
-		/** 0 暂存 **/
-		public static final Integer STATUS_0 = 0;
-		/** 1 待科领导审批 **/
-		public static final Integer STATUS_1 = 1;
-		/** 2  待处内勤汇总 **/
-		public static final Integer STATUS_2 = 2;
-		/** 3 待处领导审批  **/
-		public static final Integer STATUS_3 = 3;
-		/** 4 对策处审批  **/
-		public static final Integer STATUS_4 = 4;
-		/** 5待局领导审批  **/
-		public static final Integer STATUS_5 = 5;
-		/** 6 审批通过待领物  **/
-		public static final Integer STATUS_6 = 6;
-		/** 7已领物 **/
-		public static final Integer STATUS_7 = 7;
-
-		/** -1 科领导审批不通过 **/
-		public static final Integer STATUS_1_ = -1;
-		/** -3 处领导审批不通过 **/
-		public static final Integer STATUS_3_ = -3;
-		/** -4 对策处领导不通过  **/
-		public static final Integer STATUS_4_ = -4;
-		/** -5 局领导审批不通过   **/
-		public static final Integer STATUS_5_ = -5;
-	}
-
-	/**
-	 *
-	 * 领物申领申领汇总状态
-	 */
-	public static class ItemApplySumStatus{
-
-		/** 3 待处领导审批  **/
-		public static final Integer STATUS_3 = 3;
-		/** 4 对策处审批  **/
-		public static final Integer STATUS_4 = 4;
-		/** 5待局领导审批  **/
-		public static final Integer STATUS_5 = 5;
-		/** 6 审批通过待领物  **/
-		public static final Integer STATUS_6 = 6;
-		/** 7已领物 **/
-		public static final Integer STATUS_7 = 7;
-
-		/** -1 科领导审批不通过 **/
-		public static final Integer STATUS_1_ = -1;
-		/** -3 处领导审批不通过 **/
-		public static final Integer STATUS_3_ = -3;
-		/** -4 对策处领导不通过  **/
-		public static final Integer STATUS_4_ = -4;
-		/** -5局领导审批不通过   **/
-		public static final Integer STATUS_5_ = -5;
-	}
-
-	/**
-	 *
-	 * 项目开支申请状态
-	 */
-	public static class ExesApplyStatus{
-
-		/** 0 暂存 **/
-		public static final Integer STATUS_0 = 0;
-		/** 1 待科领导审批 **/
-		public static final Integer STATUS_1 = 1;
-		/** 2 待处领导审批  **/
-		public static final Integer STATUS_2 = 2;
-		/** 3待局领导审批  **/
-		public static final Integer STATUS_3 = 3;
-		/** 4对策处审批  **/
-		public static final Integer STATUS_4 = 4;
-		/** 6 审批通过  **/
-		public static final Integer STATUS_6 = 6;
-
-		/** -1 科领导审批不通过 **/
-		public static final Integer STATUS_1_ = -1;
-		/** -2 处领导审批不通过 **/
-		public static final Integer STATUS_2_ = -2;
-		/** -3 局领导审批不通过   **/
-		public static final Integer STATUS_3_ = -3;
-		/** -4 对策处审批审批不通过   **/
-		public static final Integer STATUS_4_ = -4;
-	}
-
-
-
-
-
-
-	/**
-	 *
-	 * 车辆维修申请状态
-	 */
-	public static class CarMaintainStatus{
-
-		/** 暂存  0 **/
-		public static final int UNCOMMIT = 0;
-		/** 提交 1**/
-		public static final int COMMIT = 1;
-		/** 已登记 2 **/
-		public static final int REGED = 2;
-	}
-
-
-	/**
-	 * 用户信息状态
-	 */
-	public final static class UserInfoStatus{
-
-		/** 0 正常**/
-		public final static int NORMAL = 0;
-		/** 1 删除**/
-		public final static int DELETE = 1;
-	}
-	/**
-	 *
-	 * 任务状态
-	 */
-	public static class TasksStatus{
-
-		/**   0 未完成 **/
-		public static final int STATUS_0 = 0;
-		/**  1 已完成**/
-		public static final int STATUS_1 = 1;
-	}
-
-	/**
-	 *
-	 * 项目状态
-	 */
-	public static class ProjectInfoStatus{
-
-		/**   0 未启动 **/
-		public static final int STATUS_0 = 0;
-		/**  1 已启动**/
-		public static final int STATUS_1 = 1;
-		/**  99  已结束**/
-		public static final int STATUS_99 = 99;
-	}
-
-	/** 非领导职务代码 **/
-	public final static String FLDZWDM = "FLDZWDM";
-
-
-	/**
 	 * 系统参数
 	 */
 	public static Map<String, String> SYS_PARAM_MAP = new HashMap<String, String>();
+
+	/** 非领导职务代码 **/
+	public final static String FLDZWDM = "FLDZWDM";
 
 	/**
 	 *
@@ -353,16 +155,6 @@ public class Constants {
 		public static final int STATUS_1 = 1;
 	}
 
-	/**
-	 *
-	 * 是否删除状态
-	 */
-	public static class IsDel{
-		/** 未删除 **/
-		public static final int DEL_0 = 0;
-		/** 已删除 **/
-		public static final int DEL_1 = 1;
-	}
 
 	/**
 	 * 上传类型
@@ -375,20 +167,6 @@ public class Constants {
 		/** word **/
 		public static final String WORD = "word";
 	}
-	/**
-	 * 审批类型
-	 *
-	 */
-	public static class AuditType{
-		/** 1财务 **/
-		public static final int TYPE_1 = 1;
-		/** 2车辆 **/
-		public static final int TYPE_2 = 2;
-		/** 3物品 **/
-		public static final int TYPE_3 = 3;
-	}
-
-
 
 
 	static public final byte HEX_DIGITS[] = {

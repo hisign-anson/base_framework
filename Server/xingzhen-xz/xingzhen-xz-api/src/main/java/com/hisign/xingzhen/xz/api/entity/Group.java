@@ -80,6 +80,10 @@ public class Group extends BaseModel implements Serializable {
     @ApiModelProperty(value = "删除标识",hidden = true)
     private String deleteflag; //删除标识
 
+    @Column(value="JMGID")
+    @ApiModelProperty(value = "极光群聊ID")
+    private String jmgid; //极光群聊ID
+
     //===================================接收字段
     @ApiModelProperty(value = "警号",hidden = true)
     private String policeId; //警号
@@ -283,6 +287,14 @@ public class Group extends BaseModel implements Serializable {
         this.ajbh = ajbh;
     }
 
+    public String getJmgid() {
+        return jmgid;
+    }
+
+    public void setJmgid(String jmgid) {
+        this.jmgid = jmgid;
+    }
+
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder();
@@ -296,11 +308,11 @@ public class Group extends BaseModel implements Serializable {
                 .append(",backupTime=").append(this.getBackupTime())
                 .append(",backupReason=").append(this.getBackupReason())
                 .append(",creator=").append(this.getCreator())
-                .append(",createname=").append(this.getCreatename())
                 .append(",createtime=").append(this.getCreatetime())
                 .append(",deparmentcode=").append(this.getDeparmentcode())
                 .append(",lastupdatetime=").append(this.getLastupdatetime())
                 .append(",deleteflag=").append(this.getDeleteflag())
+                .append(",jmgid=").append(this.getJmgid())
                 .append("]");
         return builder.toString();
     }
@@ -315,11 +327,11 @@ public class Group extends BaseModel implements Serializable {
         backupTime("BACKUP_TIME","归档时间"),
         backupReason("BACKUP_REASON","归档原因"),
         creator("CREATOR","创建人"),
-        createname("CREATENAME","创建人姓名"),
         createtime("CREATETIME","创建时间"),
         deparmentcode("DEPARMENTCODE","创建人单位"),
         lastupdatetime("LASTUPDATETIME","修改时间"),
-        deleteflag("DELETEFLAG","删除标识");
+        deleteflag("DELETEFLAG","删除标识"),
+        jmgid("JMGID","极光群聊ID");
 
         private String fieldName;
         private String remark;

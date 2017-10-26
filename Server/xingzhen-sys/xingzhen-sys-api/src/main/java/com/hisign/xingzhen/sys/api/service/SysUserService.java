@@ -156,7 +156,7 @@ public interface SysUserService {
 
     @RequestMapping(value = "/addUserInfo", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonResult addUserInfo(@RequestBody SysUserInfo userInfo);
+    public JsonResult addUserInfo(@RequestBody SysUserInfo userInfo) throws Exception;
 
     @RequestMapping(value = "/getUserInfoByUserId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody

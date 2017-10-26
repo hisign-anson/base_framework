@@ -1,5 +1,9 @@
 package com.hisign.xingzhen.xz.service.impl;
 
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jmessage.api.JMessageClient;
+import cn.jmessage.api.group.CreateGroupResult;
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseMapper;
@@ -25,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +56,9 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     @Autowired
     private UsergroupMapper usergroupMapper;
 
+    @Autowired
+    private JMessageClient jMessageClient;
+
     Logger log = LoggerFactory.getLogger(GroupServiceImpl.class);
 
     @Override
@@ -67,19 +75,19 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     @Override
     @Transactional
     public JsonResult addNotNull(Group entity) throws BusinessException {
-        if(entity.getDeparmentcode()==null||entity.getDeparmentcode().length()!=12){
+        if (entity.getDeparmentcode() == null || entity.getDeparmentcode().length() != 12) {
             return error("登陆人用户单位不正确");
         }
-        if (!StringUtils.isEmpty(entity.getPgroupid())){
+        if (!StringUtils.isEmpty(entity.getPgroupid())) {
             //获取父专案组
             Group pgroup = new Group();
             pgroup.setPgroupid(entity.getPgroupid());
             GroupModel pgroupModel = getByEntity(pgroup);
-            if(pgroupModel==null) {
+            if (pgroupModel == null) {
                 return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
             }
         }
-        Date now=new Date();
+        Date now = new Date();
         //保存专案组
         entity.setId(UUID.randomUUID().toString());
         entity.setGroupnum(createGroupNum(entity.getDeparmentcode()));
@@ -90,7 +98,29 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         entity.setBackupStatu(Constants.NO);
         entity.setBackupTime(null);
 
-        JsonResult result = super.addNotNull(entity);
+        long i = groupMapper.insertNotNull(entity);
+
+        if (i != 1) {
+            throw new BusinessException("对不起，创建专案组失败!");
+        }
+        //创建极光群组
+        try {
+            CreateGroupResult cgr = jMessageClient.createGroup(entity.getCreator(), entity.getGroupname(), entity.getGroupname(), entity.getCreator());
+            if (!cgr.isResultOK()){
+                log.info("对不起，创建群组失败!:",cgr.getResponseCode());
+                throw new BusinessException("对不起，创建群组失败!");
+            }else{
+
+            }
+        } catch (APIConnectionException e) {
+            log.error("Connection error. Should retry later. ", e);
+            throw new BusinessException("对不起，创建群组失败!");
+        } catch (APIRequestException e) {
+            log.error("Error response from JPush server. Should review and fix it. ", e);
+            log.info("HTTP Status: " + e.getStatus());
+            log.info("Error Message: " + e.getMessage());
+            throw new BusinessException("对不起，创建群组失败!");
+        }
 
         //把创建人添加到关联人员
         Usergroup usergroup = new Usergroup();
@@ -104,25 +134,22 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         usergroup.setJh(entity.getPoliceId());
 
         long num = usergroupMapper.insertNotNull(usergroup);
-        if (num!=1){
+        if (num != 1) {
             throw new BusinessException("对不起，关联创建人失败!");
         }
 
-        if (result.getFlag()==1){
-            try {
-                String content = "专案组新增(ID:"+entity.getId()+")";
-                if (StringUtils.isNotBlank(entity.getPgroupid())){
-                    content = content.replace("新增","组内建组");
-                }
-                //保存操作日志
-                XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP,content , entity.getCreator(), now, entity.getId());
-                xzLogMapper.insertNotNull(xzLog);
-            } catch (Exception e) {
-                log.error(e.getMessage());
+        try {
+            String content = "专案组新增(ID:" + entity.getId() + ")";
+            if (StringUtils.isNotBlank(entity.getPgroupid())) {
+                content = content.replace("新增", "组内建组");
             }
-            return JsonResultUtil.success(super.getById(entity.getId()));
+            //保存操作日志
+            XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()), Constants.XZLogType.GROUP, content, entity.getCreator(), now, entity.getId());
+            xzLogMapper.insertNotNull(xzLog);
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
-        return result;
+        return success(super.getById(entity.getId()));
     }
 
     @Override
@@ -172,15 +199,15 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     private synchronized String createGroupNum(String deparmentcode) {
         String maxNo = groupMapper.findMaxNo(deparmentcode);
         String nextNumber;
-        if(StringUtils.isEmpty(maxNo)){
-            nextNumber="00000";
-        }  else{
-            nextNumber=String.valueOf(Integer.parseInt(maxNo)+1);
-            while (nextNumber.length()<6){
-                nextNumber="0"+nextNumber;
+        if (StringUtils.isEmpty(maxNo)) {
+            nextNumber = "00000";
+        } else {
+            nextNumber = String.valueOf(Integer.parseInt(maxNo) + 1);
+            while (nextNumber.length() < 6) {
+                nextNumber = "0" + nextNumber;
             }
         }
-        return "ZAZ" + deparmentcode+new SimpleDateFormat("yyyy").format(new Date())+nextNumber;
+        return "ZAZ" + deparmentcode + new SimpleDateFormat("yyyy").format(new Date()) + nextNumber;
     }
 
     @Override
@@ -198,10 +225,10 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     }
 
 
-
     @Override
     public JsonResult getAllGroupByUserId(String userId) {
         return JsonResultUtil.success(groupMapper.findAllGroupByUserId(userId));
     }
+
 
 }

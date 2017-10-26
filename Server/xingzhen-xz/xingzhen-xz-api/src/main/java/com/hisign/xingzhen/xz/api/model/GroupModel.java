@@ -60,6 +60,9 @@ public class GroupModel implements Serializable {
     @ApiModelProperty(value = "删除标识")
     private String deleteflag; //删除标识
 
+    @ApiModelProperty(value = "极光群聊ID")
+    private String jmgid; //极光群聊ID
+
     //-------------------------返回字段
     @ApiModelProperty(value = "涉及案件数")
     private String caseNum;
@@ -261,6 +264,14 @@ public class GroupModel implements Serializable {
 
     public void setMemberNum(String memberNum) {
         this.memberNum = memberNum;
+    }
+
+    public String getJmgid() {
+        return jmgid;
+    }
+
+    public void setJmgid(String jmgid) {
+        this.jmgid = jmgid;
     }
 
     public List<GroupModel> getChildGroupList() {

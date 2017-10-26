@@ -12,7 +12,15 @@ public class ListUtils {
 		}
 		return str;
 	}
-	
+
+	public static String[] obj2strArr(List<Object> list){
+		String[] str = new String[list.size()];
+		for (int i = 0; i < list.size(); i++) {
+			str[i] = (String)list.get(i);
+		}
+		return str;
+	}
+
 	
 	public static List<Object> arr2List(Object[] arr){
 		List<Object> list = new ArrayList<Object>();

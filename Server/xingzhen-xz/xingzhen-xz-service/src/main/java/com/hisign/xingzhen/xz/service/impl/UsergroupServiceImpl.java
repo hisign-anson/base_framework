@@ -1,5 +1,9 @@
 package com.hisign.xingzhen.xz.service.impl;
 
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jmessage.api.JMessageClient;
+import cn.jmessage.api.group.CreateGroupResult;
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseMapper;
@@ -11,8 +15,10 @@ import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
+import com.hisign.xingzhen.common.util.ListUtils;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
@@ -24,6 +30,7 @@ import com.hisign.xingzhen.xz.mapper.UsergroupMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +60,9 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     @Autowired
     private XzLogMapper xzLogMapper;
 
+    @Autowired
+    private JMessageClient jMessageClient;
+
     @Override
     protected BaseMapper<Usergroup,UsergroupModel, String> initMapper() {
         return usergroupMapper;
@@ -63,7 +73,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     public JsonResult add(List<Usergroup> list) throws BusinessException {
         try {
             String creator = list.get(0).getCreator();
-            List<Object> ids = new ArrayList<>(list.size());
+            List<String> ids = new ArrayList<>(list.size());
             String groupId = list.get(0).getGroupid();
             for (Usergroup usergroup : list) {
                 ids.add(usergroup.getUserid());
@@ -74,6 +84,8 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 usergroup.setGroupid(groupId);
             }
 
+            ids.add(creator);
+
             //获取专案组对象
             GroupModel groupModel = groupMapper.findById(groupId);
             if (groupModel==null){
@@ -81,6 +93,36 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
             }
 
             usergroupMapper.batchInsert(list);
+
+            //如果未创建极光群组
+            if (StringUtils.isEmpty(groupModel.getJmgid())){
+                //创建极光群组
+                try {
+                    CreateGroupResult cgr = jMessageClient.createGroup(creator, groupModel.getGroupname(), groupModel.getGroupname(), ListUtils.list2Array(ids));
+                    if (!cgr.isResultOK()){
+                        log.info("对不起，创建群组失败!:",cgr.getResponseCode());
+                        throw new BusinessException("对不起，创建群组失败!");
+                    }else{
+                        groupModel.setJmgid(cgr.getGid().toString());
+                        //更新专案组
+                        Group group = new Group();
+                        BeanUtils.copyProperties(groupModel,group);
+                        groupMapper.update(group);
+                    }
+                } catch (APIConnectionException e) {
+                    log.error("Connection error. Should retry later. ", e);
+                    throw new BusinessException("对不起，创建群组失败!");
+                } catch (APIRequestException e) {
+                    log.error("Error response from JPush server. Should review and fix it. ", e);
+                    log.info("HTTP Status: " + e.getStatus());
+                    log.info("Error Message: " + e.getMessage());
+                    throw new BusinessException("对不起，创建群组失败!");
+                }
+            }
+
+            //添加用户到极光群组
+            jMessageClient.addOrRemoveMembers(Long.valueOf(groupModel.getJmgid()),ListUtils.list2Array(ids),null);
+
             try {
                 String content = StringUtils.concat("专案组(ID:", groupId, ")", "人员(ID:", ids.toString(), ")添加");
                 XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, content, creator, new Date(), groupId);
@@ -155,6 +197,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     }
 
     @Override
+    @Transactional
     public JsonResult deleteUsergroupList(List<Usergroup> usergroupList) {
 
         Usergroup ug = usergroupList.get(0);
@@ -181,11 +224,22 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
 
         Conditions conditions = new Conditions();
         conditions.createCriteria().add(Usergroup.UsergroupEnum.id.get(), BaseEnum.IsInEnum.IN,ids);
-        UpdateParams updateParams = new UpdateParams(Usergroup.class);
-        updateParams.add(Usergroup.UsergroupEnum.deleteflag.get(),Constants.DELETE_TRUE);
-        updateParams.add(Usergroup.UsergroupEnum.lastupdatetime.get(),new Date());
-        updateParams.setConditions(conditions);
-        usergroupMapper.updateCustom(updateParams);
+        usergroupMapper.deleteCustom(conditions);
+
+        //添加用户到极光群组
+        if (StringUtils.isNotBlank(group.getJmgid())){
+            try {
+                jMessageClient.addOrRemoveMembers(Long.valueOf(group.getJmgid()),null,ListUtils.obj2strArr(ids));
+            } catch (APIConnectionException e) {
+                log.error("Connection error. Should retry later. ", e);
+                throw new BusinessException("对不起，群组移除成员失败!");
+            } catch (APIRequestException e) {
+                log.error("Error response from JPush server. Should review and fix it. ", e);
+                log.info("HTTP Status: " + e.getStatus());
+                log.info("Error Message: " + e.getMessage());
+                throw new BusinessException("对不起，群组移除成员失败!");
+            }
+        }
 
         try {
             //保存操作日志
