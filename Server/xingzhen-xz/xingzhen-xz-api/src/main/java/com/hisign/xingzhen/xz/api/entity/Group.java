@@ -28,7 +28,6 @@ public class Group extends BaseModel implements Serializable {
 
     @Column(value="GROUPNUM")
     @ApiModelProperty(value = "专案组编号",hidden = true)
-    @NotEmpty(message = "专案组编号不能为空")
     private String groupnum; //专案组编号
 
     @Column(value="GROUPNAME")
