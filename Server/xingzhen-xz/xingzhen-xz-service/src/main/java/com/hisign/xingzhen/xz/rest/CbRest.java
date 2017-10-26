@@ -30,8 +30,8 @@ public class CbRest extends BaseRest<Cb, CbModel, String, CbService> implements 
     }
 
     /**
-     * 移交任务
-     * @param cb
+     * 催办任务
+     * @param
      * @return
      */
     @Override

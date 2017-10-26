@@ -157,6 +157,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                  } catch (Exception e){
                      log.error(e.getMessage());
                  }
+                 return JsonResultUtil.success(super.getById(taskFk.getId()));
              }
              return result;
          }  catch (Exception e) {

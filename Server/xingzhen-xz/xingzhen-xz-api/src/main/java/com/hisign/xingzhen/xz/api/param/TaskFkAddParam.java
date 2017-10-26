@@ -1,8 +1,8 @@
 package com.hisign.xingzhen.xz.api.param;
 
-import com.hisign.bfun.bannotation.Table;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,22 +13,25 @@ import java.util.List;
  *
  */
 @ApiModel(value = "任务反馈")
-@Table(value="t_task_fk")
 public class TaskFkAddParam implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @NotEmpty(message = "任务ID不能为空")
     @ApiModelProperty(value = "任务ID",required = true)
     private String taskid; //任务ID
 
     @ApiModelProperty(value = "反馈线索")
     private String fkxs; //反馈线索
 
+    @NotEmpty(message = "创建人不能为空")
     @ApiModelProperty(value = "创建人",required = true)
     private String creator; //创建人
 
+    @NotEmpty(message = "创建人姓名不能为空")
     @ApiModelProperty(value = "创建人姓名",required = true)
     private String createname; //创建人姓名
 
+    @NotEmpty(message = "创建人单位不能为空")
     @ApiModelProperty(value = "创建人单位",required = true)
     private String deparmentcode; //创建人单位
 

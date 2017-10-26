@@ -1,7 +1,6 @@
 
 package com.hisign.xingzhen.xz.api.param;
 
-import com.hisign.bfun.bannotation.Table;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -13,7 +12,6 @@ import java.io.Serializable;
  *
  */
 @ApiModel(value = "任务反馈文件表")
-@Table(value="t_taskfk_file")
 public class TaskfkFileAddParam implements Serializable {
 	private static final long serialVersionUID = 1L;
 

@@ -68,7 +68,7 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      * @param taskAddParam
      * @return
      */
-    @ApiOperation(value = "新增任务",httpMethod ="POST",response = String.class)
+    @ApiOperation(value = "新增任务",httpMethod ="POST",response = TaskModel.class)
     @RequestMapping(value = "/addTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addTask(@Valid @RequestBody TaskAddParam taskAddParam, BindingResult result) {
         JsonResult jr = handleResult(result);
@@ -79,7 +79,7 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
     }
 
     @Override
-    public JsonResult addTask(@RequestBody TaskAddParam taskAddParam) {
+    public JsonResult addTask(TaskAddParam taskAddParam) {
         return baseService.addTask(taskAddParam);
     }
 
