@@ -25,6 +25,8 @@ import com.hisign.xingzhen.xz.mapper.TaskFkMapper;
 import com.hisign.xingzhen.xz.mapper.TaskMapper;
 import com.hisign.xingzhen.xz.mapper.TaskfkFileMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +44,8 @@ import java.util.UUID;
  */
 @Service("taskFkService")
 public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, String> implements TaskFkService{
+
+    Logger log = LoggerFactory.getLogger(TaskFkServiceImpl.class);
 
 	@Autowired
 	protected TaskFkMapper taskFkMapper;
@@ -145,10 +149,16 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                      taskfkFileMapper.insertNotNull(taskfkFile);
                  }
              }
-
-             String content="任务反馈（ID=" + taskFk.getId() + ",TASKID"+ taskFk.getTaskid() + "）";
-             XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , task.getCreator(), now, task.getId());
-             xzLogMapper.insertNotNull(xzLog);
+             if(result.getFlag()==1){
+                 try {
+                     String content="任务反馈（ID=" + taskFk.getId() + ",TASKID"+ taskFk.getTaskid() + "）";
+                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskFk.getCreator(), now, task.getId());
+                     xzLogMapper.insertNotNull(xzLog);
+                 } catch (Exception e){
+                     log.error(e.getMessage());
+                 }
+                 return JsonResultUtil.success(super.getById(taskFk.getId()));
+             }
              return result;
          }  catch (Exception e) {
              throw new BusinessException(BaseEnum.BusinessExceptionEnum.UPDATE,e);

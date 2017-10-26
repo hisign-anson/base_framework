@@ -142,17 +142,16 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         }
         //已反馈的才能有反馈信息
         if(Constants.YES.equals(taskModel.getFkzt())){
-            Conditions conditions = new Conditions(TaskFk.class);
-            Conditions.Criteria criteria = conditions.createCriteria();
-            criteria.add(TaskFk.TaskFkEnum.taskid.get());
-            List<TaskFkModel> taskFkModels=taskFkMapper.findList(conditions);
-            if(taskFkModels!=null){
+            TaskFk fk=new TaskFk();
+            fk.setTaskid(id);
+            List<TaskFkModel> taskFkModels=taskFkMapper.findListByEntity(fk);
+            if(taskFkModels!=null && taskFkModels.size()>0){
                 Date now=new Date();
                 for(TaskFkModel taskFkModel:taskFkModels){
                     TaskfkFile file=new TaskfkFile();
                     file.setTaskfkId(taskFkModel.getId());
                     List<TaskfkFileModel> taskfkFiles=taskfkFileMapper.findListByEntity(file);
-                    if(taskfkFiles!=null) {
+                    if(taskfkFiles!=null&&taskfkFiles.size()>0) {
                         taskFkModel.setTaskfkFileModels(taskfkFiles);
                     }
                     //查看更新未确认的反馈信息
@@ -176,7 +175,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                         }
                     }
                 }
-                //taskModel.setTaskFkModels(taskFkModels);
+                taskModel.setTaskFkModels(taskFkModels);
             }
         } else{
             //查看更新未确认的反馈信息

@@ -8,14 +8,15 @@ import com.hisign.xingzhen.xz.api.param.TaskFkAddParam;
 import com.hisign.xingzhen.xz.api.service.TaskFkService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 
 /**
@@ -41,10 +42,19 @@ public class TaskFkRest extends BaseRest<TaskFk,TaskFkModel, String, TaskFkServi
      * @param taskFkAddParam
      * @return
      */
-    @Override
-    @ApiOperation(value = "新增任务反馈",httpMethod ="POST",response = String.class)
+    @ApiOperation(value = "新增任务反馈",httpMethod ="POST",response = TaskFkModel.class)
     @RequestMapping(value = "/addTaskFk", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addTaskFk(@ApiParam @RequestBody TaskFkAddParam taskFkAddParam) {
+    public JsonResult addTaskFk(@Valid @RequestBody TaskFkAddParam taskFkAddParam, BindingResult result) {
+        JsonResult jr = handleResult(result);
+        if (jr.getFlag()!=1){
+            return jr;
+        }
+        return baseService.addTaskFk(taskFkAddParam);
+    }
+
+
+    @Override
+    public JsonResult addTaskFk(TaskFkAddParam taskFkAddParam) {
         return baseService.addTaskFk(taskFkAddParam);
     }
 }

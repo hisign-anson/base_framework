@@ -16,10 +16,13 @@ import com.hisign.xingzhen.xz.api.entity.Cb;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.CbModel;
+import com.hisign.xingzhen.xz.api.model.TaskModel;
 import com.hisign.xingzhen.xz.api.service.CbService;
 import com.hisign.xingzhen.xz.mapper.CbMapper;
 import com.hisign.xingzhen.xz.mapper.TaskMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +39,8 @@ import java.util.UUID;
  */
 @Service("cbService")
 public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implements CbService{
+
+    Logger log = LoggerFactory.getLogger(CbServiceImpl.class);
 
 	@Autowired
 	protected CbMapper cbMapper;
@@ -100,6 +105,10 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
              if(StringUtils.isEmpty(userId)){
                  return error("任务催办失败,当前登陆用户不能为空");
              }
+             TaskModel taskModel=taskMapper.findById(id);
+             if(taskModel==null|| Constants.DELETE_TRUE.equals(taskModel.getDeleteflag())){
+                 return error("任务催办失败,该任务不存在");
+             }
              Cb cb=new Cb();
              Date now=new Date();
              cb.setId(UUID.randomUUID().toString());
@@ -117,10 +126,15 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
              task.setCbzt(Constants.YES);
              task.setLastupdatetime(now);
              taskMapper.updateNotNull(task);
-
-             String content="任务催办（ID=" + cb.getId() + ",TASKID="+ cb.getTaskid()+ "）";
-             XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , cb.getCreator(), now, cb.getId());
-             xzLogMapper.insertNotNull(xzLog);
+             if(result.getFlag()==1){
+                 try {
+                     String content="任务催办（ID=" + cb.getId() + ",TASKID="+ cb.getTaskid()+ "）";
+                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , cb.getCreator(), now, cb.getId());
+                     xzLogMapper.insertNotNull(xzLog);
+                 } catch (Exception e){
+                     log.error(e.getMessage());
+                 }
+             }
              return result;
          }catch (Exception e) {
              throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT,e);

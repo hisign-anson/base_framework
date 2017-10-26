@@ -68,7 +68,7 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      * @param taskAddParam
      * @return
      */
-    @ApiOperation(value = "新增任务",httpMethod ="POST",response = String.class)
+    @ApiOperation(value = "新增任务",httpMethod ="POST",response = TaskModel.class)
     @RequestMapping(value = "/addTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addTask(@Valid @RequestBody TaskAddParam taskAddParam, BindingResult result) {
         JsonResult jr = handleResult(result);
@@ -79,7 +79,7 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
     }
 
     @Override
-    public JsonResult addTask(@RequestBody TaskAddParam taskAddParam) {
+    public JsonResult addTask(TaskAddParam taskAddParam) {
         return baseService.addTask(taskAddParam);
     }
 
@@ -90,8 +90,8 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      * @return
      */
     @Override
-    @ApiOperation(value = "删除任务",httpMethod ="DELETE",response = String.class)
-    @RequestMapping(value = "/deleteTaskById", method = RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "删除任务",httpMethod ="GET",response = String.class)
+    @RequestMapping(value = "/deleteTaskById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult deleteTaskById(@RequestParam String id,@RequestParam String userId) {
         if(StringUtils.isEmpty(userId)){
             return JsonResultUtil.error("删除记录失败,当前登陆用户不能为空");

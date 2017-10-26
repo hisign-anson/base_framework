@@ -16,7 +16,6 @@ import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
-import com.hisign.xingzhen.xz.api.model.UsergroupModel;
 import com.hisign.xingzhen.xz.api.param.GroupParam;
 import com.hisign.xingzhen.xz.api.service.GroupService;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
@@ -68,6 +67,9 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     @Override
     @Transactional
     public JsonResult addNotNull(Group entity) throws BusinessException {
+        if(entity.getDeparmentcode()==null||entity.getDeparmentcode().length()!=12){
+            return error("登陆人用户单位不正确");
+        }
         if (!StringUtils.isEmpty(entity.getPgroupid())){
             //获取父专案组
             Group pgroup = new Group();
