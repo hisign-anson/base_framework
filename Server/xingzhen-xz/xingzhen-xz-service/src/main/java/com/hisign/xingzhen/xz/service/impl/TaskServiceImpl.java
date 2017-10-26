@@ -207,13 +207,13 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         if(!StringUtils.isEmpty(taskAddParam.getBcrwid())){
             TaskModel t=super.getById(taskAddParam.getBcrwid());
             if(t==null){
-                return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+                return error("补充任务不存在");
             }
         }
         if(!StringUtils.isEmpty(taskAddParam.getFkid())){
             TaskFkModel t=taskFkMapper.findById(taskAddParam.getFkid());
             if(t==null){
-                return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+                return error("反馈任务不存在");
             }
         }
         Task task=new Task();
