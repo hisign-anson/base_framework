@@ -4,6 +4,7 @@ import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jmessage.api.JMessageClient;
 import cn.jmessage.api.group.CreateGroupResult;
+import cn.jmessage.api.user.UserClient;
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseMapper;
@@ -63,6 +64,9 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     @Autowired
     private JMessageClient jMessageClient;
 
+    @Autowired
+    private UserClient userClient;
+
     @Override
     protected BaseMapper<Usergroup,UsergroupModel, String> initMapper() {
         return usergroupMapper;
@@ -73,7 +77,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     public JsonResult add(List<Usergroup> list) throws BusinessException {
         try {
             String creator = list.get(0).getCreator();
-            List<String> ids = new ArrayList<>(list.size());
+            List<String> ids = new ArrayList<>();
             String groupId = list.get(0).getGroupid();
             for (Usergroup usergroup : list) {
                 ids.add(usergroup.getUserid());
@@ -83,8 +87,6 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 usergroup.setLastupdatetime(new Date());
                 usergroup.setGroupid(groupId);
             }
-
-            ids.add(creator);
 
             //获取专案组对象
             GroupModel groupModel = groupMapper.findById(groupId);

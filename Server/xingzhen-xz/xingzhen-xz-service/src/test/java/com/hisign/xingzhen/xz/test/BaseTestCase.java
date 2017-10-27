@@ -28,21 +28,4 @@ public class BaseTestCase {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
-
-    public MockHttpServletRequestBuilder post(String uri){
-        return MockMvcRequestBuilders.post(uri);
-    }
-
-    public MockHttpServletRequestBuilder get(String uri){
-        return MockMvcRequestBuilders.get(uri);
-    }
-
-    public MockHttpServletRequestBuilder delete(String uri){
-        return MockMvcRequestBuilders.delete(uri);
-    }
-
-    public MockHttpServletRequestBuilder put(String uri){
-        return MockMvcRequestBuilders.put(uri);
-    }
-
 }

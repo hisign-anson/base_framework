@@ -3,7 +3,10 @@ package com.hisign.xingzhen.xz.test.rest;
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jmessage.api.JMessageClient;
+import cn.jmessage.api.common.model.RegisterInfo;
+import cn.jmessage.api.common.model.RegisterPayload;
 import cn.jmessage.api.group.CreateGroupResult;
+import cn.jmessage.api.user.UserClient;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,11 +40,11 @@ public class JMTest {
 
     @Test
     public void testCreateUser() {
-        JMessageClient client = new JMessageClient(appkey, masterSecret);
+        UserClient client = new UserClient(appkey, masterSecret);
         try {
-            client.registerAdmins("1234","1234");
-            CreateGroupResult result = client.createGroup("1234", "test_gname1", "description", "1234");
-
+            RegisterInfo info = RegisterInfo.newBuilder().setPassword("1234").setUsername("D46AA16621AD4F77AAE6B9677331DD36").build();
+            RegisterPayload load = RegisterPayload.newBuilder().addUsers(info).build();
+            client.registerUsers(load);
         } catch (APIConnectionException e) {
             log.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {

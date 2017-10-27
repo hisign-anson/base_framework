@@ -37,7 +37,6 @@ public class Usergroup extends BaseModel implements Serializable {
 
     @Column(value="JH")
     @ApiModelProperty(value = "警号",required = true)
-    @NotEmpty(message = "警号不能为空")
     private String jh; //警号
 
     @Column(value="GROUPID")

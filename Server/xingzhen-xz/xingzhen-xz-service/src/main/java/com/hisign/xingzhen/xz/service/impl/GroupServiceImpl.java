@@ -80,9 +80,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         }
         if (!StringUtils.isEmpty(entity.getPgroupid())) {
             //获取父专案组
-            Group pgroup = new Group();
-            pgroup.setPgroupid(entity.getPgroupid());
-            GroupModel pgroupModel = getByEntity(pgroup);
+            GroupModel pgroupModel = groupMapper.findById(entity.getPgroupid());
             if (pgroupModel == null) {
                 return error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
             }
