@@ -483,7 +483,7 @@ public class SysUserServiceImpl implements SysUserService {
 	public JsonResult editUserInfo(SysUserInfo userInfo) {
 		SysUserInfo oldSysUserInfo = sysUserInfoMapper.selectByKey(userInfo.getUserId());
 		if (oldSysUserInfo==null) {
-			return JsonResultUtil.error("改用户不存在，请刷新页面再试");
+			return JsonResultUtil.error("该用户不存在，请刷新页面再试");
 		}
 		
 		if(!oldSysUserInfo.getCid().equals(userInfo.getCid())){
@@ -493,6 +493,18 @@ public class SysUserServiceImpl implements SysUserService {
 			}
 		}
 		sysUserInfoMapper.update(userInfo);
+
+		//更新极光上用户的信息
+		try {
+			UserPayload userPayload = UserPayload.newBuilder().setAddress(userInfo.getAddress()).setBirthday(DateUtil.getDateTime(userInfo.getBirth()))
+                    .setNickname(userInfo.getUserName()).build();
+			ResponseWrapper response = userClient.updateUserInfo(userInfo.getUserId(), userPayload);
+			if (!response.isServerResponse()){
+                log.error("极光修改用户失败",response);
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return JsonResultUtil.success();
 	}
 

@@ -14,11 +14,9 @@ import java.sql.SQLException;
 @Configuration
 public class JMConfig {
 
-    @Value("jm.appkey")
-    private String appkey;
+    private String appkey="a15c1e9bb38c1607b9571eea";
 
-    @Value("jm.masterSecret")
-    private String masterSecret;
+    private String masterSecret="bd4d826e1e49340aac2d05e2";
 
     @Bean(name = "jMessageClient")
     public JMessageClient jMessageClient() throws SQLException {
