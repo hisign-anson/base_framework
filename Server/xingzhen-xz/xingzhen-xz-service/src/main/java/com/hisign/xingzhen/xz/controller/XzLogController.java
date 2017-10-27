@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.rest;
+package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
@@ -14,7 +14,6 @@ import com.hisign.xingzhen.xz.api.model.XzLogModel;
 import com.hisign.xingzhen.xz.api.service.GroupService;
 import com.hisign.xingzhen.xz.api.service.XzLogService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +28,8 @@ import java.util.List;
  *
  */
 @RestController
-@RequestMapping("/xz/xzlogService")
-public class XzLogRest extends BaseRest<XzLog, XzLogModel, String, XzLogService> {
+@RequestMapping("/xz/xzlog")
+public class XzLogController extends BaseRest<XzLog, XzLogModel, String, XzLogService> {
 
 	@Autowired
 	private GroupService groupService;

@@ -4,6 +4,7 @@ package com.hisign.xingzhen.config;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,12 +24,17 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
+
+    @Value("${swagger.basePath}")
+    String basePath;
+
 	@Bean
     public Docket createRestApi() {
+        System.out.println(basePath);
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.hisign.xingzhen"))
+                .apis(RequestHandlerSelectors.basePackage(basePath))
                 .paths(PathSelectors.any())
                 .build();
     }

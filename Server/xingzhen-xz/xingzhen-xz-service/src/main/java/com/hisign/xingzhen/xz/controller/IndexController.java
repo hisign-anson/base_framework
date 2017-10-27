@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.rest;
+package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bmodel.Conditions;
@@ -7,15 +7,15 @@ import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.common.util.DateUtil;
 import com.hisign.xingzhen.xz.api.entity.Task;
-import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.service.IndexService;
 import com.hisign.xingzhen.xz.api.service.TaskService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -26,8 +26,8 @@ import java.util.Map;
  */
 @Api(description = "首页")
 @RestController
-@RequestMapping("/xz/indexService")
-public class IndexRest extends BaseController {
+@RequestMapping("/xz/index")
+public class IndexController extends BaseController {
 
     @Autowired
     TaskService taskService;
@@ -46,7 +46,6 @@ public class IndexRest extends BaseController {
         Conditions conditions2 = new Conditions(Task.class);
 
         Conditions.Criteria criteria2 = conditions2.createCriteria();
-
 
         criteria2.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
                 .add(Task.TaskEnum.qszt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)

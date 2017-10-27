@@ -1,21 +1,17 @@
-package com.hisign.xingzhen.xz.rest.app;
+package com.hisign.xingzhen.xz.controller.app;
 
-import com.hisign.bfun.bexception.BusinessException;
-import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
-import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.param.GroupParam;
 import com.hisign.xingzhen.xz.api.service.GroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.List;
 
 
@@ -27,7 +23,7 @@ import java.util.List;
 @Api(description = "App专案组")
 @RestController
 @RequestMapping("/xz/app/group")
-public class AppGroupRest {
+public class AppGroupController {
 
     @Autowired
     private GroupService groupService;

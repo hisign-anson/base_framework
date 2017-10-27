@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.rest;
+package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseRest;
@@ -24,8 +24,8 @@ import javax.validation.Valid;
  */
 @Api(description = "专案组")
 @RestController
-@RequestMapping("/xz/groupService")
-public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> implements GroupService{
+@RequestMapping("/xz/group")
+public class GroupController extends BaseRest<Group,GroupModel, String, GroupService> implements GroupService{
 
     @Override
     @Autowired

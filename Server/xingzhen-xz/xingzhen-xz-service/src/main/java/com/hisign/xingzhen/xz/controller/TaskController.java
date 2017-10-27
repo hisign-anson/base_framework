@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.rest;
+package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
@@ -28,8 +28,8 @@ import javax.validation.Valid;
  */
 @Api(description = "任务")
 @RestController
-@RequestMapping("/xz/taskService")
-public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> implements TaskService {
+@RequestMapping("/xz/task")
+public class TaskController extends BaseRest<Task, TaskModel, String, TaskService> implements TaskService {
 
     @Override
     @Autowired

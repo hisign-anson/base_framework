@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.rest;
+package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
@@ -27,8 +27,8 @@ import javax.validation.Valid;
  */
  @Api(description = "任务反馈")
 @RestController
-@RequestMapping("/xz/taskFKService")
-public class TaskFkRest extends BaseRest<TaskFk,TaskFkModel, String, TaskFkService> implements TaskFkService {
+@RequestMapping("/xz/taskFK")
+public class TaskFkController extends BaseRest<TaskFk,TaskFkModel, String, TaskFkService> implements TaskFkService {
 
 	@Override
 	@Autowired

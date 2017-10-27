@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.rest;
+package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseRest;
@@ -27,8 +27,8 @@ import java.util.List;
  */
 @Api(description = "案件专案组关联")
 @RestController
-@RequestMapping("/xz/ajgroupService")
-public class AjgroupRest extends BaseRest<Ajgroup, AjgroupModel, String, AjgroupService> {
+@RequestMapping("/xz/ajgroup")
+public class AjgroupController extends BaseRest<Ajgroup, AjgroupModel, String, AjgroupService> {
 
     @Override
     @Autowired

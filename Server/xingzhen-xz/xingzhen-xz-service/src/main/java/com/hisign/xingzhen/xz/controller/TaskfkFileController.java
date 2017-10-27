@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.rest;
+package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 
 /**
@@ -23,8 +22,8 @@ import java.util.List;
  *
  */
 @RestController
-@RequestMapping("/xz/taskfkFileService")
-public class TaskfkFileRest extends BaseRest<TaskfkFile, TaskfkFileModel, String, TaskfkFileService> implements TaskfkFileService {
+@RequestMapping("/xz/taskfkFile")
+public class TaskfkFileController extends BaseRest<TaskfkFile, TaskfkFileModel, String, TaskfkFileService> implements TaskfkFileService {
 
 	@Override
 	@Autowired

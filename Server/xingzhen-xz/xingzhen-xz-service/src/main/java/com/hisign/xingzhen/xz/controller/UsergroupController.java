@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.rest;
+package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseRest;
@@ -12,7 +12,6 @@ import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.xz.api.service.UsergroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +31,8 @@ import java.util.Map;
  */
 @Api(description = "人员专案组关联")
 @RestController
-@RequestMapping("/xz/usergroupService")
-public class UsergroupRest extends BaseRest<Usergroup,UsergroupModel, String, UsergroupService> implements UsergroupService{
+@RequestMapping("/xz/usergroup")
+public class UsergroupController extends BaseRest<Usergroup,UsergroupModel, String, UsergroupService> implements UsergroupService{
 
     @Override
     @Autowired

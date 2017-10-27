@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.rest;
+package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bif.BaseRest;
@@ -26,8 +26,8 @@ import javax.annotation.Resource;
  */
 @Api(description="案件")
 @RestController
-@RequestMapping("/xz/asjAjService")
-public class AsjAjRest extends BaseRest<AsjAj,AsjAjModel, String, AsjAjService> implements AsjAjService{
+@RequestMapping("/xz/asjAj")
+public class AsjAjController extends BaseRest<AsjAj,AsjAjModel, String, AsjAjService> implements AsjAjService{
 
     @Override
     @Autowired
@@ -75,6 +75,8 @@ public class AsjAjRest extends BaseRest<AsjAj,AsjAjModel, String, AsjAjService> 
 
         //返回字段
         conditions.setReturnFields(new String[]{AsjAjEnum.ajbh.get(), AsjAjEnum.ajmc.get(), AsjAjEnum.ajlx.get(), AsjAjEnum.ajstate.get(), AsjAjEnum.ab.get(), AsjAjEnum.zyaq.get(), AsjAjEnum.fadd.get(), AsjAjEnum.ajzbry.get()});
+        conditions.setLimit(param.getBegin(),param.getEnd());
+
         return baseService.getPage(conditions);
     }
 

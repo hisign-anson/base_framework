@@ -2,6 +2,7 @@ package com.hisign.xingzhen.config;
 
 import cn.jmessage.api.JMessageClient;
 import cn.jmessage.api.user.UserClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,9 +14,11 @@ import java.sql.SQLException;
 @Configuration
 public class JMConfig {
 
-    private String appkey="a15c1e9bb38c1607b9571eea";
+    @Value("${jm.appkey}")
+    private String appkey;
 
-    private String masterSecret="bd4d826e1e49340aac2d05e2";
+    @Value("${jm.masterSecret}")
+    private String masterSecret;
 
     @Bean(name = "jMessageClient")
     public JMessageClient jMessageClient() throws SQLException {
