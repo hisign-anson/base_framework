@@ -98,11 +98,6 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         entity.setBackupStatu(Constants.NO);
         entity.setBackupTime(null);
 
-        long i = groupMapper.insertNotNull(entity);
-
-        if (i != 1) {
-            throw new BusinessException("对不起，创建专案组失败!");
-        }
         //创建极光群组
         try {
             CreateGroupResult cgr = jMessageClient.createGroup(entity.getCreator(), entity.getGroupname(), entity.getGroupname(), entity.getCreator());
@@ -110,7 +105,8 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
                 log.info("对不起，创建群组失败!:",cgr.getResponseCode());
                 throw new BusinessException("对不起，创建群组失败!");
             }else{
-
+                Long gid = cgr.getGid();
+                entity.setJmgid(gid.toString());
             }
         } catch (APIConnectionException e) {
             log.error("Connection error. Should retry later. ", e);
@@ -120,6 +116,12 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
             log.info("HTTP Status: " + e.getStatus());
             log.info("Error Message: " + e.getMessage());
             throw new BusinessException("对不起，创建群组失败!");
+        }
+
+        long i = groupMapper.insertNotNull(entity);
+
+        if (i != 1) {
+            throw new BusinessException("对不起，创建专案组失败!");
         }
 
         //把创建人添加到关联人员
@@ -135,7 +137,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
         long num = usergroupMapper.insertNotNull(usergroup);
         if (num != 1) {
-            throw new BusinessException("对不起，关联创建人失败!");
+            throw new BusinessException("对不起，创建专案组失败!");
         }
 
         try {
