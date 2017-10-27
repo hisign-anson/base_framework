@@ -73,7 +73,7 @@ public class UserGroupRestTest extends BaseTestCase{
     public void getUsergroupPage() throws Exception {
         SysUserInfoParam param = new SysUserInfoParam();
         param.setGroupId("5C80EF4519A48005E050A8C052012B71");
-        param.setUserName("陈勇平");
+        //param.setUserName("陈勇平");
 
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(param);
@@ -100,10 +100,11 @@ public class UserGroupRestTest extends BaseTestCase{
     public void deleteUsergroupList() throws Exception {
         ArrayList<Usergroup> list = new ArrayList<>();
         Usergroup usergroup = new Usergroup();
-        usergroup.setId("");
+        usergroup.setId("2c512eb0-bd44-471c-9a66-6cfb7495121b");
         usergroup.setGroupid("5C80EF4519A48005E050A8C052012B71");
-        usergroup.setUserid("1885A61F3EA34703974C6287FD60F9D5");
+        usergroup.setUserid("A1E959F881504579ABDB0B206703CB01");
         usergroup.setCreator("1234");
+        list.add(usergroup);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(list);
@@ -132,9 +133,9 @@ public class UserGroupRestTest extends BaseTestCase{
         Usergroup usergroup = new Usergroup();
         usergroup.setGroupid("5C80EF4519A48005E050A8C052012B71");
         usergroup.setJh("123456");
-        usergroup.setUserid("BCF38C3F04DB446AB477B4E7BF0D8C03");
+        usergroup.setUserid("D46AA16621AD4F77AAE6B9677331DD36");
         usergroup.setCreator("1234");
-        usergroup.setUsername("石远昆");
+        usergroup.setUsername("玉梅");
         usergroup.setDeparmentcode("440000190404");
 
         list.add(usergroup);
@@ -147,7 +148,6 @@ public class UserGroupRestTest extends BaseTestCase{
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(jsonPath("$.flag", is(1)))
-                .andExpect(jsonPath("$.data", notNullValue()))
                 .andReturn().getResponse().getContentAsString();
         log.info("结果：",result);
     }

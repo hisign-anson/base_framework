@@ -487,7 +487,7 @@
         </if>
     </select>
 
-    <select id="findGroupUserCount" parameterType="com.hisign.xingzhen.xz.api.param.SysUserInfoParam" resultMap="SysUserInfoResultMap">
+    <select id="findGroupUserCount" parameterType="com.hisign.xingzhen.xz.api.param.SysUserInfoParam" resultType="java.lang.Long">
         select count(1) from SYS_USER_INFO su where 1=1
         <if test="policeId!=null and policeId!=''">
             and SU.POLICE_ID like '%'||#{policeId,jdbcType=VARCHAR}||'%' escape '\'
