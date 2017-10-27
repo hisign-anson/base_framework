@@ -629,12 +629,11 @@
             AND t1.BACKUP_STATU=#{backupStatus,jdbcType=VARCHAR}
         </if>
         <if test="startTime!=null and endTime!=null">
-            AND to_char(t1.BACKUP_TIME,"yyyy-mm-dd h24:mi:ss") BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
+            AND to_char(t1.BACKUP_TIME,'yyyy-mm-dd hh24:mi:ss') BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
         </if>
         GROUP BY t1.id
         ) a ORDER BY a.createtime
     </select>
-
 
     <select id="findChildGroupList" parameterType="java.lang.String" resultMap="BaseResultMap">
         select

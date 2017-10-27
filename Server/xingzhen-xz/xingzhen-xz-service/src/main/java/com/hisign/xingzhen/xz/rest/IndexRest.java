@@ -37,7 +37,7 @@ public class IndexRest extends BaseController {
 
     @ApiOperation(value = "待办任务",notes = "首页待办工作",httpMethod = "GET", response = Map.class)
     @RequestMapping(value = "/getTaskCountInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getTaskCountInfo(@ApiParam @RequestParam(value="userId") String userId) {
+    public JsonResult getTaskCountInfo(@RequestParam(value="userId") String userId) {
 
         //未确认
         Long count1 = indexService.getNotConfirmCountByCreator(userId);

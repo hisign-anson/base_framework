@@ -34,18 +34,18 @@ public class IndexRestTest extends BaseTestCase {
 
     @Test
     public void getTaskCountInfo() throws Exception {
-        ResultActions resultActions = mockMvc.perform(post(getTaskCountInfo)
-                .contentType(MediaType.APPLICATION_JSON_UTF8).requestAttr("userId", "123"))
+        ResultActions resultActions = mockMvc.perform(get(getTaskCountInfo)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED).param("userId", "123"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.flag", is(1)))
                 .andExpect(jsonPath("$.data", notNullValue()));
-        log.info("结果：",resultActions);
+        log.info("结果：",resultActions.andReturn().getResponse().getOutputStream().toString());
     }
 
     @Test
     public void getAchievement() throws Exception {
-        ResultActions resultActions = mockMvc.perform(post(getAchievement)
+        ResultActions resultActions = mockMvc.perform(get(getAchievement)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -56,8 +56,8 @@ public class IndexRestTest extends BaseTestCase {
 
     @Test
     public void getSolveCaseInfo() throws Exception {
-        ResultActions resultActions = mockMvc.perform(post(getSolveCaseInfo)
-                .contentType(MediaType.APPLICATION_JSON_UTF8).requestAttr("dateType", "0"))
+        ResultActions resultActions = mockMvc.perform(get(getSolveCaseInfo)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED).param("dateType", "0"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.flag", is(1)))
@@ -67,8 +67,8 @@ public class IndexRestTest extends BaseTestCase {
 
     @Test
     public void getCreateInfo() throws Exception {
-        ResultActions resultActions = mockMvc.perform(post(getCreateInfo)
-                .contentType(MediaType.APPLICATION_JSON_UTF8).requestAttr("dateType", "0"))
+        ResultActions resultActions = mockMvc.perform(get(getCreateInfo)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED).param("dateType", "0"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.flag", is(1)))
