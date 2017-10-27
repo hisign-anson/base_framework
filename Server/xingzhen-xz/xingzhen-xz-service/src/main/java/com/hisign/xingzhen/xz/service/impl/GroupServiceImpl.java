@@ -27,9 +27,7 @@ import com.hisign.xingzhen.xz.mapper.UsergroupMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -203,7 +201,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
             nextNumber = "00000";
         } else {
             nextNumber = String.valueOf(Integer.parseInt(maxNo) + 1);
-            while (nextNumber.length() < 6) {
+            while (nextNumber.length() < 5) {
                 nextNumber = "0" + nextNumber;
             }
         }
