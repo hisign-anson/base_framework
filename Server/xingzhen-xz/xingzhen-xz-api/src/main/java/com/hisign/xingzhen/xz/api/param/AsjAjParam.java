@@ -41,6 +41,15 @@ public class AsjAjParam implements Serializable{
     @ApiModelProperty(value = "受理结束时间")
     private Date slEndTime;//受理结束时间
 
+    @ApiModelProperty(value = "专案组id")
+    private String groupId;//专案组id
+
+    @ApiModelProperty(value = "分页参数")
+    private int begin;
+
+    @ApiModelProperty(value = "分页参数")
+    private int end;
+
     public String getAjbh() {
         return ajbh;
     }
@@ -87,5 +96,61 @@ public class AsjAjParam implements Serializable{
 
     public void setAjstate(String ajstate) {
         this.ajstate = ajstate;
+    }
+
+    public String getSljsdw() {
+        return sljsdw;
+    }
+
+    public void setSljsdw(String sljsdw) {
+        this.sljsdw = sljsdw;
+    }
+
+    public String getFadd() {
+        return fadd;
+    }
+
+    public void setFadd(String fadd) {
+        this.fadd = fadd;
+    }
+
+    public Date getSlStartTime() {
+        return slStartTime;
+    }
+
+    public void setSlStartTime(Date slStartTime) {
+        this.slStartTime = slStartTime;
+    }
+
+    public Date getSlEndTime() {
+        return slEndTime;
+    }
+
+    public void setSlEndTime(Date slEndTime) {
+        this.slEndTime = slEndTime;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public int getBegin() {
+        return begin;
+    }
+
+    public void setBegin(int begin) {
+        this.begin = begin;
+    }
+
+    public int getEnd() {
+        return end;
+    }
+
+    public void setEnd(int end) {
+        this.end = end;
     }
 }

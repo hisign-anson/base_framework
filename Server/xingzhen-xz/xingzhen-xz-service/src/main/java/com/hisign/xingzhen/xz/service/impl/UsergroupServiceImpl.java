@@ -204,8 +204,10 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
 
         Usergroup ug = usergroupList.get(0);
         List<Object> ids = new ArrayList<>(usergroupList.size());
+        List<Object> userIds = new ArrayList<>(usergroupList.size());
         for (Usergroup usergroup : usergroupList) {
             ids.add(usergroup.getId());
+            userIds.add(usergroup.getUserid());
         }
 
         //获取专案组
@@ -228,10 +230,10 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
         conditions.createCriteria().add(Usergroup.UsergroupEnum.id.get(), BaseEnum.IsInEnum.IN,ids);
         usergroupMapper.deleteCustom(conditions);
 
-        //添加用户到极光群组
+        //极光群组删除用户
         if (StringUtils.isNotBlank(group.getJmgid())){
             try {
-                jMessageClient.addOrRemoveMembers(Long.valueOf(group.getJmgid()),null,ListUtils.obj2strArr(ids));
+                jMessageClient.addOrRemoveMembers(Long.valueOf(group.getJmgid()),null,ListUtils.obj2strArr(userIds));
             } catch (APIConnectionException e) {
                 log.error("Connection error. Should retry later. ", e);
                 throw new BusinessException("对不起，群组移除成员失败!");

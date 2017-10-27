@@ -71,6 +71,8 @@ public class AsjAjRest extends BaseRest<AsjAj,AsjAjModel, String, AsjAjService> 
             criteria.add(AsjAjEnum.ajstate.get(), BaseEnum.ConditionEnum.EQ, aj.getAjstate());
         }
 
+        criteria.add("1", BaseEnum.ConditionEnum.EQ,"1");
+
         //返回字段
         conditions.setReturnFields(new String[]{AsjAjEnum.ajbh.get(), AsjAjEnum.ajmc.get(), AsjAjEnum.ajlx.get(), AsjAjEnum.ajstate.get(), AsjAjEnum.ab.get(), AsjAjEnum.zyaq.get(), AsjAjEnum.fadd.get(), AsjAjEnum.ajzbry.get()});
         return baseService.getPage(conditions);

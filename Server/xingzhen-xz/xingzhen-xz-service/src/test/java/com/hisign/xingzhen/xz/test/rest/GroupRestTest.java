@@ -44,6 +44,39 @@ public class GroupRestTest extends BaseTestCase{
 
     /**
      *@Author: 何建辉
+     *@Description: 添加专案组
+     *@Date: 2017/10/27 11:39
+     *@Email: hejianhui@hisign.com.cn
+     */
+    @Test
+    @Rollback(true)
+    public void addGroup() throws Exception {
+
+        Group group = new Group();
+        group.setPgroupid("5C80EF4519A48005E050A8C052012B71");
+        group.setGroupname("1027测试专案组");
+        group.setCreator("1234");
+        group.setDeparmentcode("123456789123");
+        group.setGrouptype("1");
+        group.setUserId("1234");
+        group.setCreatename("哈哈");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(group);
+
+        String result = mockMvc.perform(post(addGroup)
+                .contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(jsonPath("$.flag", is(1)))
+                .andExpect(jsonPath("$.data", notNullValue()))
+                .andReturn().getResponse().getContentAsString();
+        log.info("结果：",result);
+    }
+
+    /**
+     *@Author: 何建辉
      *@Description: 获取所有专案组根据用户id
      *@Date: 2017/10/27 11:39
      *@Email: hejianhui@hisign.com.cn
@@ -131,36 +164,5 @@ public class GroupRestTest extends BaseTestCase{
         log.info("结果：",result);
     }
 
-    /**
-     *@Author: 何建辉
-     *@Description: 添加专案组
-     *@Date: 2017/10/27 11:39
-     *@Email: hejianhui@hisign.com.cn
-     */
-    @Test
-    @Rollback(true)
-    public void addGroup() throws Exception {
 
-        Group group = new Group();
-        group.setPgroupid("5C80EF4519A48005E050A8C052012B71");
-        group.setGroupname("1027测试专案组");
-        group.setCreator("1234");
-        group.setDeparmentcode("123456789123");
-        group.setGrouptype("1");
-        group.setUserId("1234");
-        group.setCreatename("哈哈");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(group);
-
-        String result = mockMvc.perform(post(addGroup)
-                .contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(print())
-                .andExpect(jsonPath("$.flag", is(1)))
-                .andExpect(jsonPath("$.data", notNullValue()))
-                .andReturn().getResponse().getContentAsString();
-        log.info("结果：",result);
-    }
 }

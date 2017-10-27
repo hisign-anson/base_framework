@@ -3,6 +3,7 @@ package com.hisign.xingzhen.xz.rest;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
@@ -60,6 +61,9 @@ public class UsergroupRest extends BaseRest<Usergroup,UsergroupModel, String, Us
     @ApiOperation(value = "移除组内成员列表",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/deleteUsergroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult deleteUsergroupList(@RequestBody List<Usergroup> usergroup) {
+        if (usergroup==null){
+            return JsonResultUtil.error("请选择成员");
+        }
         return baseService.deleteUsergroupList(usergroup);
     }
 
@@ -98,21 +102,24 @@ public class UsergroupRest extends BaseRest<Usergroup,UsergroupModel, String, Us
                 }
 
                 List<List<SysUserInfo>> perChildGroupUserList = new ArrayList<>(childUserList.size());
-                for (int i=0 ; i < childUserList.size();i++){
-                    List<SysUserInfo> perList = new ArrayList<SysUserInfo>();
-                    for (SysUserInfo u:childUserList){
-                        if (perList.size()==0){
-                            perList.add(u);
-                        }else {
-                            if (perList.get(0).getGroupId().equals(u.getGroupId())){
+                if (childUserList!=null && childUserList.size()!=0){
+                    for (int i=0 ; i < childUserList.size();i++){
+                        List<SysUserInfo> perList = new ArrayList<SysUserInfo>();
+                        for (SysUserInfo u:childUserList){
+                            if (perList.size()==0){
                                 perList.add(u);
+                            }else {
+                                if (perList.get(0).getGroupId().equals(u.getGroupId())){
+                                    perList.add(u);
+                                }
                             }
                         }
+                        //从子专案组成员中移除已分好的小组成员
+                        childUserList.removeAll(perList);
+                        perChildGroupUserList.add(perList);
                     }
-                    //从子专案组成员中移除已分好的小组成员
-                    childUserList.removeAll(perList);
-                    perChildGroupUserList.add(perList);
                 }
+
                 Map<String, Object> map = new HashMap<>();
                 map.put("parent",parentUserList);
                 map.put("childs",perChildGroupUserList);
