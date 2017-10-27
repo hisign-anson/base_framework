@@ -40,7 +40,7 @@ public class TaskFkModel implements Serializable {
     @ApiModelProperty(value = "反馈时间")
     private Date fkTime; //反馈时间
 
-    @ApiModelProperty(value = "确认状态")
+    @ApiModelProperty(value = "确认状态，0未确认，1已确认")
     private String qrzt; //确认状态
 
     @ApiModelProperty(value = "确认时间")

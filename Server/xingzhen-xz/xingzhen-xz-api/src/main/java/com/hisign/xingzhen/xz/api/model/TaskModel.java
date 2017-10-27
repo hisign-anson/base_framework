@@ -67,22 +67,22 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "反馈截止时间")
     private Date fkjzTime; //反馈截止时间
 
-    @ApiModelProperty(value = "反馈状态")
+    @ApiModelProperty(value = "反馈状态，0未反馈，1已反馈")
     private String fkzt; //反馈状态
 
     @ApiModelProperty(value = "反馈时间")
     private Date fkTime; //反馈时间
 
-    @ApiModelProperty(value = "催办状态")
+    @ApiModelProperty(value = "催办状态，0未催办，1已催办")
     private String cbzt; //催办状态
 
-    @ApiModelProperty(value = "签收状态")
+    @ApiModelProperty(value = "签收状态，0未查看，1已查看")
     private String qszt; //签收状态
 
     @ApiModelProperty(value = "签收时间")
     private Date qsTime; //签收时间
 
-    @ApiModelProperty(value = "移交状态")
+    @ApiModelProperty(value = "移交状态，0未移交，1已移交")
     private String yjzt; //移交状态
 
     @ApiModelProperty(value = "移交时间")
@@ -106,7 +106,7 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "修改时间")
     private Date lastupdatetime; //修改时间
 
-    @ApiModelProperty(value = "删除标识")
+    @ApiModelProperty(value = "删除标识，0未删除，1已删除")
     private String deleteflag; //删除标识
 
     //-------------------------返回字段

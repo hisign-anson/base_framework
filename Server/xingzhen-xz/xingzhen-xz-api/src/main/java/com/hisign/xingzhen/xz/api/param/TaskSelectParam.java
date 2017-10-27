@@ -30,10 +30,10 @@ public class TaskSelectParam implements Serializable {
     @ApiModelProperty(value = "接收人")
     private String jsr; //接收人
 
-    @ApiModelProperty(value = "反馈状态")
+    @ApiModelProperty(value = "反馈状态，0未反馈，1已反馈")
     private String fkzt; //反馈状态
 
-    @ApiModelProperty(value = "移交状态")
+    @ApiModelProperty(value = "移交状态，0未移交，1已移交")
     private String yjzt; //移交状态
 
     @ApiModelProperty(value = "创建人")
@@ -51,7 +51,7 @@ public class TaskSelectParam implements Serializable {
     @ApiModelProperty(value = "接受字段-超期标示 1表示超期")
     private String  overdue;//1表示超期
 
-    @ApiModelProperty(value = "接受字段-任务类型 1表示本人接收，2表示本人下发")
+    @ApiModelProperty(value = "接受字段-任务类型 1表示本人接收，2表示本人下发，全部传空")
     private String taskType;//1表示本人接收，2表示本人下发
 
     @ApiModelProperty(value = "反馈截止开始时间")
@@ -60,7 +60,7 @@ public class TaskSelectParam implements Serializable {
     @ApiModelProperty(value = "反馈截止结束时间")
     private Date fkjzendTime;
 
-    @ApiModelProperty(value = "反馈确认状态")
+    @ApiModelProperty(value = "反馈确认状态，0未确认，1已确认")
     private String fkqrzt;
 
     @ApiModelProperty(value = "分页开始")
