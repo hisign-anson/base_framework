@@ -12,7 +12,7 @@ import java.util.List;
  * @author 刘玉兰
  *
  */
-@ApiModel(value = "任务反馈")
+@ApiModel(value = "新增任务反馈")
 public class TaskFkAddParam implements Serializable {
     private static final long serialVersionUID = 1L;
 

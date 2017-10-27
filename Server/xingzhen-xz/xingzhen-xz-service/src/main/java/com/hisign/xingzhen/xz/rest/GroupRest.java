@@ -9,14 +9,12 @@ import com.hisign.xingzhen.xz.api.param.GroupParam;
 import com.hisign.xingzhen.xz.api.service.GroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.concurrent.locks.Condition;
 
 
 /**
@@ -59,7 +57,7 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
 
     /**
      * 查询子专案组列表
-     * @param pGroupId 父专案组ID
+     * @param groupId 父专案组ID
      * @return JsonResult
      */
     @ApiOperation(value = "查询子专案组列表",httpMethod ="POST",response = GroupModel.class)

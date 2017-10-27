@@ -17,7 +17,6 @@ import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
 import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
-import com.hisign.xingzhen.xz.api.param.TaskAddParam;
 import com.hisign.xingzhen.xz.api.param.TaskMoveParam;
 import com.hisign.xingzhen.xz.api.param.TaskSelectParam;
 import com.hisign.xingzhen.xz.api.service.TaskService;
@@ -203,21 +202,24 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     }
 
     @Override
-    public JsonResult addTask(TaskAddParam taskAddParam) {
-        if(!StringUtils.isEmpty(taskAddParam.getBcrwid())){
-            TaskModel t=super.getById(taskAddParam.getBcrwid());
+    public JsonResult add(Task entity) throws BusinessException {
+        return super.addNotNull(entity);
+    }
+
+    @Override
+    public JsonResult addNotNull(Task task) throws BusinessException {
+        if(!StringUtils.isEmpty(task.getBcrwid())){
+            TaskModel t=super.getById(task.getBcrwid());
             if(t==null){
                 return error("补充任务不存在");
             }
         }
-        if(!StringUtils.isEmpty(taskAddParam.getFkid())){
-            TaskFkModel t=taskFkMapper.findById(taskAddParam.getFkid());
+        if(!StringUtils.isEmpty(task.getFkid())){
+            TaskFkModel t=taskFkMapper.findById(task.getFkid());
             if(t==null){
                 return error("反馈任务不存在");
             }
         }
-        Task task=new Task();
-        BeanUtils.copyProperties(taskAddParam,task);
         GroupModel group=groupMapper.findById(task.getGroupid());
         if(group==null) {
             return error("添加记录失败,专案组不存在");
@@ -254,6 +256,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         }
         return result;
     }
+
 
     @Override
     public JsonResult deleteTaskById(String id,String userId) {

@@ -12,6 +12,7 @@ import com.hisign.xingzhen.xz.api.param.TaskSelectParam;
 import com.hisign.xingzhen.xz.api.service.TaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +64,7 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
         }
         return baseService.taskDetail(id, userId);
     }
+
     /**
      * 新增任务
      * @param taskAddParam
@@ -75,14 +77,10 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
         if (jr.getFlag()!=1){
             return jr;
         }
-        return baseService.addTask(taskAddParam);
+        Task task=new Task();
+        BeanUtils.copyProperties(taskAddParam, task);
+        return baseService.addNotNull(task);
     }
-
-    @Override
-    public JsonResult addTask(TaskAddParam taskAddParam) {
-        return baseService.addTask(taskAddParam);
-    }
-
 
     /**
      * 删除任务
@@ -106,9 +104,6 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
      */
     @Override
     public JsonResult moveTask(@RequestBody TaskMoveParam taskMoveParam) {
-        if(StringUtils.isEmpty(taskMoveParam.getCreator()) || StringUtils.isEmpty(taskMoveParam.getCreatename())){
-            return JsonResultUtil.error("任务移交失败,当前登陆用户不能为空");
-        }
         return baseService.moveTask(taskMoveParam);
     }
 
