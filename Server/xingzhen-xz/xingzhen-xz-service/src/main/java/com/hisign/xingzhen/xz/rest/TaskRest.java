@@ -38,6 +38,40 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
         super.setBaseService(baseService);
     }
 
+
+    /**
+     * 新增任务
+     * @param taskAddParam
+     * @return
+     */
+    @ApiOperation(value = "新增任务",httpMethod ="POST",response = JsonResult.class)
+    @RequestMapping(value = "/addTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult addTask(@Valid @RequestBody TaskAddParam taskAddParam, BindingResult result) {
+        JsonResult jr = handleResult(result);
+        if (jr.getFlag()!=1){
+            return jr;
+        }
+        Task task=new Task();
+        BeanUtils.copyProperties(taskAddParam, task);
+        return baseService.addNotNull(task);
+    }
+
+
+    /**
+     * 删除任务
+     * @param  id userId
+     * @return
+     */
+    @Override
+    @ApiOperation(value = "删除任务",httpMethod ="GET",response = JsonResult.class)
+    @RequestMapping(value = "/deleteTaskById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    public JsonResult deleteTaskById(@RequestParam String id,@RequestParam String userId) {
+        if(StringUtils.isEmpty(userId)){
+            return JsonResultUtil.error("删除记录失败,当前登陆用户不能为空");
+        }
+        return baseService.deleteTaskById(id,userId);
+    }
+
     /**
      * 查询分页
      * @param taskSelectParam
@@ -63,38 +97,6 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
             return JsonResultUtil.error("查看记录失败,当前登陆用户不能为空");
         }
         return baseService.taskDetail(id, userId);
-    }
-
-    /**
-     * 新增任务
-     * @param taskAddParam
-     * @return
-     */
-    @ApiOperation(value = "新增任务",httpMethod ="POST",response = JsonResult.class)
-    @RequestMapping(value = "/addTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addTask(@Valid @RequestBody TaskAddParam taskAddParam, BindingResult result) {
-        JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
-            return jr;
-        }
-        Task task=new Task();
-        BeanUtils.copyProperties(taskAddParam, task);
-        return baseService.addNotNull(task);
-    }
-
-    /**
-     * 删除任务
-     * @param  id userId
-     * @return
-     */
-    @Override
-    @ApiOperation(value = "删除任务",httpMethod ="GET",response = JsonResult.class)
-    @RequestMapping(value = "/deleteTaskById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult deleteTaskById(@RequestParam String id,@RequestParam String userId) {
-        if(StringUtils.isEmpty(userId)){
-            return JsonResultUtil.error("删除记录失败,当前登陆用户不能为空");
-        }
-        return baseService.deleteTaskById(id,userId);
     }
 
     /**

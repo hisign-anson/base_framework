@@ -1,8 +1,6 @@
 package com.hisign.xingzhen.xz.test.rest;
 
-import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
-import com.hisign.xingzhen.xz.api.param.GroupParam;
 import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.xz.test.BaseTestCase;
 import org.codehaus.jackson.map.ObjectMapper;

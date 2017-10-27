@@ -106,7 +106,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
     @Override
     public JsonResult addNotNull(Cb cb) throws BusinessException {
         try {
-            if(StringUtils.isEmpty(cb.getUserId())){
+            if(StringUtils.isEmpty(cb.getCreator())){
                 return error("任务催办失败,当前登陆用户不能为空");
             }
             TaskModel taskModel=taskMapper.findById(cb.getTaskid());
