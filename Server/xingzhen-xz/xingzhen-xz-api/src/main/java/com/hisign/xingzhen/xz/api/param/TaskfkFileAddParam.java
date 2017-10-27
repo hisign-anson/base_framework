@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author 何建辉
  *
  */
-@ApiModel(value = "任务反馈文件表")
+@ApiModel(value = "新增任务反馈文件")
 public class TaskfkFileAddParam implements Serializable {
 	private static final long serialVersionUID = 1L;
 

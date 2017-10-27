@@ -47,7 +47,7 @@ public class TaskAddParam implements Serializable {
     @ApiModelProperty(value = "创建人",required = true)
     private String creator; //创建人
 
-    @NotEmpty(message = "发起人联系方式")
+    @ApiModelProperty(value = "发起人联系方式")
     private String fqrLxfs; //发起人联系方式
 
     @NotEmpty(message = "创建人姓名不能为空")

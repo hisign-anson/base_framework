@@ -18,7 +18,6 @@ import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
-import com.hisign.xingzhen.xz.api.param.TaskFkAddParam;
 import com.hisign.xingzhen.xz.api.param.TaskfkFileAddParam;
 import com.hisign.xingzhen.xz.api.service.TaskFkService;
 import com.hisign.xingzhen.xz.mapper.TaskFkMapper;
@@ -108,60 +107,62 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
 		return JsonResultUtil.success();
 	}
 
-     @Override
-     @Transactional
-     public JsonResult addTaskFk(TaskFkAddParam taskFkAddParam) {
-         try {
-             if(StringUtils.isEmpty(taskFkAddParam.getCreator())){
-                 return error("反馈任务失败,当前登陆用户不能为空");
-             }
-             TaskModel taskModel=taskMapper.findById(taskFkAddParam.getTaskid());
-             if(taskModel==null || Constants.DELETE_TRUE.equals(taskModel.getDeleteflag())){
-                 return error("该任务不存在");
-             }
-             TaskFk taskFk=new TaskFk();
-             BeanUtils.copyProperties(taskFkAddParam,taskFk);
-             Date now=new Date();
-             taskFk.setId(UUID.randomUUID().toString());
-             taskFk.setGroupid(taskModel.getGroupid());
-             taskFk.setPgroupid(taskModel.getPgroupid());
-             taskFk.setFkTime(now);
-             taskFk.setFkr(taskFk.getCreator());
-             taskFk.setCreatetime(now);
-             taskFk.setLastupdatetime(now);
-             taskFk.setDeleteflag(Constants.DELETE_FALSE);
-             JsonResult result =  super.addNotNull(taskFk);
+    @Override
+    public JsonResult add(TaskFk entity) throws BusinessException {
+        return super.addNotNull(entity);
+    }
 
-             Task task=new Task();
-             task.setId(taskFk.getTaskid());
-             task.setFkzt(Constants.YES);
-             task.setFkTime(now);
-             task.setLastupdatetime(now);
-             taskMapper.updateNotNull(task);
+    @Override
+    public JsonResult addNotNull(TaskFk taskFk) throws BusinessException {
+        try {
+            if(StringUtils.isEmpty(taskFk.getCreator())){
+                return error("反馈任务失败,当前登陆用户不能为空");
+            }
+            TaskModel taskModel=taskMapper.findById(taskFk.getTaskid());
+            if(taskModel==null || Constants.DELETE_TRUE.equals(taskModel.getDeleteflag())){
+                return error("该任务不存在");
+            }
+            Date now=new Date();
+            taskFk.setId(UUID.randomUUID().toString());
+            taskFk.setGroupid(taskModel.getGroupid());
+            taskFk.setPgroupid(taskModel.getPgroupid());
+            taskFk.setFkTime(now);
+            taskFk.setFkr(taskFk.getCreator());
+            taskFk.setCreatetime(now);
+            taskFk.setLastupdatetime(now);
+            taskFk.setDeleteflag(Constants.DELETE_FALSE);
+            JsonResult result =  super.addNotNull(taskFk);
 
-             if(taskFk.getTaskfkFileAddParams()!=null){
-                 for(TaskfkFileAddParam file:taskFk.getTaskfkFileAddParams()) {
-                     TaskfkFile taskfkFile=new TaskfkFile();
-                     BeanUtils.copyProperties(file,taskfkFile);
-                     taskfkFile.setId(UUID.randomUUID().toString());
-                     taskfkFile.setCreatetime(now);
-                     taskfkFile.setDeleteFlag(Constants.DELETE_FALSE);
-                     taskfkFileMapper.insertNotNull(taskfkFile);
-                 }
-             }
-             if(result.getFlag()==1){
-                 try {
-                     String content="任务反馈（ID=" + taskFk.getId() + ",TASKID"+ taskFk.getTaskid() + "）";
-                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskFk.getCreator(), now, task.getId());
-                     xzLogMapper.insertNotNull(xzLog);
-                 } catch (Exception e){
-                     log.error(e.getMessage());
-                 }
-                 return JsonResultUtil.success(super.getById(taskFk.getId()));
-             }
-             return result;
-         }  catch (Exception e) {
-             throw new BusinessException(BaseEnum.BusinessExceptionEnum.UPDATE,e);
-         }
-     }
- }
+            Task task=new Task();
+            task.setId(taskFk.getTaskid());
+            task.setFkzt(Constants.YES);
+            task.setFkTime(now);
+            task.setLastupdatetime(now);
+            taskMapper.updateNotNull(task);
+
+            if(taskFk.getTaskfkFileAddParams()!=null){
+                for(TaskfkFileAddParam file:taskFk.getTaskfkFileAddParams()) {
+                    TaskfkFile taskfkFile=new TaskfkFile();
+                    BeanUtils.copyProperties(file,taskfkFile);
+                    taskfkFile.setId(UUID.randomUUID().toString());
+                    taskfkFile.setCreatetime(now);
+                    taskfkFile.setDeleteFlag(Constants.DELETE_FALSE);
+                    taskfkFileMapper.insertNotNull(taskfkFile);
+                }
+            }
+            if(result.getFlag()==1){
+                try {
+                    String content="任务反馈（ID=" + taskFk.getId() + ",TASKID"+ taskFk.getTaskid() + "）";
+                    XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskFk.getCreator(), now, task.getId());
+                    xzLogMapper.insertNotNull(xzLog);
+                } catch (Exception e){
+                    log.error(e.getMessage());
+                }
+                return JsonResultUtil.success(super.getById(taskFk.getId()));
+            }
+            return result;
+        }  catch (Exception e) {
+            throw new BusinessException(BaseEnum.BusinessExceptionEnum.UPDATE,e);
+        }
+    }
+}

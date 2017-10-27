@@ -34,10 +34,13 @@ public class CbRest extends BaseRest<Cb, CbModel, String, CbService> implements 
      * @param
      * @return
      */
-    @Override
     @ApiOperation(value = "催办任务",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/addCb", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addCb(@RequestParam String id,@RequestParam String userId,@RequestParam String deparmentcode) {
-        return baseService.addCb(id,userId,deparmentcode);
+    public JsonResult addCb(@RequestParam String taskid,@RequestParam String userId,@RequestParam String deparmentcode) {
+        Cb cb=new Cb();
+        cb.setTaskid(taskid);
+        cb.setCreator(userId);
+        cb.setDeparmentcode(deparmentcode);
+        return baseService.addNotNull(cb);
     }
 }

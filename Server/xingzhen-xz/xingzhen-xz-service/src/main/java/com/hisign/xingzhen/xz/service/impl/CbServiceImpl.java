@@ -98,46 +98,46 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 		return JsonResultUtil.success();
 	}
 
-     @Override
-     @Transactional
-     public JsonResult addCb(String id,String userId,String deparmentcode) {
-         try {
-             if(StringUtils.isEmpty(userId)){
-                 return error("任务催办失败,当前登陆用户不能为空");
-             }
-             TaskModel taskModel=taskMapper.findById(id);
-             if(taskModel==null|| Constants.DELETE_TRUE.equals(taskModel.getDeleteflag())){
-                 return error("任务催办失败,该任务不存在");
-             }
-             Cb cb=new Cb();
-             Date now=new Date();
-             cb.setId(UUID.randomUUID().toString());
-             cb.setCbTime(now);
-             cb.setTaskid(id);
-             cb.setCreator(userId);
-             cb.setCreatetime(now);
-             cb.setDeparmentcode(deparmentcode);
-             cb.setLastupdatetime(now);
-             cb.setDeleteflag(Constants.DELETE_FALSE);
-             JsonResult result =  super.addNotNull(cb);
+    @Override
+    public JsonResult add(Cb entity) throws BusinessException {
+        return super.addNotNull(entity);
+    }
 
-             Task task=new Task();
-             task.setId(cb.getTaskid());
-             task.setCbzt(Constants.YES);
-             task.setLastupdatetime(now);
-             taskMapper.updateNotNull(task);
-             if(result.getFlag()==1){
-                 try {
-                     String content="任务催办（ID=" + cb.getId() + ",TASKID="+ cb.getTaskid()+ "）";
-                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , cb.getCreator(), now, cb.getId());
-                     xzLogMapper.insertNotNull(xzLog);
-                 } catch (Exception e){
-                     log.error(e.getMessage());
-                 }
-             }
-             return result;
-         }catch (Exception e) {
-             throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT,e);
-         }
-     }
+    @Override
+    public JsonResult addNotNull(Cb cb) throws BusinessException {
+        try {
+            if(StringUtils.isEmpty(cb.getUserId())){
+                return error("任务催办失败,当前登陆用户不能为空");
+            }
+            TaskModel taskModel=taskMapper.findById(cb.getTaskid());
+            if(taskModel==null|| Constants.DELETE_TRUE.equals(taskModel.getDeleteflag())){
+                return error("任务催办失败,该任务不存在");
+            }
+            Date now=new Date();
+            cb.setId(UUID.randomUUID().toString());
+            cb.setCbTime(now);
+            cb.setCreatetime(now);
+            cb.setLastupdatetime(now);
+            cb.setDeleteflag(Constants.DELETE_FALSE);
+            JsonResult result =  super.addNotNull(cb);
+
+            Task task=new Task();
+            task.setId(cb.getTaskid());
+            task.setCbzt(Constants.YES);
+            task.setLastupdatetime(now);
+            taskMapper.updateNotNull(task);
+            if(result.getFlag()==1){
+                try {
+                    String content="任务催办（ID=" + cb.getId() + ",TASKID="+ cb.getTaskid()+ "）";
+                    XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , cb.getCreator(), now, cb.getId());
+                    xzLogMapper.insertNotNull(xzLog);
+                } catch (Exception e){
+                    log.error(e.getMessage());
+                }
+            }
+            return result;
+        }catch (Exception e) {
+            throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT,e);
+        }
+    }
  }
