@@ -74,7 +74,7 @@ public class AsjAjController extends BaseRest<AsjAj,AsjAjModel, String, AsjAjSer
         criteria.add("1", BaseEnum.ConditionEnum.EQ,"1");
 
         //返回字段
-        conditions.setReturnFields(new String[]{AsjAjEnum.ajbh.get(), AsjAjEnum.ajmc.get(), AsjAjEnum.ajlx.get(), AsjAjEnum.ajstate.get(), AsjAjEnum.ab.get(), AsjAjEnum.zyaq.get(), AsjAjEnum.fadd.get(), AsjAjEnum.ajzbry.get()});
+        conditions.setReturnFields(new String[]{AsjAjEnum.id.get(),AsjAjEnum.ajbh.get(), AsjAjEnum.ajmc.get(), AsjAjEnum.ajlx.get(), AsjAjEnum.ajstate.get(), AsjAjEnum.ab.get(), AsjAjEnum.zyaq.get(), AsjAjEnum.fadd.get(), AsjAjEnum.ajzbry.get()});
         conditions.setLimit(param.getBegin(),param.getEnd());
 
         return baseService.getPage(conditions);

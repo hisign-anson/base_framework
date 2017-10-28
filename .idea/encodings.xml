@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server/xingzhen-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server/xingzhen-config" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server/xingzhen-nt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server/xingzhen-nt/xingzhen-nt-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server/xingzhen-nt/xingzhen-nt-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server/xingzhen-sys" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server/xingzhen-sys/xingzhen-sys-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server/xingzhen-sys/xingzhen-sys-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server/xingzhen-test" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server/xingzhen-xz" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server/xingzhen-xz/xingzhen-xz-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Server/xingzhen-xz/xingzhen-xz-service" charset="UTF-8" />
+  </component>
+</project>

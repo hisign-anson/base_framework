@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="xingzhen-common" />
+        <module name="xingzhen-config" />
+        <module name="xingzhen-nt-api" />
+        <module name="xingzhen-nt-service" />
+        <module name="xingzhen-sys-api" />
+        <module name="xingzhen-sys-service" />
+        <module name="xingzhen-test" />
+        <module name="xingzhen-xz-api" />
+        <module name="xingzhen-xz-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="baseFramework" target="1.5" />
+      <module name="xingzhen" target="1.5" />
+      <module name="xingzhen-common" target="1.7" />
+      <module name="xingzhen-config" target="1.7" />
+      <module name="xingzhen-nt" target="1.5" />
+      <module name="xingzhen-nt-api" target="1.7" />
+      <module name="xingzhen-nt-service" target="1.7" />
+      <module name="xingzhen-sys" target="1.5" />
+      <module name="xingzhen-sys-api" target="1.7" />
+      <module name="xingzhen-sys-service" target="1.7" />
+      <module name="xingzhen-test" target="1.7" />
+      <module name="xingzhen-xz" target="1.5" />
+      <module name="xingzhen-xz-api" target="1.7" />
+      <module name="xingzhen-xz-service" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/baseFramework.iml" filepath="$PROJECT_DIR$/baseFramework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen.iml" filepath="$PROJECT_DIR$/Server/xingzhen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen-common/xingzhen-common.iml" filepath="$PROJECT_DIR$/Server/xingzhen-common/xingzhen-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen-config/xingzhen-config.iml" filepath="$PROJECT_DIR$/Server/xingzhen-config/xingzhen-config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen-nt/xingzhen-nt.iml" filepath="$PROJECT_DIR$/Server/xingzhen-nt/xingzhen-nt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen-nt/xingzhen-nt-api/xingzhen-nt-api.iml" filepath="$PROJECT_DIR$/Server/xingzhen-nt/xingzhen-nt-api/xingzhen-nt-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen-nt/xingzhen-nt-service/xingzhen-nt-service.iml" filepath="$PROJECT_DIR$/Server/xingzhen-nt/xingzhen-nt-service/xingzhen-nt-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen-sys/xingzhen-sys.iml" filepath="$PROJECT_DIR$/Server/xingzhen-sys/xingzhen-sys.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen-sys/xingzhen-sys-api/xingzhen-sys-api.iml" filepath="$PROJECT_DIR$/Server/xingzhen-sys/xingzhen-sys-api/xingzhen-sys-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen-sys/xingzhen-sys-service/xingzhen-sys-service.iml" filepath="$PROJECT_DIR$/Server/xingzhen-sys/xingzhen-sys-service/xingzhen-sys-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen-test/xingzhen-test.iml" filepath="$PROJECT_DIR$/Server/xingzhen-test/xingzhen-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen-xz/xingzhen-xz.iml" filepath="$PROJECT_DIR$/Server/xingzhen-xz/xingzhen-xz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen-xz/xingzhen-xz-api/xingzhen-xz-api.iml" filepath="$PROJECT_DIR$/Server/xingzhen-xz/xingzhen-xz-api/xingzhen-xz-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/xingzhen-xz/xingzhen-xz-service/xingzhen-xz-service.iml" filepath="$PROJECT_DIR$/Server/xingzhen-xz/xingzhen-xz-service/xingzhen-xz-service.iml" />
+    </modules>
+  </component>
+</project>
