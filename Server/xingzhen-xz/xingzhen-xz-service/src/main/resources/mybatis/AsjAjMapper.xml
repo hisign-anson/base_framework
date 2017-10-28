@@ -7327,7 +7327,8 @@
     <select id="findAjGroupPage" parameterType="com.hisign.xingzhen.xz.api.param.AsjAjParam" resultMap="BaseResultMap">
         select p.* from(
             select rownum as rn,q.* from (
-                select * from b_asj_aj b where 1=1
+                select b.AJBH,b.AB,b.AJMC,b.FADD,b.AJLX,b.AJSTATE,b.ZYAQ,b.AJZBRY,(SELECT aj.ID FROM T_AJGROUP aj WHERE b.ID=aj.AJID AND aj.GROUPID=#{groupId,jdbcType=VARCHAR}
+                AND aj.DELETEFLAG=0) AS id from b_asj_aj b where 1=1
                 <if test="ajbh!=null and ajbh!=''">
                     and b.ajbh like '%'||#{ajbh,jdbcType=VARCHAR}||'%' escape '\'
                 </if>
@@ -7352,7 +7353,7 @@
                 <if test="slStartTime!=null and slEndTime!=null">
                     and b.SL_LRSJ BETWEEN #{slStartTime,jdbcType=TIMESTAMP} AND #{slEndTime,jdbcType=TIMESTAMP}
                 </if>
-                and b.id in (select AJID from t_ajgroup ag where ag.groupId=#{groupId,jdbcType=VARCHAR})
+                and b.id in (select AJID from t_ajgroup ag where ag.groupId=#{groupId,jdbcType=VARCHAR} AND ag.DELETEFLAG=0)
             ) q
             <if test="end !=null and end !=0">
                 where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
@@ -7389,7 +7390,7 @@
         <if test="slStartTime!=null and slEndTime!=null">
             and b.SL_LRSJ BETWEEN #{slStartTime,jdbcType=TIMESTAMP} AND #{slEndTime,jdbcType=TIMESTAMP}
         </if>
-        and b.id in (select AJID from t_ajgroup ag where ag.groupId=#{groupId,jdbcType=VARCHAR})
+        and b.id in (select AJID from t_ajgroup ag where ag.groupId=#{groupId,jdbcType=VARCHAR} AND ag.DELETEFLAG=0)
     </select>
 
     <select id="findFirstCaseByGroupId" parameterType="java.lang.String" resultMap="BaseResultMap">

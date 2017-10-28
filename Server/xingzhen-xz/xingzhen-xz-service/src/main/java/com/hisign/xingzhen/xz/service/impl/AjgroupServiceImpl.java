@@ -189,6 +189,10 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
 
         List<Object> ids = new ArrayList<>();
         for (Ajgroup ajgroup : ajgroupList) {
+            if (StringUtils.isEmpty(ajgroup.getId())){
+                log.error("错误，关联的id为空");
+                return error("抱歉，参数错误，请刷新页面再试!");
+            }
             ids.add(ajgroup.getId());
         }
 
@@ -198,6 +202,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
 
         Long count = ajgroupMapper.findCount(conditions);
         if (count.intValue()!=ajgroupList.size()){
+            log.info("count=[]",count);
             return error("抱歉，参数错误，请刷新页面再试!");
         }
 
@@ -209,14 +214,8 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
                 return error("抱歉，子专案组不能移除案件");
             }
         }
+        ajgroupMapper.deleteCustom(conditions);
 
-        UpdateParams updateParams = new UpdateParams(Ajgroup.class);
-        updateParams.setConditions(conditions);
-
-        updateParams.add(Ajgroup.AjgroupEnum.deleteflag.get(),Constants.DELETE_TRUE);
-        updateParams.add(Ajgroup.AjgroupEnum.lastupdatetime.get(),new Date());
-
-        ajgroupMapper.updateCustom(updateParams);
         return success();
     }
 }
