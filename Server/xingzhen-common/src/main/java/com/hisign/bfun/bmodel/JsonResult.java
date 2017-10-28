@@ -1,5 +1,7 @@
 package com.hisign.bfun.bmodel;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.Serializable;
 
 
@@ -79,4 +81,8 @@ public class JsonResult implements Serializable {
 		this.code = code;
 	}
 
+    @Override
+    public String toString() {
+        return JSONObject.toJSONString(this);
+    }
 }
