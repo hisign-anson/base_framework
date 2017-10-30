@@ -82,6 +82,9 @@ public class GroupModel implements Serializable {
     @ApiModelProperty(value = "子专案组列表")
     private List<GroupModel> childGroupList;
 
+    @ApiModelProperty(value = "序号")
+    private String rn;
+
 
     /**
      *默认空构造函数
@@ -309,6 +312,14 @@ public class GroupModel implements Serializable {
 
     public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
+    }
+
+	public String getRn() {
+        return rn;
+    }
+
+    public void setRn(String rn) {
+        this.rn = rn;
     }
 
     @Override

@@ -36,7 +36,7 @@ public class TaskFkAddParam implements Serializable {
     private String deparmentcode; //创建人单位
 
     @ApiModelProperty(value = "反馈附件信息")
-    private List<TaskfkFileAddParam> taskfkFileAddParams;
+    private List<TaskfkFileAddParam> taskFkFiles;
 
     public String getTaskid() {
         return taskid;
@@ -78,11 +78,11 @@ public class TaskFkAddParam implements Serializable {
         this.deparmentcode = deparmentcode;
     }
 
-    public List<TaskfkFileAddParam> getTaskfkFileAddParams() {
-        return taskfkFileAddParams;
+    public List<TaskfkFileAddParam> getTaskFkFiles() {
+        return taskFkFiles;
     }
 
-    public void setTaskfkFileAddParams(List<TaskfkFileAddParam> taskfkFileAddParams) {
-        this.taskfkFileAddParams = taskfkFileAddParams;
+    public void setTaskFkFiles(List<TaskfkFileAddParam> taskFkFiles) {
+        this.taskFkFiles = taskFkFiles;
     }
 }

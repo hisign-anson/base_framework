@@ -579,10 +579,10 @@
     </select>
 
     <select id="findGroupByCondition" parameterType="com.hisign.xingzhen.xz.api.param.GroupParam" resultMap="BaseResultMap">
-        SELECT p.id, p.GROUPNUM,p.GROUPNAME, p.GROUPTYPE,p.CREATETIME,p.BACKUP_STATU,p.BACKUP_TIME,p.JMGID,p.CREATOR,P.CREATENAME,
+        SELECT p.rn,p.id, p.GROUPNUM,p.GROUPNAME, p.GROUPTYPE,p.CREATETIME,p.BACKUP_STATU,p.BACKUP_TIME,p.JMGID,p.CREATOR,P.CREATENAME,
         (SELECT count(1) from T_AJGROUP b1 where b1.groupid=p.id) as caseNum,
         (SELECT count(1) from T_USERGROUP c1 where c1.groupid=p.id) as memberNum from(
-             SELECT rownum,rownum as rn,q.* from (
+             SELECT rownum as rn,q.* from (
                 SELECT a.* from T_GROUP a
                 WHERE  exists (
                     SELECT 1 FROM T_USERGROUP u WHERE (u.USERID=#{userId,jdbcType=VARCHAR} OR u.CREATOR=#{userId,jdbcType=VARCHAR}) and u.groupid=a.id AND u.DELETEFLAG=0
@@ -611,6 +611,7 @@
                 <if test="backupStatu!=null and backupStatu!=''">
                     AND a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
                 </if>
+                order by a.createTime desc
             ) q
             <if test="end !=null and end !=0">
                 WHERE rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}

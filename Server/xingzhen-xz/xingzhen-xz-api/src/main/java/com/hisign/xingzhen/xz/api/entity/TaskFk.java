@@ -92,7 +92,7 @@ public class TaskFk extends BaseModel implements Serializable {
 
     //-------------------------接受字段
     @ApiModelProperty(value = "反馈附件信息")
-    private List<TaskfkFileAddParam> taskfkFileAddParams;
+    private List<TaskfkFileAddParam> taskFkFiles;
     /**
      *默认空构造函数
      */
@@ -305,12 +305,12 @@ public class TaskFk extends BaseModel implements Serializable {
         this.deleteflag = deleteflag;
     }
 
-    public List<TaskfkFileAddParam> getTaskfkFileAddParams() {
-        return taskfkFileAddParams;
+    public List<TaskfkFileAddParam> getTaskFkFiles() {
+        return taskFkFiles;
     }
 
-    public void setTaskfkFileAddParams(List<TaskfkFileAddParam> taskfkFileAddParams) {
-        this.taskfkFileAddParams = taskfkFileAddParams;
+    public void setTaskFkFiles(List<TaskfkFileAddParam> taskFkFiles) {
+        this.taskFkFiles = taskFkFiles;
     }
 
     public static String getTbName() {
