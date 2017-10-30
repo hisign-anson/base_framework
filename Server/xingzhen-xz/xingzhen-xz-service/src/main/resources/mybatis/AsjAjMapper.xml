@@ -7394,6 +7394,6 @@
     </select>
 
     <select id="findFirstCaseByGroupId" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT * FROM (SELECT t2.* FROM t_usergroup t1,b_asj_aj t2 WHERE t1.ajid=t2.id and t1.groupid=#{id,jdbcType=VARCHAR} ORDER BY t1.createtime)a WHERE ROWNUM=1
+        SELECT * FROM (SELECT t2.* FROM T_AJGROUP t1,b_asj_aj t2 WHERE t1.ajid=t2.id and t1.groupid=#{id,jdbcType=VARCHAR} ORDER BY t1.createtime)a WHERE ROWNUM=1
     </select>
 </mapper>

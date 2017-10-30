@@ -67,6 +67,9 @@ public class GroupModel implements Serializable {
     @ApiModelProperty(value = "涉及案件数")
     private String caseNum;
 
+    @ApiModelProperty(value = "创建人单位名称")
+    private String departmentName;
+
     @ApiModelProperty(value = "成员数")
     private String memberNum;
 
@@ -280,6 +283,14 @@ public class GroupModel implements Serializable {
 
     public void setChildGroupList(List<GroupModel> childGroupList) {
         this.childGroupList = childGroupList;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 
     @Override

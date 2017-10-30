@@ -10,12 +10,13 @@ import com.hisign.xingzhen.common.util.DateUtil;
 import com.hisign.xingzhen.xz.api.entity.Ajgroup;
 import com.hisign.xingzhen.xz.api.entity.AsjAj;
 import com.hisign.xingzhen.xz.api.entity.Group;
+import com.hisign.xingzhen.xz.api.entity.GroupBackup;
+import com.hisign.xingzhen.xz.api.model.AsjAjModel;
+import com.hisign.xingzhen.xz.api.model.GroupBackupModel;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
+import com.hisign.xingzhen.xz.api.service.GroupBackupService;
 import com.hisign.xingzhen.xz.api.service.IndexService;
-import com.hisign.xingzhen.xz.mapper.AjgroupMapper;
-import com.hisign.xingzhen.xz.mapper.AsjAjMapper;
-import com.hisign.xingzhen.xz.mapper.GroupMapper;
-import com.hisign.xingzhen.xz.mapper.TaskFkMapper;
+import com.hisign.xingzhen.xz.mapper.*;
 import com.netflix.discovery.converters.Auto;
 import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
@@ -40,6 +41,9 @@ public class IndexServiceImpl implements IndexService{
     private GroupMapper groupMapper;
 
     @Autowired
+    private GroupBackupMapper groupBackupMapper;
+
+    @Autowired
     private AsjAjMapper asjAjMapper;
 
     @Autowired
@@ -62,10 +66,32 @@ public class IndexServiceImpl implements IndexService{
 
         for (GroupModel model : list) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("time",model.getBackupTime());
-            map.put("id",model.getId());
+            map.put("backupTime",model.getBackupTime());
+            map.put("groupId",model.getId());
+            map.put("groupNum",model.getGroupnum());
+            map.put("groupName",model.getGroupname());
+            map.put("backupReson",model.getBackupReason());
+
+            //获取最新归档记录
+            GroupBackup groupBackup = new GroupBackup();
+            groupBackup.setGroupid(model.getId());
+            groupBackup.setDeleteflag(Constants.DELETE_FALSE);
+            groupBackup.setSortName(GroupBackup.GroupBackupEnum.backupTime.get());
+            groupBackup.setSortOrder(BaseEnum.DESCEnum.DESC.get());
+
+            GroupBackupModel groupBackupModel = groupBackupMapper.findBackUpInfoByEntity(groupBackup);
+            map.put("deparmentName",groupBackupModel.getDeparmentName());
+            map.put("backupPerson",groupBackupModel.getCreatorName());
+
+            try {
+                map.put("createTime",DateUtil.getDateTime(model.getCreatetime()));
+            } catch (Exception e) {
+                e.printStackTrace();
+                map.put("createTime","");
+            }
+
             //获取最早关联案件
-            AsjAj aj = asjAjMapper.findFirstCaseByGroupId(model.getId());
+            AsjAjModel aj = asjAjMapper.findFirstCaseByGroupId(model.getId());
             if (aj==null){
                 //使用专案组名称
                 map.put("name",model.getGroupname()+"告破");
@@ -76,7 +102,7 @@ public class IndexServiceImpl implements IndexService{
                 criteria1.add(Ajgroup.AjgroupEnum.groupid.get(), BaseEnum.ConditionEnum.EQ, model.getId())
                         .add(Ajgroup.AjgroupEnum.deleteflag.get(), BaseEnum.ConditionEnum.EQ, Constants.DELETE_FALSE);
 
-                Long count = ajgroupMapper.findCount(conditions);
+                Long count = ajgroupMapper.findCount(conditions1);
 
                 if (count == 1) {
                     map.put("name",aj.getAjmc()+"告破");

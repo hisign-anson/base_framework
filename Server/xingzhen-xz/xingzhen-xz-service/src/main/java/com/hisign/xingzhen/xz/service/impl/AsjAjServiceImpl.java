@@ -89,7 +89,7 @@ public class AsjAjServiceImpl extends BaseServiceImpl<AsjAj,AsjAjModel, String> 
 	 }
 
 	 @Override
-	 public AsjAj getFirstCaseByGroupId(String id) {
+	 public AsjAjModel getFirstCaseByGroupId(String id) {
 		 return asjAjMapper.findFirstCaseByGroupId(id);
 	 }
  }

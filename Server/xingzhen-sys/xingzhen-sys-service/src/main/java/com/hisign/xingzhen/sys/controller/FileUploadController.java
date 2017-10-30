@@ -20,7 +20,7 @@ public class FileUploadController {
 	@Autowired
     private FileUploadToolkits fileUploadToolkits;
 
-    @ApiOperation(value = "上传",httpMethod ="GET",response = JsonResult.class)
+    @ApiOperation(value = "上传",httpMethod ="POST",response = JsonResult.class)
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult upload(@RequestParam("file") MultipartFile file,@RequestParam(value="isResize",required=false,defaultValue="true") Boolean isResize) {

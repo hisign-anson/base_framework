@@ -1,13 +1,15 @@
 package com.hisign.xingzhen.common.tfs;
 
+import java.io.File;
+import java.io.OutputStream;
+
 import com.hisign.xingzhen.common.model.UploadFile;
 import com.hisign.xingzhen.common.util.FtpUtils;
 import net.coobird.thumbnailator.Thumbnailator;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.File;
-import java.io.OutputStream;
 
 /**
  * FTP模式的上传文件组件实现
@@ -24,7 +26,7 @@ public class FtpFileUploadToolkit extends AbstractFileUploadToolkit {
 	public UploadFile upload(UploadFile file) throws FileUploadException {
 		boolean result = false;
 		// 获取存储的文件句柄对象
-		File storeFile = getStoreUploadFile(file);
+		File storeFile = getStoreUploadFile(file,null);
 
 		// 设置属性
 		file.setPath(storeFile.getPath());
@@ -33,7 +35,7 @@ public class FtpFileUploadToolkit extends AbstractFileUploadToolkit {
         String port = fileUploadConfig.getPort();
         String userName = fileUploadConfig.getUser();
         String password = fileUploadConfig.getPassword();
-        String rootPath = StringUtils.isBlank(fileUploadConfig.getRootPath())?"\\":fileUploadConfig.getRootPath();
+        String rootPath = StringUtils.isBlank(fileUploadConfig.getRootPath())?File.separator:fileUploadConfig.getRootPath();
 		FtpUtils ftpUtils = FtpUtils.getInstance(host, port, userName, password, rootPath);
 
 		// 连接服务器
@@ -90,6 +92,9 @@ public class FtpFileUploadToolkit extends AbstractFileUploadToolkit {
 				}
 				
 			}
+			if(storeFile.exists()){
+				FileUtils.deleteQuietly(storeFile);
+			}
 			
 		} catch (Exception ex) {
 			LOGGER.error("上传文件时发生异常", ex);
@@ -104,7 +109,7 @@ public class FtpFileUploadToolkit extends AbstractFileUploadToolkit {
         String port = fileUploadConfig.getPort();
         String userName = fileUploadConfig.getUser();
         String password = fileUploadConfig.getPassword();
-        String rootPath = StringUtils.isBlank(fileUploadConfig.getRootPath())?"\\":fileUploadConfig.getRootPath();
+        String rootPath = StringUtils.isBlank(fileUploadConfig.getRootPath())?File.separator:fileUploadConfig.getRootPath();
 		FtpUtils ftpUtils = FtpUtils.getInstance(host, port, userName, password, rootPath);
 
 		// 连接服务器

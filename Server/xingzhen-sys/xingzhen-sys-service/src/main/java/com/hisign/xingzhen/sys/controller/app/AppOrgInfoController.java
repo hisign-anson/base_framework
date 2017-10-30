@@ -8,11 +8,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * Created by hisign on 2017/10/24.
@@ -20,9 +18,9 @@ import java.util.List;
 @Api(description = "单位信息")
 @RestController
 @RequestMapping("app")
-public class AppOrgInfoRest {
+public class AppOrgInfoController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AppOrgInfoRest.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppOrgInfoController.class);
 
     @Resource
     private SysOrgInfoService sysOrgInfoService;

@@ -21,6 +21,6 @@ public interface AsjAjMapper extends BaseMapper<AsjAj,AsjAjModel, String> {
 
     long findAjGroupPageCount(AsjAjParam aj);
 
-    AsjAj findFirstCaseByGroupId(String id);
+    AsjAjModel findFirstCaseByGroupId(String id);
 
 }

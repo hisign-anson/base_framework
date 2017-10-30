@@ -1,13 +1,14 @@
 package com.hisign.xingzhen.common.tfs;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.hisign.xingzhen.common.model.enums.UploadMode;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 上传文件工具箱实例生成器实现

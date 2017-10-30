@@ -2,8 +2,10 @@ package com.hisign.xingzhen.xz.service.impl;
 
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
+import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupBackupModel;
+import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.mapper.GroupBackupMapper;
 import com.hisign.xingzhen.xz.api.entity.GroupBackup;
 import com.hisign.xingzhen.xz.api.service.GroupBackupService;
@@ -12,7 +14,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.hisign.xingzhen.xz.mapper.GroupMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +41,9 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
     @Autowired
     private XzLogMapper xzLogMapper;
 
+    @Autowired
+    private GroupMapper groupMapper;
+
     @Override
     protected BaseMapper<GroupBackup, GroupBackupModel, String> initMapper() {
         return groupBackupMapper;
@@ -52,10 +59,29 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
         entity.setId(UUID.randomUUID().toString());
         entity.setCreatetime(new Date());
         entity.setDeleteflag(Constants.DELETE_FALSE);
-        JsonResult result = super.addNotNull(entity);
+        long i = groupBackupMapper.insertNotNull(entity);
+        if (i<1){
+            return error(BaseEnum.BusinessExceptionEnum.INSERT.Msg());
+        }
+        //同时更新专案组
+        GroupModel gm = groupMapper.findById(entity.getGroupid());
+        if (gm==null){
+            return error("对不起，该专案组不存在!");
+        }
+        Group group = new Group();
+        BeanUtils.copyProperties(gm,group);
+        group.setBackupTime(new Date());
+        group.setBackupStatu(Constants.YES);
+        group.setBackupReason(entity.getBackupReason());
+
+        long num = groupMapper.update(group);
+
+        if (num<1){
+            throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT);
+        }
 
         try {
-            if (result.getFlag()==1){
+            if (i==1){
                 //保存操作日志
                 XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, "专案组归档(ID:" + entity.getId()+")", entity.getCreator(), entity.getCreatetime(), entity.getId());
                 xzLogMapper.insertNotNull(xzLog);
@@ -64,7 +90,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
 
         }
 
-        return result;
+        return success();
     }
 
     @Override

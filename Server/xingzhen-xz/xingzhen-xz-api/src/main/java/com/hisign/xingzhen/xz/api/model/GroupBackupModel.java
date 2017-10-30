@@ -22,7 +22,10 @@ public class GroupBackupModel implements Serializable {
 	
     @ApiModelProperty(value = "专案组ID")
 	private String groupid; //专案组ID
-	
+
+    @ApiModelProperty(value = "专案组名称")
+	private String groupName; //专案组名称
+
     @ApiModelProperty(value = "归档时间")
 	private Date backupTime; //归档时间
 	
@@ -31,13 +34,19 @@ public class GroupBackupModel implements Serializable {
 	
     @ApiModelProperty(value = "创建人")
 	private String creator; //创建人
-	
+
+    @ApiModelProperty(value = "创建人姓名")
+	private String creatorName; //创建人姓名
+
     @ApiModelProperty(value = "创建时间")
 	private Date createtime; //创建时间
 	
     @ApiModelProperty(value = "创建人单位")
 	private String deparmentcode; //创建人单位
-	
+
+    @ApiModelProperty(value = "创建人单位名称")
+	private String deparmentName; //创建人单位
+
     @ApiModelProperty(value = "修改时间")
 	private Date lastupdatetime; //修改时间
 	
@@ -175,5 +184,29 @@ public class GroupBackupModel implements Serializable {
 
 	public void setPoliceId(String policeId) {
 		this.policeId = policeId;
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public String getCreatorName() {
+		return creatorName;
+	}
+
+	public void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
+	}
+
+	public String getDeparmentName() {
+		return deparmentName;
+	}
+
+	public void setDeparmentName(String deparmentName) {
+		this.deparmentName = deparmentName;
 	}
 }

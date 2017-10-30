@@ -16,6 +16,6 @@ public interface AsjAjService extends BaseService<AsjAj,AsjAjModel, String> {
 
     public JsonResult getAjGroupPage(AsjAjParam param);
 
-    public AsjAj getFirstCaseByGroupId(String id);
+    public AsjAjModel getFirstCaseByGroupId(String id);
 
 }

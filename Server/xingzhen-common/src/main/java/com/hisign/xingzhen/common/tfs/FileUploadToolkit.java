@@ -1,5 +1,6 @@
 package com.hisign.xingzhen.common.tfs;
 
+
 import com.hisign.xingzhen.common.model.UploadFile;
 
 /**

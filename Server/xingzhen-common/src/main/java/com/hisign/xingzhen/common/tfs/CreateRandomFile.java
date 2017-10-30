@@ -1,8 +1,5 @@
 package com.hisign.xingzhen.common.tfs;
 
-import org.apache.commons.lang.StringUtils;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -10,6 +7,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 创建随机文件名称的工具类
@@ -61,7 +62,7 @@ public class CreateRandomFile {
 		if (StringUtils.isNotBlank(name) && StringUtils.isNotBlank(suffix)) {
 			name = name + "." + suffix;
 		}
-		return new File(name);
+		return new File(parent,name);
 	}
 	
 

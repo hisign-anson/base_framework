@@ -12,8 +12,10 @@
         <result column="BACKUP_TIME" property="backupTime" jdbcType="TIMESTAMP"/>
         <result column="BACKUP_REASON" property="backupReason" jdbcType="VARCHAR"/>
         <result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
+        <result column="CREATENAME" property="createname" jdbcType="VARCHAR"/>
         <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP"/>
         <result column="DEPARMENTCODE" property="deparmentcode" jdbcType="VARCHAR"/>
+        <result column="departmentname" property="departmentName" jdbcType="VARCHAR"/>
         <result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
         <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
         <result column="JMGID" property="jmgid" jdbcType="VARCHAR"/>
@@ -344,8 +346,9 @@
 
     <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
-        <include refid="Base_Column_List" />
-        FROM t_group
+            t.*,
+            (select o.ORG_NAME from SYS_ORGANIZATION o where o.ORG_CODE=t.deparmentcode) as departmentName
+        FROM t_group t
         WHERE
         ID = #{id,jdbcType=VARCHAR}
         and rownum = 1
@@ -547,7 +550,8 @@
         t.BACKUP_TIME,
         t.JMGID,
         (SELECT count(1) from T_AJGROUP b1 where b1.groupid=t.id) as caseNum,
-        (SELECT USER_NAME from SYS_USER_INFO d where d.USER_ID=t.CREATOR) as CREATOR,
+        t.CREATOR,
+        (SELECT USER_NAME from SYS_USER_INFO d where d.USER_ID=t.CREATOR) as CREATENAME,
         (SELECT count(1) from T_USERGROUP c1 where c1.groupid=t.id) as memberNum
         FROM (
         SELECT DISTINCT a.* from T_GROUP a
