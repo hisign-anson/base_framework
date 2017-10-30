@@ -1042,4 +1042,44 @@
             </otherwise>
         </choose>
     </select>
+
+    <select id="findTaskById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        ID,
+        TASK_NO,
+        TASK_NAME,
+        TASK_CONTENT,
+        GROUPID,
+        (select groupName from T_GROUP g where g.id=p.groupid and deleteFlag='0') as groupName,
+        PGROUPID,
+        BCRWID,
+        FKID,
+        YJRWID,
+        FQR_LXFS,
+        FQR,
+        FQRNAME,
+        JSR_LXFS,
+        JSR,
+        JSRNAME,
+        FQ_TIME,
+        FKJZ_TIME,
+        FKZT,
+        FK_TIME,
+        CBZT,
+        QSZT,
+        QS_TIME,
+        YJZT,
+        YJ_TIME,
+        CREATOR,
+        CREATENAME,
+        CREATETIME,
+        DEPARMENTCODE,
+        DEPARMENTNAME,
+        LASTUPDATETIME,
+        DELETEFLAG
+        FROM t_task
+        WHERE
+        ID = #{id,jdbcType=VARCHAR}
+        and rownum = 1
+    </select>
 </mapper>

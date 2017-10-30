@@ -19,4 +19,6 @@ public interface TaskMapper extends BaseMapper<Task,TaskModel,String> {
     public List<TaskModel> findTaskByEntity(Task task);
 
     public long findCountTaskByEntity(Task task);
+
+    public TaskModel findTaskById(String id);
  }
