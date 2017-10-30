@@ -123,6 +123,9 @@ public class SysUserInfo extends BaseModel {
     @ApiModelProperty("接收字段-专案组创建人 ")
     private String creator;
 
+    //============================================接收字段.
+    private String id;//用户专案组表id
+
     public SysUserInfo() {
     }
 
@@ -451,5 +454,13 @@ public class SysUserInfo extends BaseModel {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

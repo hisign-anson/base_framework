@@ -12,4 +12,6 @@ import com.hisign.xingzhen.xz.api.model.GroupBackupModel;
  */
 public interface GroupBackupMapper extends BaseMapper<GroupBackup,GroupBackupModel,String> {
 
+    public GroupBackupModel findBackUpInfoByEntity(GroupBackup backup);
+
 }

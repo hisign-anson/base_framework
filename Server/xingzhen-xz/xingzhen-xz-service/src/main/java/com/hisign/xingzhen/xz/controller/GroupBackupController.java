@@ -57,6 +57,6 @@ public class GroupBackupController extends BaseRest<GroupBackup, GroupBackupMode
             return JsonResultUtil.error("抱歉，改专案组是子专案组，不能归档");
         }
 
-        return super.add(entity);
+        return baseService.add(entity);
     }
 }

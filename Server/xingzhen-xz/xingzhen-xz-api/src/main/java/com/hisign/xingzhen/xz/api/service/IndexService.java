@@ -2,6 +2,7 @@
 package com.hisign.xingzhen.xz.api.service;
 
 import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.xingzhen.xz.api.entity.GroupBackup;
 
 import java.util.Date;
 
@@ -11,7 +12,7 @@ import java.util.Date;
  */
 public interface IndexService {
 
-    public JsonResult getAchievementList();
+    public JsonResult getAchievementList(GroupBackup groupBackup);
 
     public JsonResult getGroupCaseInfo(Date[] dateSection,String backupStatus);
 

@@ -133,6 +133,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 log.error(e.getMessage());
             }
         } catch (Exception e) {
+            log.error(e.getMessage());
             throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT, e);
         }
         return JsonResultUtil.success();

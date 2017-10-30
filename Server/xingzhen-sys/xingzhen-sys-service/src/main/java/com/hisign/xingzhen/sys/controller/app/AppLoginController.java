@@ -5,14 +5,11 @@ import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.Md5Helper;
 import com.hisign.xingzhen.common.util.StringUtils;
-import com.hisign.xingzhen.sys.api.model.LoginResponse;
-import com.hisign.xingzhen.sys.api.model.SysOrgInfo;
-import com.hisign.xingzhen.sys.api.model.SysUser;
-import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.sys.api.model.*;
 import com.hisign.xingzhen.sys.api.service.SysLogService;
 import com.hisign.xingzhen.sys.api.service.SysOrgInfoService;
+import com.hisign.xingzhen.sys.api.service.SysParameterService;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
-import com.hisign.xingzhen.sys.controller.LoginController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by hisign on 2017/10/24.
@@ -31,9 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 @Api(description = "App登录")
 @RestController
 @RequestMapping("app")
-public class AppLoginRest {
+public class AppLoginController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AppLoginRest.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppLoginController.class);
 
     @Resource
     private SysUserService sysUserService;
@@ -43,6 +39,9 @@ public class AppLoginRest {
 
     @Resource
     private SysLogService sysLogService;
+
+    @Resource
+    private SysParameterService sysParameterService;
 
     @ApiOperation(value = "用户登录",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -88,9 +87,14 @@ public class AppLoginRest {
                     loginResponse.setUserInfo(userInfo);
                     loginResponse.setSysCode(orgInfo.getOrgCode());
                     loginResponse.setCreateDate(sysUser.getCreateDate());
+                    SysParam sysParam = sysParameterService.getParamByName("FTPServer");
+                    if( sysParam != null){
+                        loginResponse.setFdfsUpServer(sysParam.getValue());
+                        loginResponse.setFdfsDownServer(sysParam.getValue());
+                    }
+
                     result.setFlag(1);
                     result.setData(loginResponse);
-
 
                     sysUser.setIpAddress(IpUtil.getRemotIpAddr(BaseController.getRequest()));
                     sysLogService.insertLogUserInfo(sysUser);

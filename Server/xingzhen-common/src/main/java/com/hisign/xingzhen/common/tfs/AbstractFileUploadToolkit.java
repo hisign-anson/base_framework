@@ -1,5 +1,14 @@
 package com.hisign.xingzhen.common.tfs;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Date;
+
 import com.hisign.xingzhen.common.model.UploadFile;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -7,8 +16,6 @@ import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.Date;
 
 /**
  * 实现
@@ -32,13 +39,17 @@ public abstract class AbstractFileUploadToolkit implements FileUploadToolkit {
 	 * @param file
 	 * @return
 	 */
-	protected File getStoreUploadFile(UploadFile file) {
+	protected File getStoreUploadFile(UploadFile file, String rootPath) {
 		String ext = FilenameUtils.getExtension(file.getMultipartFile().getOriginalFilename());; // 获取文件名后缀
 		FastDateFormat fdf = FastDateFormat.getInstance("yyyy-MM-dd");
 		String today = fdf.format(new Date());
-		String path = StringUtils.replace(today, "-", File.separator);
-		CreateRandomFile RandomFile = new CreateRandomFile();
-		File storeFile = RandomFile.create2(path, ext);
+		String path = File.separator+StringUtils.replace(today, "-", File.separator);
+		file.setPath(path);
+		if(StringUtils.isNotBlank(rootPath)){
+			path = rootPath+path;
+		}
+		CreateRandomFile randomFile = new CreateRandomFile();
+		File storeFile = randomFile.create2(path, ext);
 		LOGGER.info("生成随机命名的文件, storeFile={0}", storeFile);
 		return storeFile;
 	}

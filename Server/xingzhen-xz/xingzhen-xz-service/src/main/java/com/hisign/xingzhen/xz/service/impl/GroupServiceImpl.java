@@ -229,5 +229,4 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         return JsonResultUtil.success(groupMapper.findAllGroupByUserId(userId));
     }
 
-
 }
