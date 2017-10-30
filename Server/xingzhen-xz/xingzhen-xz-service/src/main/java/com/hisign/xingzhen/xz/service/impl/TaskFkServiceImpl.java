@@ -128,6 +128,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
             taskFk.setPgroupid(taskModel.getPgroupid());
             taskFk.setFkTime(now);
             taskFk.setFkr(taskFk.getCreator());
+            taskFk.setFkrname(taskFk.getCreatename());
             taskFk.setCreatetime(now);
             taskFk.setLastupdatetime(now);
             taskFk.setDeleteflag(Constants.DELETE_FALSE);

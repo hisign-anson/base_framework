@@ -129,6 +129,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         usergroup.setDeleteflag(Constants.DELETE_FALSE);
         usergroup.setDeparmentcode(entity.getDeparmentcode());
         usergroup.setUserid(entity.getCreator());
+        usergroup.setUsername(entity.getCreatename());
         usergroup.setJh(entity.getPoliceId());
 
         long num = usergroupMapper.insertNotNull(usergroup);

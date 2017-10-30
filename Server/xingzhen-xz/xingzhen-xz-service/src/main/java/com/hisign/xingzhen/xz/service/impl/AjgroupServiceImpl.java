@@ -24,7 +24,6 @@ import com.hisign.xingzhen.xz.mapper.GroupMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,6 +80,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
 
         Date now=new Date();
         entity.setId(UUID.randomUUID().toString());
+        entity.setPgroupid(groupModel.getPgroupid());
         entity.setCreatetime(now);
         entity.setLastupdatetime(now);
         entity.setPgroupid(groupModel.getPgroupid());
@@ -108,15 +108,6 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
         try {
             List<Object> ids = new ArrayList<>();
             String groupId = ajgroupList.get(0).getGroupid();
-            for (Ajgroup ajgroup : ajgroupList) {
-                ids.add(ajgroup.getAjid());
-                ajgroup.setGroupid(groupId);
-                ajgroup.setDeleteflag(Constants.DELETE_FALSE);
-                ajgroup.setCreatetime(new Date());
-                ajgroup.setLastupdatetime(new Date());
-                ajgroup.setId(UUID.randomUUID().toString());
-                ajgroup.setPgroupid(null);
-            }
 
             //获取专案组对象
             GroupModel groupModel = groupMapper.findById(groupId);
@@ -124,6 +115,18 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
                 log.error("专案组不存在，[id=?]",groupId);
                 return error("抱歉，关联的专案组不存在，请刷新页面再试!");
             }
+
+            for (Ajgroup ajgroup : ajgroupList) {
+                ids.add(ajgroup.getAjid());
+                ajgroup.setGroupid(groupId);
+                ajgroup.setPgroupid(groupModel.getPgroupid());
+                ajgroup.setDeleteflag(Constants.DELETE_FALSE);
+                ajgroup.setCreatetime(new Date());
+                ajgroup.setLastupdatetime(new Date());
+                ajgroup.setId(UUID.randomUUID().toString());
+                ajgroup.setPgroupid(null);
+            }
+
 
             Conditions conditions = new Conditions(AsjAj.class);
             Conditions.Criteria criteria = conditions.createCriteria();
@@ -181,7 +184,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
 
     /**
      * 移除案件
-     * @param ajgroup
+     * @param ajgroupList
      * @return
      * @throws BusinessException
      */
