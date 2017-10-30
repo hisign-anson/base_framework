@@ -67,9 +67,14 @@ public class Group extends BaseModel implements Serializable {
     private Date createtime; //创建时间
 
     @Column(value="DEPARMENTCODE")
-    @NotEmpty(message = "用户单位信息不能为空")
-    @ApiModelProperty(value = "创建人单位",required = true)
-    private String deparmentcode; //创建人单位
+    @NotEmpty(message = "用户单位代码不能为空")
+    @ApiModelProperty(value = "创建人单位代码",required = true)
+    private String deparmentcode; //创建人单位代码
+
+    @Column(value="DEPARMENTNAME")
+    @NotEmpty(message = "用户单位信息名称不能为空")
+    @ApiModelProperty(value = "创建人单位名称",required = true)
+    private String deparmentname; //创建人单位名称
 
     @Column(value="LASTUPDATETIME")
     @ApiModelProperty(value = "修改时间",hidden = true)
@@ -230,16 +235,28 @@ public class Group extends BaseModel implements Serializable {
         this.createtime = createtime;
     }
     /**
-     * @return DEPARMENTCODE 创建人单位
+     * @return DEPARMENTCODE 创建人单位代码
      */
     public String getDeparmentcode(){
         return this.deparmentcode;
     }
     /**
-     * @param DEPARMENTCODE 创建人单位
+     * @param DEPARMENTCODE 创建人单位代码
      */
     public void setDeparmentcode(String deparmentcode){
         this.deparmentcode = deparmentcode;
+    }
+    /**
+     * @return DEPARMENTNAME 创建人单位名称
+     */
+    public String getDeparmentname(){
+        return this.deparmentname;
+    }
+    /**
+     * @param DEPARMENTNAME 创建人单位名称
+     */
+    public void setDeparmentname(String deparmentname){
+        this.deparmentname = deparmentname;
     }
     /**
      * @return LASTUPDATETIME 修改时间
@@ -309,6 +326,7 @@ public class Group extends BaseModel implements Serializable {
                 .append(",creator=").append(this.getCreator())
                 .append(",createtime=").append(this.getCreatetime())
                 .append(",deparmentcode=").append(this.getDeparmentcode())
+                .append(",deparmentname=").append(this.getDeparmentname())
                 .append(",lastupdatetime=").append(this.getLastupdatetime())
                 .append(",deleteflag=").append(this.getDeleteflag())
                 .append(",jmgid=").append(this.getJmgid())
@@ -327,7 +345,8 @@ public class Group extends BaseModel implements Serializable {
         backupReason("BACKUP_REASON","归档原因"),
         creator("CREATOR","创建人"),
         createtime("CREATETIME","创建时间"),
-        deparmentcode("DEPARMENTCODE","创建人单位"),
+        deparmentcode("DEPARMENTCODE","创建人单位代码"),
+        deparmentname("DEPARMENTNAME","创建人单位名称"),
         lastupdatetime("LASTUPDATETIME","修改时间"),
         deleteflag("DELETEFLAG","删除标识"),
         jmgid("JMGID","极光群聊ID");
