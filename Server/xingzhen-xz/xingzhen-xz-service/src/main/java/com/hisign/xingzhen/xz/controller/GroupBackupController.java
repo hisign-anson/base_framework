@@ -5,6 +5,7 @@ import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.butils.JsonResultUtil;
+import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.GroupBackup;
 import com.hisign.xingzhen.xz.api.model.GroupBackupModel;
@@ -30,20 +31,15 @@ import javax.annotation.Resource;
 @Api(description = "专案组归档记录")
 @RestController
 @RequestMapping("/xz/groupBackup")
-public class GroupBackupController extends BaseRest<GroupBackup, GroupBackupModel, String, GroupBackupService> implements GroupBackupService {
+public class GroupBackupController extends BaseController {
+
+    @Autowired
+    private GroupBackupService groupBackupService;
 
     @Autowired
     private GroupService groupService;
 
-    @Override
-    @Autowired
-    @Resource(name = "groupBackupService")
-    public void setBaseService(GroupBackupService baseService) {
-        super.setBaseService(baseService);
-    }
 
-
-    @Override
     @ApiOperation(value = "归档",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult add(@RequestBody GroupBackup entity) throws BusinessException {
@@ -57,6 +53,6 @@ public class GroupBackupController extends BaseRest<GroupBackup, GroupBackupMode
             return JsonResultUtil.error("抱歉，改专案组是子专案组，不能归档");
         }
 
-        return baseService.add(entity);
+        return groupBackupService.add(entity);
     }
 }

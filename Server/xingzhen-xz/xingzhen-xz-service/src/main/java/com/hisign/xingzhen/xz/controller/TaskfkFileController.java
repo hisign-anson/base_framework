@@ -2,6 +2,7 @@ package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
 import com.hisign.xingzhen.xz.api.service.TaskfkFileService;
@@ -23,25 +24,20 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/xz/taskfkFile")
-public class TaskfkFileController extends BaseRest<TaskfkFile, TaskfkFileModel, String, TaskfkFileService> implements TaskfkFileService {
+public class TaskfkFileController extends BaseController {
 
-	@Override
 	@Autowired
-	@Resource(name = "taskfkFileService")
-	public void setBaseService(TaskfkFileService baseService) {
-		super.setBaseService(baseService);
-	}
+    private TaskfkFileService taskfkFileService;
 
      /**
       * 下载反馈任务附件
       * @param taskfkId
       * @return
       */
-     @Override
      @ApiOperation(value = "下载反馈任务附件",httpMethod ="DELETE",response = String.class)
      @ApiImplicitParams({ @ApiImplicitParam(name="taskfkId",value = "任务反馈id",required = true,dataType = "String"),@ApiImplicitParam(name="userId",value = "当前用户id",required = true,dataType = "String")})
      @RequestMapping(value = "/deleteTaskById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
      public JsonResult downloadTaskfkFile(String taskfkId,String userId) {
-         return baseService.downloadTaskfkFile(taskfkId,userId);
+         return taskfkFileService.downloadTaskfkFile(taskfkId,userId);
      }
  }

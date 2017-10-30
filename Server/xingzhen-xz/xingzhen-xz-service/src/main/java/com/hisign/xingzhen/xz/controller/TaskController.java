@@ -3,6 +3,7 @@ package com.hisign.xingzhen.xz.controller;
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.butils.JsonResultUtil;
+import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
@@ -29,15 +30,10 @@ import javax.validation.Valid;
 @Api(description = "任务")
 @RestController
 @RequestMapping("/xz/task")
-public class TaskController extends BaseRest<Task, TaskModel, String, TaskService> implements TaskService {
+public class TaskController extends BaseController {
 
-    @Override
     @Autowired
-    @Resource(name = "taskService")
-    public void setBaseService(TaskService baseService) {
-        super.setBaseService(baseService);
-    }
-
+    private TaskService taskService;
 
     /**
      * 新增任务
@@ -53,7 +49,7 @@ public class TaskController extends BaseRest<Task, TaskModel, String, TaskServic
         }
         Task task=new Task();
         BeanUtils.copyProperties(taskAddParam, task);
-        return baseService.addNotNull(task);
+        return taskService.addNotNull(task);
     }
 
 
@@ -62,14 +58,13 @@ public class TaskController extends BaseRest<Task, TaskModel, String, TaskServic
      * @param  id userId
      * @return
      */
-    @Override
     @ApiOperation(value = "删除任务",httpMethod ="GET",response = JsonResult.class)
     @RequestMapping(value = "/deleteTaskById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult deleteTaskById(@RequestParam String id,@RequestParam String userId) {
         if(StringUtils.isEmpty(userId)){
             return JsonResultUtil.error("删除记录失败,当前登陆用户不能为空");
         }
-        return baseService.deleteTaskById(id,userId);
+        return taskService.deleteTaskById(id,userId);
     }
 
     /**
@@ -77,11 +72,10 @@ public class TaskController extends BaseRest<Task, TaskModel, String, TaskServic
      * @param taskSelectParam
      * @return
      */
-    @Override
     @ApiOperation(value = "任务管理查询分页",httpMethod ="POST",response = TaskModel.class)
     @RequestMapping(value = "/getTaskPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getTaskPage(@RequestBody TaskSelectParam taskSelectParam) {
-        return baseService.getTaskPage(taskSelectParam);
+        return taskService.getTaskPage(taskSelectParam);
     }
 
     /**
@@ -89,14 +83,13 @@ public class TaskController extends BaseRest<Task, TaskModel, String, TaskServic
      * @param id  userId
      * @return
      */
-    @Override
     @ApiOperation(value = "任务详情",httpMethod ="GET",response = TaskModel.class)
     @RequestMapping(value = "/taskDetail", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult taskDetail(@RequestParam String id,@RequestParam String userId) {
         if(StringUtils.isEmpty(userId)){
             return JsonResultUtil.error("查看记录失败,当前登陆用户不能为空");
         }
-        return baseService.taskDetail(id, userId);
+        return taskService.taskDetail(id, userId);
     }
 
     /**
@@ -104,9 +97,8 @@ public class TaskController extends BaseRest<Task, TaskModel, String, TaskServic
      * @param taskMoveParam
      * @return
      */
-    @Override
     public JsonResult moveTask(@RequestBody TaskMoveParam taskMoveParam) {
-        return baseService.moveTask(taskMoveParam);
+        return taskService.moveTask(taskMoveParam);
     }
 
     @ApiOperation(value = "移交任务",httpMethod ="POST",response = JsonResult.class)
@@ -116,6 +108,6 @@ public class TaskController extends BaseRest<Task, TaskModel, String, TaskServic
         if (jr.getFlag()!=1){
             return jr;
         }
-        return baseService.moveTask(taskMoveParam);
+        return taskService.moveTask(taskMoveParam);
     }
 }

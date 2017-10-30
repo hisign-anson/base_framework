@@ -2,6 +2,7 @@ package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
 import com.hisign.xingzhen.xz.api.param.TaskFkAddParam;
@@ -28,15 +29,10 @@ import javax.validation.Valid;
  @Api(description = "任务反馈")
 @RestController
 @RequestMapping("/xz/taskFK")
-public class TaskFkController extends BaseRest<TaskFk,TaskFkModel, String, TaskFkService> implements TaskFkService {
+public class TaskFkController extends BaseController {
 
-	@Override
 	@Autowired
-	@Resource(name = "taskFkService")
-	public void setBaseService(TaskFkService baseService) {
-		super.setBaseService(baseService);
-	}
-
+    private TaskFkService taskFkService;
 
     /**
      * 新增任务反馈
@@ -52,6 +48,6 @@ public class TaskFkController extends BaseRest<TaskFk,TaskFkModel, String, TaskF
         }
         TaskFk taskFk=new TaskFk();
         BeanUtils.copyProperties(taskFkAddParam, taskFk);
-        return baseService.addNotNull(taskFk);
+        return taskFkService.addNotNull(taskFk);
     }
 }

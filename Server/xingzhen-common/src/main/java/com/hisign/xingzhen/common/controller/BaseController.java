@@ -2,9 +2,12 @@ package com.hisign.xingzhen.common.controller;
 
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.butils.JsonResultUtil;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 public class BaseController {
@@ -85,5 +88,23 @@ public class BaseController {
     public static void removeResponse() {
 
         Thread_Local_Response.remove();
+    }
+
+    /**
+     * 处理校验结果
+     * @param result
+     * @return
+     */
+    protected JsonResult handleResult(BindingResult result){
+        if (result.hasErrors()) {
+            List<ObjectError> list = result.getAllErrors();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 1; i <= list.size(); i++) {
+                sb.append(i).append("、").append(list.get(i-1).getDefaultMessage()).append("  ");
+            }
+            return JsonResultUtil.error(sb.toString());
+        }else{
+            return JsonResultUtil.success();
+        }
     }
 }

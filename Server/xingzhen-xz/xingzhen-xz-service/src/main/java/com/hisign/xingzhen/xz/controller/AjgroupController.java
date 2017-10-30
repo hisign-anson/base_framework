@@ -3,6 +3,7 @@ package com.hisign.xingzhen.xz.controller;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.xz.api.entity.Ajgroup;
 import com.hisign.xingzhen.xz.api.model.AjgroupModel;
 import com.hisign.xingzhen.xz.api.service.AjgroupService;
@@ -28,14 +29,10 @@ import java.util.List;
 @Api(description = "案件专案组关联")
 @RestController
 @RequestMapping("/xz/ajgroup")
-public class AjgroupController extends BaseRest<Ajgroup, AjgroupModel, String, AjgroupService> {
+public class AjgroupController extends BaseController {
 
-    @Override
     @Autowired
-    @Resource(name = "ajgroupService")
-    public void setBaseService(AjgroupService baseService) {
-        super.setBaseService(baseService);
-    }
+    private AjgroupService ajgroupService;
 
     /*@ApiOperation(value = "关联案件",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/addAjGroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
@@ -55,7 +52,7 @@ public class AjgroupController extends BaseRest<Ajgroup, AjgroupModel, String, A
             return jr;
         }
 
-        return baseService.add(ajGroupList);
+        return ajgroupService.add(ajGroupList);
     }
 
     @ApiOperation(value = "移除案件",httpMethod ="POST",response = JsonResult.class)
@@ -66,7 +63,7 @@ public class AjgroupController extends BaseRest<Ajgroup, AjgroupModel, String, A
             return jr;
         }
 
-        return baseService.removeCaseList(ajGroupList);
+        return ajgroupService.removeCaseList(ajGroupList);
     }
 
 }

@@ -7,6 +7,7 @@ import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
@@ -29,24 +30,18 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/xz/xzlog")
-public class XzLogController extends BaseRest<XzLog, XzLogModel, String, XzLogService> {
+public class XzLogController extends BaseController {
 
 	@Autowired
 	private GroupService groupService;
 
-	@Override
 	@Autowired
-	@Resource(name = "xzLogService")
-	public void setBaseService(XzLogService baseService) {
-		super.setBaseService(baseService);
-	}
+	private XzLogService xzLogService;
 
-
-	@Override
 	@ApiOperation(value = "添加最后聊天日志",httpMethod ="POST",response = JsonResult.class)
 	@RequestMapping(value = "/addChatLog", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	public JsonResult addNotNull(@RequestBody XzLog entity) throws BusinessException {
-		return super.addNotNull(entity);
+		return xzLogService.addNotNull(entity);
 	}
 
 	@ApiOperation(value = "获取常用专案组",httpMethod ="POST",response = JsonResult.class)
@@ -65,7 +60,7 @@ public class XzLogController extends BaseRest<XzLog, XzLogModel, String, XzLogSe
 		 //获取6个
 		 conditions.setLimit(0,6);
 		 //获取专案组
-		 List<XzLogModel> list = baseService.getList(conditions);
+		 List<XzLogModel> list = xzLogService.getList(conditions);
 
 		 if (list==null || list.size()==0){
 		 	return JsonResultUtil.success();

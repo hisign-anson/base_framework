@@ -218,8 +218,8 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     }
 
     @Override
-    public JsonResult getChildGroupList(String pgroupid) {
-        List<GroupModel> list = groupMapper.findChildGroupList(pgroupid);
+    public JsonResult getChildGroupList(String pgroupid,String memberName) {
+        List<GroupModel> list = groupMapper.findChildGroupList(pgroupid,memberName);
         return JsonResultUtil.success(list);
     }
 
@@ -229,4 +229,8 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         return JsonResultUtil.success(groupMapper.findAllGroupByUserId(userId));
     }
 
+    @Override
+    public GroupModel getById(String id) {
+        return super.getById(id);
+    }
 }

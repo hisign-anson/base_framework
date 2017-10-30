@@ -104,6 +104,7 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
+
     @ApiOperation(value = "根据id查询",response = JsonResult.class)
     @RequestMapping(value = "/getById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public M getById(@RequestParam(value="id") PK id) {
@@ -111,7 +112,6 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-
     @ApiOperation(value = "根据id查询",response = JsonResult.class)
     @RequestMapping(value = "/getEntityById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public T getEntityById(@RequestParam(value="id") PK id) throws InstantiationException, IllegalAccessException {
@@ -126,7 +126,6 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-
     @ApiOperation(value = "获取列表",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public List<M> getList(@RequestBody Conditions conditions) {
@@ -134,8 +133,6 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-
-
     @ApiOperation(value = "获取对象",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getBy", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public M getBy(@RequestBody Conditions conditions) {
@@ -143,8 +140,6 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-
-
     @ApiOperation(value = "获取数量",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getCount", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public Long getCount(@RequestBody Conditions conditions) {
@@ -152,8 +147,6 @@ public abstract class BaseRest<T,M,PK,C extends BaseService<T,M, PK>> implements
     }
 
     @Override
-
-
     @ApiOperation(value = "获取分页",response = JsonResult.class,hidden = true)
     @RequestMapping(value = "/getPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getPage(@RequestBody Conditions conditions) {

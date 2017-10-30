@@ -3,6 +3,8 @@ package com.hisign.xingzhen.xz.controller;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.bfun.butils.JsonResultUtil;
+import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.param.GroupParam;
@@ -27,14 +29,10 @@ import javax.validation.Valid;
 @Api(description = "专案组")
 @RestController
 @RequestMapping("/xz/group")
-public class GroupController extends BaseRest<Group,GroupModel, String, GroupService> implements GroupService{
+public class GroupController extends BaseController{
 
-    @Override
     @Autowired
-    @Resource(name = "groupService")
-    public void setBaseService(GroupService baseService) {
-        super.setBaseService(baseService);
-    }
+    private GroupService groupService;
 
     @ApiOperation(value = "添加专案组",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/addGroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
@@ -43,7 +41,7 @@ public class GroupController extends BaseRest<Group,GroupModel, String, GroupSer
         if (jr.getFlag()!=1){
             return jr;
         }
-        return baseService.addNotNull(group);
+        return groupService.addNotNull(group);
     }
 
     /**
@@ -54,7 +52,7 @@ public class GroupController extends BaseRest<Group,GroupModel, String, GroupSer
     @ApiOperation(value = "专案组查询分页",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getGroupPage(@RequestBody GroupParam groupParam) {
-        return baseService.getGroupPage(groupParam);
+        return groupService.getGroupPage(groupParam);
     }
 
     /**
@@ -64,8 +62,8 @@ public class GroupController extends BaseRest<Group,GroupModel, String, GroupSer
      */
     @ApiOperation(value = "查询子专案组列表",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getChildGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getChildGroupList(@RequestParam String groupId) {
-        return baseService.getChildGroupList(groupId);
+    public JsonResult getChildGroupList(@RequestParam String groupId,@RequestParam String memberName) {
+        return groupService.getChildGroupList(groupId,memberName);
     }
 
     /**
@@ -73,16 +71,16 @@ public class GroupController extends BaseRest<Group,GroupModel, String, GroupSer
      * @param id
      * @return
      */
-    @Override
     @ApiOperation(value = "查看专案组详情",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/groupDetail/{id}", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public GroupModel getById(@PathVariable String id) {
-        return baseService.getById(id);
+    public JsonResult getById(@PathVariable String id) {
+        GroupModel model = groupService.getById(id);
+        return JsonResultUtil.success(model);
     }
 
     @ApiOperation(value = "获取所有专案组根据用户id",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getAllGroupByUserId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getAllGroupByUserId(@RequestParam String userId) {
-        return baseService.getAllGroupByUserId(userId);
+        return groupService.getAllGroupByUserId(userId);
     }
 }

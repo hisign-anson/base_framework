@@ -682,10 +682,24 @@
             g.BACKUP_TIME,
             g.JMGID
         from T_GROUP g where g.deleteFlag=0 and g.pgroupid=#{pgroupid,jdbcType=VARCHAR}
+            <if test="memberName!=null and memberName!=''">
+                AND exists(SELECT 1 FROM T_USERGROUP WHERE GROUPID=g.ID AND USERNAME LIKE '%'||#{memberName,jdbcType=VARCHAR}||'%' escape '\')
+            </if>
     </select>
 
     <select id="findAllGroupByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * FROM T_GROUP t WHERE t.DELETEFLAG=0 AND t.ID IN (SELECT DISTINCT ug.GROUPID FROM T_USERGROUP ug WHERE ug.DELETEFLAG=0 AND ug.USERID=#{userId,jdbcType=VARCHAR})
+    </select>
+
+
+    <select id="findGroupById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />,
+        (select * from SYS_ORGANIZATION o where o.dict_key=t.GROUPTYPE)
+        FROM t_group t
+        WHERE
+        ID = #{id,jdbcType=VARCHAR}
+        and rownum = 1
     </select>
 
 </mapper>

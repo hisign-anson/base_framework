@@ -62,8 +62,8 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
      */
     @ApiOperation(value = "查询子专案组列表",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getChildGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getChildGroupList(@RequestParam String groupId) {
-        return baseService.getChildGroupList(groupId);
+    public JsonResult getChildGroupList(@RequestParam String groupId,@RequestParam String memberName) {
+        return baseService.getChildGroupList(groupId,memberName);
     }
 
     /**

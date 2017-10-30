@@ -83,7 +83,6 @@ public class XzLogServiceImpl extends BaseServiceImpl<XzLog, XzLogModel, String>
 
     @Override
     public JsonResult addNotNull(XzLog entity) throws BusinessException {
-        entity.setCreateTime(new Date());
         entity.setDeleteFlag(Constants.DELETE_FALSE);
         entity.setId(UUID.randomUUID().toString());
         entity.setIp(IpUtil.getRemotIpAddr(BaseRest.getRequest()));

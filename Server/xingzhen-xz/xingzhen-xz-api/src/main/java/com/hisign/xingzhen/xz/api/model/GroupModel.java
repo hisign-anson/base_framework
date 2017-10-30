@@ -33,6 +33,9 @@ public class GroupModel implements Serializable {
     @ApiModelProperty(value = "专案组类别")
     private String grouptype; //专案组类别
 
+    @ApiModelProperty(value = "专案组类别名称")
+    private String grouptypeName; //专案组类别名称
+
     @ApiModelProperty(value = "归档状态")
     private String backupStatu; //归档状态
 
@@ -311,5 +314,13 @@ public class GroupModel implements Serializable {
     @Override
     public String toString(){
         return JSON.toJSONString(this);
+    }
+
+    public String getGrouptypeName() {
+        return grouptypeName;
+    }
+
+    public void setGrouptypeName(String grouptypeName) {
+        this.grouptypeName = grouptypeName;
     }
 }

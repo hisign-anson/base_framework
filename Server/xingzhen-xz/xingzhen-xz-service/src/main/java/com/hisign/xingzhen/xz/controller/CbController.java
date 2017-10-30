@@ -2,6 +2,7 @@ package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.xz.api.entity.Cb;
 import com.hisign.xingzhen.xz.api.model.CbModel;
 import com.hisign.xingzhen.xz.api.service.CbService;
@@ -24,14 +25,10 @@ import javax.annotation.Resource;
 @Api(description = "催办记录")
 @RestController
 @RequestMapping("/xz/cb")
-public class CbController extends BaseRest<Cb, CbModel, String, CbService> implements CbService {
+public class CbController extends BaseController {
 
-    @Override
     @Autowired
-    @Resource(name = "cbService")
-    public void setBaseService(CbService baseService) {
-        super.setBaseService(baseService);
-    }
+    private CbService cbService;
 
     /**
      * 催办任务
@@ -45,6 +42,6 @@ public class CbController extends BaseRest<Cb, CbModel, String, CbService> imple
         cb.setTaskid(taskid);
         cb.setCreator(userId);
         cb.setDeparmentcode(deparmentcode);
-        return baseService.addNotNull(cb);
+        return cbService.addNotNull(cb);
     }
 }

@@ -4,6 +4,7 @@ import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.AsjAj;
 import com.hisign.xingzhen.xz.api.entity.AsjAj.AsjAjEnum;
@@ -27,14 +28,10 @@ import javax.annotation.Resource;
 @Api(description="案件")
 @RestController
 @RequestMapping("/xz/asjAj")
-public class AsjAjController extends BaseRest<AsjAj,AsjAjModel, String, AsjAjService> implements AsjAjService{
+public class AsjAjController extends BaseController{
 
-    @Override
     @Autowired
-    @Resource(name = "asjAjService")
-    public void setBaseService(AsjAjService baseService) {
-        super.setBaseService(baseService);
-    }
+    AsjAjService asjAjService;
 
     /**
      * 所有案件查询分页
@@ -77,7 +74,7 @@ public class AsjAjController extends BaseRest<AsjAj,AsjAjModel, String, AsjAjSer
         conditions.setReturnFields(new String[]{AsjAjEnum.id.get(),AsjAjEnum.ajbh.get(), AsjAjEnum.ajmc.get(), AsjAjEnum.ajlx.get(), AsjAjEnum.ajstate.get(), AsjAjEnum.ab.get(), AsjAjEnum.zyaq.get(), AsjAjEnum.fadd.get(), AsjAjEnum.ajzbry.get()});
         conditions.setLimit(param.getBegin(),param.getEnd());
 
-        return baseService.getPage(conditions);
+        return asjAjService.getPage(conditions);
     }
 
 
@@ -86,17 +83,15 @@ public class AsjAjController extends BaseRest<AsjAj,AsjAjModel, String, AsjAjSer
      * @param param
      * @return
      */
-    @Override
     @ApiOperation(value = "组内涉及案件分页",httpMethod ="POST",response = AsjAjModel.class)
     @RequestMapping(value = "/getAjGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getAjGroupPage(@RequestBody AsjAjParam param) {
-        return baseService.getAjGroupPage(param);
+        return asjAjService.getAjGroupPage(param);
     }
 
-    @Override
     @ApiOperation(value = "根据专案组id获取最早关联案件",httpMethod ="POST",response = AsjAjModel.class)
     @RequestMapping(value = "/getFirstCaseByGroupId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public AsjAjModel getFirstCaseByGroupId(@RequestParam String id) {
-        return baseService.getFirstCaseByGroupId(id);
+        return asjAjService.getFirstCaseByGroupId(id);
     }
 }
