@@ -151,7 +151,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                     file.setTaskfkId(taskFkModel.getId());
                     List<TaskfkFileModel> taskfkFiles=taskfkFileMapper.findListByEntity(file);
                     if(taskfkFiles!=null&&taskfkFiles.size()>0) {
-                        taskFkModel.setTaskfkFileModels(taskfkFiles);
+                        taskFkModel.setTaskFkFiles(taskfkFiles);
                     }
                     //查看更新未确认的反馈信息
                     if(!Constants.YES.equals(taskFkModel.getQrzt()) && taskModel.getCreator()!=null && taskModel.getCreator().equals(userId)) {
@@ -174,7 +174,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                         }
                     }
                 }
-                taskModel.setTaskFkModels(taskFkModels);
+                taskModel.setTaskFks(taskFkModels);
             }
         } else{
             //查看更新未确认的反馈信息

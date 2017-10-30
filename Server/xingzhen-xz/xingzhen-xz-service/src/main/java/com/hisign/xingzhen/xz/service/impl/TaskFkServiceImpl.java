@@ -141,8 +141,8 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
             task.setLastupdatetime(now);
             taskMapper.updateNotNull(task);
 
-            if(taskFk.getTaskfkFileAddParams()!=null){
-                for(TaskfkFileAddParam file:taskFk.getTaskfkFileAddParams()) {
+            if(taskFk.getTaskFkFiles()!=null){
+                for(TaskfkFileAddParam file:taskFk.getTaskFkFiles()) {
                     TaskfkFile taskfkFile=new TaskfkFile();
                     BeanUtils.copyProperties(file,taskfkFile);
                     taskfkFile.setId(UUID.randomUUID().toString());
