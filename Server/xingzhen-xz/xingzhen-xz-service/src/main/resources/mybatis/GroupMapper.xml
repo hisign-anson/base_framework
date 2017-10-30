@@ -15,6 +15,7 @@
         <result column="CREATENAME" property="createname" jdbcType="VARCHAR"/>
         <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP"/>
         <result column="DEPARMENTCODE" property="deparmentcode" jdbcType="VARCHAR"/>
+        <result column="DEPARTMENTNAME" property="departmentName" jdbcType="VARCHAR"/>
         <result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
         <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
         <result column="JMGID" property="jmgid" jdbcType="VARCHAR"/>

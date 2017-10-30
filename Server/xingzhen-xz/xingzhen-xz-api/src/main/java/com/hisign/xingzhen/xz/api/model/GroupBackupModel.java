@@ -31,7 +31,10 @@ public class GroupBackupModel implements Serializable {
 	
     @ApiModelProperty(value = "归档原因")
 	private String backupReason; //归档原因
-	
+
+    @ApiModelProperty(value = "归档原因内容")
+	private String backupReasonContent; //归档原因内容
+
     @ApiModelProperty(value = "创建人")
 	private String creator; //创建人
 
@@ -208,5 +211,13 @@ public class GroupBackupModel implements Serializable {
 
 	public void setDeparmentName(String deparmentName) {
 		this.deparmentName = deparmentName;
+	}
+
+	public String getBackupReasonContent() {
+		return backupReasonContent;
+	}
+
+	public void setBackupReasonContent(String backupReasonContent) {
+		this.backupReasonContent = backupReasonContent;
 	}
 }

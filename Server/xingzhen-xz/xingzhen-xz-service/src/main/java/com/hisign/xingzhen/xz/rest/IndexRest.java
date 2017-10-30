@@ -6,6 +6,7 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.common.util.DateUtil;
+import com.hisign.xingzhen.xz.api.entity.GroupBackup;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.service.IndexService;
@@ -38,7 +39,6 @@ public class IndexRest extends BaseController {
     @ApiOperation(value = "待办任务",notes = "首页待办工作",httpMethod = "GET", response = Map.class)
     @RequestMapping(value = "/getTaskCountInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult getTaskCountInfo(@RequestParam(value="userId") String userId) {
-
         //未确认
         Long count1 = indexService.getNotConfirmCountByCreator(userId);
 
@@ -76,8 +76,8 @@ public class IndexRest extends BaseController {
 
     @ApiOperation(value = "平台成果展示",notes = "平台成果展示",httpMethod = "GET", response = Map.class)
     @RequestMapping(value = "/getAchievement", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getAchievement() {
-        return indexService.getAchievementList();
+    public JsonResult getAchievement(@RequestBody GroupBackup groupBackup) {
+        return indexService.getAchievementList(groupBackup);
     }
 
     @ApiOperation(value = "专案组破案情况",notes = "专案组破案情况",httpMethod = "GET", response = Map.class)

@@ -58,6 +58,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
     public JsonResult addNotNull(GroupBackup entity) throws BusinessException {
         entity.setId(UUID.randomUUID().toString());
         entity.setCreatetime(new Date());
+        entity.setBackupTime(new Date());
         entity.setDeleteflag(Constants.DELETE_FALSE);
         long i = groupBackupMapper.insertNotNull(entity);
         if (i<1){

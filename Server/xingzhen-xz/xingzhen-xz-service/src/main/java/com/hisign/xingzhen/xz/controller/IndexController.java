@@ -6,16 +6,14 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.common.util.DateUtil;
+import com.hisign.xingzhen.xz.api.entity.GroupBackup;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.service.IndexService;
 import com.hisign.xingzhen.xz.api.service.TaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -73,10 +71,10 @@ public class IndexController extends BaseController {
         return success(map);
     }
 
-    @ApiOperation(value = "平台成果展示",notes = "平台成果展示",httpMethod = "GET", response = Map.class)
-    @RequestMapping(value = "/getAchievement", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getAchievement() {
-        return indexService.getAchievementList();
+    @ApiOperation(value = "平台成果展示",notes = "平台成果展示",httpMethod = "POST", response = Map.class)
+    @RequestMapping(value = "/getAchievement", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult getAchievement(@RequestBody GroupBackup groupBackup) {
+        return indexService.getAchievementList(groupBackup);
     }
 
     @ApiOperation(value = "专案组破案情况",notes = "专案组破案情况",httpMethod = "GET", response = Map.class)

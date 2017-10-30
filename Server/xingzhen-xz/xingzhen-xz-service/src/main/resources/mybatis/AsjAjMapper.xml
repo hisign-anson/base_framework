@@ -691,7 +691,7 @@
     </sql>
 
     <insert id="insert" keyProperty="" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.AsjAj">
-        <selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="">
             SELECT sys_guid() from DUAL
         </selectKey>
         INSERT INTO b_asj_aj (
@@ -1346,7 +1346,7 @@
     </insert>
 
     <insert id="insertNotNull" keyProperty="" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.AsjAj">
-        <selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="">
             SELECT sys_guid() from DUAL
         </selectKey>
         insert into b_asj_aj
@@ -5271,7 +5271,7 @@
     </update>
 
     <!-- 按Id删除 -->
-    <delete id="deleteById" parameterType="java.lang.Long">
+    <delete id="deleteById" parameterType="java.lang.String">
         DELETE FROM b_asj_aj WHERE ID = #{id,jdbcType=VARCHAR}
     </delete>
 
@@ -5288,7 +5288,7 @@
         <include refid="Conditions_Where_Clause" />
     </delete>
 
-    <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
         FROM b_asj_aj
@@ -7318,7 +7318,7 @@
         <include refid="Conditions_Where_Clause" />
     </select>
 
-    <select id="findMaxId" resultType="java.lang.Long">
+    <select id="findMaxId" resultType="java.lang.String">
         SELECT
         MAX(id)
         FROM b_asj_aj

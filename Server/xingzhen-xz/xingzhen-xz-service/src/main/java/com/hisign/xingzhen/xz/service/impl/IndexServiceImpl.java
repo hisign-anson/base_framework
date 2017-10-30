@@ -28,12 +28,12 @@ import java.util.*;
 
 
 /**
-* 《催办记录》 业务逻辑服务类
-* @author 何建辉
-*
-*/
+ * 《催办记录》 业务逻辑服务类
+ *
+ * @author 何建辉
+ */
 @Service("indexService")
-public class IndexServiceImpl implements IndexService{
+public class IndexServiceImpl implements IndexService {
 
     Logger log = LoggerFactory.getLogger(IndexServiceImpl.class);
 
@@ -53,7 +53,7 @@ public class IndexServiceImpl implements IndexService{
     private TaskFkMapper taskFkMapper;
 
     @Override
-    public JsonResult getAchievementList() {
+    public JsonResult getAchievementList(GroupBackup gb) {
         //获取最新归档专案组
         Conditions conditions = new Conditions(Group.class);
         Conditions.Criteria criteria = conditions.createCriteria();
@@ -61,16 +61,17 @@ public class IndexServiceImpl implements IndexService{
                 .add(Group.GroupEnum.deleteflag.get(), BaseEnum.ConditionEnum.EQ, Constants.DELETE_FALSE);
         conditions.setOrderByClause(Group.GroupEnum.backupTime.get(), BaseEnum.DESCEnum.DESC);
 
+        conditions.setLimit(gb.getBegin(),gb.getEnd());
+
         List<GroupModel> list = groupMapper.findList(conditions);
         List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
 
         for (GroupModel model : list) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("backupTime",model.getBackupTime());
-            map.put("groupId",model.getId());
-            map.put("groupNum",model.getGroupnum());
-            map.put("groupName",model.getGroupname());
-            map.put("backupReson",model.getBackupReason());
+            map.put("backupTime", model.getBackupTime());
+            map.put("groupId", model.getId());
+            map.put("groupNum", model.getGroupnum());
+            map.put("groupName", model.getGroupname());
 
             //获取最新归档记录
             GroupBackup groupBackup = new GroupBackup();
@@ -80,22 +81,23 @@ public class IndexServiceImpl implements IndexService{
             groupBackup.setSortOrder(BaseEnum.DESCEnum.DESC.get());
 
             GroupBackupModel groupBackupModel = groupBackupMapper.findBackUpInfoByEntity(groupBackup);
-            map.put("deparmentName",groupBackupModel.getDeparmentName());
-            map.put("backupPerson",groupBackupModel.getCreatorName());
+            map.put("departmentName", groupBackupModel.getDeparmentName());
+            map.put("backupPerson", groupBackupModel.getCreatorName());
+            map.put("backupReson", groupBackupModel.getBackupReasonContent());
 
             try {
-                map.put("createTime",DateUtil.getDateTime(model.getCreatetime()));
+                map.put("createTime", DateUtil.getDateTime(model.getCreatetime()));
             } catch (Exception e) {
                 e.printStackTrace();
-                map.put("createTime","");
+                map.put("createTime", "");
             }
 
             //获取最早关联案件
             AsjAjModel aj = asjAjMapper.findFirstCaseByGroupId(model.getId());
-            if (aj==null){
+            if (aj == null) {
                 //使用专案组名称
-                map.put("name",model.getGroupname()+"告破");
-            }else {
+                map.put("name", model.getGroupname() + "告破");
+            } else {
                 //获取专案组关联案件数量
                 Conditions conditions1 = new Conditions(Ajgroup.class);
                 Conditions.Criteria criteria1 = conditions1.createCriteria();
@@ -105,11 +107,11 @@ public class IndexServiceImpl implements IndexService{
                 Long count = ajgroupMapper.findCount(conditions1);
 
                 if (count == 1) {
-                    map.put("name",aj.getAjmc()+"告破");
+                    map.put("name", aj.getAjmc() + "告破");
                 } else if (count > 1) {
-                    map.put("name",aj.getAjmc()+"系列案告破");
+                    map.put("name", aj.getAjmc() + "系列案告破");
                 } else {
-                    map.put("name",model.getGroupname()+"告破");
+                    map.put("name", model.getGroupname() + "告破");
                 }
             }
             listMap.add(map);
@@ -119,15 +121,15 @@ public class IndexServiceImpl implements IndexService{
     }
 
     @Override
-    public JsonResult getGroupCaseInfo(Date[] dateSection,String backupStatus) {
+    public JsonResult getGroupCaseInfo(Date[] dateSection, String backupStatus) {
         Map<String, Long> map = null;
         try {
-            map = groupMapper.findGroupCaseInfo(DateUtil.getDateTime(dateSection[0]),DateUtil.getDateTime(dateSection[1]),backupStatus);
+            map = groupMapper.findGroupCaseInfo(DateUtil.getDateTime(dateSection[0]), DateUtil.getDateTime(dateSection[1]), backupStatus);
         } catch (Exception e) {
             log.error(e.getMessage());
             return JsonResultUtil.error("对不起，时间参数格式错误");
         }
-        if (map==null){
+        if (map == null) {
             map = new HashedMap();
         }
         return JsonResultUtil.success(map);

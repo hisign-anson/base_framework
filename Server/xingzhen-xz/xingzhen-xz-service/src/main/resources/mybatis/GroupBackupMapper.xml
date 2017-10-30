@@ -8,6 +8,7 @@
 		<result column="GROUPNAME" property="groupName" jdbcType="VARCHAR"/>
 		<result column="BACKUP_TIME" property="backupTime" jdbcType="TIMESTAMP"/>
 		<result column="BACKUP_REASON" property="backupReason" jdbcType="VARCHAR"/>
+		<result column="BACKUP_REASON_CONTENT" property="backupReasonContent" jdbcType="VARCHAR"/>
 		<result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
 		<result column="CREATORNAME" property="creatorName" jdbcType="VARCHAR"/>
 		<result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP"/>
@@ -291,8 +292,8 @@
 	</select>
 
 	<select id="findByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup" resultMap="BaseResultMap">
-		SELECT
-		<include refid="Base_Column_List" />
+		SELECT * FROM (SELECT
+		<include refid="Base_Column_List"/>
 		FROM t_group_backup
 		WHERE 1 = 1
 		<if test="id != null  and id != '' ">
@@ -331,7 +332,7 @@
 		<if test="sortOrder!=null and sortOrder!=''">
 			#{sortOrder,jdbcType=VARCHAR}
 		</if>
-		and rownum = 1
+		) WHERE rownum = 1
 	</select>
 
 	<select id="findListByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup" resultMap="BaseResultMap">
@@ -447,11 +448,12 @@
 	</select>
 
 	<select id="findBackUpInfoByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup" resultMap="BaseResultMap">
-		SELECT
+		SELECT * FROM (SELECT
 		<include refid="Base_Column_List" />,
 		(SELECT g.GROUPNAME FROM T_GROUP g WHERE g.ID=t.GROUPID) AS GROUPNAME,
-		(SELECT s.ORG_NAME FROM SYS_USER_INFO s WHERE s.USER_ID=t.CREATOR) AS CREATORNAME,
-		(SELECT o.ORG_NAME FROM SYS_ORGANIZATION o WHERE o.ORG_CODE=DEPARMENTCODE) as DEPARMENTNAME
+		(SELECT s.USER_NAME FROM SYS_USER_INFO s WHERE s.USER_ID=t.CREATOR) AS CREATORNAME,
+		(SELECT o.ORG_NAME FROM SYS_ORGANIZATION o WHERE o.ORG_CODE=DEPARMENTCODE) as DEPARMENTNAME,
+		(SELECT d.DICT_VALUE1 FROM SYS_DICT d WHERE d.DICT_KEY = t.BACKUP_REASON AND d.PARENT_KEY='24') as BACKUP_REASON_CONTENT
 		FROM t_group_backup t
 		WHERE 1 = 1
 		<if test="id != null  and id != '' ">
@@ -485,12 +487,12 @@
 			and POLICE_ID=#{policeId,jdbcType=VARCHAR}
 		</if>
 		<if test="sortName!=null and sortName!=''">
-			ORDER BY #{sortName,jdbcType=VARCHAR}
+			ORDER BY ${sortName}
 		</if>
 		<if test="sortOrder!=null and sortOrder!=''">
-			#{sortOrder,jdbcType=VARCHAR}
+			${sortOrder}
 		</if>
-		and rownum = 1
+		) WHERE ROWNUM=1
 	</select>
 
 </mapper>
