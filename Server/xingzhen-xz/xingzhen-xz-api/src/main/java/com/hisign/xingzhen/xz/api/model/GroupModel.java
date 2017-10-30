@@ -51,8 +51,11 @@ public class GroupModel implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private Date createtime; //创建时间
 
-    @ApiModelProperty(value = "创建人单位")
-    private String deparmentcode; //创建人单位
+    @ApiModelProperty(value = "创建人单位代码")
+    private String deparmentcode; //创建人单位代码
+
+    @ApiModelProperty(value = "创建人单位名称")
+    private String deparmentname; //创建人单位名称
 
     @ApiModelProperty(value = "修改时间")
     private Date lastupdatetime; //修改时间
@@ -214,16 +217,28 @@ public class GroupModel implements Serializable {
         this.createtime = createtime;
     }
     /**
-     * @return DEPARMENTCODE 创建人单位
+     * @return DEPARMENTCODE 创建人单位代码
      */
     public String getDeparmentcode(){
         return this.deparmentcode;
     }
     /**
-     * @param DEPARMENTCODE 创建人单位
+     * @param DEPARMENTCODE 创建人单位代码
      */
     public void setDeparmentcode(String deparmentcode){
         this.deparmentcode = deparmentcode;
+    }
+    /**
+     * @return DEPARMENTNAME 创建人单位名称
+     */
+    public String getDeparmentname(){
+        return this.deparmentname;
+    }
+    /**
+     * @param DEPARMENTNAME 创建人单位名称
+     */
+    public void setDeparmentname(String deparmentname){
+        this.deparmentname = deparmentname;
     }
     /**
      * @return LASTUPDATETIME 修改时间

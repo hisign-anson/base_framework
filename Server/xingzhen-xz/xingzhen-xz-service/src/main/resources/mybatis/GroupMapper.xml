@@ -15,9 +15,10 @@
         <result column="CREATENAME" property="createname" jdbcType="VARCHAR"/>
         <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP"/>
         <result column="DEPARMENTCODE" property="deparmentcode" jdbcType="VARCHAR"/>
+        <result column="DEPARMENTNAME" property="deparmentname" jdbcType="VARCHAR"/>
         <result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
-        <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
         <result column="JMGID" property="jmgid" jdbcType="VARCHAR"/>
+        <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Conditions_Where_Clause">
@@ -69,9 +70,10 @@
         CREATENAME,
         CREATETIME,
         DEPARMENTCODE,
+        DEPARMENTNAME,
         LASTUPDATETIME,
-        DELETEFLAG,
-        JMGID
+        JMGID,
+        DELETEFLAG
     </sql>
 
     <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Group">
@@ -91,9 +93,10 @@
         CREATENAME,
         CREATETIME,
         DEPARMENTCODE,
+        DEPARMENTNAME,
         LASTUPDATETIME,
-        DELETEFLAG,
-        JMGID
+        JMGID,
+        DELETEFLAG
         ) VALUES (
         #{id,jdbcType=VARCHAR},
         #{pgroupid,jdbcType=VARCHAR},
@@ -107,9 +110,10 @@
         #{createname,jdbcType=VARCHAR},
         #{createtime,jdbcType=TIMESTAMP},
         #{deparmentcode,jdbcType=VARCHAR},
+        #{deparmentname,jdbcType=VARCHAR},
         #{lastupdatetime,jdbcType=TIMESTAMP},
-        #{deleteflag,jdbcType=VARCHAR},
-        #{jmgid,jdbcType=VARCHAR}
+        #{jmgid,jdbcType=VARCHAR},
+        #{deleteflag,jdbcType=VARCHAR}
         )
     </insert>
 
@@ -155,14 +159,17 @@
             <if test="deparmentcode !=null  and deparmentcode != '' ">
                 DEPARMENTCODE,
             </if>
+            <if test="deparmentname !=null  and deparmentname != '' ">
+                DEPARMENTNAME,
+            </if>
             <if test="lastupdatetime !=null ">
                 LASTUPDATETIME,
             </if>
-            <if test="deleteflag !=null  and deleteflag != '' ">
-                DELETEFLAG,
-            </if>
             <if test="jmgid !=null  and jmgid != '' ">
-                JMGID
+                JMGID,
+            </if>
+            <if test="deleteflag !=null  and deleteflag != '' ">
+                DELETEFLAG
             </if>
         </trim>
         values
@@ -203,14 +210,17 @@
             <if test="deparmentcode !=null  and deparmentcode != '' ">
                 #{deparmentcode,jdbcType=VARCHAR},
             </if>
+            <if test="deparmentname !=null  and deparmentname != '' ">
+                #{deparmentname,jdbcType=VARCHAR},
+            </if>
             <if test="lastupdatetime !=null ">
                 #{lastupdatetime,jdbcType=TIMESTAMP},
             </if>
-            <if test="deleteflag !=null  and deleteflag != '' ">
-                #{deleteflag,jdbcType=VARCHAR},
-            </if>
             <if test="jmgid !=null  and jmgid != '' ">
-                #{jmgid,jdbcType=VARCHAR}
+                #{jmgid,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteflag !=null  and deleteflag != '' ">
+                #{deleteflag,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>
@@ -229,9 +239,10 @@
         CREATENAME,
         CREATETIME,
         DEPARMENTCODE,
+        DEPARMENTNAME,
         LASTUPDATETIME,
-        DELETEFLAG,
-        JMGID
+        JMGID,
+        DELETEFLAG
         )
         <foreach collection="list" open="(" close=")" item="item" index="index" separator="union all" >
             select
@@ -247,9 +258,10 @@
             #{item.createname,jdbcType=VARCHAR},
             #{item.createtime,jdbcType=TIMESTAMP},
             #{item.deparmentcode,jdbcType=VARCHAR},
+            #{item.deparmentname,jdbcType=VARCHAR},
             #{item.lastupdatetime,jdbcType=TIMESTAMP},
-            #{item.deleteflag,jdbcType=VARCHAR},
-            #{item.jmgid,jdbcType=VARCHAR}
+            #{item.jmgid,jdbcType=VARCHAR},
+            #{item.deleteflag,jdbcType=VARCHAR}
             from dual
         </foreach>
     </insert>
@@ -269,9 +281,10 @@
             CREATENAME=#{createname,jdbcType=VARCHAR},
             CREATETIME=#{createtime,jdbcType=TIMESTAMP},
             DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR},
+            DEPARMENTNAME=#{deparmentname,jdbcType=VARCHAR},
             LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP},
-            DELETEFLAG=#{deleteflag,jdbcType=VARCHAR},
-            JMGID=#{jmgid,jdbcType=VARCHAR}
+            JMGID=#{jmgid,jdbcType=VARCHAR},
+            DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
         </trim>
         WHERE
         ID = #{id,jdbcType=VARCHAR}
@@ -313,14 +326,17 @@
             <if test="deparmentcode !=null  and deparmentcode != '' ">
                 DEPARMENTCODE = #{deparmentcode,jdbcType=VARCHAR},
             </if>
+            <if test="deparmentname !=null  and deparmentname != '' ">
+                DEPARMENTNAME = #{deparmentname,jdbcType=VARCHAR},
+            </if>
             <if test="lastupdatetime !=null ">
                 LASTUPDATETIME = #{lastupdatetime,jdbcType=TIMESTAMP},
             </if>
-            <if test="deleteflag !=null  and deleteflag != '' ">
-                DELETEFLAG = #{deleteflag,jdbcType=VARCHAR},
-            </if>
             <if test="jmgid !=null  and jmgid != '' ">
-                JMGID = #{jmgid,jdbcType=VARCHAR}
+                JMGID = #{jmgid,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteflag !=null  and deleteflag != '' ">
+                DELETEFLAG = #{deleteflag,jdbcType=VARCHAR}
             </if>
         </trim>
         WHERE ID = #{id,jdbcType=VARCHAR}
@@ -342,7 +358,7 @@
     <!-- 按Id删除 -->
     <delete id="deleteById" parameterType="java.lang.String">
         DELETE FROM t_group WHERE
-        ID = #{id,jdbcType=VARCHAR}
+         ID = #{id,jdbcType=VARCHAR}
     </delete>
 
     <!--根据list(ids)删除对象-->
@@ -408,14 +424,17 @@
         <if test="deparmentcode != null  and deparmentcode != '' ">
             and DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR}
         </if>
+        <if test="deparmentname != null  and deparmentname != '' ">
+            and DEPARMENTNAME=#{deparmentname,jdbcType=VARCHAR}
+        </if>
         <if test="lastupdatetime != null ">
             and LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP}
         </if>
-        <if test="deleteflag != null  and deleteflag != '' ">
-            and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
-        </if>
         <if test="jmgid != null  and jmgid != '' ">
             and JMGID=#{jmgid,jdbcType=VARCHAR}
+        </if>
+        <if test="deleteflag != null  and deleteflag != '' ">
+            and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
         </if>
         and rownum = 1
     </select>
@@ -461,14 +480,17 @@
         <if test="deparmentcode != null  and deparmentcode != '' ">
             and DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR}
         </if>
+        <if test="deparmentname != null  and deparmentname != '' ">
+            and DEPARMENTNAME=#{deparmentname,jdbcType=VARCHAR}
+        </if>
         <if test="lastupdatetime != null ">
             and LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP}
         </if>
-        <if test="deleteflag != null  and deleteflag != '' ">
-            and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
-        </if>
         <if test="jmgid != null  and jmgid != '' ">
             and JMGID=#{jmgid,jdbcType=VARCHAR}
+        </if>
+        <if test="deleteflag != null  and deleteflag != '' ">
+            and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
         </if>
     </select>
 
