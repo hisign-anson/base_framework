@@ -135,7 +135,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     @Override
     @Transactional
     public JsonResult taskDetail(String id,String userId) {
-        TaskModel taskModel=taskMapper.findById(id);
+        TaskModel taskModel=taskMapper.findTaskById(id);
         if(taskModel==null){
             return error("该任务不存在");
         }

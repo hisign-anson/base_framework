@@ -12,10 +12,8 @@
         <result column="BACKUP_TIME" property="backupTime" jdbcType="TIMESTAMP"/>
         <result column="BACKUP_REASON" property="backupReason" jdbcType="VARCHAR"/>
         <result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
-        <result column="CREATENAME" property="createname" jdbcType="VARCHAR"/>
         <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP"/>
         <result column="DEPARMENTCODE" property="deparmentcode" jdbcType="VARCHAR"/>
-        <result column="departmentname" property="departmentName" jdbcType="VARCHAR"/>
         <result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
         <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
         <result column="JMGID" property="jmgid" jdbcType="VARCHAR"/>
@@ -346,9 +344,8 @@
 
     <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
-            t.*,
-            (select o.ORG_NAME from SYS_ORGANIZATION o where o.ORG_CODE=t.deparmentcode) as departmentName
-        FROM t_group t
+        <include refid="Base_Column_List" />
+        FROM t_group
         WHERE
         ID = #{id,jdbcType=VARCHAR}
         and rownum = 1
@@ -538,55 +535,43 @@
     </select>
 
     <select id="findGroupByCondition" parameterType="com.hisign.xingzhen.xz.api.param.GroupParam" resultMap="BaseResultMap">
-        SELECT p.* from(
-        SELECT rownum,rownum as rn,q.* from (
-        SELECT
-        t.id,
-        t.GROUPNUM,
-        t.GROUPNAME,
-        t.GROUPTYPE,
-        t.CREATETIME,
-        t.BACKUP_STATU,
-        t.BACKUP_TIME,
-        t.JMGID,
-        (SELECT count(1) from T_AJGROUP b1 where b1.groupid=t.id) as caseNum,
-        t.CREATOR,
-        (SELECT USER_NAME from SYS_USER_INFO d where d.USER_ID=t.CREATOR) as CREATENAME,
-        (SELECT count(1) from T_USERGROUP c1 where c1.groupid=t.id) as memberNum
-        FROM (
-        SELECT DISTINCT a.* from T_GROUP a
-        WHERE
-        a.ID IN (SELECT DISTINCT u.GROUPID FROM T_USERGROUP u WHERE (u.USERID=#{userId,jdbcType=VARCHAR} OR u.CREATOR=#{userId,jdbcType=VARCHAR}) AND u.DELETEFLAG=0)
-        AND a.PGROUPID IS NULL AND a.DELETEFLAG=0
-        <if test="ajbh!=null and ajbh!=''">
-            AND exists(SELECT 1 FROM T_AJGROUP b WHERE b.DELETEFLAG=0 AND b.GROUPID=a.ID AND b.ajbh like '%'||#{ajbh,jdbcType=VARCHAR}||'%' escape '\')
-        </if>
-        <if test="memberId!=null and memberId!=''">
-            AND exists(SELECT 1 FROM T_USERGROUP u WHERE u.GROUPID=a.ID AND u.USERID=#{memberId,jdbcType=VARCHAR})
-        </if>
-        <if test="groupname!=null and groupname!=''">
-            AND a.GROUPNAME like '%'||#{groupname,jdbcType=VARCHAR}||'%' escape '\'
-        </if>
-        <if test="creator!=null and creator!=''">
-            AND a.CREATOR=#{creator,jdbcType=VARCHAR}
-        </if>
-        <if test="startTime!=null and entTime!=null">
-            AND a.CREATETIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
-        </if>
-        <if test="groupnum!=null and groupnum!=''">
-            AND a.groupnum like '%'||#{groupnum,jdbcType=VARCHAR}||'%' escape '\'
-        </if>
-        <if test="deparmentcode!=null and deparmentcode!=''">
-            AND a.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
-        </if>
-        <if test="backupStatu!=null and backupStatu!=''">
-            AND a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
-        </if>
-        ) t
-        ) q
-        <if test="end !=null and end !=0">
-            WHERE rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
-        </if>
+        SELECT p.id, p.GROUPNUM,p.GROUPNAME, p.GROUPTYPE,p.CREATETIME,p.BACKUP_STATU,p.BACKUP_TIME,p.JMGID,
+        (SELECT count(1) from T_AJGROUP b1 where b1.groupid=p.id) as caseNum,
+        (SELECT USER_NAME from SYS_USER_INFO d where d.USER_ID=p.CREATOR) as CREATOR,
+        (SELECT count(1) from T_USERGROUP c1 where c1.groupid=p.id) as memberNum from(
+             SELECT rownum,rownum as rn,q.* from (
+                SELECT a.* from T_GROUP a
+                WHERE  exists (
+                    SELECT 1 FROM T_USERGROUP u WHERE (u.USERID=#{userId,jdbcType=VARCHAR} OR u.CREATOR=#{userId,jdbcType=VARCHAR}) and u.groupid=a.id AND u.DELETEFLAG=0
+                ) AND a.PGROUPID IS NULL AND a.DELETEFLAG=0
+                <if test="ajbh!=null and ajbh!=''">
+                    AND exists(SELECT 1 FROM T_AJGROUP b WHERE b.DELETEFLAG=0 AND b.GROUPID=a.ID AND b.ajbh like '%'||#{ajbh,jdbcType=VARCHAR}||'%' escape '\')
+                </if>
+                <if test="memberId!=null and memberId!=''">
+                    AND exists(SELECT 1 FROM T_USERGROUP u WHERE u.GROUPID=a.ID AND u.USERID=#{memberId,jdbcType=VARCHAR})
+                </if>
+                <if test="groupname!=null and groupname!=''">
+                    AND a.GROUPNAME like '%'||#{groupname,jdbcType=VARCHAR}||'%' escape '\'
+                </if>
+                <if test="creator!=null and creator!=''">
+                    AND a.CREATOR=#{creator,jdbcType=VARCHAR}
+                </if>
+                <if test="startTime!=null and entTime!=null">
+                    AND a.CREATETIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="groupnum!=null and groupnum!=''">
+                    AND a.groupnum like '%'||#{groupnum,jdbcType=VARCHAR}||'%' escape '\'
+                </if>
+                <if test="deparmentcode!=null and deparmentcode!=''">
+                    AND a.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
+                </if>
+                <if test="backupStatu!=null and backupStatu!=''">
+                    AND a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
+                </if>
+            ) q
+            <if test="end !=null and end !=0">
+                WHERE rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+            </if>
         ) p
         <if test="begin !=null and begin !=0">
             WHERE rn >= #{begin,jdbcType=INTEGER}
@@ -596,9 +581,9 @@
     <select id="findCountGroupByCondition" parameterType="com.hisign.xingzhen.xz.api.param.GroupParam"
             resultType="java.lang.Long">
         SELECT count(1) FROM T_GROUP a
-        WHERE
-        a.ID IN (SELECT DISTINCT u.GROUPID FROM T_USERGROUP u WHERE (u.USERID=#{userId,jdbcType=VARCHAR} OR u.CREATOR=#{userId,jdbcType=VARCHAR}) AND u.DELETEFLAG=0)
-        AND a.PGROUPID IS NULL AND a.DELETEFLAG=0
+        WHERE  exists (
+        SELECT 1 FROM T_USERGROUP u WHERE (u.USERID=#{userId,jdbcType=VARCHAR} OR u.CREATOR=#{userId,jdbcType=VARCHAR}) and u.groupid=a.id AND u.DELETEFLAG=0
+        )  AND a.PGROUPID IS NULL AND a.DELETEFLAG=0
         <if test="ajbh!=null and ajbh!=''">
             AND exists(SELECT 1 FROM T_AJGROUP b WHERE b.DELETEFLAG=0 AND b.GROUPID=a.ID AND b.ajbh like '%'||#{ajbh,jdbcType=VARCHAR}||'%' escape '\')
         </if>
