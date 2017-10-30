@@ -69,7 +69,7 @@ public class TaskFkModel implements Serializable {
 
     //-------------------------返回字段
     @ApiModelProperty(value = "反馈附件信息")
-    private List<TaskfkFileModel> taskfkFileModels;
+    private List<TaskfkFileModel> taskFkFiles;
     /**
      *默认空构造函数
      */
@@ -282,12 +282,12 @@ public class TaskFkModel implements Serializable {
         this.deleteflag = deleteflag;
     }
 
-    public List<TaskfkFileModel> getTaskfkFileModels() {
-        return taskfkFileModels;
+    public List<TaskfkFileModel> getTaskFkFiles() {
+        return taskFkFiles;
     }
 
-    public void setTaskfkFileModels(List<TaskfkFileModel> taskfkFileModels) {
-        this.taskfkFileModels = taskfkFileModels;
+    public void setTaskFkFiles(List<TaskfkFileModel> taskFkFiles) {
+        this.taskFkFiles = taskFkFiles;
     }
 
     @Override

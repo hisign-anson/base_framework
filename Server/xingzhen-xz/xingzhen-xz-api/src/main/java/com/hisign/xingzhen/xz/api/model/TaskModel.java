@@ -111,13 +111,16 @@ public class TaskModel implements Serializable {
 
     //-------------------------返回字段
     @ApiModelProperty(value = "任务关联的反馈信息")
-    private List<TaskFkModel>  taskFkModels;
+    private List<TaskFkModel>  taskFks;
 
     @ApiModelProperty(value = "反馈未确认数量")
     private long noFkqrCount;
 
     @ApiModelProperty(value = "专案组名称")
     private String groupName;
+
+    @ApiModelProperty(value = "序号")
+    private String rn;
 
 
     /**
@@ -500,12 +503,12 @@ public class TaskModel implements Serializable {
         this.deleteflag = deleteflag;
     }
 
-    public List<TaskFkModel> getTaskFkModels() {
-        return taskFkModels;
+    public List<TaskFkModel> getTaskFks() {
+        return taskFks;
     }
 
-    public void setTaskFkModels(List<TaskFkModel> taskFkModels) {
-        this.taskFkModels = taskFkModels;
+    public void setTaskFks(List<TaskFkModel> taskFks) {
+        this.taskFks = taskFks;
     }
 
     public long getNoFkqrCount() {
@@ -522,6 +525,14 @@ public class TaskModel implements Serializable {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public String getRn() {
+        return rn;
+    }
+
+    public void setRn(String rn) {
+        this.rn = rn;
     }
 
     @Override
