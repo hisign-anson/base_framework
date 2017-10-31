@@ -77,8 +77,21 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
         group.setBackupTime(new Date());
         group.setBackupStatu(Constants.YES);
         group.setBackupReason(entity.getBackupReason());
+        group.setLastupdatetime(new Date());
 
         long num = groupMapper.update(group);
+
+        //更新小组信息-子小组全部归档
+        UpdateParams updateParams = new UpdateParams(Group.class);
+
+        Conditions conditions = new Conditions(Group.class);
+        Conditions.Criteria criteria = conditions.createCriteria();
+        criteria.add(Group.GroupEnum.pgroupid.get(), BaseEnum.ConditionEnum.EQ,entity.getGroupid())
+        .add(Group.GroupEnum.deleteflag.get(), BaseEnum.ConditionEnum.EQ,Constants.DELETE_FALSE);
+        updateParams.add(new String[]{Group.GroupEnum.backupTime.get(),Group.GroupEnum.backupReason.get(),Group.GroupEnum.backupStatu.get(),Group.GroupEnum.lastupdatetime.get()}
+        ,new Object[]{group.getBackupTime(),group.getBackupReason(),group.getBackupStatu(),group.getLastupdatetime()});
+
+        groupMapper.updateCustom(updateParams);
 
         if (num<1){
             throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT);

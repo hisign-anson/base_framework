@@ -367,4 +367,5 @@ public class Group extends BaseModel implements Serializable {
             return this.remark;
         }
     }
+
 }

@@ -4,6 +4,7 @@ import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.controller.BaseController;
+import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.param.GroupParam;
@@ -48,6 +49,14 @@ public class GroupController extends BaseController{
     @ApiOperation(value = "专案组查询分页",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getGroupPage(@RequestBody GroupParam groupParam) {
+        if (StringUtils.isNotBlank(groupParam.getOrderBy())){
+            Group.GroupEnum groupEnum = Group.GroupEnum.valueOf(groupParam.getOrderBy());
+            if (groupEnum!=null){
+                groupParam.setOrderBy(groupEnum.get());
+            }
+        }else {
+            groupParam.setDesc(false);
+        }
         return groupService.getGroupPage(groupParam);
     }
 

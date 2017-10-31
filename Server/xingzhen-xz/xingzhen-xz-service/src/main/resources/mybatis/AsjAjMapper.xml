@@ -7354,6 +7354,12 @@
                     and b.SL_LRSJ BETWEEN #{slStartTime,jdbcType=TIMESTAMP} AND #{slEndTime,jdbcType=TIMESTAMP}
                 </if>
                 and b.id in (select AJID from t_ajgroup ag where ag.groupId=#{groupId,jdbcType=VARCHAR} AND ag.DELETEFLAG=0)
+                <if test="orderBy!=null and orderBy!=''">
+                    ORDER BY ${orderBy}
+                    <if test="isDesc==true">
+                        DESC
+                    </if>
+                </if>
             ) q
             <if test="end !=null and end !=0">
                 where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}

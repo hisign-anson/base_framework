@@ -50,6 +50,12 @@ public class AsjAjParam implements Serializable{
     @ApiModelProperty(value = "分页参数")
     private int end;
 
+    @ApiModelProperty(value = "排序字段")
+    private String orderBy; //排序字段
+
+    @ApiModelProperty(value = "排序规则 desc ")
+    private boolean isDesc=false; //排序规则 desc
+
     public String getAjbh() {
         return ajbh;
     }
@@ -152,5 +158,21 @@ public class AsjAjParam implements Serializable{
 
     public void setEnd(int end) {
         this.end = end;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public boolean isDesc() {
+        return isDesc;
+    }
+
+    public void setDesc(boolean desc) {
+        isDesc = desc;
     }
 }

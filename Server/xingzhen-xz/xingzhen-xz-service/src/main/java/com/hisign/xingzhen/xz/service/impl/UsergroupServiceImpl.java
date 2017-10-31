@@ -204,10 +204,8 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     public JsonResult deleteUsergroupList(List<Usergroup> usergroupList) {
 
         Usergroup ug = usergroupList.get(0);
-        List<Object> ids = new ArrayList<>(usergroupList.size());
         List<Object> userIds = new ArrayList<>(usergroupList.size());
         for (Usergroup usergroup : usergroupList) {
-            ids.add(usergroup.getId());
             userIds.add(usergroup.getUserid());
         }
 
@@ -228,7 +226,8 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
         }
 
         Conditions conditions = new Conditions();
-        conditions.createCriteria().add(Usergroup.UsergroupEnum.id.get(), BaseEnum.IsInEnum.IN,ids);
+        conditions.createCriteria().add(Usergroup.UsergroupEnum.groupid.get(), BaseEnum.ConditionEnum.EQ,ug.getGroupid())
+                .add(Usergroup.UsergroupEnum.userid.get(), BaseEnum.ConditionEnum.EQ,ug.getUserid());
         usergroupMapper.deleteCustom(conditions);
 
         //极光群组删除用户
@@ -249,7 +248,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
         try {
             //保存操作日志
             StringBuilder sb = new StringBuilder();
-            sb.append("用户(ID:").append(ids.toString()).append(")被用户(ID:").append(ug.getCreator()).append(")从专案组(ID:").append(ug.getGroupid()).append("移除");
+            sb.append("用户(ID:").append(userIds.toString()).append(")被用户(ID:").append(ug.getCreator()).append(")从专案组(ID:").append(ug.getGroupid()).append("移除");
             XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, sb.toString(), ug.getCreator(), new Date(), group.getId());
         } catch (Exception e) {
             log.error("移除组内成员-操作日志失败",e);

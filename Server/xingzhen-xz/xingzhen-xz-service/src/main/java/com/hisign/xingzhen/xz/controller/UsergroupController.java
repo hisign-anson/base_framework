@@ -67,6 +67,7 @@ public class UsergroupController extends BaseController {
     @ApiOperation(value = "用户列表/组内成员列表",notes = "groupId传，就是组内成员列表",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/getUsergroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getUsergroupPage(@RequestBody SysUserInfoParam info){
+
         JsonResult result = usergroupService.getUsergroupPage(info);
         return result;
     }

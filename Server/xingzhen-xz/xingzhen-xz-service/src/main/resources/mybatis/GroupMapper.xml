@@ -20,6 +20,7 @@
         <result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
         <result column="JMGID" property="jmgid" jdbcType="VARCHAR"/>
         <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
+        <result column="ROWNUM" property="rownum" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Conditions_Where_Clause">
@@ -612,7 +613,12 @@
                 <if test="backupStatu!=null and backupStatu!=''">
                     AND a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
                 </if>
-                order by a.createTime desc
+                <if test="orderBy!=null and orderBy!=''">
+                    order by ${orderBy}
+                    <if test="isDesc==true">
+                        DESC
+                    </if>
+                </if>
             ) q
             <if test="end !=null and end !=0">
                 WHERE rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
