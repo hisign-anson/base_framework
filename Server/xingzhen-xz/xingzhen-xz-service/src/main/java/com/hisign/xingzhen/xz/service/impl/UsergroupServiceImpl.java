@@ -100,7 +100,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
             if (StringUtils.isEmpty(groupModel.getJmgid())){
                 //创建极光群组
                 try {
-                    CreateGroupResult cgr = jMessageClient.createGroup(creator, groupModel.getGroupname(), groupModel.getGroupname(), ListUtils.list2Array(ids));
+                    CreateGroupResult cgr = jMessageClient.createGroup(creator, groupModel.getGroupname(), groupModel.getId(), ListUtils.list2Array(ids));
                     if (!cgr.isResultOK()){
                         log.info("对不起，创建群组失败!:",cgr.getResponseCode());
                         throw new BusinessException("对不起，创建群组失败!");
@@ -233,6 +233,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
         //极光群组删除用户
         if (StringUtils.isNotBlank(group.getJmgid())){
             try {
+                log.error("移除用户：",userIds);
                 jMessageClient.addOrRemoveMembers(Long.valueOf(group.getJmgid()),null,ListUtils.obj2strArr(userIds));
             } catch (APIConnectionException e) {
                 log.error("Connection error. Should retry later. ", e);

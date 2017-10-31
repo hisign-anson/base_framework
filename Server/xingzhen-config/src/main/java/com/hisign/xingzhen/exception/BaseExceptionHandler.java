@@ -21,9 +21,13 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(BusinessException.class)
 	@ResponseBody
 	public JsonResult exceptionHandler(BusinessException e,HttpServletResponse response) {
-		StringWriter sw = new StringWriter(); 
-        e.getOrgException().printStackTrace(new PrintWriter(sw, true)); 
-		logger.error(sw.toString());
+		try {
+			StringWriter sw = new StringWriter();
+			e.getOrgException().printStackTrace(new PrintWriter(sw, true));
+			logger.error(sw.toString());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		return JsonResultUtil.error(e.getMsg());
 	}
 

@@ -56,4 +56,9 @@ public class GroupBackupRest extends BaseRest<GroupBackup, GroupBackupModel, Str
 
         return super.add(entity);
     }
+
+    @Override
+    public JsonResult remove(GroupBackup entity) throws BusinessException {
+        return null;
+    }
 }

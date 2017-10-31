@@ -86,10 +86,12 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
 
         Conditions conditions = new Conditions(Group.class);
         Conditions.Criteria criteria = conditions.createCriteria();
-        criteria.add(Group.GroupEnum.pgroupid.get(), BaseEnum.ConditionEnum.EQ,entity.getGroupid())
+        criteria.add(Group.GroupEnum.pgroupid.get(), BaseEnum.ConditionEnum.EQ,gm.getId())
         .add(Group.GroupEnum.deleteflag.get(), BaseEnum.ConditionEnum.EQ,Constants.DELETE_FALSE);
         updateParams.add(new String[]{Group.GroupEnum.backupTime.get(),Group.GroupEnum.backupReason.get(),Group.GroupEnum.backupStatu.get(),Group.GroupEnum.lastupdatetime.get()}
         ,new Object[]{group.getBackupTime(),group.getBackupReason(),group.getBackupStatu(),group.getLastupdatetime()});
+
+        updateParams.setConditions(conditions);
 
         groupMapper.updateCustom(updateParams);
 
@@ -152,6 +154,49 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
             throw new BusinessException(BaseEnum.BusinessExceptionEnum.DELETE, e);
         }
         return JsonResultUtil.success();
+    }
+
+    public JsonResult remove(GroupBackup entity) throws BusinessException {
+        //同时更新专案组
+        GroupModel gm = groupMapper.findById(entity.getGroupid());
+        if (gm==null){
+            return error("对不起，该专案组不存在!");
+        }
+        Group group = new Group();
+        BeanUtils.copyProperties(gm,group);
+        group.setBackupTime(new Date());
+        group.setBackupStatu(Constants.NO);
+        group.setBackupReason(entity.getBackupReason());
+        group.setLastupdatetime(new Date());
+
+        long num = groupMapper.update(group);
+
+        //更新小组信息-子小组全部撤销归档
+        UpdateParams updateParams = new UpdateParams(Group.class);
+
+        Conditions conditions = new Conditions(Group.class);
+        Conditions.Criteria criteria = conditions.createCriteria();
+        criteria.add(Group.GroupEnum.pgroupid.get(), BaseEnum.ConditionEnum.EQ,gm.getId())
+                .add(Group.GroupEnum.deleteflag.get(), BaseEnum.ConditionEnum.EQ,Constants.DELETE_FALSE);
+        updateParams.add(new String[]{Group.GroupEnum.backupTime.get(),Group.GroupEnum.backupReason.get(),Group.GroupEnum.backupStatu.get(),Group.GroupEnum.lastupdatetime.get()}
+                ,new Object[]{group.getBackupTime(),group.getBackupReason(),group.getBackupStatu(),group.getLastupdatetime()});
+        updateParams.setConditions(conditions);
+
+        groupMapper.updateCustom(updateParams);
+
+        if (num<1){
+            throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT);
+        }
+
+        try {
+            //保存操作日志
+            XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, "专案组撤销归档(ID:" + entity.getId()+")", entity.getCreator(), entity.getCreatetime(), entity.getId());
+            xzLogMapper.insertNotNull(xzLog);
+        } catch (Exception e) {
+
+        }
+
+        return success();
     }
 
 }
