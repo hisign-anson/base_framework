@@ -985,7 +985,9 @@ public class AsjAjModel implements Serializable {
 	
     @ApiModelProperty(value = "传输时间")
 	private Date transferTime; //传输时间
-	
+
+    @ApiModelProperty(value = "序号")
+    private String rn;
     
 	/**
 	 *默认空构造函数
@@ -4870,8 +4872,16 @@ public class AsjAjModel implements Serializable {
 	public void setTransferTime(Date transferTime){
 		this.transferTime = transferTime;
 	}
-	
-	@Override
+
+    public String getRn() {
+        return rn;
+    }
+
+    public void setRn(String rn) {
+        this.rn = rn;
+    }
+
+    @Override
 	public String toString(){
 		return JSON.toJSONString(this);
 	}

@@ -148,6 +148,8 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                     taskfkFile.setId(UUID.randomUUID().toString());
                     taskfkFile.setCreatetime(now);
                     taskfkFile.setDeleteFlag(Constants.DELETE_FALSE);
+                    taskfkFile.setTaskfkId(taskFk.getId());
+                    taskfkFile.setCreator(taskFk.getCreator());
                     taskfkFileMapper.insertNotNull(taskfkFile);
                 }
             }
