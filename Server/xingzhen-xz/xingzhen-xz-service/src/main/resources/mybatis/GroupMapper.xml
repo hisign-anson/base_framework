@@ -612,7 +612,12 @@
                 <if test="backupStatu!=null and backupStatu!=''">
                     AND a.BACKUP_STATU=#{backupStatu,jdbcType=VARCHAR}
                 </if>
-                order by a.createTime desc
+                <if test="orderBy!=null and orderBy!=''">
+                    order by ${orderBy}
+                    <if test="isDesc==true">
+                        DESC
+                    </if>
+                </if>
             ) q
             <if test="end !=null and end !=0">
                 WHERE rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}

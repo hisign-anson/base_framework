@@ -8,6 +8,7 @@ import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.AsjAj;
 import com.hisign.xingzhen.xz.api.entity.AsjAj.AsjAjEnum;
+import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.model.AsjAjModel;
 import com.hisign.xingzhen.xz.api.param.AsjAjParam;
 import com.hisign.xingzhen.xz.api.service.AsjAjService;
@@ -74,6 +75,17 @@ public class AsjAjController extends BaseController{
         conditions.setReturnFields(new String[]{AsjAjEnum.id.get(),AsjAjEnum.ajbh.get(), AsjAjEnum.ajmc.get(), AsjAjEnum.ajlx.get(), AsjAjEnum.ajstate.get(), AsjAjEnum.ab.get(), AsjAjEnum.zyaq.get(), AsjAjEnum.fadd.get(), AsjAjEnum.ajzbry.get()});
         conditions.setLimit(param.getBegin(),param.getEnd());
 
+        if (StringUtils.isNotBlank(param.getOrderBy())){
+            AsjAj.AsjAjEnum asjAjEnum = AsjAj.AsjAjEnum.valueOf(param.getOrderBy());
+            if (asjAjEnum!=null){
+                if (param.isDesc()){
+                    conditions.setOrderByClause(asjAjEnum.get(), BaseEnum.DESCEnum.DESC);
+                }else {
+                    conditions.setOrderByClause(asjAjEnum.get(), BaseEnum.DESCEnum.ASC);
+                }
+            }
+        }
+
         return asjAjService.getPage(conditions);
     }
 
@@ -86,6 +98,14 @@ public class AsjAjController extends BaseController{
     @ApiOperation(value = "组内涉及案件分页",httpMethod ="POST",response = AsjAjModel.class)
     @RequestMapping(value = "/getAjGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getAjGroupPage(@RequestBody AsjAjParam param) {
+        if (StringUtils.isNotBlank(param.getOrderBy())){
+            AsjAj.AsjAjEnum asjAjEnum = AsjAj.AsjAjEnum.valueOf(param.getOrderBy());
+            if (asjAjEnum!=null){
+                param.setOrderBy(asjAjEnum.get());
+            }
+        }else {
+            param.setDesc(false);
+        }
         return asjAjService.getAjGroupPage(param);
     }
 

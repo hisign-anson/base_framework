@@ -477,6 +477,12 @@
         <if test="groupId!=null and groupId!=''">
             and SU.USER_ID IN (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR} )
         </if>
+        <if test="orderBy!=null and orderBy!=''">
+            ORDER BY ${orderBy}
+            <if test="isDesc==true">
+                DESC
+            </if>
+        </if>
         ) t
         ) a
         <if test="end !=null and end !=0">
