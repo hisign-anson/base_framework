@@ -85,6 +85,9 @@ public class GroupModel implements Serializable {
     @ApiModelProperty(value = "序号")
     private String rn;
 
+    @ApiModelProperty(hidden = true)
+    private String rownum;
+
 
     /**
      *默认空构造函数
@@ -333,5 +336,13 @@ public class GroupModel implements Serializable {
 
     public void setGrouptypeName(String grouptypeName) {
         this.grouptypeName = grouptypeName;
+    }
+
+    public String getRownum() {
+        return rownum;
+    }
+
+    public void setRownum(String rownum) {
+        this.rownum = rownum;
     }
 }

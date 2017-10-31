@@ -64,6 +64,7 @@ public class IndexServiceImpl implements IndexService {
         conditions.setLimit(gb.getBegin(),gb.getEnd());
 
         List<GroupModel> list = groupMapper.findList(conditions);
+        Long num = groupMapper.findCount(conditions);
         List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
 
         for (GroupModel model : list) {
@@ -117,7 +118,7 @@ public class IndexServiceImpl implements IndexService {
             listMap.add(map);
         }
 
-        return JsonResultUtil.success(listMap);
+        return JsonResultUtil.success(num,listMap);
     }
 
     @Override
