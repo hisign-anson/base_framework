@@ -113,6 +113,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
     }
 
     @Override
+    @Transactional
     public JsonResult addNotNull(TaskFk taskFk) throws BusinessException {
         try {
             if(StringUtils.isEmpty(taskFk.getCreator())){
