@@ -231,6 +231,6 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
     @Override
     public GroupModel getById(String id) {
-        return super.getById(id);
+        return groupMapper.findGroupById(id);
     }
 }

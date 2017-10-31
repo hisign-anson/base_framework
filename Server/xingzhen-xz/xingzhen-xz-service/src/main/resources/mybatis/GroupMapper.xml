@@ -8,6 +8,7 @@
         <result column="GROUPNUM" property="groupnum" jdbcType="VARCHAR"/>
         <result column="GROUPNAME" property="groupname" jdbcType="VARCHAR"/>
         <result column="GROUPTYPE" property="grouptype" jdbcType="VARCHAR"/>
+        <result column="GROUPTYPENAME" property="grouptypeName" jdbcType="VARCHAR"/>
         <result column="BACKUP_STATU" property="backupStatu" jdbcType="VARCHAR"/>
         <result column="BACKUP_TIME" property="backupTime" jdbcType="TIMESTAMP"/>
         <result column="BACKUP_REASON" property="backupReason" jdbcType="VARCHAR"/>
@@ -696,7 +697,7 @@
     <select id="findGroupById" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />,
-        (select * from SYS_ORGANIZATION o where o.dict_key=t.GROUPTYPE)
+        (SELECT d.DICT_VALUE1 FROM SYS_DICT d WHERE d.dict_key=t.GROUPTYPE AND d.PARENT_KEY='24') as GROUPTYPENAME
         FROM t_group t
         WHERE
         ID = #{id,jdbcType=VARCHAR}
