@@ -359,7 +359,7 @@
 		    </if>
 	     	<if test="createtime != null ">
                 and CREATETIME=#{createtime,jdbcType=TIMESTAMP}
-		    </if>
+		    </if>  order by CREATETIME desc
     </select>
     
     <select id="findByCondition" parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">

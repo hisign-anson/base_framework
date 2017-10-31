@@ -1,11 +1,11 @@
 package com.hisign.xingzhen.sys.api.model;
 
-import java.util.Date;
-import java.util.List;
-
 import com.hisign.xingzhen.common.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Date;
+import java.util.List;
 
 @ApiModel("用户信息")
 public class SysUserInfo extends BaseModel {
@@ -122,6 +122,9 @@ public class SysUserInfo extends BaseModel {
 
     @ApiModelProperty("接收字段-专案组创建人 ")
     private String creator;
+
+    @ApiModelProperty("接收字段-序号")
+    private String rn;
 
     //============================================接收字段.
     private String id;//用户专案组表id
@@ -462,5 +465,13 @@ public class SysUserInfo extends BaseModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getRn() {
+        return rn;
+    }
+
+    public void setRn(String rn) {
+        this.rn = rn;
     }
 }
