@@ -4,6 +4,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPReply;
@@ -208,8 +209,7 @@ public class FtpUtils {
 			}
 			String path = FilenameUtils.getPath(remotePath);
 			// 创建目录
-			createDirectory(getRootPath()+path);
-
+			createDirectory(path);
 			success = ftp.storeFile(filename, input);
 			if (LOGGER.isInfoEnabled()) {
 				LOGGER.info("[FTPHelper] 上传文件成功，success=" + success

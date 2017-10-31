@@ -52,7 +52,7 @@ public class FtpFileUploadToolkit extends AbstractFileUploadToolkit {
 		try {
 			if (file.getMultipartFile()!= null && ! file.getMultipartFile().isEmpty()){
 				LOGGER.info("ftpstartTime："+System.currentTimeMillis());
-				result = ftpUtils.uploadFile(file.getMultipartFile().getInputStream(), file.getPath());
+				result = ftpUtils.uploadFile(file.getMultipartFile().getInputStream(), storeFile.getPath());
 				if(!result){
 					throw new FileUploadException(FileUploadErrorCode.SAVE_UPLOAD_FILE_FAIL_DESC);
 				}
@@ -60,7 +60,7 @@ public class FtpFileUploadToolkit extends AbstractFileUploadToolkit {
 			}
 			
 			String filePath = file.getPath();
-		
+
 			file.addAttribute("source",filePath);
 			file.addAttribute("oldName",file.getMultipartFile().getOriginalFilename());
 			if(file.isResize()){//是否生成缩略图
@@ -68,7 +68,7 @@ public class FtpFileUploadToolkit extends AbstractFileUploadToolkit {
 				int thumbHeight = fileUploadConfig.getThumbHeight();
 				String[] s = filePath.split("\\.");
 				String thumb = thumbWidth+"_"+thumbHeight;
-				File outFile = new File(s[0]+thumb+"."+s[1]);
+				File outFile = new File("/tmp",(s[0]+thumb+"."+s[1]));
 				file.addAttribute("p"+thumb,outFile.getPath());
 				OutputStream os = FileUtils.openOutputStream(outFile);
 	        	Thumbnailator.createThumbnail(file.getMultipartFile().getInputStream(), os, thumbWidth, thumbHeight);

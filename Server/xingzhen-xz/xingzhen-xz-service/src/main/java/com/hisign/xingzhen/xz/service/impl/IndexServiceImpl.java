@@ -73,10 +73,11 @@ public class IndexServiceImpl implements IndexService {
             map.put("groupId", model.getId());
             map.put("groupNum", model.getGroupnum());
             map.put("groupName", model.getGroupname());
+            map.put("rownum", model.getRownum());
 
             //获取最新归档记录
             GroupBackup groupBackup = new GroupBackup();
-            groupBackup.setGroupid(model.getId());
+            groupBackup.setGroupid(model.getPgroupid());
             groupBackup.setDeleteflag(Constants.DELETE_FALSE);
             groupBackup.setSortName(GroupBackup.GroupBackupEnum.backupTime.get());
             groupBackup.setSortOrder(BaseEnum.DESCEnum.DESC.get());

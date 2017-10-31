@@ -96,7 +96,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
         //创建极光群组
         try {
-            CreateGroupResult cgr = jMessageClient.createGroup(entity.getCreator(), entity.getGroupname(), entity.getGroupname(), entity.getCreator());
+            CreateGroupResult cgr = jMessageClient.createGroup(entity.getCreator(), entity.getGroupname(), entity.getId(), entity.getCreator());
             if (!cgr.isResultOK()){
                 log.info("对不起，创建群组失败!:",cgr.getResponseCode());
                 throw new BusinessException("对不起，创建群组失败!");

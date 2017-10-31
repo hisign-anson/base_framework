@@ -51,4 +51,20 @@ public class GroupBackupController extends BaseController {
 
         return groupBackupService.add(entity);
     }
+
+    @ApiOperation(value = "撤销归档",httpMethod ="POST",response = JsonResult.class)
+    @RequestMapping(value = "/remove", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult remove(@RequestBody GroupBackup entity) throws BusinessException {
+
+        GroupModel groupModel = groupService.getById(entity.getGroupid());
+        if (groupModel==null){
+            return JsonResultUtil.error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
+        }
+        //子专案组不能撤销归档
+        if (StringUtils.isNotBlank(groupModel.getPgroupid())){
+            return JsonResultUtil.error("抱歉，改专案组是子专案组，不能撤销归档");
+        }
+
+        return groupBackupService.remove(entity);
+    }
 }
