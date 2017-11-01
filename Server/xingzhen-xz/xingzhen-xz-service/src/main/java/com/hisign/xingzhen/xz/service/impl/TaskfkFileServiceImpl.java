@@ -10,9 +10,7 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
-import com.hisign.xingzhen.common.util.FileUtils;
 import com.hisign.xingzhen.common.util.IpUtil;
-import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
@@ -23,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -92,28 +89,9 @@ public class TaskfkFileServiceImpl extends BaseServiceImpl<TaskfkFile,TaskfkFile
 	}
 
      @Override
-     public JsonResult downloadTaskfkFile(String taskfkId, String userId) {
-         if(StringUtils.isEmpty(userId)){
-             return error("下载附件失败,当前登陆用户不能为空");
-         }
-         TaskfkFile file=new TaskfkFile();
-         file.setTaskfkId(taskfkId);
-         List<TaskfkFileModel> taskfkFiles=taskfkFileMapper.findListByEntity(file);
-         if(taskfkFiles!=null&&taskfkFiles.size()>0){
-             if(taskfkFiles.size()==1){
-                 try {
-                     FileUtils.downloadFile(taskfkFiles.get(0).getFileName(),BaseRest.getResponse());
-                 } catch (IOException e) {
-                     return error("下载失败");
-                 }
-             }else {
-
-             }
-         } else {
-             return error("没有附件可下载");
-         }
-         String content="任务反馈附件下载（TASKFKID=" + taskfkId + "）";
-         XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()), Constants.XZLogType.TASK,content , userId, new Date(), taskfkId);
+     public JsonResult downloadLog(String fkFileId, String userId) {
+         String content="任务反馈附件单个下载（FKFILEID=" + fkFileId + "）";
+         XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()), Constants.XZLogType.TASK,content , userId, new Date(), fkFileId);
          xzLogMapper.insertNotNull(xzLog);
          return success();
      }
