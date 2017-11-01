@@ -71,7 +71,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=BusinessException.class)
     public JsonResult addNotNull(Group entity) throws BusinessException {
         if (entity.getDeparmentcode() == null || entity.getDeparmentcode().length() != 12) {
             return error("登陆人用户单位不正确");

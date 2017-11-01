@@ -31,16 +31,12 @@ public class AjgroupController extends BaseController {
     @Autowired
     private AjgroupService ajgroupService;
 
-    /*@ApiOperation(value = "关联案件",httpMethod ="POST",response = JsonResult.class)
-    @RequestMapping(value = "/addAjGroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addAjGroup(@Valid @RequestBody Ajgroup ajGroup, BindingResult result) throws BusinessException {
-        JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
-            return jr;
-        }
-        return baseService.addNotNull(ajGroup);
-    }*/
-
+    /**
+     *@Author: 何建辉
+     *@Description: 关联案件列表
+     *@Date: 2017/11/1 17:07
+     *@Email: hejianhui@hisign.com.cn
+     */
     @ApiOperation(value = "关联案件列表",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/addAjGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addAjGroupList(@Valid @RequestBody List<Ajgroup> ajGroupList, BindingResult result) throws BusinessException {
@@ -52,6 +48,12 @@ public class AjgroupController extends BaseController {
         return ajgroupService.add(ajGroupList);
     }
 
+    /**
+     *@Author: 何建辉
+     *@Description: 移除案件
+     *@Date: 2017/11/1 17:07
+     *@Email: hejianhui@hisign.com.cn
+     */
     @ApiOperation(value = "移除案件",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/removeAjGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult removeAjGroupList(@Valid @RequestBody List<Ajgroup> ajGroupList, BindingResult result) throws BusinessException {

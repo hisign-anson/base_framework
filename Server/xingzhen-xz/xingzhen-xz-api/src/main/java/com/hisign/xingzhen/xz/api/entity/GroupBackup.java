@@ -33,12 +33,10 @@ public class GroupBackup extends BaseModel implements Serializable {
 
 	@Column(value="BACKUP_REASON")
 	@ApiModelProperty(value = "归档原因")
-	@NotEmpty(message = "归档原因不能为空")
 	private String backupReason; //归档原因
 
 	@Column(value="CREATOR")
 	@ApiModelProperty(value = "创建人")
-	@NotEmpty(message = "归档人不能为空")
 	private String creator; //创建人
 
 	@Column(value="CREATETIME")

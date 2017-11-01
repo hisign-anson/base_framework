@@ -133,7 +133,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
      * 接收人查看未反馈的信息，将任务单状态改为已签收，接收人查看已反馈的信息，反馈信息的状态改为已确认
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = BusinessException.class)
     public JsonResult taskDetail(String id,String userId) {
         TaskModel taskModel=taskMapper.findTaskById(id);
         if(taskModel==null){
@@ -207,6 +207,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     }
 
     @Override
+    @Transactional(rollbackFor = BusinessException.class)
     public JsonResult addNotNull(Task task) throws BusinessException {
         if(!StringUtils.isEmpty(task.getBcrwid())){
             TaskModel t=super.getById(task.getBcrwid());

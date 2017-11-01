@@ -36,12 +36,24 @@ public class XzLogController extends BaseController {
 	@Autowired
 	private XzLogService xzLogService;
 
+	/**
+	 *@Author: 何建辉
+	 *@Description: 添加最后聊天日志
+	 *@Date: 2017/11/1 17:09
+	 *@Email: hejianhui@hisign.com.cn
+	 */
 	@ApiOperation(value = "添加最后聊天日志",httpMethod ="POST",response = JsonResult.class)
 	@RequestMapping(value = "/addChatLog", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	public JsonResult addNotNull(@RequestBody XzLog entity) throws BusinessException {
 		return xzLogService.addNotNull(entity);
 	}
 
+	/**
+	 *@Author: 何建辉
+	 *@Description: 获取常用专案组
+	 *@Date: 2017/11/1 17:09
+	 *@Email: hejianhui@hisign.com.cn
+	 */
 	@ApiOperation(value = "获取常用专案组",httpMethod ="POST",response = JsonResult.class)
 	 @RequestMapping(value = "/getCommonGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	 public JsonResult getCommonGroupList(@RequestParam String userId){

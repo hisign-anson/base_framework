@@ -31,6 +31,12 @@ public class GroupController extends BaseController{
     @Autowired
     private GroupService groupService;
 
+    /**
+     *@Author: 何建辉
+     *@Description: 添加专案组
+     *@Date: 2017/11/1 17:07
+     *@Email: hejianhui@hisign.com.cn
+     */
     @ApiOperation(value = "添加专案组",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/addGroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addGroup(@Valid @RequestBody Group group, BindingResult result) throws BusinessException {
@@ -42,9 +48,10 @@ public class GroupController extends BaseController{
     }
 
     /**
-     * 查询分页
-     * @param groupParam 专案组
-     * @return 返回JsonResult
+     *@Author: 何建辉
+     *@Description: 查询分页
+     *@Date: 2017/11/1 17:07
+     *@Email: hejianhui@hisign.com.cn
      */
     @ApiOperation(value = "专案组查询分页",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
@@ -61,9 +68,10 @@ public class GroupController extends BaseController{
     }
 
     /**
-     * 查询子专案组列表
-     * @param groupId 父专案组ID
-     * @return JsonResult
+     *@Author: 何建辉
+     *@Description: 查询子专案组列表
+     *@Date: 2017/11/1 17:06
+     *@Email: hejianhui@hisign.com.cn
      */
     @ApiOperation(value = "查询子专案组列表",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getChildGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
@@ -72,9 +80,10 @@ public class GroupController extends BaseController{
     }
 
     /**
-     * 查询任务详情
-     * @param id
-     * @return
+     *@Author: 何建辉
+     *@Description: 查询任务详情
+     *@Date: 2017/11/1 17:06
+     *@Email: hejianhui@hisign.com.cn
      */
     @ApiOperation(value = "查看专案组详情",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/groupDetail/{id}", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
@@ -83,6 +92,12 @@ public class GroupController extends BaseController{
         return JsonResultUtil.success(model);
     }
 
+    /**
+     *@Author: 何建辉
+     *@Description: 获取所有专案组根据用户id
+     *@Date: 2017/11/1 17:06
+     *@Email: hejianhui@hisign.com.cn
+     */
     @ApiOperation(value = "获取所有专案组根据用户id",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getAllGroupByUserId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getAllGroupByUserId(@RequestParam String userId) {

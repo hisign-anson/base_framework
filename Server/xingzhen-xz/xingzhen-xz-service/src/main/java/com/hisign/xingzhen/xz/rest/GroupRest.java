@@ -34,16 +34,6 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
         super.setBaseService(baseService);
     }
 
-    @ApiOperation(value = "添加专案组",httpMethod ="POST",response = JsonResult.class)
-    @RequestMapping(value = "/addGroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addGroup(@Valid @RequestBody Group group, BindingResult result) throws BusinessException {
-        JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
-            return jr;
-        }
-        return baseService.addNotNull(group);
-    }
-
     /**
      * 查询分页
      * @param groupParam 专案组
@@ -64,18 +54,6 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
     @RequestMapping(value = "/getChildGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getChildGroupList(@RequestParam String groupId,@RequestParam String memberName) {
         return baseService.getChildGroupList(groupId,memberName);
-    }
-
-    /**
-     * 查询任务详情
-     * @param id
-     * @return
-     */
-    @Override
-    @ApiOperation(value = "查看专案组详情",httpMethod ="POST",response = GroupModel.class)
-    @RequestMapping(value = "/groupDetail/{id}", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public GroupModel getById(@PathVariable String id) {
-        return baseService.getById(id);
     }
 
     @ApiOperation(value = "获取所有专案组根据用户id",httpMethod ="POST",response = GroupModel.class)

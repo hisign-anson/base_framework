@@ -1,8 +1,6 @@
-package com.hisign.xingzhen.xz.test.rest;
+package com.hisign.xingzhen.xz.test.controller;
 
-import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.param.AsjAjParam;
-import com.hisign.xingzhen.xz.api.param.GroupParam;
 import com.hisign.xingzhen.xz.test.BaseTestCase;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;

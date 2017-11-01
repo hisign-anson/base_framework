@@ -6,6 +6,7 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.xingzhen.xz.api.entity.GroupBackup;
 import com.hisign.bfun.bif.BaseService;
 import com.hisign.xingzhen.xz.api.model.GroupBackupModel;
+import com.hisign.xingzhen.xz.api.param.GroupBackupParam;
 
 /**
  * 《专案组归档记录》 业务逻辑服务接口
@@ -13,6 +14,6 @@ import com.hisign.xingzhen.xz.api.model.GroupBackupModel;
  */
 public interface GroupBackupService extends BaseService<GroupBackup,GroupBackupModel, String>{
 
-    public JsonResult remove(GroupBackup entity) throws BusinessException;
+    public JsonResult backup(GroupBackupParam param) throws BusinessException;
 
 }

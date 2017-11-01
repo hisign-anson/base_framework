@@ -8,15 +8,20 @@ import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.GroupBackup;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
+import com.hisign.xingzhen.xz.api.param.GroupBackupParam;
 import com.hisign.xingzhen.xz.api.service.GroupBackupService;
 import com.hisign.xingzhen.xz.api.service.GroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 
 /**
@@ -35,11 +40,19 @@ public class GroupBackupController extends BaseController {
     @Autowired
     private GroupService groupService;
 
-
-    @ApiOperation(value = "归档",httpMethod ="POST",response = JsonResult.class)
-    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult add(@RequestBody GroupBackup entity) throws BusinessException {
-
+    /**
+     *@Author: 何建辉
+     *@Description: 归档/撤销归档
+     *@Date: 2017/11/1 17:08
+     *@Email: hejianhui@hisign.com.cn
+     */
+    @ApiOperation(value = "归档/撤销归档",httpMethod ="POST",response = JsonResult.class)
+    @RequestMapping(value = "/backup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult backup(@Valid @RequestBody GroupBackupParam entity, BindingResult result) throws BusinessException {
+        JsonResult jr = handleResult(result);
+        if (jr.getFlag()!=1){
+            return jr;
+        }
         GroupModel groupModel = groupService.getById(entity.getGroupid());
         if (groupModel==null){
             return JsonResultUtil.error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
@@ -49,22 +62,6 @@ public class GroupBackupController extends BaseController {
             return JsonResultUtil.error("抱歉，改专案组是子专案组，不能归档");
         }
 
-        return groupBackupService.add(entity);
-    }
-
-    @ApiOperation(value = "撤销归档",httpMethod ="POST",response = JsonResult.class)
-    @RequestMapping(value = "/remove", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult remove(@RequestBody GroupBackup entity) throws BusinessException {
-
-        GroupModel groupModel = groupService.getById(entity.getGroupid());
-        if (groupModel==null){
-            return JsonResultUtil.error(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION.Msg());
-        }
-        //子专案组不能撤销归档
-        if (StringUtils.isNotBlank(groupModel.getPgroupid())){
-            return JsonResultUtil.error("抱歉，改专案组是子专案组，不能撤销归档");
-        }
-
-        return groupBackupService.remove(entity);
+        return groupBackupService.backup(entity);
     }
 }

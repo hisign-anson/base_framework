@@ -88,18 +88,18 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
         JsonResult result = super.addNotNull(entity);
         if (result.getFlag()==1){
             try {
-                if (result.getFlag()==1){
-                    //保存操作日志
-                    String content = StringUtils.concat("专案组(ID:",entity.getGroupid(),")关联案件(ID:", entity.getAjid(),")");
-                    XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()), Constants.XZLogType.GROUP, content, entity.getCreator(), entity.getCreatetime(), entity.getId());
-                    xzLogMapper.insertNotNull(xzLog);
-                }
+                //保存操作日志
+                String content = StringUtils.concat("专案组(ID:",entity.getGroupid(),")关联案件(ID:", entity.getAjid(),")");
+                XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()), Constants.XZLogType.GROUP, content, entity.getCreator(), entity.getCreatetime(), entity.getId());
+                xzLogMapper.insertNotNull(xzLog);
             } catch (Exception e) {
                 log.error(e.getMessage());
             }
             return JsonResultUtil.success(super.getById(entity.getId()));
+        }else {
+
         }
-        return super.addNotNull(entity);
+        return error(BaseEnum.BusinessExceptionEnum.INSERT.Msg());
     }
 
     @Override
@@ -126,7 +126,6 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
                 ajgroup.setId(UUID.randomUUID().toString());
                 ajgroup.setPgroupid(null);
             }
-
 
             Conditions conditions = new Conditions(AsjAj.class);
             Conditions.Criteria criteria = conditions.createCriteria();
@@ -188,6 +187,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
      * @return
      * @throws BusinessException
      */
+    @Transactional(rollbackFor = BusinessException.class)
     public JsonResult removeCaseList(List<Ajgroup> ajgroupList) throws BusinessException {
 
         List<Object> ids = new ArrayList<>();

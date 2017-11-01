@@ -32,10 +32,10 @@ public class AsjAjController extends BaseController{
     AsjAjService asjAjService;
 
     /**
-     * 所有案件查询分页
-     *
-     * @param param
-     * @return
+     *@Author: 何建辉
+     *@Description: 所有案件查询分页
+     *@Date: 2017/11/1 17:07
+     *@Email: hejianhui@hisign.com.cn
      */
     @ApiOperation(value = "所有案件查询分页",httpMethod ="POST",response = AsjAjModel.class)
     @RequestMapping(value = "/getAjPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
@@ -88,9 +88,10 @@ public class AsjAjController extends BaseController{
 
 
     /**
-     * 组内涉及案件分页
-     * @param param
-     * @return
+     *@Author: 何建辉
+     *@Description: 组内涉及案件分页
+     *@Date: 2017/11/1 17:07
+     *@Email: hejianhui@hisign.com.cn
      */
     @ApiOperation(value = "组内涉及案件分页",httpMethod ="POST",response = AsjAjModel.class)
     @RequestMapping(value = "/getAjGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
@@ -106,6 +107,12 @@ public class AsjAjController extends BaseController{
         return asjAjService.getAjGroupPage(param);
     }
 
+    /**
+     *@Author: 何建辉
+     *@Description: 根据专案组id获取最早关联案件
+     *@Date: 2017/11/1 17:07
+     *@Email: hejianhui@hisign.com.cn
+     */
     @ApiOperation(value = "根据专案组id获取最早关联案件",httpMethod ="POST",response = AsjAjModel.class)
     @RequestMapping(value = "/getFirstCaseByGroupId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public AsjAjModel getFirstCaseByGroupId(@RequestParam String id) {

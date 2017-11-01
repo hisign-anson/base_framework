@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.test.rest;
+package com.hisign.xingzhen.xz.test.controller;
 
 import com.hisign.xingzhen.xz.test.BaseTestCase;
 import org.junit.Test;

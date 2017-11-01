@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.test.rest;
+package com.hisign.xingzhen.xz.test.controller;
 
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
@@ -8,27 +8,14 @@ import cn.jmessage.api.common.model.RegisterPayload;
 import cn.jmessage.api.group.CreateGroupResult;
 import cn.jmessage.api.user.UserClient;
 import cn.jmessage.api.user.UserInfoResult;
-import com.hisign.xingzhen.common.util.DateUtil;
-import com.hisign.xingzhen.sys.api.model.SysUser;
-import com.hisign.xingzhen.sys.api.model.SysUserInfo;
-import com.hisign.xingzhen.sys.api.service.SysUserService;
-import com.hisign.xingzhen.xz.test.BaseTestCase;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.core.IsNot.not;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.List;
 
 /**
  * @Author: 何建辉

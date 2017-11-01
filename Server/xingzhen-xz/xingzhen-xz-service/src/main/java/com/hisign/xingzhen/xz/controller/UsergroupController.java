@@ -35,6 +35,12 @@ public class UsergroupController extends BaseController {
     @Autowired
     private UsergroupService usergroupService;
 
+    /**
+     *@Author: 何建辉
+     *@Description: 关联组内成员
+     *@Date: 2017/11/1 17:08
+     *@Email: hejianhui@hisign.com.cn
+     */
     @ApiOperation(value = "关联组内成员",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/addUserGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addUserGroupList(@Valid @RequestBody List<Usergroup> usergroupList, BindingResult result) throws BusinessException {
@@ -46,9 +52,10 @@ public class UsergroupController extends BaseController {
     }
 
     /**
-     * 移除组内成员
-     * @param usergroup
-     * @return
+     *@Author: 何建辉
+     *@Description: 移除组内成员列表
+     *@Date: 2017/11/1 17:09
+     *@Email: hejianhui@hisign.com.cn
      */
     @ApiOperation(value = "移除组内成员列表",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/deleteUsergroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
@@ -60,9 +67,10 @@ public class UsergroupController extends BaseController {
     }
 
     /**
-     * 组内成员分页
-     * @param info
-     * @return
+     *@Author: 何建辉
+     *@Description: 用户列表/组内成员列表
+     *@Date: 2017/11/1 17:09
+     *@Email: hejianhui@hisign.com.cn
      */
     @ApiOperation(value = "用户列表/组内成员列表",notes = "groupId传，就是组内成员列表",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/getUsergroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
@@ -72,6 +80,12 @@ public class UsergroupController extends BaseController {
         return result;
     }
 
+    /**
+     *@Author: 何建辉
+     *@Description: 首页成果详情-获取所有组内成员
+     *@Date: 2017/11/1 17:09
+     *@Email: hejianhui@hisign.com.cn
+     */
     @ApiOperation(value = "首页成果详情-获取所有组内成员",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/getGroupMemberList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getGroupMemberList(@RequestParam String groupId){

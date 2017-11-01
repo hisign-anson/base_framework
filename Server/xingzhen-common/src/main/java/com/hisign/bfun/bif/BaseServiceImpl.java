@@ -4,6 +4,8 @@ import com.hisign.bfun.benum.BaseEnum.BusinessExceptionEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bmodel.Conditions;
 import com.hisign.bfun.bmodel.JsonResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -12,7 +14,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public abstract class BaseServiceImpl<T,M,PK> implements BaseService<T,M, PK>{
-	
+
 	private BaseMapper<T,M, PK> mapper;
 
 	protected Class<T> entityClass;

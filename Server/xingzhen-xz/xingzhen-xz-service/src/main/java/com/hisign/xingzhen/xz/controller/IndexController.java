@@ -33,6 +33,12 @@ public class IndexController extends BaseController {
     @Autowired
     IndexService indexService;
 
+    /**
+     *@Author: 何建辉
+     *@Description: 待办任务
+     *@Date: 2017/11/1 17:08
+     *@Email: hejianhui@hisign.com.cn
+     */
     @ApiOperation(value = "待办任务",notes = "首页待办工作",httpMethod = "GET", response = Map.class)
     @RequestMapping(value = "/getTaskCountInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult getTaskCountInfo(@RequestParam(value="userId") String userId) {
@@ -71,12 +77,24 @@ public class IndexController extends BaseController {
         return success(map);
     }
 
+    /**
+     *@Author: 何建辉
+     *@Description: 平台成果展示
+     *@Date: 2017/11/1 17:08
+     *@Email: hejianhui@hisign.com.cn
+     */
     @ApiOperation(value = "平台成果展示",notes = "平台成果展示",httpMethod = "POST", response = Map.class)
     @RequestMapping(value = "/getAchievement", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getAchievement(@RequestBody GroupBackup groupBackup) {
         return indexService.getAchievementList(groupBackup);
     }
 
+    /**
+     *@Author: 何建辉
+     *@Description: 专案组破案情况
+     *@Date: 2017/11/1 17:08
+     *@Email: hejianhui@hisign.com.cn
+     */
     @ApiOperation(value = "专案组破案情况",notes = "专案组破案情况",httpMethod = "GET", response = Map.class)
     @RequestMapping(value = "/getSolveCaseInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult getSolveCaseInfo(@RequestParam(defaultValue = "0" ,required = false) int dateType) {
@@ -84,6 +102,12 @@ public class IndexController extends BaseController {
         return indexService.getGroupCaseInfo(dateSection,Constants.YES);
     }
 
+    /**
+     *@Author: 何建辉
+     *@Description: 专案组创建情况
+     *@Date: 2017/11/1 17:08
+     *@Email: hejianhui@hisign.com.cn
+     */
     @ApiOperation(value = "专案组创建情况",notes = "专案组创建情况",httpMethod = "GET", response = Map.class)
     @RequestMapping(value = "/getCreateInfo", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     public JsonResult getCreateInfo(@RequestParam(defaultValue = "0" ,required = false) int dateType) {

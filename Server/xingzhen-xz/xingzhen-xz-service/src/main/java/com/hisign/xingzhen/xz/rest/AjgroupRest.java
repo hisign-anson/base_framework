@@ -37,36 +37,4 @@ public class AjgroupRest extends BaseRest<Ajgroup, AjgroupModel, String, Ajgroup
         super.setBaseService(baseService);
     }
 
-    /*@ApiOperation(value = "关联案件",httpMethod ="POST",response = JsonResult.class)
-    @RequestMapping(value = "/addAjGroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addAjGroup(@Valid @RequestBody Ajgroup ajGroup, BindingResult result) throws BusinessException {
-        JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
-            return jr;
-        }
-        return baseService.addNotNull(ajGroup);
-    }*/
-
-    @ApiOperation(value = "关联案件列表",httpMethod ="POST",response = JsonResult.class)
-    @RequestMapping(value = "/addAjGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult addAjGroupList(@Valid @RequestBody List<Ajgroup> ajGroupList, BindingResult result) throws BusinessException {
-        JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
-            return jr;
-        }
-
-        return baseService.add(ajGroupList);
-    }
-
-    @ApiOperation(value = "移除案件",httpMethod ="POST",response = JsonResult.class)
-    @RequestMapping(value = "/removeAjGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult removeAjGroupList(@Valid @RequestBody List<Ajgroup> ajGroupList, BindingResult result) throws BusinessException {
-        JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
-            return jr;
-        }
-
-        return baseService.removeCaseList(ajGroupList);
-    }
-
 }

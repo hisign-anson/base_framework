@@ -104,6 +104,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
     }
 
     @Override
+    @Transactional(rollbackFor = BusinessException.class)
     public JsonResult addNotNull(Cb cb) throws BusinessException {
         try {
             if(StringUtils.isEmpty(cb.getCreator())){

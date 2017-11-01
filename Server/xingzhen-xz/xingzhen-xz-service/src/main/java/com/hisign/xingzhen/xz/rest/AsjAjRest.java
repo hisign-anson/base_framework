@@ -37,49 +37,6 @@ public class AsjAjRest extends BaseRest<AsjAj,AsjAjModel, String, AsjAjService> 
     }
 
     /**
-     * 所有案件查询分页
-     *
-     * @param param
-     * @return
-     */
-    @ApiOperation(value = "所有案件查询分页",httpMethod ="POST",response = AsjAjModel.class)
-    @RequestMapping(value = "/getAjPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getAjPage(@RequestBody AsjAjParam param) {
-        AsjAj aj = new AsjAj();
-        BeanUtils.copyProperties(param,aj);
-
-        Conditions conditions = new Conditions(AsjAj.class);
-        Conditions.Criteria criteria = conditions.createCriteria();
-        //案件编号
-        if (StringUtils.isNotBlank(aj.getAjbh())) {
-            criteria.add(AsjAjEnum.ajbh.get(), BaseEnum.ConditionEnum.LIKE, "%" + aj.getAjbh() + "%");
-        }
-        //案别
-        if (StringUtils.isNotBlank(aj.getAb())) {
-            criteria.add(AsjAjEnum.ab.get(), BaseEnum.ConditionEnum.EQ, aj.getAb());
-        }
-        //案件名称
-        if (StringUtils.isNotBlank(aj.getAjmc())) {
-            criteria.add(AsjAjEnum.ajmc.get(), BaseEnum.ConditionEnum.LIKE, "%" + aj.getAjmc() + "%");
-        }
-        //案发时间
-        if (aj.getStartTime() != null && aj.getEndTime() != null) {
-            criteria.add(AsjAjEnum.fasjcz.get(), BaseEnum.IsBTEnum.BT, aj.getStartTime(), aj.getEndTime());
-        }
-        //案件状态
-        if (StringUtils.isNotBlank(aj.getAjstate())) {
-            criteria.add(AsjAjEnum.ajstate.get(), BaseEnum.ConditionEnum.EQ, aj.getAjstate());
-        }
-
-        criteria.add("1", BaseEnum.ConditionEnum.EQ,"1");
-
-        //返回字段
-        conditions.setReturnFields(new String[]{AsjAjEnum.ajbh.get(), AsjAjEnum.ajmc.get(), AsjAjEnum.ajlx.get(), AsjAjEnum.ajstate.get(), AsjAjEnum.ab.get(), AsjAjEnum.zyaq.get(), AsjAjEnum.fadd.get(), AsjAjEnum.ajzbry.get()});
-        return baseService.getPage(conditions);
-    }
-
-
-    /**
      * 组内涉及案件分页
      * @param param
      * @return

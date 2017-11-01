@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.test.rest;
+package com.hisign.xingzhen.xz.test.controller;
 
 import com.hisign.xingzhen.xz.api.param.TaskAddParam;
 import com.hisign.xingzhen.xz.api.param.TaskMoveParam;

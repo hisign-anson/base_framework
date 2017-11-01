@@ -73,7 +73,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     }
     
     @Override
-    @Transactional
+    @Transactional(rollbackFor=BusinessException.class)
     public JsonResult add(List<Usergroup> list) throws BusinessException {
         try {
             String creator = list.get(0).getCreator();
@@ -178,6 +178,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     }
 
     @Override
+    @Transactional(rollbackFor=BusinessException.class)
     public JsonResult addNotNull(Usergroup entity) throws BusinessException {
         Date now=new Date();
         entity.setId(UUID.randomUUID().toString());
@@ -200,7 +201,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=BusinessException.class)
     public JsonResult deleteUsergroupList(List<Usergroup> usergroupList) {
 
         Usergroup ug = usergroupList.get(0);

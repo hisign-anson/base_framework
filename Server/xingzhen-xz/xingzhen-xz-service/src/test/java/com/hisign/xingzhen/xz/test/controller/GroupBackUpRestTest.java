@@ -1,8 +1,7 @@
-package com.hisign.xingzhen.xz.test.rest;
+package com.hisign.xingzhen.xz.test.controller;
 
-import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.GroupBackup;
-import com.hisign.xingzhen.xz.api.param.GroupParam;
+import com.hisign.xingzhen.xz.api.param.GroupBackupParam;
 import com.hisign.xingzhen.xz.test.BaseTestCase;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
@@ -30,7 +29,7 @@ public class GroupBackUpRestTest extends BaseTestCase{
     private static final String prefix = "/xz/groupBackup/";
 
     //归档
-    private static final String add = prefix + "add";
+    private static final String add = prefix + "backup";
 
     /**
      *@Author: 何建辉
@@ -42,9 +41,10 @@ public class GroupBackUpRestTest extends BaseTestCase{
     @Rollback(true)
     public void addGroup() throws Exception {
 
-        GroupBackup groupBackup = new GroupBackup();
+        GroupBackupParam groupBackup = new GroupBackupParam();
         groupBackup.setBackupReason("1");
         groupBackup.setCreator("1234");
+        groupBackup.setBackupStatus("1");
         groupBackup.setDeparmentcode("123456789123");
         groupBackup.setGroupid("5C80EF4519A48005E050A8C052012B71");
         groupBackup.setPoliceId("12345");
