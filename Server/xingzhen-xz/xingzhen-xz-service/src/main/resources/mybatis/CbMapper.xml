@@ -315,6 +315,12 @@
 		<if test="deleteflag != null  and deleteflag != '' ">
 			and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
 		</if>
+		<if test="orderBy!=null and orderBy!=''">
+			order by ${orderBy}
+			<if test="isDesc==true">
+				DESC
+			</if>
+		</if>
 	</select>
 
 	<select id="findByCondition" parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">
@@ -391,6 +397,8 @@
 			MAX(id)
 		FROM t_cb
 	</select>
+
+	<!--========================================以上为生成器生成,新加代码请在下面书写============================================================-->
 
     <update id="updateCbTaskid"  parameterType="com.hisign.xingzhen.xz.api.entity.Cb">
         update t_cb set taskId=#{taskid,jdbcType=VARCHAR} where taskId=#{old_taskid,jdbcType=VARCHAR}

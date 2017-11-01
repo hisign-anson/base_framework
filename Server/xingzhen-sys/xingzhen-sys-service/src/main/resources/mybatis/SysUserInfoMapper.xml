@@ -66,21 +66,12 @@
       </if>
   </sql>
    <sql id="orderBy" >
-        order by
-        <choose> 
-           <when test="sortName !=null and sortName !=''"> 
-              ${sortName} 
-              <choose>
-                 <when test="sortOrder !=null and sortOrder !=''">
-                    ${sortOrder}
-                 </when>
-                 <otherwise> DESC</otherwise>
-              </choose>
-           </when>
-           <otherwise>
-             CREATE_TIME DESC
-           </otherwise>
-        </choose>
+       <if test="orderBy!=null and orderBy!=''">
+           order by ${orderBy}
+           <if test="isDesc==true">
+               DESC
+           </if>
+       </if>
   </sql>
   
   <select id="selectByKey" parameterType="java.lang.String" resultMap="BaseResultMap">

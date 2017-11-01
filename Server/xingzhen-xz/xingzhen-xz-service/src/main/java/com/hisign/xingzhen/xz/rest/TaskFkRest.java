@@ -2,6 +2,7 @@ package com.hisign.xingzhen.xz.rest;
 
 import com.hisign.bfun.bif.BaseRest;
 import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
 import com.hisign.xingzhen.xz.api.param.TaskFkAddParam;
@@ -47,7 +48,7 @@ public class TaskFkRest extends BaseRest<TaskFk,TaskFkModel, String, TaskFkServi
     @RequestMapping(value = "/addTaskFk", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addTaskFk(@Valid @RequestBody TaskFkAddParam taskFkAddParam, BindingResult result) {
         JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
+        if (jr.getFlag()!= JsonResultUtil.SUCCESS){
             return jr;
         }
         TaskFk taskFk=new TaskFk();

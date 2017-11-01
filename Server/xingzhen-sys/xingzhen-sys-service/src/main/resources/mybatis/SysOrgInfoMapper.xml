@@ -23,21 +23,12 @@
         CREATE_PID, CREATE_TIME, MODIFY_PID, MODIFY_TIME
     </sql>
     <sql id="orderBy">
-        order by
-        <choose>
-            <when test="sortName !=null and sortName !=''">
-                ${sortName}
-                <choose>
-                    <when test="sortOrder !=null and sortOrder !=''">
-                        ${sortOrder}
-                    </when>
-                    <otherwise>DESC</otherwise>
-                </choose>
-            </when>
-            <otherwise>
-                ORG_CODE ASC
-            </otherwise>
-        </choose>
+        <if test="orderBy!=null and orderBy!=''">
+            order by ${orderBy}
+            <if test="isDesc==true">
+                DESC
+            </if>
+        </if>
     </sql>
     <sql id="where_condition">
         <if test="orgName != null and orgName !='' ">

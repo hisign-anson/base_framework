@@ -383,6 +383,12 @@
         <if test="deleteflag != null  and deleteflag != '' ">
             and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
         </if>
+        <if test="orderBy!=null and orderBy!=''">
+            order by ${orderBy}
+            <if test="isDesc==true">
+                DESC
+            </if>
+        </if>
     </select>
 
     <select id="findByCondition" parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">
@@ -459,6 +465,9 @@
         MAX(id)
         FROM t_usergroup
     </select>
+
+    <!--========================================以上为生成器生成,新加代码请在下面书写============================================================-->
+
     <select id="findGroupUserList" parameterType="com.hisign.xingzhen.xz.api.param.SysUserInfoParam" resultMap="SysUserInfoResultMap">
         select p.* from(
         select

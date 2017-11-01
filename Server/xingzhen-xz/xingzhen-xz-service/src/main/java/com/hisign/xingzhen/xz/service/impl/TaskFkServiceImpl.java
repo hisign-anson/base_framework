@@ -154,7 +154,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                     taskfkFileMapper.insertNotNull(taskfkFile);
                 }
             }
-            if(result.getFlag()==1){
+            if(result.getFlag()==JsonResultUtil.SUCCESS){
                 try {
                     String content="任务反馈（ID=" + taskFk.getId() + ",TASKID"+ taskFk.getTaskid() + "）";
                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskFk.getCreator(), now, task.getId());

@@ -186,7 +186,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
         entity.setDeleteflag(Constants.DELETE_FALSE);
         entity.setLastupdatetime(now);
         JsonResult result = super.addNotNull(entity);
-        if (result.getFlag()==1){
+        if (result.getFlag()==JsonResultUtil.SUCCESS){
             //保存操作日志
             try {
                 String content = StringUtils.concat("专案组(ID:", entity.getGroupid(), ")", "人员(ID:", entity.getUserid(), ")添加");

@@ -1,6 +1,7 @@
 package com.hisign.bfun.bmodel;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hisign.bfun.butils.JsonResultUtil;
 
 import java.io.Serializable;
 
@@ -80,6 +81,10 @@ public class JsonResult implements Serializable {
 	public void setCode(int code) {
 		this.code = code;
 	}
+
+	public boolean isSuccess(){
+        return this.flag== JsonResultUtil.SUCCESS;
+    }
 
     @Override
     public String toString() {

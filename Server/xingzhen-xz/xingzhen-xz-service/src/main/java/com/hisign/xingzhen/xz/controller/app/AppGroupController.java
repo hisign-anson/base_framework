@@ -1,6 +1,7 @@
 package com.hisign.xingzhen.xz.controller.app;
 
 import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.param.GroupParam;
 import com.hisign.xingzhen.xz.api.service.GroupService;
@@ -37,12 +38,12 @@ public class AppGroupController {
     @RequestMapping(value = "/getGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getGroupPage(@RequestBody GroupParam groupParam) {
         JsonResult result = groupService.getGroupPage(groupParam);
-        if (result.getFlag()==1){
+        if (result.getFlag()== JsonResultUtil.SUCCESS){
             List<GroupModel> parentList = (List<GroupModel>) result.getData();
             if (parentList!=null && parentList.size()!=0){
                 for (GroupModel groupModel : parentList) {
                     JsonResult jr = groupService.getChildGroupList(groupModel.getId(),null);
-                    if (jr.getFlag()==1){
+                    if (jr.getFlag()==JsonResultUtil.SUCCESS){
                         List<GroupModel> chlidList = (List<GroupModel>) jr.getData();
                         if (chlidList!=null && chlidList.size()!=0){
                             groupModel.setChildGroupList(chlidList);

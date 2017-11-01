@@ -86,7 +86,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
         entity.setPgroupid(groupModel.getPgroupid());
         entity.setDeleteflag(Constants.DELETE_FALSE);
         JsonResult result = super.addNotNull(entity);
-        if (result.getFlag()==1){
+        if (result.getFlag()==JsonResultUtil.SUCCESS){
             try {
                 //保存操作日志
                 String content = StringUtils.concat("专案组(ID:",entity.getGroupid(),")关联案件(ID:", entity.getAjid(),")");

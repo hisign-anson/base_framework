@@ -127,7 +127,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
             task.setCbzt(Constants.YES);
             task.setLastupdatetime(now);
             taskMapper.updateNotNull(task);
-            if(result.getFlag()==1){
+            if(result.getFlag()==JsonResultUtil.SUCCESS){
                 try {
                     String content="任务催办（ID=" + cb.getId() + ",TASKID="+ cb.getTaskid()+ "）";
                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , cb.getCreator(), now, cb.getId());

@@ -48,7 +48,7 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
     @RequestMapping(value = "/addTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addTask(@Valid @RequestBody TaskAddParam taskAddParam, BindingResult result) {
         JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
+        if (jr.getFlag()!=JsonResultUtil.SUCCESS){
             return jr;
         }
         Task task=new Task();
@@ -113,7 +113,7 @@ public class TaskRest extends BaseRest<Task, TaskModel, String, TaskService> imp
     @RequestMapping(value = "/moveTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult moveTask(@Valid @RequestBody TaskMoveParam taskMoveParam, BindingResult result) {
         JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
+        if (jr.getFlag()!=JsonResultUtil.SUCCESS){
             return jr;
         }
         return baseService.moveTask(taskMoveParam);

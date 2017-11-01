@@ -2,6 +2,7 @@ package com.hisign.xingzhen.xz.controller;
 
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bmodel.JsonResult;
+import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.xz.api.entity.Ajgroup;
 import com.hisign.xingzhen.xz.api.service.AjgroupService;
@@ -41,7 +42,7 @@ public class AjgroupController extends BaseController {
     @RequestMapping(value = "/addAjGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addAjGroupList(@Valid @RequestBody List<Ajgroup> ajGroupList, BindingResult result) throws BusinessException {
         JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
+        if (jr.getFlag()!= JsonResultUtil.SUCCESS){
             return jr;
         }
 
@@ -58,7 +59,7 @@ public class AjgroupController extends BaseController {
     @RequestMapping(value = "/removeAjGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult removeAjGroupList(@Valid @RequestBody List<Ajgroup> ajGroupList, BindingResult result) throws BusinessException {
         JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
+        if (jr.getFlag()!=JsonResultUtil.SUCCESS){
             return jr;
         }
 

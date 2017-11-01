@@ -360,6 +360,12 @@
 	     	<if test="reserveField2 != null  and reserveField2 != '' ">
                 and RESERVE_FIELD2=#{reserveField2,jdbcType=VARCHAR}
 		    </if>
+			<if test="orderBy!=null and orderBy!=''">
+				order by ${orderBy}
+				<if test="isDesc==true">
+					DESC
+				</if>
+			</if>
     </select>
     
     <select id="findByCondition" parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">
@@ -436,5 +442,7 @@
         MAX(id)
         FROM t_xz_log
     </select>
+
+	<!--========================================以上为生成器生成,新加代码请在下面书写============================================================-->
    
 </mapper>

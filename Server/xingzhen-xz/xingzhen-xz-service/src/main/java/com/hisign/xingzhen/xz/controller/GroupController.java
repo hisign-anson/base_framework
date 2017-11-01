@@ -41,7 +41,7 @@ public class GroupController extends BaseController{
     @RequestMapping(value = "/addGroup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addGroup(@Valid @RequestBody Group group, BindingResult result) throws BusinessException {
         JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
+        if (jr.getFlag()!=JsonResultUtil.SUCCESS){
             return jr;
         }
         return groupService.addNotNull(group);

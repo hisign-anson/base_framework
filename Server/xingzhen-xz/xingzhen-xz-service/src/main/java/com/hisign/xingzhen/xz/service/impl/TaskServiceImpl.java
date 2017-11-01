@@ -239,7 +239,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         task.setLastupdatetime(now);
         task.setDeleteflag(Constants.DELETE_FALSE);
         JsonResult result = super.addNotNull(task);
-        if(result.getFlag()==1){
+        if(result.getFlag()==JsonResultUtil.SUCCESS){
             try {
                 String content="任务新增（ID=" + task.getId() + "）";
                 if(!StringUtils.isEmpty(task.getBcrwid())) {
@@ -267,7 +267,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         task.setDeleteflag(Constants.DELETE_TRUE);
         task.setLastupdatetime(now);
         JsonResult result = super.updateNotNull(task);
-        if(result.getFlag()==1){
+        if(result.getFlag()==JsonResultUtil.SUCCESS){
              try {
                  String content="任务删除（ID=" + task.getId() + "）";
                  XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , userId, now, task.getId());
@@ -317,7 +317,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             entity.setDeleteflag(Constants.DELETE_FALSE);
             entity.setYjrwid(new_task.getId());
             JsonResult result = super.update(entity);
-            if(result.getFlag()==1){
+            if(result.isSuccess()){
                 try {
                     String content="任务移交（ID=" + taskMoveParam.getId() + ",YJRWID="+ new_task.getId()+ "）";
                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskMoveParam.getCreator(), now, taskMoveParam.getId());

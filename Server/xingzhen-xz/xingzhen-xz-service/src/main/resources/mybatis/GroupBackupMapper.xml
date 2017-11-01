@@ -326,11 +326,11 @@
 		<if test="policeId != null  and policeId != '' ">
 			and POLICE_ID=#{policeId,jdbcType=VARCHAR}
 		</if>
-		<if test="sortName!=null and sortName!=''">
-			ORDER BY #{sortName,jdbcType=VARCHAR}
-		</if>
-		<if test="sortOrder!=null and sortOrder!=''">
-			#{sortOrder,jdbcType=VARCHAR}
+		<if test="orderBy!=null and orderBy!=''">
+			order by ${orderBy}
+			<if test="isDesc==true">
+				DESC
+			</if>
 		</if>
 		) WHERE rownum = 1
 	</select>
@@ -369,6 +369,12 @@
 		</if>
 		<if test="policeId != null  and policeId != '' ">
 			and POLICE_ID=#{policeId,jdbcType=VARCHAR}
+		</if>
+		<if test="orderBy!=null and orderBy!=''">
+			order by ${orderBy}
+			<if test="isDesc==true">
+				DESC
+			</if>
 		</if>
 	</select>
 
@@ -447,6 +453,8 @@
 		FROM t_group_backup
 	</select>
 
+	<!--========================================以上为生成器生成,新加代码请在下面书写============================================================-->
+
 	<select id="findBackUpInfoByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup" resultMap="BaseResultMap">
 		SELECT * FROM (SELECT
 		<include refid="Base_Column_List" />,
@@ -486,11 +494,11 @@
 		<if test="policeId != null  and policeId != '' ">
 			and POLICE_ID=#{policeId,jdbcType=VARCHAR}
 		</if>
-		<if test="sortName!=null and sortName!=''">
-			ORDER BY ${sortName}
-		</if>
-		<if test="sortOrder!=null and sortOrder!=''">
-			${sortOrder}
+		<if test="orderBy!=null and orderBy!=''">
+			order by ${orderBy}
+			<if test="isDesc==true">
+				DESC
+			</if>
 		</if>
 		) WHERE ROWNUM=1
 	</select>
