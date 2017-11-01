@@ -20,8 +20,12 @@ public class TaskFkAddParam implements Serializable {
     @ApiModelProperty(value = "任务ID",required = true)
     private String taskid; //任务ID
 
-    @ApiModelProperty(value = "反馈线索")
+    @NotEmpty(message = "反馈线索不能为空")
+    @ApiModelProperty(value = "反馈线索",required = true)
     private String fkxs; //反馈线索
+
+    @ApiModelProperty(value = "备注")
+    private String bz; //备注
 
     @NotEmpty(message = "创建人不能为空")
     @ApiModelProperty(value = "创建人",required = true)
@@ -52,6 +56,14 @@ public class TaskFkAddParam implements Serializable {
 
     public void setFkxs(String fkxs) {
         this.fkxs = fkxs;
+    }
+
+    public String getBz() {
+        return bz;
+    }
+
+    public void setBz(String bz) {
+        this.bz = bz;
     }
 
     public String getCreator() {

@@ -11,5 +11,5 @@ import com.hisign.xingzhen.xz.api.model.TaskfkFileModel;
  * @author 何建辉
  */
 public interface TaskfkFileService extends BaseService<TaskfkFile,TaskfkFileModel, String>{
-    public JsonResult downloadTaskfkFile(String taskfkId,String userId);
+    public JsonResult downloadLog(String fkFileId,String userId);
 }
