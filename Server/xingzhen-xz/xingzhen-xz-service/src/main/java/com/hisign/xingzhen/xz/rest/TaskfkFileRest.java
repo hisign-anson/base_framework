@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 
 /**
@@ -39,9 +38,9 @@ public class TaskfkFileRest extends BaseRest<TaskfkFile, TaskfkFileModel, String
       * @return
       */
      @Override
-     @ApiOperation(value = "下载反馈任务附件",httpMethod ="DELETE",response = String.class)
+     @ApiOperation(value = "下载反馈任务附件",httpMethod ="GET",response = String.class)
      @ApiImplicitParams({ @ApiImplicitParam(name="taskfkId",value = "任务反馈id",required = true,dataType = "String"),@ApiImplicitParam(name="userId",value = "当前用户id",required = true,dataType = "String")})
-     @RequestMapping(value = "/deleteTaskById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+     @RequestMapping(value = "/downloadTaskfkFile", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
      public JsonResult downloadTaskfkFile(String taskfkId,String userId) {
          return baseService.downloadTaskfkFile(taskfkId,userId);
      }

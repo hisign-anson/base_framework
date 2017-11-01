@@ -29,9 +29,9 @@ public class TaskfkFileController extends BaseController {
       * @param taskfkId
       * @return
       */
-     @ApiOperation(value = "下载反馈任务附件",httpMethod ="DELETE",response = String.class)
+     @ApiOperation(value = "下载反馈任务附件",httpMethod ="GET",response = String.class)
      @ApiImplicitParams({ @ApiImplicitParam(name="taskfkId",value = "任务反馈id",required = true,dataType = "String"),@ApiImplicitParam(name="userId",value = "当前用户id",required = true,dataType = "String")})
-     @RequestMapping(value = "/deleteTaskById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+     @RequestMapping(value = "/downloadTaskfkFile", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
      public JsonResult downloadTaskfkFile(String taskfkId,String userId) {
          return taskfkFileService.downloadTaskfkFile(taskfkId,userId);
      }
