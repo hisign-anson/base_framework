@@ -7,6 +7,7 @@ import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.model.UsergroupModel;
 import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
  *
  * @author 何建辉
  */
+@Repository
 public interface UsergroupMapper extends BaseMapper<Usergroup,UsergroupModel, String> {
 
     public List<SysUserInfo> findGroupUserList(SysUserInfoParam info);
