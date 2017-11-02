@@ -42,7 +42,7 @@ public class TaskController extends BaseController {
     @RequestMapping(value = "/addTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addTask(@Valid @RequestBody TaskAddParam taskAddParam, BindingResult result) {
         JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
+        if (!jr.isSuccess()){
             return jr;
         }
         Task task=new Task();
@@ -103,7 +103,7 @@ public class TaskController extends BaseController {
     @RequestMapping(value = "/moveTask", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult moveTask(@Valid @RequestBody TaskMoveParam taskMoveParam, BindingResult result) {
         JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
+        if (!jr.isSuccess()){
             return jr;
         }
         return taskService.moveTask(taskMoveParam);

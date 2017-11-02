@@ -152,7 +152,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult add(List<Group> list) throws BusinessException {
         try {
             groupMapper.batchInsert(list);
@@ -163,7 +163,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult update(UpdateParams params) throws BusinessException {
         try {
             groupMapper.updateCustom(params);
@@ -174,7 +174,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult delByIds(List<String> ids) throws BusinessException {
         try {
             groupMapper.deleteByIds(ids);
@@ -185,7 +185,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult delBy(Conditions conditions) throws BusinessException {
         try {
             groupMapper.deleteCustom(conditions);

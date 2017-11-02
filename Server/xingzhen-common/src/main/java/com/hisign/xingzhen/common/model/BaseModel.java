@@ -25,10 +25,10 @@ public class BaseModel implements Serializable {
     private int end = 0;
 
 	@ApiModelProperty(hidden = true)
-    private String sortOrder; //desc
+    private String orderBy; //desc
 
 	@ApiModelProperty(hidden = true)
-    private String sortName;
+    private boolean isDesc=false;
 
 	@ApiModelProperty(hidden = true)
     private String key;
@@ -60,25 +60,23 @@ public class BaseModel implements Serializable {
 	@ApiModelProperty(hidden = true)
     private List<String> orgIds;
 
+	public String getOrderBy() {
+		return orderBy;
+	}
 
-    public String getSortName() {
-        return sortName;
-    }
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
 
-    public void setSortName(String sortName) {
-        this.sortName = sortName;
-    }
+	public boolean isDesc() {
+		return isDesc;
+	}
 
-    public String getSortOrder() {
-        return sortOrder;
-    }
+	public void setDesc(boolean desc) {
+		isDesc = desc;
+	}
 
-    public void setSortOrder(String sortOrder) {
-        this.sortOrder = sortOrder;
-    }
-
-
-    public String getRownum() {
+	public String getRownum() {
         return rownum;
     }
 

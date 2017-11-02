@@ -6,6 +6,7 @@ import cn.jmessage.api.JMessageClient;
 import cn.jmessage.api.common.model.RegisterInfo;
 import cn.jmessage.api.common.model.RegisterPayload;
 import cn.jmessage.api.group.CreateGroupResult;
+import cn.jmessage.api.group.GroupInfoResult;
 import cn.jmessage.api.user.UserClient;
 import cn.jmessage.api.user.UserInfoResult;
 import org.junit.Test;
@@ -70,6 +71,21 @@ public class JMTest{
         try {
             UserInfoResult info = client.getUserInfo("0B57593C55F34514B1235C8AAB31AFD7");
             log.info(info.toString());
+        } catch (APIConnectionException e) {
+            log.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            log.error("Error response from JPush server. Should review and fix it. ", e);
+            log.info("HTTP Status: " + e.getStatus());
+            log.info("Error Message: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetGroup() {
+        JMessageClient client = new JMessageClient(appkey, masterSecret);
+        try {
+            GroupInfoResult groupInfo = client.getGroupInfo(23377541);
+            log.info(groupInfo.toString());
         } catch (APIConnectionException e) {
             log.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {

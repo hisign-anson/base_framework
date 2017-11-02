@@ -38,7 +38,7 @@ public class AsjAjServiceImpl extends BaseServiceImpl<AsjAj,AsjAjModel, String> 
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult add(List<AsjAj> list) throws BusinessException {
 		try {
 			asjAjMapper.batchInsert(list);
@@ -49,7 +49,7 @@ public class AsjAjServiceImpl extends BaseServiceImpl<AsjAj,AsjAjModel, String> 
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult update(UpdateParams params) throws BusinessException {
 		try {
 			asjAjMapper.updateCustom(params);
@@ -60,7 +60,7 @@ public class AsjAjServiceImpl extends BaseServiceImpl<AsjAj,AsjAjModel, String> 
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delByIds(List<String> ids) throws BusinessException {
 		try {
 			asjAjMapper.deleteByIds(ids);
@@ -71,7 +71,7 @@ public class AsjAjServiceImpl extends BaseServiceImpl<AsjAj,AsjAjModel, String> 
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delBy(Conditions conditions) throws BusinessException {
 		try {
 			asjAjMapper.deleteCustom(conditions);

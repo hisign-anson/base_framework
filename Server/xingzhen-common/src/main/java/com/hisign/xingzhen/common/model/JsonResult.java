@@ -1,5 +1,7 @@
 package com.hisign.xingzhen.common.model;
 
+import com.hisign.bfun.butils.JsonResultUtil;
+
 import java.io.Serializable;
 
 
@@ -66,5 +68,8 @@ public class JsonResult implements Serializable {
         this.totalCount = totalCount;
     }
 
+    public boolean isSuccess(){
+        return this.flag==JsonResultUtil.SUCCESS;
+    }
 
 }

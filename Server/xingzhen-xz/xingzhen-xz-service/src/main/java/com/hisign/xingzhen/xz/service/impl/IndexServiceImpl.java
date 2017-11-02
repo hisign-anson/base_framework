@@ -79,8 +79,8 @@ public class IndexServiceImpl implements IndexService {
             GroupBackup groupBackup = new GroupBackup();
             groupBackup.setGroupid(model.getPgroupid());
             groupBackup.setDeleteflag(Constants.DELETE_FALSE);
-            groupBackup.setSortName(GroupBackup.GroupBackupEnum.backupTime.get());
-            groupBackup.setSortOrder(BaseEnum.DESCEnum.DESC.get());
+            groupBackup.setOrderBy(GroupBackup.GroupBackupEnum.backupTime.get());
+            groupBackup.setDesc(true);
 
             GroupBackupModel groupBackupModel = groupBackupMapper.findBackUpInfoByEntity(groupBackup);
             map.put("departmentName", groupBackupModel.getDeparmentName());

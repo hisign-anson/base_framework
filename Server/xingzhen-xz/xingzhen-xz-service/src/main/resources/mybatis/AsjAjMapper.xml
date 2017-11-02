@@ -7247,6 +7247,12 @@
         <if test="transferTime != null ">
             and TRANSFER_TIME=#{transferTime,jdbcType=TIMESTAMP}
         </if>
+        <if test="orderBy!=null and orderBy!=''">
+            order by ${orderBy}
+            <if test="isDesc==true">
+                DESC
+            </if>
+        </if>
     </select>
 
     <select id="findByCondition" parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">
@@ -7323,6 +7329,8 @@
         MAX(id)
         FROM b_asj_aj
     </select>
+
+    <!--========================================以上为生成器生成,新加代码请在下面书写============================================================-->
 
     <select id="findAjGroupPage" parameterType="com.hisign.xingzhen.xz.api.param.AsjAjParam" resultMap="BaseResultMap">
         select p.* from(

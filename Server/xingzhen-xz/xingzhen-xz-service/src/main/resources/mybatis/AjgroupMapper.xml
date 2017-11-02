@@ -64,10 +64,7 @@
         DELETEFLAG
     </sql>
 
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Ajgroup">
-        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
-            SELECT sys_guid() from DUAL
-        </selectKey>
+    <insert id="insert" parameterType="com.hisign.xingzhen.xz.api.entity.Ajgroup">
         INSERT INTO t_ajgroup (
         ID,
         AJID,
@@ -93,10 +90,7 @@
         )
     </insert>
 
-    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Ajgroup">
-        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
-            SELECT sys_guid() from DUAL
-        </selectKey>
+    <insert id="insertNotNull" parameterType="com.hisign.xingzhen.xz.api.entity.Ajgroup">
         insert into t_ajgroup
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id !=null  and id != '' ">
@@ -360,6 +354,12 @@
         <if test="deleteflag != null  and deleteflag != '' ">
             and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
         </if>
+        <if test="orderBy!=null and orderBy!=''">
+            order by ${orderBy}
+            <if test="isDesc==true">
+                DESC
+            </if>
+        </if>
     </select>
 
     <select id="findByCondition" parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">
@@ -436,5 +436,7 @@
         MAX(id)
         FROM t_ajgroup
     </select>
+
+    <!--========================================以上为生成器生成,新加代码请在下面书写============================================================-->
 
 </mapper>

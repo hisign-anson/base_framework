@@ -45,7 +45,7 @@ public class TaskfkFileServiceImpl extends BaseServiceImpl<TaskfkFile,TaskfkFile
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult add(List<TaskfkFile> list) throws BusinessException {
 		try {
 			taskfkFileMapper.batchInsert(list);
@@ -56,7 +56,7 @@ public class TaskfkFileServiceImpl extends BaseServiceImpl<TaskfkFile,TaskfkFile
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult update(UpdateParams params) throws BusinessException {
 		try {
 			taskfkFileMapper.updateCustom(params);
@@ -67,7 +67,7 @@ public class TaskfkFileServiceImpl extends BaseServiceImpl<TaskfkFile,TaskfkFile
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delByIds(List<String> ids) throws BusinessException {
 		try {
 			taskfkFileMapper.deleteByIds(ids);
@@ -78,7 +78,7 @@ public class TaskfkFileServiceImpl extends BaseServiceImpl<TaskfkFile,TaskfkFile
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delBy(Conditions conditions) throws BusinessException {
 		try {
 			taskfkFileMapper.deleteCustom(conditions);

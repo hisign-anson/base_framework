@@ -45,7 +45,7 @@ public class UsergroupController extends BaseController {
     @RequestMapping(value = "/addUserGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult addUserGroupList(@Valid @RequestBody List<Usergroup> usergroupList, BindingResult result) throws BusinessException {
         JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=1){
+        if (!jr.isSuccess()){
             return jr;
         }
         return usergroupService.add(usergroupList);
@@ -90,7 +90,7 @@ public class UsergroupController extends BaseController {
     @RequestMapping(value = "/getGroupMemberList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getGroupMemberList(@RequestParam String groupId){
         JsonResult result = usergroupService.getGroupMemberList(groupId);
-        if (result.getFlag()==1){
+        if (result.isSuccess()){
 
             List<SysUserInfo> parentUserList = new ArrayList<SysUserInfo>();
             List<SysUserInfo> childUserList = new ArrayList<SysUserInfo>();

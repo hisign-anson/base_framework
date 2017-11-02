@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.hisign.bfun.butils.JsonResultUtil;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -111,7 +112,7 @@ public class SendService {
 				List<ReceiveBox> list = createBoxListOfMsg(note);
 				if(!CollectionUtils.isEmpty(list)){
 					JsonResult r = receiveBoxService.add(list);
-					if(r.getFlag() ==1 ){
+					if(r.getFlag() == JsonResultUtil.SUCCESS ){
 						return RespCode.SUCCESS.name();
 					}else{
 						return RespCode.ERROR.name();
