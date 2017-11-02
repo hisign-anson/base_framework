@@ -198,6 +198,27 @@ public class Constants {
 			(byte) 'c', (byte) 'd', (byte) 'e', (byte) 'f'
 	};
 
+	//发送任务消息
+	public static final String SEND_TASK_INFO = "send_task_info";
+	//发送任务催办消息
+	public static final String SEND_TASK_URGE_INFO = "send_task_urge_info";
+	//发送任务反馈消息
+	public static final String SEND_TASK_FEEDBACK_INFO = "send_task_feedback_info";
+	//本人下发的任务移交
+	public static final String SEND_TASK_MOVE_INFO = "send_task_move_info";
+
+	//本人添加到专案组
+	public static final String SEND_JOIN_GROUP_INFO = "send_join_group_info";
+	//本人被专案组移除
+	public static final String SEND_REMOVE_GROUP_INFO = "send_remove_group_info";
+	//本人所在专案组关联案件
+	public static final String SEND_CONNECT_CASE_INFO = "send_connect_case_info";
+	//本人所在专案组归档
+	public static final String SEND_GROUP_BACKUP_INFO = "send_group_backup_info";
+	//本人所在专案组的广播信息
+	public static final String SEND_GROUP_BROADCAST_INFO = "send_group_broadcast_info";
+
+
 
 	//任务消息key
 	public static final String TYPE_CUSTOM_KEY = "TYPE_CUSTOM_KEY";
