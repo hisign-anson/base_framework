@@ -55,7 +55,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult add(List<Cb> list) throws BusinessException {
 		try {
 			cbMapper.batchInsert(list);
@@ -66,7 +66,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult update(UpdateParams params) throws BusinessException {
 		try {
 			cbMapper.updateCustom(params);
@@ -104,7 +104,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
     }
 
     @Override
-    @Transactional(rollbackFor = BusinessException.class)
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult addNotNull(Cb cb) throws BusinessException {
         try {
             if(StringUtils.isEmpty(cb.getCreator())){
@@ -127,7 +127,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
             task.setCbzt(Constants.YES);
             task.setLastupdatetime(now);
             taskMapper.updateNotNull(task);
-            if(result.getFlag()==JsonResultUtil.SUCCESS){
+            if(result.isSuccess()){
                 try {
                     String content="任务催办（ID=" + cb.getId() + ",TASKID="+ cb.getTaskid()+ "）";
                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , cb.getCreator(), now, cb.getId());

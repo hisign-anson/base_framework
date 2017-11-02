@@ -64,7 +64,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult add(List<TaskFk> list) throws BusinessException {
 		try {
 			taskFkMapper.batchInsert(list);
@@ -75,7 +75,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult update(UpdateParams params) throws BusinessException {
 		try {
 			taskFkMapper.updateCustom(params);
@@ -86,7 +86,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delByIds(List<String> ids) throws BusinessException {
 		try {
 			taskFkMapper.deleteByIds(ids);
@@ -97,7 +97,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delBy(Conditions conditions) throws BusinessException {
 		try {
 			taskFkMapper.deleteCustom(conditions);
@@ -113,7 +113,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
     }
 
     @Override
-    @Transactional(rollbackFor = BusinessException.class)
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult addNotNull(TaskFk taskFk) throws BusinessException {
         try {
             if(StringUtils.isEmpty(taskFk.getCreator())){
@@ -154,7 +154,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                     taskfkFileMapper.insertNotNull(taskfkFile);
                 }
             }
-            if(result.getFlag()==JsonResultUtil.SUCCESS){
+            if(result.isSuccess()){
                 try {
                     String content="任务反馈（ID=" + taskFk.getId() + ",TASKID"+ taskFk.getTaskid() + "）";
                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskFk.getCreator(), now, task.getId());

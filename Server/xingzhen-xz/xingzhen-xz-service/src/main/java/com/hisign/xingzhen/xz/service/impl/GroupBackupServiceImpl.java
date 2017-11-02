@@ -69,7 +69,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult add(List<GroupBackup> list) throws BusinessException {
         try {
             groupBackupMapper.batchInsert(list);
@@ -80,7 +80,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult update(UpdateParams params) throws BusinessException {
         try {
             groupBackupMapper.updateCustom(params);
@@ -91,7 +91,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult delByIds(List<String> ids) throws BusinessException {
         try {
             groupBackupMapper.deleteByIds(ids);
@@ -102,7 +102,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult delBy(Conditions conditions) throws BusinessException {
         try {
             groupBackupMapper.deleteCustom(conditions);

@@ -63,7 +63,6 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
 
     @Override
     public JsonResult add(Ajgroup entity) throws BusinessException {
-
         return addNotNull(entity);
     }
 
@@ -86,7 +85,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
         entity.setPgroupid(groupModel.getPgroupid());
         entity.setDeleteflag(Constants.DELETE_FALSE);
         JsonResult result = super.addNotNull(entity);
-        if (result.getFlag()==JsonResultUtil.SUCCESS){
+        if (result.isSuccess()){
             try {
                 //保存操作日志
                 String content = StringUtils.concat("专案组(ID:",entity.getGroupid(),")关联案件(ID:", entity.getAjid(),")");
@@ -96,14 +95,12 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
                 log.error(e.getMessage());
             }
             return JsonResultUtil.success(super.getById(entity.getId()));
-        }else {
-
         }
         return error(BaseEnum.BusinessExceptionEnum.INSERT.Msg());
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult add(List<Ajgroup> ajgroupList) throws BusinessException {
         try {
             List<Object> ids = new ArrayList<>();
@@ -149,7 +146,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult update(UpdateParams params) throws BusinessException {
         try {
             ajgroupMapper.updateCustom(params);
@@ -160,7 +157,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult delByIds(List<String> ids) throws BusinessException {
         try {
             ajgroupMapper.deleteByIds(ids);
@@ -171,7 +168,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult delBy(Conditions conditions) throws BusinessException {
         try {
             ajgroupMapper.deleteCustom(conditions);
@@ -187,7 +184,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
      * @return
      * @throws BusinessException
      */
-    @Transactional(rollbackFor = BusinessException.class)
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult removeCaseList(List<Ajgroup> ajgroupList) throws BusinessException {
 
         List<Object> ids = new ArrayList<>();

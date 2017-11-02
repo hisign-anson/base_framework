@@ -403,7 +403,7 @@ public class SysUserServiceImpl implements SysUserService {
 				String userId = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
 				sysUserInfo.setUserId(userId);
 				JsonResult result = addUserInfo(sysUserInfo);
-				if (result.getFlag()!=JsonResultUtil.SUCCESS) {
+				if (!result.isSuccess()) {
 					throw new Exception("新增用户信息错误");
 				}
 
@@ -430,7 +430,7 @@ public class SysUserServiceImpl implements SysUserService {
 			
 			JsonResult jsonResult = editUser(sysUser);
 			
-			if (jsonResult.getFlag()!=JsonResultUtil.SUCCESS) {
+			if (!jsonResult.isSuccess()) {
 				throw new Exception("新增用户信息错误");
 			}
 			sysUser.setId((String)jsonResult.getData());

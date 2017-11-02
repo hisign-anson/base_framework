@@ -70,7 +70,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult add(List<Task> list) throws BusinessException {
         try {
             taskMapper.batchInsert(list);
@@ -81,7 +81,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult update(UpdateParams params) throws BusinessException {
         try {
             taskMapper.updateCustom(params);
@@ -92,7 +92,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult delByIds(List<String> ids) throws BusinessException {
         try {
             taskMapper.deleteByIds(ids);
@@ -103,7 +103,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult delBy(Conditions conditions) throws BusinessException {
         try {
             taskMapper.deleteCustom(conditions);
@@ -133,7 +133,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
      * 接收人查看未反馈的信息，将任务单状态改为已签收，接收人查看已反馈的信息，反馈信息的状态改为已确认
      */
     @Override
-    @Transactional(rollbackFor = BusinessException.class)
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult taskDetail(String id,String userId) {
         TaskModel taskModel=taskMapper.findTaskById(id);
         if(taskModel==null){
@@ -207,7 +207,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     }
 
     @Override
-    @Transactional(rollbackFor = BusinessException.class)
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult addNotNull(Task task) throws BusinessException {
         if(!StringUtils.isEmpty(task.getBcrwid())){
             TaskModel t=super.getById(task.getBcrwid());
@@ -239,7 +239,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         task.setLastupdatetime(now);
         task.setDeleteflag(Constants.DELETE_FALSE);
         JsonResult result = super.addNotNull(task);
-        if(result.getFlag()==JsonResultUtil.SUCCESS){
+        if(result.isSuccess()){
             try {
                 String content="任务新增（ID=" + task.getId() + "）";
                 if(!StringUtils.isEmpty(task.getBcrwid())) {
@@ -267,7 +267,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         task.setDeleteflag(Constants.DELETE_TRUE);
         task.setLastupdatetime(now);
         JsonResult result = super.updateNotNull(task);
-        if(result.getFlag()==JsonResultUtil.SUCCESS){
+        if(result.isSuccess()){
              try {
                  String content="任务删除（ID=" + task.getId() + "）";
                  XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , userId, now, task.getId());

@@ -59,7 +59,7 @@ public class AjgroupController extends BaseController {
     @RequestMapping(value = "/removeAjGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult removeAjGroupList(@Valid @RequestBody List<Ajgroup> ajGroupList, BindingResult result) throws BusinessException {
         JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=JsonResultUtil.SUCCESS){
+        if (!jr.isSuccess()){
             return jr;
         }
 

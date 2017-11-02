@@ -73,7 +73,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     }
     
     @Override
-    @Transactional(rollbackFor=BusinessException.class)
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult add(List<Usergroup> list) throws BusinessException {
         try {
             String creator = list.get(0).getCreator();
@@ -178,7 +178,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     }
 
     @Override
-    @Transactional(rollbackFor=BusinessException.class)
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult addNotNull(Usergroup entity) throws BusinessException {
         Date now=new Date();
         entity.setId(UUID.randomUUID().toString());
@@ -186,7 +186,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
         entity.setDeleteflag(Constants.DELETE_FALSE);
         entity.setLastupdatetime(now);
         JsonResult result = super.addNotNull(entity);
-        if (result.getFlag()==JsonResultUtil.SUCCESS){
+        if (result.isSuccess()){
             //保存操作日志
             try {
                 String content = StringUtils.concat("专案组(ID:", entity.getGroupid(), ")", "人员(ID:", entity.getUserid(), ")添加");
@@ -201,7 +201,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     }
 
     @Override
-    @Transactional(rollbackFor=BusinessException.class)
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult deleteUsergroupList(List<Usergroup> usergroupList) {
 
         Usergroup ug = usergroupList.get(0);

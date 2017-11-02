@@ -50,7 +50,7 @@ public class GroupBackupController extends BaseController {
     @RequestMapping(value = "/backup", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult backup(@Valid @RequestBody GroupBackupParam entity, BindingResult result) throws BusinessException {
         JsonResult jr = handleResult(result);
-        if (jr.getFlag()!=JsonResultUtil.SUCCESS){
+        if (!jr.isSuccess()){
             return jr;
         }
         GroupModel groupModel = groupService.getById(entity.getGroupid());

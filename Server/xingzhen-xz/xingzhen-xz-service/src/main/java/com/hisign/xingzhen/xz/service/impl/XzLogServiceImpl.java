@@ -38,7 +38,7 @@ public class XzLogServiceImpl extends BaseServiceImpl<XzLog, XzLogModel, String>
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult add(List<XzLog> list) throws BusinessException {
         try {
             xzLogMapper.batchInsert(list);
@@ -49,7 +49,7 @@ public class XzLogServiceImpl extends BaseServiceImpl<XzLog, XzLogModel, String>
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult update(UpdateParams params) throws BusinessException {
         try {
             xzLogMapper.updateCustom(params);
@@ -60,7 +60,7 @@ public class XzLogServiceImpl extends BaseServiceImpl<XzLog, XzLogModel, String>
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult delByIds(List<String> ids) throws BusinessException {
         try {
             xzLogMapper.deleteByIds(ids);
@@ -71,7 +71,7 @@ public class XzLogServiceImpl extends BaseServiceImpl<XzLog, XzLogModel, String>
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult delBy(Conditions conditions) throws BusinessException {
         try {
             xzLogMapper.deleteCustom(conditions);
