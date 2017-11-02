@@ -4,6 +4,7 @@ package com.hisign.xingzhen.xz.mapper;
 import com.hisign.bfun.bif.BaseMapper;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @author 何建辉
  *
  */
+@Repository
 public interface TaskMapper extends BaseMapper<Task,TaskModel,String> {
 
     public String findMaxNo(String deparmentcode);
