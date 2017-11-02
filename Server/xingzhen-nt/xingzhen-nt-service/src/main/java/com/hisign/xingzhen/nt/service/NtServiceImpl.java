@@ -1,5 +1,6 @@
 package com.hisign.xingzhen.nt.service;
 
+import com.hisign.xingzhen.nt.api.model.TaskBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -13,6 +14,10 @@ import com.hisign.xingzhen.nt.api.exception.NoticeException;
 import com.hisign.xingzhen.nt.api.model.MsgBean;
 import com.hisign.xingzhen.nt.api.model.NoteBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Map;
+
 @Service("ntService")
 public class NtServiceImpl implements RabbitTemplate.ConfirmCallback,NtService{
 	private static final Logger logger = LoggerFactory.getLogger(NtServiceImpl.class);
@@ -38,6 +43,14 @@ public class NtServiceImpl implements RabbitTemplate.ConfirmCallback,NtService{
 		logger.info("发送通知消息："+msg);
 		CorrelationData correlationData = new CorrelationData(bean.getMsgId());  
 		rabbitTemplate.convertAndSend(RabbitMQConfig.MSG_EXCHANGE, RabbitMQConfig.MSG_ROUTINGKEY, msg, correlationData);
+	}
+
+	@Override
+	public void sendJM(@RequestBody TaskBean bean) throws NoticeException {
+		String msg = JSON.toJSONString(bean);
+		logger.info("发送通知消息："+msg);
+		CorrelationData correlationData = new CorrelationData(bean.getMsgId());
+		rabbitTemplate.convertAndSend(RabbitMQConfig.JM_EXCHANGE, RabbitMQConfig.JM_ROUTINGKEY, msg, correlationData);
 	}
 
 	@Override

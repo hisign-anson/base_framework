@@ -199,4 +199,27 @@ public class Constants {
 	};
 
 
+	//任务消息key
+	public static final String TYPE_CUSTOM_KEY = "TYPE_CUSTOM_KEY";
+	//自定义任务消息
+	public static final String TYPE_CUSTOM_TASK = "TYPE_CUSTOM_TASK";
+	//自定义反馈消息
+	public static final String TYPE_CUSTOM_TASK_FEEDBACK = "TYPE_CUSTOM_TASK_FEEDBACK";
+	//自定义催办消息
+	public static final String TYPE_CUSTOM_TASK_URGE = "TYPE_CUSTOM_TASK_URGE";
+	//任务内容key
+	public static final String TYPE_CUSTOM_TASK_ID_KEY = "TYPE_CUSTOM_TASK_ID_KEY";
+	//任务标题key
+	public static final String TYPE_CUSTOM_TASK_TITLE_KEY = "TYPE_CUSTOM_TASK_TITLE_KEY";
+	//任务内容key
+	public static final String TYPE_CUSTOM_TASK_CONTENT_KEY = "TYPE_CUSTOM_TASK_CONTENT_KEY";
+	//任务反馈时间key
+	public static final String TYPE_CUSTOM_TASK_FEEDBACK_KEY = "TYPE_CUSTOM_TASK_FEEDBACK_KEY";
+	//任务接收人IDkey
+	public static final String TYPE_CUSTOM_TASK_RECEIVER_ID_KEY = "TYPE_CUSTOM_TASK_RECEIVER_ID_KEY";
+	//任务接收人key
+	public static final String TYPE_CUSTOM_TASK_RECEIVER_KEY = "TYPE_CUSTOM_TASK_RECEIVER_KEY";
+
+
+
 }

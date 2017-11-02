@@ -8,7 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jmessage.api.JMessageClient;
+import cn.jmessage.api.common.model.message.MessagePayload;
+import cn.jmessage.api.message.MessageClient;
 import com.hisign.bfun.butils.JsonResultUtil;
+import com.hisign.xingzhen.nt.api.model.TaskBean;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -60,8 +66,16 @@ public class SendService {
 	
 	@Autowired
     private ReceiveBoxService receiveBoxService;
+
 	@Autowired
 	private SysUserService sysUserService;
+
+	@Autowired
+	private JMessageClient jMessageClient;
+
+	@Autowired
+	private MessageClient messageClient;
+
 	
 	public String sendSms(NoteBean note) throws NoticeException{
 		if(note!=null){
@@ -126,7 +140,18 @@ public class SendService {
 		}
 		return RespCode.SUCCESS.name();
 	}
-	
+
+	public String sendJM(TaskBean msgBean) throws NoticeException{
+		MessagePayload payload = MessagePayload.newBuilder().setVersion(1)
+				.setTargetType("group").build();
+		try {
+			jMessageClient.sendMessage(payload);
+		} catch (Exception e) {
+			logger.debug("推送任务信息异常", e);
+			throw new NoticeException(e.getMessage(), 0);
+		}
+		return RespCode.SUCCESS.name();
+	}
 
 	private List<ReceiveBox> createBoxListOfMsg(MsgBean note) {
 		
