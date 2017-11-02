@@ -68,10 +68,7 @@
 		POLICE_ID
 	</sql>
 
-	<insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup">
-		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
-			SELECT sys_guid() from DUAL
-		</selectKey>
+	<insert id="insert" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup">
 		INSERT INTO t_group_backup (
 		ID,
 		GROUPID,
@@ -97,10 +94,7 @@
 		)
 	</insert>
 
-	<insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup">
-		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
-			SELECT sys_guid() from DUAL
-		</selectKey>
+	<insert id="insertNotNull" parameterType="com.hisign.xingzhen.xz.api.entity.GroupBackup">
 		insert into t_group_backup
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id !=null  and id != '' ">
