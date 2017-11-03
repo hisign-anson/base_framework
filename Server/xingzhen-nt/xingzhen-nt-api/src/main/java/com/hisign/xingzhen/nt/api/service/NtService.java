@@ -1,9 +1,8 @@
 package com.hisign.xingzhen.nt.api.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hisign.xingzhen.nt.api.exception.NoticeException;
-import com.hisign.xingzhen.nt.api.model.MsgBean;
-import com.hisign.xingzhen.nt.api.model.NoteBean;
-import com.hisign.xingzhen.nt.api.model.TaskBean;
+import com.hisign.xingzhen.nt.api.model.*;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +33,6 @@ public interface NtService {
 	public void sendMsg(@RequestBody MsgBean bean) throws NoticeException;
 
 	@RequestMapping(value = "/sendJM", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-	public void sendJM(@RequestBody TaskBean bean)throws NoticeException;
+	public void sendJM(@RequestBody JMBean bean)throws NoticeException;
 	
 }

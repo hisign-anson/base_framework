@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import javax.annotation.Resources;
 import java.util.List;
 
 @Api(description = "单位信息")
@@ -18,7 +20,7 @@ import java.util.List;
 @RestController
 public class OrgInfoController {
 	private static final Logger logger = LoggerFactory.getLogger(OrgInfoController.class);
-	@Autowired
+	@Resource(name="sysOrgInfoService")
 	private SysOrgInfoService sysOrgInfoService;
 
     @ApiOperation(value = "获取单位信息",httpMethod ="POST",response = SysOrgInfo.class)

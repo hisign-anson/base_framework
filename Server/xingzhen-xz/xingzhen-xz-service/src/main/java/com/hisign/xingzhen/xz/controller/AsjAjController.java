@@ -93,7 +93,7 @@ public class AsjAjController extends BaseController{
      *@Date: 2017/11/1 17:07
      *@Email: hejianhui@hisign.com.cn
      */
-    @ApiOperation(value = "组内涉及案件分页",httpMethod ="POST",response = AsjAjModel.class)
+    @ApiOperation(value = "组内涉及/组外案件分页",httpMethod ="POST",response = AsjAjModel.class)
     @RequestMapping(value = "/getAjGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getAjGroupPage(@RequestBody AsjAjParam param) {
         if (StringUtils.isNotBlank(param.getOrderBy())){

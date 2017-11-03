@@ -115,7 +115,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
                 return error("任务催办失败,该任务不存在");
             }
             Date now=new Date();
-            cb.setId(UUID.randomUUID().toString());
+            cb.setId(StringUtils.getUUID());
             cb.setCbTime(now);
             cb.setCreatetime(now);
             cb.setLastupdatetime(now);

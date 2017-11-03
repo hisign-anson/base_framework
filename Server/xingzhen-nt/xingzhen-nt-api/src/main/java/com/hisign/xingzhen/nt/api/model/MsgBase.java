@@ -35,6 +35,9 @@ public class MsgBase implements Serializable {
 	 */
 	private Date sendDate = new Date();
 
+	//发送类型
+	private String sendType;
+
 	/**
 	 * @return the msgId
 	 */
@@ -108,6 +111,12 @@ public class MsgBase implements Serializable {
 	public void setSendDate(Date sendDate) {
 		this.sendDate = sendDate;
 	}
-	
-	
+
+	public String getSendType() {
+		return sendType;
+	}
+
+	public void setSendType(String sendType) {
+		this.sendType = sendType;
+	}
 }

@@ -1,5 +1,6 @@
 package com.hisign.xingzhen.xz.service.impl;
 
+import cn.jmessage.api.message.MessageType;
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseMapper;
@@ -12,6 +13,9 @@ import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
+import com.hisign.xingzhen.nt.api.exception.NoticeException;
+import com.hisign.xingzhen.nt.api.model.JMBean;
+import com.hisign.xingzhen.nt.api.service.NtService;
 import com.hisign.xingzhen.xz.api.entity.Ajgroup;
 import com.hisign.xingzhen.xz.api.entity.AsjAj;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
@@ -28,10 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -56,6 +57,9 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
     @Autowired
     private XzLogMapper xzLogMapper;
 
+    @Autowired
+    private NtService ntService;
+
     @Override
     protected BaseMapper<Ajgroup, AjgroupModel, String> initMapper() {
         return ajgroupMapper;
@@ -78,7 +82,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
         }
 
         Date now=new Date();
-        entity.setId(UUID.randomUUID().toString());
+        entity.setId(StringUtils.getUUID());
         entity.setPgroupid(groupModel.getPgroupid());
         entity.setCreatetime(now);
         entity.setLastupdatetime(now);
@@ -105,6 +109,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
         try {
             List<Object> ids = new ArrayList<>();
             String groupId = ajgroupList.get(0).getGroupid();
+            String creator = ajgroupList.get(0).getCreator();
 
             //获取专案组对象
             GroupModel groupModel = groupMapper.findById(groupId);
@@ -120,7 +125,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
                 ajgroup.setDeleteflag(Constants.DELETE_FALSE);
                 ajgroup.setCreatetime(new Date());
                 ajgroup.setLastupdatetime(new Date());
-                ajgroup.setId(UUID.randomUUID().toString());
+                ajgroup.setId(StringUtils.getUUID());
                 ajgroup.setPgroupid(null);
             }
 
@@ -139,6 +144,17 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
             if (num!=ajgroupList.size()){
                 throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT);
             }
+            //推送消息移动端
+            try {
+                JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_CONNECT_CASE_INFO, Constants.JM_TARGET_TYPE_GROUP, MessageType.CUSTOM.getValue(), creator, groupId);
+                //msgBody
+                Map<String, Object> map = new HashMap<>();
+                ntService.sendJM(jmBean);
+            } catch (NoticeException e) {
+                //不做回滚
+                log.error("推送消息到移动端失败",e);
+            }
+
         } catch (Exception e) {
             throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT, e);
         }

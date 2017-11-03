@@ -3,6 +3,7 @@ package com.hisign.xingzhen.nt;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hisign.xingzhen.nt.api.model.JMBean;
 import com.hisign.xingzhen.nt.api.model.TaskBean;
 import com.hisign.xingzhen.nt.service.SendService;
 import org.slf4j.Logger;
@@ -288,7 +289,7 @@ public class RabbitMQConfig {
 			public void onMessage(Message message, com.rabbitmq.client.Channel channel) throws Exception {
 				String msg = new String(message.getBody());
 				logger.info("收到消息={0}", msg);
-				TaskBean msgBean = JSON.parseObject(msg, TaskBean.class);
+				JMBean msgBean = JSON.parseObject(msg, JMBean.class);
 				try {
 					String ret = sendService.sendJM(msgBean);
 					if(RespCode.SUCCESS.name().equals(ret)){//发送成功

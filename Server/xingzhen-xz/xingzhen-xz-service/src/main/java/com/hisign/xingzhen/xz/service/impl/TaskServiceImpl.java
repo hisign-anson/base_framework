@@ -229,7 +229,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             return error("添加记录失败,该专案组所属机构有误");
         }
         Date now=new Date();
-        task.setId(UUID.randomUUID().toString());
+        task.setId(StringUtils.getUUID());
         task.setTaskNo(createTaskNo(group.getDeparmentcode()));
         task.setPgroupid(group.getPgroupid());
         task.setFqr(task.getCreator());
@@ -295,7 +295,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             Task entity=new Task();
             BeanUtils.copyProperties(new_task,entity);
             Date now=new Date();
-            new_task.setId(UUID.randomUUID().toString());
+            new_task.setId(StringUtils.getUUID());
             new_task.setLastupdatetime(now);
             new_task.setYjzt(Constants.YES);
             new_task.setYjTime(now);

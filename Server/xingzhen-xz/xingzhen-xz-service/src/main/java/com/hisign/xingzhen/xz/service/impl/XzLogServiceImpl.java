@@ -2,6 +2,7 @@ package com.hisign.xingzhen.xz.service.impl;
 
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
+import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.XzLogModel;
@@ -84,7 +85,7 @@ public class XzLogServiceImpl extends BaseServiceImpl<XzLog, XzLogModel, String>
     @Override
     public JsonResult addNotNull(XzLog entity) throws BusinessException {
         entity.setDeleteFlag(Constants.DELETE_FALSE);
-        entity.setId(UUID.randomUUID().toString());
+        entity.setId(StringUtils.getUUID());
         entity.setIp(IpUtil.getRemotIpAddr(BaseRest.getRequest()));
         entity.setLogType(Constants.XZLogType.CHAT);
         return super.addNotNull(entity);
