@@ -69,6 +69,13 @@ public class TaskSelectParam implements Serializable {
     @ApiModelProperty(value = "分页结束")
     private int end = 0;
 
+    @ApiModelProperty(value = "排序字段")
+    private String orderBy; //desc
+
+    @ApiModelProperty(value = "是否是倒序：false正序，true倒序")
+    private boolean isDesc=false;
+
+
     public String getUserId() {
         return userId;
     }
@@ -211,5 +218,21 @@ public class TaskSelectParam implements Serializable {
 
     public void setEnd(int end) {
         this.end = end;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public boolean isDesc() {
+        return isDesc;
+    }
+
+    public void setDesc(boolean desc) {
+        isDesc = desc;
     }
 }
