@@ -5,10 +5,18 @@ import cn.jiguang.common.resp.APIRequestException;
 import cn.jmessage.api.JMessageClient;
 import cn.jmessage.api.common.model.RegisterInfo;
 import cn.jmessage.api.common.model.RegisterPayload;
+import cn.jmessage.api.common.model.message.MessageBody;
+import cn.jmessage.api.common.model.message.MessagePayload;
 import cn.jmessage.api.group.CreateGroupResult;
 import cn.jmessage.api.group.GroupInfoResult;
+import cn.jmessage.api.message.MessageType;
+import cn.jmessage.api.message.SendMessageResult;
 import cn.jmessage.api.user.UserClient;
 import cn.jmessage.api.user.UserInfoResult;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
+import com.hisign.xingzhen.common.constant.Constants;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +79,32 @@ public class JMTest{
         try {
             UserInfoResult info = client.getUserInfo("0B57593C55F34514B1235C8AAB31AFD7");
             log.info(info.toString());
+        } catch (APIConnectionException e) {
+            log.error("Connection error. Should retry later. ", e);
+        } catch (APIRequestException e) {
+            log.error("Error response from JPush server. Should review and fix it. ", e);
+            log.info("HTTP Status: " + e.getStatus());
+            log.info("Error Message: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testSendMsg() {
+        JMessageClient client = new JMessageClient(appkey, masterSecret);
+        try {
+            String content = "{\"groupId\":\"99149c54-dcd8-4996-a8e4-cb9f7f550363\",\"title\":\"关联案件\",\"msgType\":\"send_connect_case_info\",\"createName\":\"超级管理员\",\"creator\":\"88021FFBD7AQ4836870F189A0C813934\",\"caseName\":\"于水被故意损毁财物\"}";
+            MessageBody body = MessageBody.newBuilder().setText(content).build();
+            MessagePayload payload = MessagePayload.newBuilder().setVersion(Constants.JM_VERSION)
+                    .setTargetType("group")
+                    .setFromType(Constants.JM_FROM_TYPE_ADMIN)
+                    .setMessageType(MessageType.CUSTOM)
+                    .setTargetId("23378051")
+                    .setFromId("88021FFBD7AQ4836870F189A0C813934")
+                    .setMessageBody(body)
+                    .build();
+
+            SendMessageResult sendMessageResult = client.sendMessage(payload);
+            log.info(sendMessageResult.toString());
         } catch (APIConnectionException e) {
             log.error("Connection error. Should retry later. ", e);
         } catch (APIRequestException e) {

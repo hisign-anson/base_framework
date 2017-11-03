@@ -1,5 +1,7 @@
 package com.hisign.xingzhen.xz.service.impl;
 
+import cn.jmessage.api.message.MessageType;
+import com.alibaba.fastjson.JSONObject;
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseMapper;
@@ -12,6 +14,10 @@ import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
+import com.hisign.xingzhen.nt.api.model.JMBean;
+import com.hisign.xingzhen.nt.api.service.NtService;
+import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.GroupBackup;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
@@ -30,9 +36,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -53,6 +57,12 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
 
     @Autowired
     private GroupMapper groupMapper;
+
+    @Autowired
+    private SysUserService sysUserService;
+
+    @Autowired
+    private NtService ntService;
 
     @Override
     protected BaseMapper<GroupBackup, GroupBackupModel, String> initMapper() {
@@ -135,6 +145,13 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
             param.setBackupStatus(Constants.NO);
         }
 
+        //获取用户信息
+        SysUserInfo user = sysUserService.getUserInfoByUserId(param.getCreator());
+        if (user==null){
+            log.error("该用户不存在，[user=?]",user);
+            return error("抱歉，该用户不存在，请刷新页面再试!");
+        }
+
         //同时更新专案组
         GroupModel gm = groupMapper.findById(param.getGroupid());
         if (gm==null){
@@ -167,6 +184,26 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
         }
 
         try {
+            //极光推送,不需要回滚
+            JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_CONNECT_CASE_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_GROUP, MessageType.CUSTOM.getValue(), param.getCreator(), gm.getJmgid());
+            //msgBody
+            Map<String, Object> map = new HashMap<>();
+            map.put("groupId",param.getGroupid());
+            map.put("msgType",Constants.SEND_GROUP_BACKUP_INFO);
+
+            if (param.getBackupStatus().equals(Constants.YES)){
+                map.put("title","专案组归档");
+                map.put("backupReson",param.getBackupReason());
+            }else {
+                map.put("msgType",Constants.SEND_GROUP_BACKUP_INFO);
+            }
+            map.put("creator",param.getCreator());
+            map.put("createName",user.getUserName());
+            map.put("createTime",group.getCreatetime());
+
+            jmBean.setMsg_body(JSONObject.toJSONString(map));
+            ntService.sendJM(jmBean);
+
             //保存操作日志
             XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, "专案组"+backupLogMsg+"(ID:" + entity.getId()+")", entity.getCreator(), entity.getCreatetime(), gm.getId());
             xzLogMapper.insertNotNull(xzLog);

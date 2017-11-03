@@ -279,7 +279,7 @@ public class RabbitMQConfig {
 	@Bean
 	public SimpleMessageListenerContainer jmMessageContainer() {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory());
-		container.setQueues(msgQueue());
+		container.setQueues(jmQueue());
 		container.setExposeListenerChannel(true);
 		container.setMaxConcurrentConsumers(1);
 		container.setConcurrentConsumers(1);

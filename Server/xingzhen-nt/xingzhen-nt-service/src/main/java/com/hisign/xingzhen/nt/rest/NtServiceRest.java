@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
-@RequestMapping("/ntService")
+@RequestMapping("/nt/ntService")
 @RestController
 public class NtServiceRest implements NtService {
 

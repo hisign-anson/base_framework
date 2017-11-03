@@ -310,13 +310,13 @@ public class SendService {
 	}
 
 	private void sendJMessage(JMBean bean) throws APIConnectionException, APIRequestException, NoticeException {
-		MessageBody body = MessageBody.newBuilder().setText(bean.getMessageBody()).build();
+		MessageBody body = MessageBody.newBuilder().setText(bean.getMsg_body()).build();
 		MessagePayload payload = MessagePayload.newBuilder().setVersion(Constants.JM_VERSION)
-				.setTargetType(bean.getTargetType())
+				.setTargetType(bean.getTarget_type())
 				.setFromType(Constants.JM_FROM_TYPE_ADMIN)
 				.setMessageType(MessageType.CUSTOM)
-				.setTargetId(bean.getTargetId())
-				.setFromId(bean.getFromId())
+				.setTargetId(bean.getTarget_id())
+				.setFromId(bean.getFrom_id())
 				.setMessageBody(body)
 				.build();
 

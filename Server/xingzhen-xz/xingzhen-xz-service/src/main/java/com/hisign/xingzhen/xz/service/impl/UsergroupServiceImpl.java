@@ -20,6 +20,7 @@ import com.hisign.xingzhen.common.util.ListUtils;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.nt.api.service.NtService;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.xz.api.entity.Ajgroup;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
@@ -78,7 +79,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     public JsonResult add(List<Usergroup> list) throws BusinessException {
         try {
             String creator = list.get(0).getCreator();
-            List<String> ids = new ArrayList<>();
+            List<Object> ids = new ArrayList<>();
             String groupId = list.get(0).getGroupid();
             for (Usergroup usergroup : list) {
                 ids.add(usergroup.getUserid());
@@ -95,13 +96,24 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 return error("抱歉，该专案组不存在!");
             }
 
-            usergroupMapper.batchInsert(list);
+            //若存在重复添加，则删除
+            Conditions con = new Conditions(Usergroup.class);
+            Conditions.Criteria cri = con.createCriteria();
+            cri.add(Usergroup.UsergroupEnum.groupid.get(), BaseEnum.ConditionEnum.EQ,groupId)
+                    .add(Usergroup.UsergroupEnum.userid.get(), BaseEnum.IsInEnum.IN,ids);
+
+            usergroupMapper.deleteCustom(con);
+
+            long num = usergroupMapper.batchInsert(list);
+            if (num!=list.size()){
+                throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT);
+            }
 
             //如果未创建极光群组
             if (StringUtils.isEmpty(groupModel.getJmgid())){
                 //创建极光群组
                 try {
-                    CreateGroupResult cgr = jMessageClient.createGroup(creator, groupModel.getGroupname(), groupModel.getId(), ListUtils.list2Array(ids));
+                    CreateGroupResult cgr = jMessageClient.createGroup(creator, groupModel.getGroupname(), groupModel.getId(), ListUtils.obj2strArr(ids));
                     if (!cgr.isResultOK()){
                         log.info("对不起，创建群组失败!:",cgr.getResponseCode());
                         throw new BusinessException("对不起，创建群组失败!");
@@ -123,12 +135,8 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 }
             }
 
-
-
             //添加用户到极光群组
-            jMessageClient.addOrRemoveMembers(Long.valueOf(groupModel.getJmgid()),ListUtils.list2Array(ids),null);
-
-
+            jMessageClient.addOrRemoveMembers(Long.valueOf(groupModel.getJmgid()),ListUtils.obj2strArr(ids),null);
 
             try {
                 String content = StringUtils.concat("专案组(ID:", groupId, ")", "人员(ID:", ids.toString(), ")添加");
