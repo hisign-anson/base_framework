@@ -91,7 +91,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.5.2.RELEASE</version>
+                <version>${spring.boot.version}</version>
                 <configuration>
                     <fork>true</fork>
                     <mainClass>com.hisign.xingzhen.SysServerStartApplication</mainClass>

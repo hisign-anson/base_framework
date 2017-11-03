@@ -7335,8 +7335,17 @@
     <select id="findAjGroupPage" parameterType="com.hisign.xingzhen.xz.api.param.AsjAjParam" resultMap="BaseResultMap">
         select p.* from(
             select rownum as rn,q.* from (
-                select b.AJBH,b.AB,b.AJMC,b.FADD,b.AJLX,b.AJSTATE,b.ZYAQ,b.AJZBRY,(SELECT aj.ID FROM T_AJGROUP aj WHERE b.ID=aj.AJID AND aj.GROUPID=#{groupId,jdbcType=VARCHAR}
-                AND aj.DELETEFLAG=0) AS id from b_asj_aj b where 1=1
+                select b.AJBH,b.AB,b.AJMC,b.FADD,b.AJLX,b.AJSTATE,b.ZYAQ,b.AJZBRY
+                <choose>
+                    <when test="isInGroup==true">
+                        ,(SELECT aj.ID FROM T_AJGROUP aj WHERE b.ID=aj.AJID AND aj.GROUPID=#{groupId,jdbcType=VARCHAR}
+                        AND aj.DELETEFLAG=0) AS id
+                    </when>
+                    <otherwise>
+                        ,b.ID
+                    </otherwise>
+                </choose>
+                from b_asj_aj b where 1=1
                 <if test="ajbh!=null and ajbh!=''">
                     and b.ajbh like '%'||#{ajbh,jdbcType=VARCHAR}||'%' escape '\'
                 </if>
