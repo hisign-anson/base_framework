@@ -113,6 +113,9 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "任务关联的反馈信息")
     private List<TaskFkModel>  taskFks;
 
+    @ApiModelProperty(value = "反馈数量")
+    private long fkCount;
+
     @ApiModelProperty(value = "反馈未确认数量")
     private long noFkqrCount;
 
@@ -509,6 +512,14 @@ public class TaskModel implements Serializable {
 
     public void setTaskFks(List<TaskFkModel> taskFks) {
         this.taskFks = taskFks;
+    }
+
+    public long getFkCount() {
+        return fkCount;
+    }
+
+    public void setFkCount(long fkCount) {
+        this.fkCount = fkCount;
     }
 
     public long getNoFkqrCount() {
