@@ -76,10 +76,6 @@ public class SendService {
 	@Autowired
 	private JMessageClient jMessageClient;
 
-	@Autowired
-	private MessageClient messageClient;
-
-	
 	public String sendSms(NoteBean note) throws NoticeException{
 		if(note!=null){
 			try {
