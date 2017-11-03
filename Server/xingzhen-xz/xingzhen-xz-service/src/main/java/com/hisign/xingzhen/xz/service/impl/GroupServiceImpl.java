@@ -85,7 +85,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
         }
         Date now = new Date();
         //保存专案组
-        entity.setId(UUID.randomUUID().toString());
+        entity.setId(StringUtils.getUUID());
         entity.setGroupnum(createGroupNum(entity.getDeparmentcode()));
         entity.setCreatetime(now);
         entity.setLastupdatetime(now);
@@ -122,7 +122,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
         //把创建人添加到关联人员
         Usergroup usergroup = new Usergroup();
-        usergroup.setId(UUID.randomUUID().toString());
+        usergroup.setId(StringUtils.getUUID());
         usergroup.setCreatetime(new Date());
         usergroup.setCreator(entity.getCreator());
         usergroup.setGroupid(entity.getId());

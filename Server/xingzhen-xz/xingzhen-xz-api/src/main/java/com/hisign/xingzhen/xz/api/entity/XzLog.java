@@ -5,6 +5,7 @@ import com.hisign.bfun.bannotation.Column;
 import com.hisign.bfun.bannotation.PK;
 import com.hisign.bfun.bannotation.Table;
 import com.hisign.xingzhen.common.model.BaseModel;
+import com.hisign.xingzhen.common.util.StringUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -75,7 +76,7 @@ public class XzLog extends BaseModel implements Serializable {
 	 */
 	public XzLog(String ip,String logType,String content,String creator,Date createTime,String reserveField1) {
 		this.ip = ip;
-		this.id = UUID.randomUUID().toString();
+		this.id = StringUtils.getUUID();
 		this.content = content;
 		this.logType = logType;
 		this.creator = creator;

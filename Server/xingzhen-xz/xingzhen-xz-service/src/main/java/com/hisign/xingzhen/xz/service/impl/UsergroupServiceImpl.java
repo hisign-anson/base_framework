@@ -18,6 +18,7 @@ import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.ListUtils;
 import com.hisign.xingzhen.common.util.StringUtils;
+import com.hisign.xingzhen.nt.api.service.NtService;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
@@ -65,7 +66,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     private JMessageClient jMessageClient;
 
     @Autowired
-    private UserClient userClient;
+    private NtService ntService;
 
     @Override
     protected BaseMapper<Usergroup,UsergroupModel, String> initMapper() {
@@ -83,7 +84,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 ids.add(usergroup.getUserid());
                 usergroup.setCreatetime(new Date());
                 usergroup.setDeleteflag(Constants.DELETE_FALSE);
-                usergroup.setId(UUID.randomUUID().toString());
+                usergroup.setId(StringUtils.getUUID());
                 usergroup.setLastupdatetime(new Date());
                 usergroup.setGroupid(groupId);
             }
@@ -122,8 +123,12 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 }
             }
 
+
+
             //添加用户到极光群组
             jMessageClient.addOrRemoveMembers(Long.valueOf(groupModel.getJmgid()),ListUtils.list2Array(ids),null);
+
+
 
             try {
                 String content = StringUtils.concat("专案组(ID:", groupId, ")", "人员(ID:", ids.toString(), ")添加");
@@ -181,7 +186,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     @Transactional(rollbackFor = Exception.class)
     public JsonResult addNotNull(Usergroup entity) throws BusinessException {
         Date now=new Date();
-        entity.setId(UUID.randomUUID().toString());
+        entity.setId(StringUtils.getUUID());
         entity.setCreatetime(now);
         entity.setDeleteflag(Constants.DELETE_FALSE);
         entity.setLastupdatetime(now);

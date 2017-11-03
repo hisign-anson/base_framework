@@ -8,7 +8,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jmessage.api.JMessageClient;
+import cn.jmessage.api.common.model.message.MessageBody;
+import cn.jmessage.api.common.model.message.MessagePayload;
+import cn.jmessage.api.message.MessageClient;
+import cn.jmessage.api.message.MessageType;
+import cn.jmessage.api.message.SendMessageResult;
 import com.hisign.bfun.butils.JsonResultUtil;
+import com.hisign.xingzhen.nt.api.model.JMBean;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -60,8 +69,16 @@ public class SendService {
 	
 	@Autowired
     private ReceiveBoxService receiveBoxService;
+
 	@Autowired
 	private SysUserService sysUserService;
+
+	@Autowired
+	private JMessageClient jMessageClient;
+
+	@Autowired
+	private MessageClient messageClient;
+
 	
 	public String sendSms(NoteBean note) throws NoticeException{
 		if(note!=null){
@@ -126,7 +143,16 @@ public class SendService {
 		}
 		return RespCode.SUCCESS.name();
 	}
-	
+
+	public String sendJM(JMBean bean) throws NoticeException{
+		try {
+			sendJMessage(bean);
+		} catch (Exception e) {
+			logger.debug("推送任务信息异常", e);
+			throw new NoticeException(e.getMessage(), 0);
+		}
+		return RespCode.SUCCESS.name();
+	}
 
 	private List<ReceiveBox> createBoxListOfMsg(MsgBean note) {
 		
@@ -286,7 +312,25 @@ public class SendService {
         }  
         return content;
 	}
-	
+
+	private void sendJMessage(JMBean bean) throws APIConnectionException, APIRequestException, NoticeException {
+		MessageBody body = MessageBody.newBuilder().setText(bean.getMessageBody()).build();
+		MessagePayload payload = MessagePayload.newBuilder().setVersion(Constants.JM_VERSION)
+				.setTargetType(bean.getTargetType())
+				.setFromType(Constants.JM_FROM_TYPE_ADMIN)
+				.setMessageType(MessageType.CUSTOM)
+				.setTargetId(bean.getTargetId())
+				.setFromId(bean.getFromId())
+				.setMessageBody(body)
+				.build();
+
+		SendMessageResult sendMessageResult = jMessageClient.sendMessage(payload);
+		if (!sendMessageResult.isResultOK()){
+			throw new NoticeException("推送失败", 0);
+		}
+	}
+
+
 	public static void main(String[] args) throws Exception {
 //		get("http://127.0.0.1:8090/sys/message/findById?id=33B566C264F84F62807E9248198DE3C5", null);
 	}

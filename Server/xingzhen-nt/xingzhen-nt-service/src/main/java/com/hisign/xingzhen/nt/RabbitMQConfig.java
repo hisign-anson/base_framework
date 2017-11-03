@@ -2,6 +2,8 @@ package com.hisign.xingzhen.nt;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.alibaba.fastjson.JSONObject;
+import com.hisign.xingzhen.nt.api.model.JMBean;
 import com.hisign.xingzhen.nt.service.SendService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +42,10 @@ public class RabbitMQConfig {
 	public static final String MSG_EXCHANGE = "exchange.msg";
 	public static final String MSG_ROUTINGKEY = "routingkey.msg";
 	public static final String MSG_QUEUE = "queue.msg";
+
+	public static final String JM_EXCHANGE = "exchange.jm";
+	public static final String JM_ROUTINGKEY = "routingkey.jm";
+	public static final String JM_QUEUE = "queue.jm";
 
 	@Value("${spring.rabbitmq.addresses}")
 	private String addresses;
@@ -87,9 +93,14 @@ public class RabbitMQConfig {
     @Bean  
     public DirectExchange msgExchange() {  
         return new DirectExchange(MSG_EXCHANGE, true, false);
-    } 
-    
-    @Bean  
+    }
+
+	@Bean
+	public DirectExchange jmExchange() {
+		return new DirectExchange(JM_EXCHANGE, true, false);
+	}
+
+	@Bean
     public Queue noteQueue() {  
        return new Queue(NOTE_QUEUE, true); 
     }
@@ -97,6 +108,11 @@ public class RabbitMQConfig {
     public Queue msgQueue() {  
        return new Queue(MSG_QUEUE, true); 
     }
+
+	@Bean
+	public Queue jmQueue() {
+		return new Queue(JM_QUEUE, true);
+	}
     
     @Bean  
     public Binding noteBinding() {  
@@ -105,8 +121,12 @@ public class RabbitMQConfig {
     @Bean  
     public Binding msgBinding() {  
         return BindingBuilder.bind(msgQueue()).to(msgExchange()).with(MSG_ROUTINGKEY);  
-    } 
-    
+    }
+
+	@Bean
+	public Binding jmBinding() {
+		return BindingBuilder.bind(jmQueue()).to(jmExchange()).with(JM_ROUTINGKEY);
+	}
     private static ConcurrentHashMap<String, Integer> cacheMap = new ConcurrentHashMap<String, Integer>();
    
     /**
@@ -250,5 +270,77 @@ public class RabbitMQConfig {
             }  
         });  
         return container;  
-    } 
+    }
+
+	/**
+	 * 接受消息的监听
+	 * @return
+	 */
+	@Bean
+	public SimpleMessageListenerContainer jmMessageContainer() {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory());
+		container.setQueues(msgQueue());
+		container.setExposeListenerChannel(true);
+		container.setMaxConcurrentConsumers(1);
+		container.setConcurrentConsumers(1);
+		container.setAcknowledgeMode(AcknowledgeMode.MANUAL); //设置确认模式手工确认
+		container.setMessageListener(new ChannelAwareMessageListener() {
+			public void onMessage(Message message, com.rabbitmq.client.Channel channel) throws Exception {
+				String msg = new String(message.getBody());
+				logger.info("收到消息={0}", msg);
+				JMBean msgBean = JSON.parseObject(msg, JMBean.class);
+				try {
+					String ret = sendService.sendJM(msgBean);
+					if(RespCode.SUCCESS.name().equals(ret)){//发送成功
+						channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+						if(cacheMap.containsKey(msgBean.getMsgId())){
+							cacheMap.remove(msgBean.getMsgId());
+						}
+					}else{//发送失败，重新发送
+						//重发消息
+						if(cacheMap.containsKey(msgBean.getMsgId())){
+							Integer count = cacheMap.get(msgBean.getMsgId());
+							if(count.intValue() <= retryCount){
+								//重发消息
+								channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+								count++;
+								cacheMap.put(msgBean.getMsgId(), count);
+							}else{
+								channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+								cacheMap.remove(msgBean.getMsgId());
+							}
+						}else{
+							Integer count = 0;
+							//重发消息
+							channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+							count++;
+							cacheMap.put(msgBean.getMsgId(), count);
+						}
+					}
+
+				} catch (NoticeException e) {
+					//重发消息
+					if(cacheMap.containsKey(msgBean.getMsgId())){
+						Integer count = cacheMap.get(msgBean.getMsgId());
+						if(count.intValue() <= retryCount){
+							//重发消息
+							channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+							count++;
+							cacheMap.put(msgBean.getMsgId(), count);
+						}else{
+							channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+							cacheMap.remove(msgBean.getMsgId());
+						}
+					}else{
+						Integer count = 0;
+						//重发消息
+						channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+						count++;
+						cacheMap.put(msgBean.getMsgId(), count);
+					}
+				}
+			}
+		});
+		return container;
+	}
 }
