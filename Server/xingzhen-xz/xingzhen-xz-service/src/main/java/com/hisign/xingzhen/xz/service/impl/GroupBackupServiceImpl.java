@@ -124,7 +124,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
     }
 
     @Override
-    @Transactional(rollbackFor=BusinessException.class)
+    @Transactional(rollbackFor=Exception.class)
     public JsonResult backup(GroupBackupParam param) throws BusinessException {
 
         //判断是否归档
