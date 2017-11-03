@@ -4,7 +4,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hisign.xingzhen.nt.api.model.JMBean;
-import com.hisign.xingzhen.nt.api.model.TaskBean;
 import com.hisign.xingzhen.nt.service.SendService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

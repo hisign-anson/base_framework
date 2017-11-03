@@ -1,6 +1,6 @@
 package com.hisign.xingzhen.nt.service;
 
-import com.hisign.xingzhen.nt.api.model.TaskBean;
+import com.hisign.xingzhen.nt.api.model.JMBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -46,7 +46,7 @@ public class NtServiceImpl implements RabbitTemplate.ConfirmCallback,NtService{
 	}
 
 	@Override
-	public void sendJM(@RequestBody TaskBean bean) throws NoticeException {
+	public void sendJM(@RequestBody JMBean bean) throws NoticeException {
 		String msg = JSON.toJSONString(bean);
 		logger.info("发送通知消息："+msg);
 		CorrelationData correlationData = new CorrelationData(bean.getMsgId());
