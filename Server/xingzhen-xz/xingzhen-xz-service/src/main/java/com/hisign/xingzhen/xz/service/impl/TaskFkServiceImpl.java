@@ -124,7 +124,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                 return error("该任务不存在");
             }
             Date now=new Date();
-            taskFk.setId(UUID.randomUUID().toString());
+            taskFk.setId(StringUtils.getUUID());
             taskFk.setGroupid(taskModel.getGroupid());
             taskFk.setPgroupid(taskModel.getPgroupid());
             taskFk.setFkTime(now);
@@ -146,7 +146,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                 for(TaskfkFileAddParam file:taskFk.getTaskFkFiles()) {
                     TaskfkFile taskfkFile=new TaskfkFile();
                     BeanUtils.copyProperties(file,taskfkFile);
-                    taskfkFile.setId(UUID.randomUUID().toString());
+                    taskfkFile.setId(StringUtils.getUUID());
                     taskfkFile.setCreatetime(now);
                     taskfkFile.setDeleteFlag(Constants.DELETE_FALSE);
                     taskfkFile.setTaskfkId(taskFk.getId());

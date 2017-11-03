@@ -84,7 +84,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 ids.add(usergroup.getUserid());
                 usergroup.setCreatetime(new Date());
                 usergroup.setDeleteflag(Constants.DELETE_FALSE);
-                usergroup.setId(UUID.randomUUID().toString());
+                usergroup.setId(StringUtils.getUUID());
                 usergroup.setLastupdatetime(new Date());
                 usergroup.setGroupid(groupId);
             }
@@ -186,7 +186,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     @Transactional(rollbackFor = Exception.class)
     public JsonResult addNotNull(Usergroup entity) throws BusinessException {
         Date now=new Date();
-        entity.setId(UUID.randomUUID().toString());
+        entity.setId(StringUtils.getUUID());
         entity.setCreatetime(now);
         entity.setDeleteflag(Constants.DELETE_FALSE);
         entity.setLastupdatetime(now);

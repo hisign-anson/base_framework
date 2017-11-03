@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * 2017年3月29日
  */
-@FeignClient(value = "sysService",path = "/sys/sysUserService")
+@FeignClient(name = "sysService",path = "/sys/sysUserService")
 public interface SysUserService {
     /**
      * 根据用户名取得对应的用户信息

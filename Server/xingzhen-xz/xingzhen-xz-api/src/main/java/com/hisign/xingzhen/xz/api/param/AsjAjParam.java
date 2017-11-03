@@ -44,6 +44,9 @@ public class AsjAjParam implements Serializable{
     @ApiModelProperty(value = "专案组id")
     private String groupId;//专案组id
 
+    @ApiModelProperty(value = "是否组内案件")
+    private boolean isInGroup=true;//是否组内案件
+
     @ApiModelProperty(value = "分页参数")
     private int begin;
 
@@ -174,5 +177,13 @@ public class AsjAjParam implements Serializable{
 
     public void setDesc(boolean desc) {
         isDesc = desc;
+    }
+
+    public boolean isInGroup() {
+        return isInGroup;
+    }
+
+    public void setInGroup(boolean inGroup) {
+        isInGroup = inGroup;
     }
 }

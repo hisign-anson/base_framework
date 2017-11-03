@@ -198,6 +198,16 @@ public class Constants {
 			(byte) 'c', (byte) 'd', (byte) 'e', (byte) 'f'
 	};
 
+	//极光版本号
+	public static final int JM_VERSION = 1;
+
+	//发送目标类型 single - 个人
+	public static final String JM_TARGET_TYPE_SINGLE = "single";
+	//发送目标类型 group - 群组
+	public static final String JM_TARGET_TYPE_GROUP = "group";
+	//发送消息者身份 当前只限admin用户
+	public static final String JM_FROM_TYPE_ADMIN = "admin";
+
 	//发送任务消息
 	public static final String SEND_TASK_INFO = "send_task_info";
 	//发送任务催办消息
@@ -213,6 +223,8 @@ public class Constants {
 	public static final String SEND_REMOVE_GROUP_INFO = "send_remove_group_info";
 	//本人所在专案组关联案件
 	public static final String SEND_CONNECT_CASE_INFO = "send_connect_case_info";
+	//本人所在专案组移除案件
+	public static final String SEND_REMOVE_CASE_INFO = "send_remove_case_info";
 	//本人所在专案组归档
 	public static final String SEND_GROUP_BACKUP_INFO = "send_group_backup_info";
 	//本人所在专案组的广播信息

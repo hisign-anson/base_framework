@@ -1,6 +1,7 @@
 package com.hisign.xingzhen.nt.rest;
 
 import com.hisign.xingzhen.nt.api.exception.NoticeException;
+import com.hisign.xingzhen.nt.api.model.JMBean;
 import com.hisign.xingzhen.nt.api.model.MsgBean;
 import com.hisign.xingzhen.nt.api.model.NoteBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
@@ -30,5 +31,11 @@ public class NtServiceRest implements NtService {
     @RequestMapping(value = "/sendMsg", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public void sendMsg(@RequestBody MsgBean bean) throws NoticeException {
         ntService.sendMsg(bean);
+    }
+
+    @Override
+    @RequestMapping(value = "/sendJM", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public void sendJM(@RequestBody JMBean bean) throws NoticeException {
+        ntService.sendJM(bean);
     }
 }

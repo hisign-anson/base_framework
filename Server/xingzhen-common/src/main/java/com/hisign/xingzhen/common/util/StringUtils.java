@@ -2546,6 +2546,11 @@ public class StringUtils {
         return sb.toString();
     }
 
+    //uuid
+    public static String getUUID(){
+        return UUID.randomUUID().toString().replaceAll("-","");
+    }
+
 
     public static void main(String[] args) {
         String xbm = null;

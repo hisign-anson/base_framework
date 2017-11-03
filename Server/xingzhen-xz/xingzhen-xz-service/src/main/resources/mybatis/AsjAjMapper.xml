@@ -7361,7 +7361,16 @@
                 <if test="slStartTime!=null and slEndTime!=null">
                     and b.SL_LRSJ BETWEEN #{slStartTime,jdbcType=TIMESTAMP} AND #{slEndTime,jdbcType=TIMESTAMP}
                 </if>
-                and b.id in (select AJID from t_ajgroup ag where ag.groupId=#{groupId,jdbcType=VARCHAR} AND ag.DELETEFLAG=0)
+                and b.id 
+                <choose>
+                    <when test="isInGroup==true">
+                        IN
+                    </when>
+                    <otherwise>
+                        NOT IN
+                    </otherwise>
+                </choose>
+                (select AJID from t_ajgroup ag where ag.groupId=#{groupId,jdbcType=VARCHAR} AND ag.DELETEFLAG=0)
                 <if test="orderBy!=null and orderBy!=''">
                     ORDER BY ${orderBy}
                     <if test="isDesc==true">
@@ -7404,7 +7413,16 @@
         <if test="slStartTime!=null and slEndTime!=null">
             and b.SL_LRSJ BETWEEN #{slStartTime,jdbcType=TIMESTAMP} AND #{slEndTime,jdbcType=TIMESTAMP}
         </if>
-        and b.id in (select AJID from t_ajgroup ag where ag.groupId=#{groupId,jdbcType=VARCHAR} AND ag.DELETEFLAG=0)
+        and b.id
+        <choose>
+            <when test="isInGroup==true">
+                IN
+            </when>
+            <otherwise>
+                NOT IN
+            </otherwise>
+        </choose>
+        (select AJID from t_ajgroup ag where ag.groupId=#{groupId,jdbcType=VARCHAR} AND ag.DELETEFLAG=0)
     </select>
 
     <select id="findFirstCaseByGroupId" parameterType="java.lang.String" resultMap="BaseResultMap">
