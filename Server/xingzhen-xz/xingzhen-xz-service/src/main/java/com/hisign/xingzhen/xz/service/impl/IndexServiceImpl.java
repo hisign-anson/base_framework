@@ -18,7 +18,6 @@ import com.hisign.xingzhen.xz.api.service.GroupBackupService;
 import com.hisign.xingzhen.xz.api.service.IndexService;
 import com.hisign.xingzhen.xz.mapper.*;
 import com.netflix.discovery.converters.Auto;
-import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,7 +131,7 @@ public class IndexServiceImpl implements IndexService {
             return JsonResultUtil.error("对不起，时间参数格式错误");
         }
         if (map == null) {
-            map = new HashedMap();
+            map = new HashMap();
         }
         return JsonResultUtil.success(map);
     }

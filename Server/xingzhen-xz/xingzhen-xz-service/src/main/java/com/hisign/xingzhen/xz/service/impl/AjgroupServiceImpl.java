@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 
@@ -52,13 +53,13 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
     private GroupMapper groupMapper;
 
     @Autowired
+    private NtService ntService;
+
+    @Autowired
     private AsjAjMapper asjAjMapper;
 
     @Autowired
     private XzLogMapper xzLogMapper;
-
-    @Autowired
-    private NtService ntService;
 
     @Override
     protected BaseMapper<Ajgroup, AjgroupModel, String> initMapper() {

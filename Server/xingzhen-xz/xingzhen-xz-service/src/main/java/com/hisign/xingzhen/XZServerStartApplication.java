@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz;
+package com.hisign.xingzhen;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.SpringCloudApplication;
@@ -8,9 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
 /**
  * Created by hisign on 2017/10/12.
  */
-@ComponentScan(basePackages = {"com.hisign.xingzhen"})
-@SpringCloudApplication
+//@ComponentScan(basePackages = {"com.hisign.xingzhen"})
 @EnableFeignClients
+@SpringCloudApplication
 public class XZServerStartApplication {
 
     public static void main(String[] args) {

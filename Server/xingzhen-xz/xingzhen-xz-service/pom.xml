@@ -95,7 +95,7 @@
                 <version>1.5.2.RELEASE</version>
                 <configuration>
                     <fork>true</fork>
-                    <mainClass>com.hisign.xingzhen.xz.XZServerStartApplication</mainClass>
+                    <mainClass>com.hisign.xingzhen.XZServerStartApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
