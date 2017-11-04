@@ -225,8 +225,8 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
 
     @Override
-    public JsonResult getAllGroupByUserId(String userId) {
-        return JsonResultUtil.success(groupMapper.findAllGroupByUserId(userId));
+    public JsonResult getAllGroupByUserId(String userId,String groupName) {
+        return JsonResultUtil.success(groupMapper.findAllGroupByUserId(userId,groupName));
     }
 
     @Override

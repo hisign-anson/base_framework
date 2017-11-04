@@ -18,5 +18,5 @@ public interface GroupService extends BaseService<Group,GroupModel, String> {
 
     public JsonResult getChildGroupList(String groupid,String memberName);
 
-    public JsonResult getAllGroupByUserId(String userId);
+    public JsonResult getAllGroupByUserId(String userId,String groupName);
 }

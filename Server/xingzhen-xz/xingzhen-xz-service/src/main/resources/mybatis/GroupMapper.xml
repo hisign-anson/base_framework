@@ -698,7 +698,11 @@
     </select>
 
     <select id="findAllGroupByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT * FROM T_GROUP t WHERE t.DELETEFLAG=0 AND t.ID IN (SELECT DISTINCT ug.GROUPID FROM T_USERGROUP ug WHERE ug.DELETEFLAG=0 AND ug.USERID=#{userId,jdbcType=VARCHAR})
+        SELECT * FROM T_GROUP t WHERE t.DELETEFLAG=0 AND t.ID IN (SELECT DISTINCT ug.GROUPID FROM T_USERGROUP ug WHERE ug.DELETEFLAG=0
+        AND ug.USERID=#{userId,jdbcType=VARCHAR})
+        <if test="groupName!=null and groupName!=''">
+            AND t.GROUPNAME LIKE '%'||#{groupName,jdbcType=VARCHAR}||'%' escape '\'
+        </if>
     </select>
 
 

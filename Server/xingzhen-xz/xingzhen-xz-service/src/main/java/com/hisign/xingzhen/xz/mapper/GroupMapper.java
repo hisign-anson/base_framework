@@ -34,7 +34,7 @@ public interface GroupMapper extends BaseMapper<Group,GroupModel, String> {
 
     public List<GroupModel> findChildGroupList(@Param("pgroupid") String pgroupid,@Param("memberName") String memberName);
 
-    public List<GroupModel> findAllGroupByUserId(@Param("userId") String userId);
+    public List<GroupModel> findAllGroupByUserId(@Param("userId") String userId,@Param("groupName") String groupName);
 
     public GroupModel findGroupById(String id);
 }
