@@ -207,6 +207,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
                 //获取组内成员
                 SysUserInfoParam info = new SysUserInfoParam();
                 info.setGroupId(groupId);
+                info.setInGroup(true);
                 List<SysUserInfo> userList = usergroupMapper.findGroupUserList(info);
                 if (userList!=null && userList.size()!=0){
                     bean.setList(userList);

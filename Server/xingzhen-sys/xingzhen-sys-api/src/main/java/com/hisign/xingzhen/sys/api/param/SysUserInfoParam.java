@@ -22,7 +22,7 @@ public class SysUserInfoParam implements Serializable{
     private String groupId;
 
     @ApiModelProperty("是否组内")
-    private boolean isInGroup;
+    private boolean isInGroup=true;
 
     @ApiModelProperty("全局搜索值-app专用")
     private String searchValue;

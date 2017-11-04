@@ -220,6 +220,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
             //获取组内成员
             SysUserInfoParam info = new SysUserInfoParam();
             info.setGroupId(gm.getId());
+            info.setInGroup(true);
             List<SysUserInfo> userList = usergroupMapper.findGroupUserList(info);
             if (userList!=null && userList.size()!=0){
                 bean.setList(userList);
