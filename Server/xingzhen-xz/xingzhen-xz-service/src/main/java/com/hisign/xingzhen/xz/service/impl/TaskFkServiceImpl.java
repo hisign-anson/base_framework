@@ -193,6 +193,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                     map.put("createName",taskFk.getCreatename());
                     map.put("jsr",task.getCreator());
                     map.put("jsrName",task.getCreatename());
+                    map.put("fkxs",taskFk.getFkxs());
                     map.put("createTime",taskFk.getCreatetime());
                     jmBean.setMsg_body(JSONObject.toJSONString(map));
                     ntService.sendJM(jmBean);
