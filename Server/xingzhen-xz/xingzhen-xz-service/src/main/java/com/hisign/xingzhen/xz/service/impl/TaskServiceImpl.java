@@ -293,7 +293,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
                 //发送信息提醒
                 MsgBean bean = new MsgBean();
-                String text = StringUtils.concat("新增任务:您所在专案组[", group.getGroupname(), "]新增了任务");
+                String text = "新增任务:"+task.getCreatename()+"给您下发了任务，任务编号："+task.getTaskNo();
                 bean.setMsgId(StringUtils.getUUID());
                 bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
                 bean.setMsgContent(text);
@@ -406,7 +406,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
                     //发送信息提醒
                     MsgBean bean = new MsgBean();
-                    String text = StringUtils.concat("移交任务:"+entity.getCreatename()+"移交了任务给您");
+                    String text = "移交任务:"+entity.getCreatename()+"移交了任务给您";
                     bean.setMsgId(StringUtils.getUUID());
                     bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
                     bean.setMsgContent(text);

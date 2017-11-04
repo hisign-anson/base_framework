@@ -199,7 +199,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
 
                     //发送信息提醒
                     MsgBean bean = new MsgBean();
-                    String text = StringUtils.concat("反馈任务:"+taskFk.getCreatename()+"反馈了您下发的任务，任务编号："+task.getTaskNo());
+                    String text = "反馈任务:"+taskFk.getCreatename()+"反馈了您下发的任务，任务编号："+task.getTaskNo();
                     bean.setMsgId(StringUtils.getUUID());
                     bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
                     bean.setMsgContent(text);

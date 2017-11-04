@@ -180,7 +180,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 
                     //发送信息提醒
                     MsgBean bean = new MsgBean();
-                    String text = StringUtils.concat("催办任务:"+cb.getCreatename()+"催您尽快反馈任务，任务编号："+task.getTaskNo());
+                    String text = "催办任务:"+cb.getCreatename()+"催您尽快反馈任务，任务编号："+task.getTaskNo();
                     bean.setMsgId(StringUtils.getUUID());
                     bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
                     bean.setMsgContent(text);
