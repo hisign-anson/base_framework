@@ -1,6 +1,5 @@
 package com.hisign.xingzhen.xz.api.param;
 
-import com.hisign.xingzhen.common.model.BaseParam;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -9,17 +8,17 @@ import java.io.Serializable;
 /**
  * Created by hisign on 2017/10/23.
  */
-public class AjgroupParam extends BaseParam implements Serializable{
+public class AjgroupParam implements Serializable{
 
-    @ApiModelProperty(value = "案件关联ID",hidden = true)
+    @ApiModelProperty(value = "案件关联ID",required = true)
     @NotEmpty(message = "案件关联id不能为空")
     private String id; //案件关联ID
 
-    @ApiModelProperty(value = "专案组ID")
+    @ApiModelProperty(value = "专案组ID",required = true)
     @NotEmpty(message = "专案组不能为空")
     private String groupid; //专案组ID
 
-    @ApiModelProperty(value = "创建人")
+    @ApiModelProperty(value = "创建人",required = true)
     @NotEmpty(message = "当前用户不能为空")
     private String creator; //创建人
 
