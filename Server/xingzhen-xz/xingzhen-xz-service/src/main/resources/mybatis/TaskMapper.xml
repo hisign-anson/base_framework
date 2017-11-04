@@ -973,7 +973,7 @@
                     and t.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
                 </if>
                 <if test="fkjzstartTime!=null and fkjzendTime!=null">
-                    and t.fk_time between #{fkjzstartTime,jdbcType=TIMESTAMP} and #{fkjzendTime,jdbcType=TIMESTAMP}
+                    and t.fkjz_time between #{fkjzstartTime,jdbcType=TIMESTAMP} and #{fkjzendTime,jdbcType=TIMESTAMP}
                 </if>
             </when>
             <otherwise>
