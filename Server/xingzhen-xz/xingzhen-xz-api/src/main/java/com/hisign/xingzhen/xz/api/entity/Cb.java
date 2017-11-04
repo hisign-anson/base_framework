@@ -34,6 +34,10 @@ public class Cb extends BaseModel implements Serializable {
 	@ApiModelProperty(value = "创建人")
 	private String creator; //创建人
 
+    @Column(value="CREATENAME")
+    @ApiModelProperty(value = "创建人姓名")
+    private String createname; //创建人姓名
+
 	@Column(value="CREATETIME")
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime; //创建时间
@@ -109,6 +113,18 @@ public class Cb extends BaseModel implements Serializable {
 	public void setCreator(String creator){
 		this.creator = creator;
 	}
+    /**
+     * @return CREATENAME 创建人姓名
+     */
+    public String getCreatename(){
+        return this.createname;
+    }
+    /**
+     * @param CREATENAME 创建人姓名
+     */
+    public void setCreatename(String createname){
+        this.createname = createname;
+    }
 	/**
 	 * @return CREATETIME 创建时间
 	 */
@@ -178,6 +194,7 @@ public class Cb extends BaseModel implements Serializable {
 		.append(",cbTime=").append(this.getCbTime())
 		.append(",taskid=").append(this.getTaskid())
 		.append(",creator=").append(this.getCreator())
+        .append(",createname=").append(this.getCreatename())
 		.append(",createtime=").append(this.getCreatetime())
 		.append(",deparmentcode=").append(this.getDeparmentcode())
 		.append(",lastupdatetime=").append(this.getLastupdatetime())
@@ -191,6 +208,7 @@ public class Cb extends BaseModel implements Serializable {
 		cbTime("CB_TIME","催办时间"),
 		taskid("TASKID","任务ID"),
 		creator("CREATOR","创建人"),
+        createname("CREATENAME","创建人姓名"),
 		createtime("CREATETIME","创建时间"),
 		deparmentcode("DEPARMENTCODE","创建人单位"),
 		lastupdatetime("LASTUPDATETIME","修改时间"),

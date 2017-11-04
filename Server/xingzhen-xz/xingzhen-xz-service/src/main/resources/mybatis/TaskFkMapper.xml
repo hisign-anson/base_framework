@@ -513,7 +513,13 @@
         </if>
         <if test="deleteflag != null  and deleteflag != '' ">
             and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
-        </if> order by CREATETIME desc
+        </if>
+        <if test="orderBy!=null and orderBy!=''">
+            order by ${orderBy}
+            <if test="isDesc==true">
+                DESC
+            </if>
+        </if>
     </select>
 
     <select id="findByCondition" parameterType="com.hisign.bfun.bmodel.Conditions" resultMap="BaseResultMap">

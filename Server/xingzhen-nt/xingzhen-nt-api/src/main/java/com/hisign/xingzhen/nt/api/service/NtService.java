@@ -1,14 +1,13 @@
 package com.hisign.xingzhen.nt.api.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.hisign.xingzhen.nt.api.exception.NoticeException;
-import com.hisign.xingzhen.nt.api.model.*;
+import com.hisign.xingzhen.nt.api.model.JMBean;
+import com.hisign.xingzhen.nt.api.model.MsgBean;
+import com.hisign.xingzhen.nt.api.model.NoteBean;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.Map;
 
 /**
  * 发送消息接口

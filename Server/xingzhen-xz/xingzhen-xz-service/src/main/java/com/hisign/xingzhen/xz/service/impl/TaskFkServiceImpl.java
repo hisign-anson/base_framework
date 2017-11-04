@@ -1,5 +1,7 @@
 package com.hisign.xingzhen.xz.service.impl;
 
+import cn.jmessage.api.message.MessageType;
+import com.alibaba.fastjson.JSONObject;
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseMapper;
@@ -12,6 +14,12 @@ import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
+import com.hisign.xingzhen.nt.api.exception.NoticeException;
+import com.hisign.xingzhen.nt.api.model.JMBean;
+import com.hisign.xingzhen.nt.api.model.MsgBean;
+import com.hisign.xingzhen.nt.api.service.NtService;
+import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
@@ -31,9 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -57,6 +63,13 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
 
     @Autowired
     protected XzLogMapper xzLogMapper;
+
+
+    @Autowired
+    private SysUserService sysUserService;
+
+    @Autowired
+    private NtService ntService;
 	
 	@Override
 	protected BaseMapper<TaskFk,TaskFkModel, String> initMapper() {
@@ -123,6 +136,12 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
             if(taskModel==null || Constants.DELETE_TRUE.equals(taskModel.getDeleteflag())){
                 return error("该任务不存在");
             }
+            //获取用户信息
+            SysUserInfo user = sysUserService.getUserInfoByUserId(taskModel.getCreator());
+            if (user==null){
+                log.error("该用户不存在，[user=?]",user);
+                return error("抱歉，该任务创建人不存在，请联系管理员!");
+            }
             Date now=new Date();
             taskFk.setId(StringUtils.getUUID());
             taskFk.setGroupid(taskModel.getGroupid());
@@ -161,6 +180,39 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                     xzLogMapper.insertNotNull(xzLog);
                 } catch (Exception e){
                     log.error(e.getMessage());
+                }
+                try {
+                    //发送消息到极光
+                    JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_FEEDBACK_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_SINGLE, MessageType.CUSTOM.getValue(),
+                            taskFk.getCreator(), task.getCreator());
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("msgType",Constants.SEND_TASK_FEEDBACK_INFO);
+                    map.put("title","反馈任务");
+                    map.put("taskId",task.getId());
+                    map.put("creator",taskFk.getCreator());
+                    map.put("createName",taskFk.getCreatename());
+                    map.put("jsr",task.getCreator());
+                    map.put("jsrName",task.getCreatename());
+                    map.put("fkxs",taskFk.getFkxs());
+                    map.put("createTime",taskFk.getCreatetime());
+                    jmBean.setMsg_body(JSONObject.toJSONString(map));
+                    ntService.sendJM(jmBean);
+
+                    //发送信息提醒
+                    MsgBean bean = new MsgBean();
+                    String text = "反馈任务:"+taskFk.getCreatename()+"反馈了您下发的任务，任务编号："+task.getTaskNo();
+                    bean.setMsgId(StringUtils.getUUID());
+                    bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
+                    bean.setMsgContent(text);
+                    bean.setPublishId(taskFk.getCreator());
+                    bean.setPublishName(taskFk.getCreatename());
+                    List<SysUserInfo> userList=new ArrayList<>();
+                    userList.add(user);
+                    bean.setList(userList);
+                    ntService.sendMsg(bean);
+                } catch (NoticeException e){
+                    //不做回滚
+                    log.error("推送消息到移动端失败",e);
                 }
                 return JsonResultUtil.success(super.getById(taskFk.getId()));
             }

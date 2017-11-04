@@ -1,5 +1,7 @@
 package com.hisign.xingzhen.xz.service.impl;
 
+import cn.jmessage.api.message.MessageType;
+import com.alibaba.fastjson.JSONObject;
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseMapper;
@@ -12,6 +14,12 @@ import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
+import com.hisign.xingzhen.nt.api.exception.NoticeException;
+import com.hisign.xingzhen.nt.api.model.JMBean;
+import com.hisign.xingzhen.nt.api.model.MsgBean;
+import com.hisign.xingzhen.nt.api.service.NtService;
+import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.xz.api.entity.*;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
@@ -29,9 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -62,12 +68,17 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     @Autowired
     protected XzLogMapper xzLogMapper;
 
+
+    @Autowired
+    private SysUserService sysUserService;
+
+    @Autowired
+    private NtService ntService;
+
     @Override
     protected BaseMapper<Task,TaskModel, String> initMapper() {
         return taskMapper;
     }
-
-
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -143,12 +154,15 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         if(Constants.YES.equals(taskModel.getFkzt())){
             TaskFk fk=new TaskFk();
             fk.setTaskid(id);
+            fk.setOrderBy("createtime");
+            fk.setDesc(true);
             List<TaskFkModel> taskFkModels=taskFkMapper.findListByEntity(fk);
             if(taskFkModels!=null && taskFkModels.size()>0){
                 Date now=new Date();
                 for(TaskFkModel taskFkModel:taskFkModels){
                     TaskfkFile file=new TaskfkFile();
                     file.setTaskfkId(taskFkModel.getId());
+                    file.setOrderBy("createtime");
                     List<TaskfkFileModel> taskfkFiles=taskfkFileMapper.findListByEntity(file);
                     if(taskfkFiles!=null&&taskfkFiles.size()>0) {
                         taskFkModel.setTaskFkFiles(taskfkFiles);
@@ -228,6 +242,12 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         if(group.getDeparmentcode()==null||group.getDeparmentcode().length()!=12){
             return error("添加记录失败,该专案组所属机构有误");
         }
+        //获取用户信息
+        SysUserInfo user = sysUserService.getUserInfoByUserId(task.getJsr());
+        if (user==null){
+            log.error("该用户不存在，[user=?]",user);
+            return error("抱歉，该接收人不存在，请重新选择!");
+        }
         Date now=new Date();
         task.setId(StringUtils.getUUID());
         task.setTaskNo(createTaskNo(group.getDeparmentcode()));
@@ -253,6 +273,41 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             } catch (Exception e){
                 log.error(e.getMessage());
             }
+
+            try {
+                //发送消息到极光
+                JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_SINGLE, MessageType.CUSTOM.getValue(),
+                        task.getCreator(), task.getJsr());
+                Map<String, Object> map = new HashMap<>();
+                map.put("msgType",Constants.SEND_TASK_INFO);
+                map.put("title","新增任务");
+                map.put("taskId",task.getId());
+                map.put("creator",task.getCreator());
+                map.put("createName",task.getCreatename());
+                map.put("jsr",task.getJsr());
+                map.put("jsrName",task.getJsrname());
+                map.put("taskContent",task.getTaskContent());
+                map.put("createTime",task.getCreatetime());
+                jmBean.setMsg_body(JSONObject.toJSONString(map));
+                ntService.sendJM(jmBean);
+
+                //发送信息提醒
+                MsgBean bean = new MsgBean();
+                String text = "新增任务:"+task.getCreatename()+"给您下发了任务，任务编号："+task.getTaskNo();
+                bean.setMsgId(StringUtils.getUUID());
+                bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
+                bean.setMsgContent(text);
+                bean.setPublishId(task.getCreator());
+                bean.setPublishName(task.getCreatename());
+                List<SysUserInfo> userList=new ArrayList<>();
+                userList.add(user);
+                bean.setList(userList);
+                ntService.sendMsg(bean);
+            } catch (NoticeException e){
+                //不做回滚
+                log.error("推送消息到移动端失败",e);
+            }
+
             return JsonResultUtil.success(super.getById(task.getId()));
         }
         return result;
@@ -292,6 +347,12 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             if(new_task==null || Constants.DELETE_TRUE.equals(new_task.getDeleteflag())){
                 return error("该任务不存在");
             }
+            //获取用户信息
+            SysUserInfo user = sysUserService.getUserInfoByUserId(taskMoveParam.getJsr());
+            if (user==null){
+                log.error("该用户不存在，[user=?]",user);
+                return error("抱歉，该接收人不存在，请重新选择!");
+            }
             Task entity=new Task();
             BeanUtils.copyProperties(new_task,entity);
             Date now=new Date();
@@ -324,6 +385,40 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                     xzLogMapper.insertNotNull(xzLog);
                 } catch (Exception e){
                     log.error(e.getMessage());
+                }
+
+                try {
+                    //发送消息到极光
+                    JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_MOVE_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_SINGLE, MessageType.CUSTOM.getValue(),
+                            entity.getCreator(), entity.getJsr());
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("msgType",Constants.SEND_TASK_MOVE_INFO);
+                    map.put("title","移交任务");
+                    map.put("taskId",entity.getId());
+                    map.put("creator",entity.getCreator());
+                    map.put("createName",entity.getCreatename());
+                    map.put("jsr",entity.getJsr());
+                    map.put("jsrName",entity.getJsrname());
+                    map.put("taskContent",entity.getTaskContent());
+                    map.put("createTime",entity.getCreatetime());
+                    jmBean.setMsg_body(JSONObject.toJSONString(map));
+                    ntService.sendJM(jmBean);
+
+                    //发送信息提醒
+                    MsgBean bean = new MsgBean();
+                    String text = "移交任务:"+entity.getCreatename()+"移交了任务给您";
+                    bean.setMsgId(StringUtils.getUUID());
+                    bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
+                    bean.setMsgContent(text);
+                    bean.setPublishId(entity.getCreator());
+                    bean.setPublishName(entity.getCreatename());
+                    List<SysUserInfo> userList=new ArrayList<>();
+                    userList.add(user);
+                    bean.setList(userList);
+                    ntService.sendMsg(bean);
+                } catch (NoticeException e){
+                    //不做回滚
+                    log.error("推送消息到移动端失败",e);
                 }
             }
             return result;
