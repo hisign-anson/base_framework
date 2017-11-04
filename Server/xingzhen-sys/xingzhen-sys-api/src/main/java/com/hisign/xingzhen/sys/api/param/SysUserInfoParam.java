@@ -1,4 +1,4 @@
-package com.hisign.xingzhen.xz.api.param;
+package com.hisign.xingzhen.sys.api.param;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -23,6 +23,9 @@ public class SysUserInfoParam implements Serializable{
 
     @ApiModelProperty("是否组内")
     private boolean isInGroup;
+
+    @ApiModelProperty("全局搜索值-app专用")
+    private String searchValue;
 
     @ApiModelProperty("分页参数")
     private int begin;
@@ -106,5 +109,13 @@ public class SysUserInfoParam implements Serializable{
 
     public void setInGroup(boolean inGroup) {
         isInGroup = inGroup;
+    }
+
+    public String getSearchValue() {
+        return searchValue;
+    }
+
+    public void setSearchValue(String searchValue) {
+        this.searchValue = searchValue;
     }
 }

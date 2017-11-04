@@ -25,7 +25,7 @@ import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupBackupModel;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.param.GroupBackupParam;
-import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
+import com.hisign.xingzhen.sys.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.xz.api.service.GroupBackupService;
 import com.hisign.xingzhen.xz.mapper.GroupBackupMapper;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;

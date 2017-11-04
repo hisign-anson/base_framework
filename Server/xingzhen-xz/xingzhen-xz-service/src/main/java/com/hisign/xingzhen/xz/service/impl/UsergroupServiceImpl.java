@@ -4,7 +4,6 @@ import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jmessage.api.JMessageClient;
 import cn.jmessage.api.group.CreateGroupResult;
-import cn.jmessage.api.user.UserClient;
 import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.bif.BaseMapper;
@@ -20,16 +19,14 @@ import com.hisign.xingzhen.common.util.ListUtils;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.nt.api.model.MsgBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
-import com.hisign.xingzhen.sys.api.model.ReceiveBox;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
-import com.hisign.xingzhen.xz.api.entity.Ajgroup;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.UsergroupModel;
-import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
+import com.hisign.xingzhen.sys.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.xz.api.service.UsergroupService;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
 import com.hisign.xingzhen.xz.mapper.UsergroupMapper;
@@ -44,7 +41,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 
 /**
@@ -319,6 +315,13 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     public JsonResult getUsergroupPage(SysUserInfoParam info) {
         List<SysUserInfo> list = usergroupMapper.findGroupUserList(info);
         long count = usergroupMapper.findGroupUserCount(info);
+        return JsonResultUtil.success(count,list);
+    }
+
+    @Override
+    public JsonResult getUserInfoListByKey(SysUserInfoParam info) {
+        List<SysUserInfo> list = usergroupMapper.findUserInfoListByKey(info);
+        long count = usergroupMapper.findCountByKey(info);
         return JsonResultUtil.success(count,list);
     }
 

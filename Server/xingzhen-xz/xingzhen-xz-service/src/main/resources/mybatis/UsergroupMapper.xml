@@ -462,7 +462,7 @@
 
     <!--========================================以上为生成器生成,新加代码请在下面书写============================================================-->
 
-    <select id="findGroupUserList" parameterType="com.hisign.xingzhen.xz.api.param.SysUserInfoParam" resultMap="SysUserInfoResultMap">
+    <select id="findGroupUserList" parameterType="com.hisign.xingzhen.sys.api.param.SysUserInfoParam" resultMap="SysUserInfoResultMap">
         select p.* from(
         select
         rownum,rownum as rn,a.* from (
@@ -510,7 +510,7 @@
         </if>
     </select>
 
-    <select id="findGroupUserCount" parameterType="com.hisign.xingzhen.xz.api.param.SysUserInfoParam" resultType="java.lang.Long">
+    <select id="findGroupUserCount" parameterType="com.hisign.xingzhen.sys.api.param.SysUserInfoParam" resultType="java.lang.Long">
         select count(1) from SYS_USER_INFO su where 1=1
         <if test="policeId!=null and policeId!=''">
             and SU.POLICE_ID like '%'||#{policeId,jdbcType=VARCHAR}||'%' escape '\'
@@ -540,5 +540,78 @@
 		T_USERGROUP t1,t_group t2 where	SU.USER_ID=t1.userid AND t2.id=t1.groupid AND
 		 (t1.GROUPID=#{groupId,jdbcType=VARCHAR} OR t2.pgroupid=#{groupId,jdbcType=VARCHAR})
 	</select>
+
+    <!--app一值对多字段 例如一个值查用户名、警号、地址、机构-->
+    <select id="findUserInfoListByKey" parameterType="com.hisign.xingzhen.sys.api.param.SysUserInfoParam" resultMap="SysUserInfoResultMap">
+        select p.* from(
+        select
+        rownum,rownum as rn,a.* from (
+        select t.* from (
+        select su.*
+        <if test="groupId!=null and groupId!=''">
+            <if test="isInGroup==true">
+                ,(SELECT tu.ID FROM T_USERGROUP tu WHERE SU.USER_ID=tu.USERID AND tu.GROUPID=#{groupId,jdbcType=VARCHAR}) AS ID
+            </if>
+        </if>
+        from SYS_USER_INFO su where 1!=1
+        <if test="searchValue!=null and searchValue!=''">
+            OR SU.POLICE_ID like '%'||#{searchValue,jdbcType=VARCHAR}||'%' escape '\'
+            OR SU.ORG_ID IN (SELECT o.ORG_ID FROM SYS_ORGANIZATION o WHERE o.STATUS=0 AND o.ORG_NAME like '%'||#{searchValue,jdbcType=VARCHAR}||'%' escape '\')
+            OR SU.USER_NAME like '%'||#{searchValue,jdbcType=VARCHAR}||'%' escape '\'
+            OR su.PHONE like '%'||#{searchValue,jdbcType=VARCHAR}||'%' escape '\'
+            OR su.ADDRESS like '%'||#{searchValue,jdbcType=VARCHAR}||'%' escape '\'
+        </if>
+        <if test="groupId!=null and groupId!=''">
+            and SU.USER_ID
+            <choose>
+                <when test="isInGroup==true">
+                    IN
+                </when>
+                <otherwise>
+                    NOT IN
+                </otherwise>
+            </choose>
+            (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR} )
+        </if>
+        <if test="orderBy!=null and orderBy!=''">
+            ORDER BY ${orderBy}
+            <if test="isDesc==true">
+                DESC
+            </if>
+        </if>
+        ) t
+        ) a
+        <if test="end !=null and end !=0">
+            where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+        </if>
+        ) p
+        <if test="begin !=null and begin !=0">
+            where rn >= #{begin,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="findCountByKey" parameterType="com.hisign.xingzhen.sys.api.param.SysUserInfoParam" resultType="java.lang.Long">
+        select count(1)
+        from SYS_USER_INFO su where 1!=1
+        <if test="searchValue!=null and searchValue!=''">
+            OR SU.POLICE_ID like '%'||#{searchValue,jdbcType=VARCHAR}||'%' escape '\'
+            OR SU.ORG_ID IN (SELECT o.ORG_ID FROM SYS_ORGANIZATION o WHERE o.STATUS=0 AND o.ORG_NAME like '%'||#{searchValue,jdbcType=VARCHAR}||'%' escape '\')
+            OR SU.USER_NAME like '%'||#{searchValue,jdbcType=VARCHAR}||'%' escape '\'
+            OR su.PHONE like '%'||#{searchValue,jdbcType=VARCHAR}||'%' escape '\'
+            OR su.ADDRESS like '%'||#{searchValue,jdbcType=VARCHAR}||'%' escape '\'
+        </if>
+        <if test="groupId!=null and groupId!=''">
+            and SU.USER_ID
+            <choose>
+                <when test="isInGroup==true">
+                    IN
+                </when>
+                <otherwise>
+                    NOT IN
+                </otherwise>
+            </choose>
+            (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR} )
+        </if>
+    </select>
 
 </mapper>

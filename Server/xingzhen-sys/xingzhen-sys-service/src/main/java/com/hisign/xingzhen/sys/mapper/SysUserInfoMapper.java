@@ -3,6 +3,7 @@ package com.hisign.xingzhen.sys.mapper;
 import java.util.List;
 
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.sys.api.param.SysUserInfoParam;
 import org.apache.ibatis.annotations.Param;
 
 public interface SysUserInfoMapper {
@@ -18,4 +19,5 @@ public interface SysUserInfoMapper {
     long findAllCountBySuperId(@Param("superId") String superId);
 
     List<SysUserInfo> findByIds(List<Object> ids);
+
 }

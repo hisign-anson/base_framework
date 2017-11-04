@@ -1,7 +1,7 @@
 package com.hisign.xingzhen.xz.test.controller;
 
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
-import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
+import com.hisign.xingzhen.sys.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.xz.test.BaseTestCase;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;

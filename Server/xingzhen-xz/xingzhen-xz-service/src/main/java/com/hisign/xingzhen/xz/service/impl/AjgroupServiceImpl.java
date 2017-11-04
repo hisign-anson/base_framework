@@ -18,7 +18,6 @@ import com.hisign.xingzhen.nt.api.exception.NoticeException;
 import com.hisign.xingzhen.nt.api.model.JMBean;
 import com.hisign.xingzhen.nt.api.model.MsgBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
-import com.hisign.xingzhen.sys.api.model.SysUser;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.xz.api.entity.Ajgroup;
@@ -27,7 +26,7 @@ import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.AjgroupModel;
 import com.hisign.xingzhen.xz.api.model.AsjAjModel;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
-import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
+import com.hisign.xingzhen.sys.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.xz.api.service.AjgroupService;
 import com.hisign.xingzhen.xz.mapper.*;
 import org.slf4j.Logger;
@@ -36,7 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 

@@ -2,11 +2,10 @@
 package com.hisign.xingzhen.xz.api.service;
 
 import com.hisign.bfun.bmodel.JsonResult;
-import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.bfun.bif.BaseService;
 import com.hisign.xingzhen.xz.api.model.UsergroupModel;
-import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
+import com.hisign.xingzhen.sys.api.param.SysUserInfoParam;
 
 import java.util.List;
 
@@ -22,5 +21,7 @@ public interface UsergroupService extends BaseService<Usergroup,UsergroupModel, 
     public JsonResult getUsergroupPage(SysUserInfoParam info);
 
     public JsonResult getGroupMemberList(String groupId);
+
+    public JsonResult getUserInfoListByKey(SysUserInfoParam info);
 
 }

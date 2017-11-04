@@ -7,7 +7,7 @@ import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
-import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
+import com.hisign.xingzhen.sys.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.xz.api.service.UsergroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -77,6 +77,19 @@ public class UsergroupController extends BaseController {
     public JsonResult getUsergroupPage(@RequestBody SysUserInfoParam info){
 
         JsonResult result = usergroupService.getUsergroupPage(info);
+        return result;
+    }
+
+    /**
+     *@Author: 何建辉
+     *@Description: 用户列表/组内成员列表 -app查询用户
+     *@Date: 2017/11/1 17:09
+     *@Email: hejianhui@hisign.com.cn
+     */
+    @ApiOperation(value = "用户列表/组内成员列表 -app查询用户",notes = "groupId传，并且isInGroup=true是组内，false是组外，searchValue查询警号，电话，地址，用户名，组织机构",httpMethod ="POST",response = JsonResult.class)
+    @RequestMapping(value = "/getUsergroupPageByKey", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult getUsergroupPageByKey(@RequestBody SysUserInfoParam info){
+        JsonResult result = usergroupService.getUserInfoListByKey(info);
         return result;
     }
 
