@@ -331,7 +331,7 @@ public class SysUserServiceImpl implements SysUserService {
 			throw new Exception("新增用户信息错误");
 		}
 		//更新极光上用户的信息
-		UserPayload userPayload = UserPayload.newBuilder().setAddress(userInfo.getAddress()).setBirthday(DateUtil.getDateTime(userInfo.getBirth()))
+		UserPayload userPayload = UserPayload.newBuilder().setAddress(userInfo.getAddress())
 				.setNickname(userInfo.getUserName()).build();
 		response = userClient.updateUserInfo(userInfo.getUserId(), userPayload);
 				if (!response.isServerResponse()){

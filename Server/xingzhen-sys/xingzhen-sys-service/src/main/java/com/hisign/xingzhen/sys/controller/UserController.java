@@ -273,6 +273,16 @@ public class UserController {
     @ResponseBody
     public JsonResult addUserInfo(@RequestBody SysUserInfo param)  {
         try {
+            //生日
+            if (!StringUtils.isEmpty(param.getCid())) {
+                String cid = param.getCid();
+                cid = cid.substring(6, 14);
+                int year = Integer.valueOf(cid.substring(0, 4));
+                int month = Integer.valueOf(cid.substring(4, 6));
+                int day = Integer.valueOf(cid.substring(6));
+                Date date = new Date(year, month, day);
+                param.setBirth(date);
+            }
         	return  sysUserService.addUserInfo(param);
         } catch (Exception e) {
             logger.error("新增人员信息失败", e);
