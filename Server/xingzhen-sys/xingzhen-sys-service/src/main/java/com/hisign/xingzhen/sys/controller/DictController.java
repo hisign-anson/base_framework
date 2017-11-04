@@ -24,7 +24,6 @@ import java.util.Map;
  * 系统字典控件控制器
  *
  */
-@ApiIgnore
 @RequestMapping("/sys/dict")
 @RestController
 public class DictController {
