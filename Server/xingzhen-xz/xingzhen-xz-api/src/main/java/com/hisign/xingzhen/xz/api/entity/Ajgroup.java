@@ -63,11 +63,6 @@ public class Ajgroup extends BaseModel implements Serializable {
     @ApiModelProperty(value = "删除标识",hidden = true)
     private String deleteflag; //删除标识
 
-    //================================接收字段
-    @ApiModelProperty(value = "接收字段-案件名称")
-    private String caseName;//接收字段-案件名称
-
-
     /**
      *默认空构造函数
      */
@@ -198,14 +193,6 @@ public class Ajgroup extends BaseModel implements Serializable {
 
     public static String getTbName() {
         return "t_ajgroup";
-    }
-
-    public String getCaseName() {
-        return caseName;
-    }
-
-    public void setCaseName(String caseName) {
-        this.caseName = caseName;
     }
 
     @Override

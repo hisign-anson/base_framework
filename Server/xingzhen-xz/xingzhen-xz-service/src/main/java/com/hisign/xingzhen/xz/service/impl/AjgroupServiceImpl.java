@@ -27,6 +27,7 @@ import com.hisign.xingzhen.xz.api.model.AjgroupModel;
 import com.hisign.xingzhen.xz.api.model.AsjAjModel;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.sys.api.param.SysUserInfoParam;
+import com.hisign.xingzhen.xz.api.param.AjgroupParam;
 import com.hisign.xingzhen.xz.api.service.AjgroupService;
 import com.hisign.xingzhen.xz.mapper.*;
 import org.slf4j.Logger;
@@ -264,11 +265,11 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
      * @throws BusinessException
      */
     @Transactional(rollbackFor = Exception.class)
-    public JsonResult removeCaseList(List<Ajgroup> ajgroupList) throws BusinessException {
+    public JsonResult removeCaseList(List<AjgroupParam> ajgroupList) throws BusinessException {
 
         List<Object> ids = new ArrayList<>();
-        Ajgroup aj = ajgroupList.get(0);
-        for (Ajgroup ajgroup : ajgroupList) {
+        AjgroupParam aj = ajgroupList.get(0);
+        for (AjgroupParam ajgroup : ajgroupList) {
             if (StringUtils.isEmpty(ajgroup.getId())){
                 log.error("错误，关联的id为空");
                 return error("抱歉，参数错误，请刷新页面再试!");

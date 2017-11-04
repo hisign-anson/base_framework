@@ -5,6 +5,7 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.controller.BaseController;
 import com.hisign.xingzhen.xz.api.entity.Ajgroup;
+import com.hisign.xingzhen.xz.api.param.AjgroupParam;
 import com.hisign.xingzhen.xz.api.service.AjgroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,6 +46,7 @@ public class AjgroupController extends BaseController {
         if (jr.getFlag()!= JsonResultUtil.SUCCESS){
             return jr;
         }
+        //
 
         return ajgroupService.add(ajGroupList);
     }
@@ -57,7 +59,7 @@ public class AjgroupController extends BaseController {
      */
     @ApiOperation(value = "移除案件",httpMethod ="POST",response = JsonResult.class)
     @RequestMapping(value = "/removeAjGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult removeAjGroupList(@Valid @RequestBody List<Ajgroup> ajGroupList, BindingResult result) throws BusinessException {
+    public JsonResult removeAjGroupList(@Valid @RequestBody List<AjgroupParam> ajGroupList, BindingResult result) throws BusinessException {
         JsonResult jr = handleResult(result);
         if (!jr.isSuccess()){
             return jr;

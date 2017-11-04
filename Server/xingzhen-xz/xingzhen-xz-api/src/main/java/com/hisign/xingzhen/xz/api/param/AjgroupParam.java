@@ -1,6 +1,8 @@
 package com.hisign.xingzhen.xz.api.param;
 
 import com.hisign.xingzhen.common.model.BaseParam;
+import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.io.Serializable;
 
@@ -9,4 +11,50 @@ import java.io.Serializable;
  */
 public class AjgroupParam extends BaseParam implements Serializable{
 
+    @ApiModelProperty(value = "案件关联ID",hidden = true)
+    @NotEmpty(message = "案件关联id不能为空")
+    private String id; //案件关联ID
+
+    @ApiModelProperty(value = "专案组ID")
+    @NotEmpty(message = "专案组不能为空")
+    private String groupid; //专案组ID
+
+    @ApiModelProperty(value = "创建人")
+    @NotEmpty(message = "当前用户不能为空")
+    private String creator; //创建人
+
+    @ApiModelProperty(value = "接收字段-案件名称")
+    private String caseName;//接收字段-案件名称
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getGroupid() {
+        return groupid;
+    }
+
+    public void setGroupid(String groupid) {
+        this.groupid = groupid;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public String getCaseName() {
+        return caseName;
+    }
+
+    public void setCaseName(String caseName) {
+        this.caseName = caseName;
+    }
 }
