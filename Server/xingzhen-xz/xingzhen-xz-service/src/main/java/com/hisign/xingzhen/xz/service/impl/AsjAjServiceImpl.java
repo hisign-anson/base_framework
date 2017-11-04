@@ -89,6 +89,11 @@ public class AsjAjServiceImpl extends BaseServiceImpl<AsjAj,AsjAjModel, String> 
 	 }
 
 	 @Override
+	 public AsjAjModel getById(String id) {
+		 return super.getById(id);
+	 }
+
+	 @Override
 	 public AsjAjModel getFirstCaseByGroupId(String id) {
 		 return asjAjMapper.findFirstCaseByGroupId(id);
 	 }

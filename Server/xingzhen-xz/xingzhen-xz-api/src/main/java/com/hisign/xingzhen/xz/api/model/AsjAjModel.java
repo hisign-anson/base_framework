@@ -988,6 +988,9 @@ public class AsjAjModel implements Serializable {
 
     @ApiModelProperty(value = "序号")
     private String rn;
+
+    @ApiModelProperty(value = "案件id")
+    private String ajid;
     
 	/**
 	 *默认空构造函数
@@ -4879,6 +4882,14 @@ public class AsjAjModel implements Serializable {
 
     public void setRn(String rn) {
         this.rn = rn;
+    }
+
+    public String getAjid() {
+        return ajid;
+    }
+
+    public void setAjid(String ajid) {
+        this.ajid = ajid;
     }
 
     @Override

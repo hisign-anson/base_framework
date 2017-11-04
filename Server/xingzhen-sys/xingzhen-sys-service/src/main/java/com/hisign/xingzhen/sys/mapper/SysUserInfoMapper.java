@@ -16,4 +16,6 @@ public interface SysUserInfoMapper {
 
     //根据SuperId获取该组织下所有人数
     long findAllCountBySuperId(@Param("superId") String superId);
+
+    List<SysUserInfo> findByIds(List<Object> ids);
 }

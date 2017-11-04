@@ -7,6 +7,7 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.controller.BaseController;
+import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
@@ -14,6 +15,7 @@ import com.hisign.xingzhen.xz.api.model.XzLogModel;
 import com.hisign.xingzhen.xz.api.service.GroupService;
 import com.hisign.xingzhen.xz.api.service.XzLogService;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,7 +80,9 @@ public class XzLogController extends BaseController {
 
 		 List<Object> groupIds = new ArrayList<>();
 		 for (XzLogModel xzlog:list){
-			 groupIds.add(xzlog.getReserveField1());
+		 	if (StringUtils.isNotBlank(xzlog.getReserveField1())){
+				groupIds.add(xzlog.getReserveField1());
+			}
 		 }
 
 		 //获取专案组

@@ -178,4 +178,8 @@ public interface SysUserService {
     @ResponseBody
     public List<Map<String, Object>> getReceiverList(@RequestBody Map<String, List<String>> param);
 
+    @RequestMapping(value = "/getUserInfoByIds", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysUserInfo> getUserInfoByIds(List<Object> ids);
+
 }

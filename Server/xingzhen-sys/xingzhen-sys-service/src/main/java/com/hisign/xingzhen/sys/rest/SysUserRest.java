@@ -174,4 +174,9 @@ public class SysUserRest implements SysUserService {
         return sysUserService.getReceiverList(param);
     }
 
+    @Override
+    public List<SysUserInfo> getUserInfoByIds(List<Object> ids) {
+        return sysUserService.getUserInfoByIds(ids);
+    }
+
 }

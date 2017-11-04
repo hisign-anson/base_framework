@@ -136,6 +136,8 @@ public class Constants {
 		public static final int TYPE_1 = 1;
 		/**   2 系统推送消息 **/
 		public static final int TYPE_2 = 2;
+		/**   3 动态信息提醒 **/
+		public static final int TYPE_3 = 3;
 	}
 
 

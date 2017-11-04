@@ -21,6 +21,9 @@ public class SysUserInfoParam implements Serializable{
     @ApiModelProperty("专案组id")
     private String groupId;
 
+    @ApiModelProperty("是否组内")
+    private boolean isInGroup;
+
     @ApiModelProperty("分页参数")
     private int begin;
 
@@ -95,5 +98,13 @@ public class SysUserInfoParam implements Serializable{
 
     public void setDesc(boolean desc) {
         isDesc = desc;
+    }
+
+    public boolean isInGroup() {
+        return isInGroup;
+    }
+
+    public void setInGroup(boolean inGroup) {
+        isInGroup = inGroup;
     }
 }

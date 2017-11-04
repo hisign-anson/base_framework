@@ -16,6 +16,7 @@ import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.nt.api.exception.NoticeException;
 import com.hisign.xingzhen.nt.api.model.JMBean;
+import com.hisign.xingzhen.nt.api.model.MsgBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
 import com.hisign.xingzhen.sys.api.model.SysUser;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
@@ -26,11 +27,9 @@ import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.AjgroupModel;
 import com.hisign.xingzhen.xz.api.model.AsjAjModel;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
+import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.xz.api.service.AjgroupService;
-import com.hisign.xingzhen.xz.mapper.AjgroupMapper;
-import com.hisign.xingzhen.xz.mapper.AsjAjMapper;
-import com.hisign.xingzhen.xz.mapper.GroupMapper;
-import com.hisign.xingzhen.xz.mapper.XzLogMapper;
+import com.hisign.xingzhen.xz.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +67,9 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
 
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private UsergroupMapper usergroupMapper;
 
     @Override
     protected BaseMapper<Ajgroup, AjgroupModel, String> initMapper() {
@@ -194,6 +196,24 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
 
                 jmBean.setMsg_body(JSONObject.toJSONString(map));
                 ntService.sendJM(jmBean);
+
+                MsgBean bean = new MsgBean();
+                //发送信息提醒
+                String text = StringUtils.concat("新增案件:您所在专案组[", groupModel.getGroupname(), "]关联了新案件[",sb.toString(),"]");
+                bean.setMsgId(StringUtils.getUUID());
+                bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
+                bean.setMsgContent(text);
+                bean.setPublishId(creator);
+                bean.setPublishName(user.getUserName());
+
+                //获取组内成员
+                SysUserInfoParam info = new SysUserInfoParam();
+                info.setGroupId(groupId);
+                List<SysUserInfo> userList = usergroupMapper.findGroupUserList(info);
+                if (userList!=null && userList.size()!=0){
+                    bean.setList(userList);
+                }
+                ntService.sendMsg(bean);
             } catch (NoticeException e) {
                 //不做回滚
                 log.error("推送消息到移动端失败",e);
@@ -313,6 +333,24 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
 
             jmBean.setMsg_body(JSONObject.toJSONString(map));
             ntService.sendJM(jmBean);
+
+            MsgBean bean = new MsgBean();
+            //发送信息提醒
+            String text = StringUtils.concat("移除案件:您所在专案组[", groupModel.getGroupname(), "]移除了案件[",sb.toString(),"]");
+            bean.setMsgId(StringUtils.getUUID());
+            bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
+            bean.setMsgContent(text);
+            bean.setPublishId(aj.getCreator());
+            bean.setPublishName(user.getUserName());
+
+            //获取组内成员
+            SysUserInfoParam info = new SysUserInfoParam();
+            info.setGroupId(aj.getGroupid());
+            List<SysUserInfo> userList = usergroupMapper.findGroupUserList(info);
+            if (userList!=null && userList.size()!=0){
+                bean.setList(userList);
+            }
+            ntService.sendMsg(bean);
         } catch (NoticeException e) {
             //不做回滚
             log.error("推送消息到移动端失败",e);

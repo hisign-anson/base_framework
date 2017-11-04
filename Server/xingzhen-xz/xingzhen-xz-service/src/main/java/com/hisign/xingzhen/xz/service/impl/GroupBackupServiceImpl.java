@@ -15,6 +15,7 @@ import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.nt.api.model.JMBean;
+import com.hisign.xingzhen.nt.api.model.MsgBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
@@ -24,9 +25,11 @@ import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.GroupBackupModel;
 import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.param.GroupBackupParam;
+import com.hisign.xingzhen.xz.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.xz.api.service.GroupBackupService;
 import com.hisign.xingzhen.xz.mapper.GroupBackupMapper;
 import com.hisign.xingzhen.xz.mapper.GroupMapper;
+import com.hisign.xingzhen.xz.mapper.UsergroupMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +66,9 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
 
     @Autowired
     private NtService ntService;
+
+    @Autowired
+    private UsergroupMapper usergroupMapper;
 
     @Override
     protected BaseMapper<GroupBackup, GroupBackupModel, String> initMapper() {
@@ -190,12 +196,11 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
             Map<String, Object> map = new HashMap<>();
             map.put("groupId",param.getGroupid());
             map.put("msgType",Constants.SEND_GROUP_BACKUP_INFO);
+            map.put("title","专案组撤销归档");
 
             if (param.getBackupStatus().equals(Constants.YES)){
                 map.put("title","专案组归档");
-                map.put("backupReson",param.getBackupReason());
-            }else {
-                map.put("msgType",Constants.SEND_GROUP_BACKUP_INFO);
+                map.put("backupReason",param.getBackupReason());
             }
             map.put("creator",param.getCreator());
             map.put("createName",user.getUserName());
@@ -203,6 +208,24 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
 
             jmBean.setMsg_body(JSONObject.toJSONString(map));
             ntService.sendJM(jmBean);
+
+            MsgBean bean = new MsgBean();
+            //发送信息提醒
+            String text = StringUtils.concat(backupLogMsg,":您所在专案组[", gm.getGroupname(), "]已经",backupLogMsg);
+            bean.setMsgId(StringUtils.getUUID());
+            bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
+            bean.setMsgContent(text);
+            bean.setPublishId(param.getCreator());
+            bean.setPublishName(user.getUserName());
+
+            //获取组内成员
+            SysUserInfoParam info = new SysUserInfoParam();
+            info.setGroupId(gm.getId());
+            List<SysUserInfo> userList = usergroupMapper.findGroupUserList(info);
+            if (userList!=null && userList.size()!=0){
+                bean.setList(userList);
+            }
+            ntService.sendMsg(bean);
 
             //保存操作日志
             XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, "专案组"+backupLogMsg+"(ID:" + entity.getId()+")", entity.getCreator(), entity.getCreatetime(), gm.getId());

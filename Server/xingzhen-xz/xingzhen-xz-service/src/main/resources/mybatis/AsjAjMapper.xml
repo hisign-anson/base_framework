@@ -5,6 +5,7 @@
     <resultMap type="com.hisign.xingzhen.xz.api.model.AsjAjModel" id="BaseResultMap">
         <result column="ID" property="id" jdbcType="VARCHAR"/>
         <result column="AJBH" property="ajbh" jdbcType="VARCHAR"/>
+        <result column="AJID" property="ajid" jdbcType="VARCHAR"/>
         <result column="SLJSDW" property="sljsdw" jdbcType="VARCHAR"/>
         <result column="AJSTATE" property="ajstate" jdbcType="VARCHAR"/>
         <result column="ZAZT" property="zazt" jdbcType="VARCHAR"/>
@@ -7340,6 +7341,7 @@
                     <when test="isInGroup==true">
                         ,(SELECT aj.ID FROM T_AJGROUP aj WHERE b.ID=aj.AJID AND aj.GROUPID=#{groupId,jdbcType=VARCHAR}
                         AND aj.DELETEFLAG=0) AS id
+                        ,b.ID as AJID
                     </when>
                     <otherwise>
                         ,b.ID

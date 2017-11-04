@@ -18,8 +18,11 @@ import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.ListUtils;
 import com.hisign.xingzhen.common.util.StringUtils;
+import com.hisign.xingzhen.nt.api.model.MsgBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
+import com.hisign.xingzhen.sys.api.model.ReceiveBox;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.xz.api.entity.Ajgroup;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
@@ -69,6 +72,9 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     @Autowired
     private NtService ntService;
 
+    @Autowired
+    private SysUserService sysUserService;
+
     @Override
     protected BaseMapper<Usergroup,UsergroupModel, String> initMapper() {
         return usergroupMapper;
@@ -78,9 +84,10 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
     @Transactional(rollbackFor = Exception.class)
     public JsonResult add(List<Usergroup> list) throws BusinessException {
         try {
-            String creator = list.get(0).getCreator();
+            Usergroup ug = list.get(0);
+            String creator = ug.getCreator();
             List<Object> ids = new ArrayList<>();
-            String groupId = list.get(0).getGroupid();
+            String groupId = ug.getGroupid();
             for (Usergroup usergroup : list) {
                 ids.add(usergroup.getUserid());
                 usergroup.setCreatetime(new Date());
@@ -94,6 +101,13 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
             GroupModel groupModel = groupMapper.findById(groupId);
             if (groupModel==null){
                 return error("抱歉，该专案组不存在!");
+            }
+
+            //获取用户信息
+            SysUserInfo user = sysUserService.getUserInfoByUserId(creator);
+            if (user==null){
+                log.error("该用户不存在，[user=?]",user);
+                return error("抱歉，该用户不存在，请刷新页面再试!");
             }
 
             //若存在重复添加，则删除
@@ -139,6 +153,22 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
             jMessageClient.addOrRemoveMembers(Long.valueOf(groupModel.getJmgid()),ListUtils.obj2strArr(ids),null);
 
             try {
+                MsgBean bean = new MsgBean();
+                //发送信息提醒
+                String text = StringUtils.concat("新专案组:您已被添加到专案组[", groupModel.getGroupname(), "]");
+                bean.setMsgId(StringUtils.getUUID());
+                bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
+                bean.setMsgContent(text);
+                bean.setPublishId(creator);
+                bean.setPublishName(user.getUserName());
+
+                List<SysUserInfo> userList = sysUserService.getUserInfoByIds(ids);
+                if (userList!=null && userList.size()!=0){
+                    bean.setList(userList);
+                }
+                ntService.sendMsg(bean);
+
+                //保存操作日志
                 String content = StringUtils.concat("专案组(ID:", groupId, ")", "人员(ID:", ids.toString(), ")添加");
                 XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, content, creator, new Date(), groupId);
                 xzLogMapper.insertNotNull(xzLog);
@@ -261,6 +291,20 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
         }
 
         try {
+            MsgBean bean = new MsgBean();
+            //发送信息提醒
+            String text = StringUtils.concat("被移除:您已被专案组[", group.getGroupname(), "]移除");
+            bean.setMsgId(StringUtils.getUUID());
+            bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
+            bean.setMsgContent(text);
+            bean.setPublishId(ug.getCreator());
+            bean.setPublishName(group.getCreatename());
+
+            List<SysUserInfo> userList = sysUserService.getUserInfoByIds(userIds);
+            if (userList!=null && userList.size()!=0){
+                bean.setList(userList);
+            }
+            ntService.sendMsg(bean);
             //保存操作日志
             StringBuilder sb = new StringBuilder();
             sb.append("用户(ID:").append(userIds.toString()).append(")被用户(ID:").append(ug.getCreator()).append(")从专案组(ID:").append(ug.getGroupid()).append("移除");

@@ -467,7 +467,11 @@
         select
         rownum,rownum as rn,a.* from (
         select t.* from (
-        select su.*,(SELECT tu.ID FROM T_USERGROUP tu WHERE SU.USER_ID=tu.USERID AND tu.GROUPID=#{groupId,jdbcType=VARCHAR}) AS ID from SYS_USER_INFO su where 1=1
+        select su.*
+        <if test="isInGroup==true">
+            ,(SELECT tu.ID FROM T_USERGROUP tu WHERE SU.USER_ID=tu.USERID AND tu.GROUPID=#{groupId,jdbcType=VARCHAR}) AS ID
+        </if>
+        from SYS_USER_INFO su where 1=1
         <if test="policeId!=null and policeId!=''">
             and SU.POLICE_ID like '%'||#{policeId,jdbcType=VARCHAR}||'%' escape '\'
         </if>
@@ -478,7 +482,16 @@
             and SU.USER_NAME like '%'||#{userName,jdbcType=VARCHAR}||'%' escape '\'
         </if>
         <if test="groupId!=null and groupId!=''">
-            and SU.USER_ID IN (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR} )
+            and SU.USER_ID
+            <choose>
+                <when test="isInGroup==true">
+                    IN
+                </when>
+                <otherwise>
+                    NOT IN
+                </otherwise>
+            </choose>
+            (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR} )
         </if>
         <if test="orderBy!=null and orderBy!=''">
             ORDER BY ${orderBy}
@@ -509,7 +522,16 @@
             and SU.USER_NAME like '%'||#{userName,jdbcType=VARCHAR}||'%' escape '\'
         </if>
         <if test="groupId!=null and groupId!=''">
-            and SU.USER_ID IN (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR} )
+            and SU.USER_ID
+            <choose>
+                <when test="isInGroup==true">
+                    IN
+                </when>
+                <otherwise>
+                    NOT IN
+                </otherwise>
+            </choose>
+            (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR} )
         </if>
     </select>
 
