@@ -603,7 +603,7 @@
                 <if test="creator!=null and creator!=''">
                     AND a.CREATOR=#{creator,jdbcType=VARCHAR}
                 </if>
-                <if test="startTime!=null and entTime!=null">
+                <if test="startTime!=null and endTime!=null">
                     AND a.CREATETIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
                 </if>
                 <if test="groupnum!=null and groupnum!=''">
@@ -649,7 +649,7 @@
         <if test="creator!=null and creator!=''">
             and a.CREATOR=#{creator,jdbcType=VARCHAR}
         </if>
-        <if test="startTime!=null and entTime!=null">
+        <if test="startTime!=null and endTime!=null">
             and a.CREATETIME between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
         </if>
         <if test="groupnum!=null and groupnum!=''">
