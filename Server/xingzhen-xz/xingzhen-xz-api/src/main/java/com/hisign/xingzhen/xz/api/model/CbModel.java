@@ -28,6 +28,9 @@ public class CbModel implements Serializable {
 	
     @ApiModelProperty(value = "创建人")
 	private String creator; //创建人
+
+    @ApiModelProperty(value = "创建人姓名")
+    private String createname; //创建人姓名
 	
     @ApiModelProperty(value = "创建时间")
 	private Date createtime; //创建时间
@@ -97,6 +100,18 @@ public class CbModel implements Serializable {
 	public void setCreator(String creator){
 		this.creator = creator;
 	}
+    /**
+     * @return CREATENAME 创建人姓名
+     */
+    public String getCreatename(){
+        return this.createname;
+    }
+    /**
+     * @param CREATENAME 创建人姓名
+     */
+    public void setCreatename(String createname){
+        this.createname = createname;
+    }
 	/**
 	 * @return CREATETIME 创建时间
 	 */
