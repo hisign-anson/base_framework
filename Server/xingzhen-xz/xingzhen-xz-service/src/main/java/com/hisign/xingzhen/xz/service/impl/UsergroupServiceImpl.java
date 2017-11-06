@@ -169,10 +169,10 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, content, creator, new Date(), groupId);
                 xzLogMapper.insertNotNull(xzLog);
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error(e.getMessage(),e);
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(),e);
             throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT, e);
         }
         return JsonResultUtil.success();
@@ -232,7 +232,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, content, entity.getCreator(), entity.getCreatetime(), entity.getGroupid());
                 xzLogMapper.insertNotNull(xzLog);
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error(e.getMessage(),e);
             }
             return JsonResultUtil.success(super.getById(entity.getId()));
         }

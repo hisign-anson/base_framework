@@ -106,7 +106,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
                 XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()), Constants.XZLogType.GROUP, content, entity.getCreator(), entity.getCreatetime(), entity.getId());
                 xzLogMapper.insertNotNull(xzLog);
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error(e.getMessage(),e);
             }
             return JsonResultUtil.success(super.getById(entity.getId()));
         }

@@ -7367,7 +7367,7 @@
                     and b.sljsdw=#{sljsdw,jdbcType=VARCHAR}
                 </if>
                 <if test="fadd!=null and fadd!=''">
-                    and b.fadd=#{fadd,jdbcType=VARCHAR}
+                    and b.fadd like '%'||#{fadd,jdbcType=VARCHAR}||'%' escape '\'
                 </if>
                 <if test="slStartTime!=null and slEndTime!=null">
                     and b.SL_LRSJ BETWEEN #{slStartTime,jdbcType=TIMESTAMP} AND #{slEndTime,jdbcType=TIMESTAMP}

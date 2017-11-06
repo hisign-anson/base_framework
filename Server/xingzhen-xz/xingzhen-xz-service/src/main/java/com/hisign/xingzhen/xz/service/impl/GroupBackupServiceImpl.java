@@ -134,6 +134,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
 
         //判断是否归档
         GroupBackup entity = new GroupBackup();
+        Group group = new Group();
         String backupLogMsg = "撤销归档";
         if (param.getBackupStatus().equals(Constants.YES)){
             BeanUtils.copyProperties(param,entity);
@@ -145,6 +146,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
             if (i<1){
                 return error(BaseEnum.BusinessExceptionEnum.INSERT.Msg());
             }
+            group.setBackupTime(new Date());
             backupLogMsg = "归档";
         }else {
             param.setBackupStatus(Constants.NO);
@@ -162,9 +164,8 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
         if (gm==null){
             return error("对不起，该专案组不存在!");
         }
-        Group group = new Group();
+
         BeanUtils.copyProperties(gm,group);
-        group.setBackupTime(new Date());
         group.setBackupStatu(param.getBackupStatus());
         group.setBackupReason(param.getBackupReason());
         group.setLastupdatetime(new Date());
