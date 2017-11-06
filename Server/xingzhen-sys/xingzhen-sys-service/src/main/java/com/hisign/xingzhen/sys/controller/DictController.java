@@ -242,7 +242,7 @@ public class DictController {
         try {
         	param.setParentKey(param.getKey());
             List<SysDict> list =  sysDictService.getDictListByParentKey(param);
-            int count =  sysDictService.getDictCountByParentKey(param);
+            long count =  sysDictService.getCountDictListByParentKey(param);
             return JsonResultUtil.success(count,list);
         } catch (Exception e) {
             return JsonResultUtil.error(e.getMessage());

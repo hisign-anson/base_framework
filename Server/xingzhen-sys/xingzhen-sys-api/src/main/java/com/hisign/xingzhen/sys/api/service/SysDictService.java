@@ -160,6 +160,10 @@ public interface SysDictService {
     @ResponseBody
     public List<SysDict> getDictListByParentKey(@RequestBody SysDict sysDict);
 
+    @RequestMapping(value = "/getCountDictListByParentKey", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public Long getCountDictListByParentKey(@RequestBody SysDict sysDict);
+
     @RequestMapping(value = "/getDictListByRootKey", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public List<SysDict> getDictListByRootKey(@RequestBody SysDict sysDict);
