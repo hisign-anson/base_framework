@@ -958,7 +958,7 @@
                     and t.yjzt=#{yjzt,jdbcType=VARCHAR}
                 </if>
                 <if test='overdue=="1"'>
-                    and t.fkzt=0 and to_char(t.fkjz_time,'yyyyMMdd')>to_char(sysdate,'yyyyMMdd')
+                    and t.fkzt=0 and to_char(sysdate,'yyyyMMdd')>to_char(t.fkjz_time,'yyyyMMdd')
                 </if>
                 <if test='fkqrzt=="0"'>
                     and exists (select 1 from T_TASK_FK fk where fk.taskid=t.id and fk.qrzt='0')
@@ -1033,7 +1033,7 @@
                     and t.yjzt=#{yjzt,jdbcType=VARCHAR}
                 </if>
                 <if test='overdue=="1"'>
-                    and t.fkzt=0 and to_char(t.fkjz_time,'yyyyMMdd')>to_char(sysdate,'yyyyMMdd')
+                    and t.fkzt=0 and to_char(sysdate,'yyyyMMdd')>to_char(t.fkjz_time,'yyyyMMdd')
                 </if>
                 <if test='fkqrzt=="0"'>
                     and exists (select 1 from T_TASK_FK fk where fk.taskid=t.id and fk.qrzt='0')
