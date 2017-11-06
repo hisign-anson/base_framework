@@ -98,8 +98,8 @@ public class Task extends BaseModel implements Serializable {
     private String cbzt; //催办状态
 
     @Column(value="QSZT")
-    @ApiModelProperty(value = "签收状态")
-    private String qszt; //签收状态
+    @ApiModelProperty(value = "接收状态")
+    private String qszt; //接收状态
 
     @Column(value="QS_TIME")
     @ApiModelProperty(value = "签收时间")
@@ -405,13 +405,13 @@ public class Task extends BaseModel implements Serializable {
         this.cbzt = cbzt;
     }
     /**
-     * @return QSZT 签收状态
+     * @return QSZT 接收状态
      */
     public String getQszt(){
         return this.qszt;
     }
     /**
-     * @param QSZT 签收状态
+     * @param QSZT 接收状态
      */
     public void setQszt(String qszt){
         this.qszt = qszt;
@@ -641,7 +641,7 @@ public class Task extends BaseModel implements Serializable {
         fkzt("FKZT","反馈状态"),
         fkTime("FK_TIME","反馈时间"),
         cbzt("CBZT","催办状态"),
-        qszt("QSZT","签收状态"),
+        qszt("QSZT","接收状态"),
         qsTime("QS_TIME","签收时间"),
         yjzt("YJZT","移交状态"),
         yjTime("YJ_TIME","移交时间"),
