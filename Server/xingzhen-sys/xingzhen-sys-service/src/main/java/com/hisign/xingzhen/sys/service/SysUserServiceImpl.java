@@ -324,7 +324,7 @@ public class SysUserServiceImpl implements SysUserService {
 		}
 		sysUserInfoMapper.insert(userInfo);
 
-		RegisterInfo registerInfo = RegisterInfo.newBuilder().setUsername(userInfo.getUserId()).setPassword("1234").build();
+		RegisterInfo registerInfo = RegisterInfo.newBuilder().setUsername(userInfo.getUserId()).setPassword("123456").build();
 		ResponseWrapper response = userClient.registerAdmins(registerInfo);
 		if (!response.isServerResponse()){
 			log.error("极光注册用户失败",response);

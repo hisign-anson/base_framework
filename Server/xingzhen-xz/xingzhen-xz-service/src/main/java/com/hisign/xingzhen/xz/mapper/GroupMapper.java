@@ -30,7 +30,7 @@ public interface GroupMapper extends BaseMapper<Group,GroupModel, String> {
 
     long findCountGroupByCondition(GroupParam groupParam);
 
-    Map<String,Long> findGroupCaseInfo(@Param("startTime") String startTime,@Param("endTime") String endTime, @Param("backupStatus") String backupStatus);
+    List<Map<String,Long>> findGroupCaseInfo(@Param("startTime") String startTime,@Param("endTime") String endTime, @Param("backupStatus") String backupStatus);
 
     public List<GroupModel> findChildGroupList(@Param("pgroupid") String pgroupid,@Param("memberName") String memberName);
 

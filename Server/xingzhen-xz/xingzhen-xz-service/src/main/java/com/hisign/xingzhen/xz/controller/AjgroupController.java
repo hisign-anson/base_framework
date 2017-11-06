@@ -46,8 +46,6 @@ public class AjgroupController extends BaseController {
         if (jr.getFlag()!= JsonResultUtil.SUCCESS){
             return jr;
         }
-        //
-
         return ajgroupService.add(ajGroupList);
     }
 

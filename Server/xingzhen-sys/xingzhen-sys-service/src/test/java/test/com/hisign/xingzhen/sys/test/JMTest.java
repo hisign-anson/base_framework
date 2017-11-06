@@ -37,6 +37,28 @@ public class JMTest extends BaseTestCase{
     private SysUserService sysUserService;
 
     @Test
+    public void removeMember2JM() throws Exception {
+        JMessageClient client = new JMessageClient(appkey, masterSecret);
+
+        SysUserInfo sysUserInfo = new SysUserInfo();
+        sysUserInfo.setEnd(Integer.MAX_VALUE);
+        List<SysUserInfo> list = sysUserService.getUserInfoListByCondition(sysUserInfo);
+
+        for (int i = 0; i < list.size(); i++) {
+            SysUserInfo user = list.get(i);
+            try {
+                client.deleteUser(user.getUserId());
+            } catch (APIConnectionException e) {
+                e.printStackTrace();
+            } catch (APIRequestException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    @Test
     public void addAllMember2JM() throws Exception {
         JMessageClient client = new JMessageClient(appkey, masterSecret);
 
@@ -45,18 +67,18 @@ public class JMTest extends BaseTestCase{
         List<SysUserInfo> list = sysUserService.getUserInfoListByCondition(sysUserInfo);
         RegisterInfo[] users = new RegisterInfo[list.size()];
 
-        /*for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             SysUserInfo user = list.get(i);
             RegisterInfo info = RegisterInfo.newBuilder().setUsername(user.getUserId()).setPassword("123456").build();
 
             try {
-                client.registerUsers(new RegisterInfo[]{info});
+                client.registerAdmins(user.getUserId(),"123456");
             } catch (APIConnectionException e) {
                 e.printStackTrace();
             } catch (APIRequestException e) {
                 e.printStackTrace();
             }
-        }*/
+        }
 
 
         for (int i = 0; i < list.size(); i++) {

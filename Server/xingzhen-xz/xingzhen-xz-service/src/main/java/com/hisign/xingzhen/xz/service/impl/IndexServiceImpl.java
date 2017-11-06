@@ -123,15 +123,15 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public JsonResult getGroupCaseInfo(Date[] dateSection, String backupStatus) {
-        Map<String, Long> map = null;
+        List<Map<String, Long>> map = null;
         try {
             map = groupMapper.findGroupCaseInfo(DateUtil.getDateTime(dateSection[0]), DateUtil.getDateTime(dateSection[1]), backupStatus);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(),e);
             return JsonResultUtil.error("对不起，时间参数格式错误");
         }
         if (map == null) {
-            map = new HashMap();
+            map = new ArrayList<>();
         }
         return JsonResultUtil.success(map);
     }

@@ -663,7 +663,7 @@
         </if>
     </select>
 
-    <select id="findGroupCaseInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+    <select id="findGroupCaseInfo" parameterType="java.lang.String" resultType="java.util.Map">
         SELECT a.name,a.num FROM (
         SELECT max(t1.groupname) as name,count(1) as num,max(t1.createtime) as createtime FROM t_group t1,T_AJGROUP t2 WHERE t1.id=t2.groupid
         AND t1.DELETEFLAG=0
