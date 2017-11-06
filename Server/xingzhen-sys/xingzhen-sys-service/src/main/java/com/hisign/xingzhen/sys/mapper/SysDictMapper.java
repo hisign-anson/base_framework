@@ -81,7 +81,9 @@ public interface SysDictMapper {
     public List<SysCommonDict> initDictForGXSDM(String userUnit);
 
 	List<SysDict> getDictListByParentKey(SysDict sysDict);
-	
+
+	Long getCountDictListByParentKey(SysDict sysDict);
+
 	List<SysDict> getDictListByRootKey(SysDict sysDict);
 
 	int getDictCountByParentKey(SysDict sysDict);

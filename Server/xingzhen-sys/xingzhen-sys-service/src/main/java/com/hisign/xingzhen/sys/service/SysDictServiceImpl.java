@@ -214,6 +214,11 @@ public class SysDictServiceImpl implements SysDictService {
 	}
 
 	@Override
+	public Long getCountDictListByParentKey(SysDict sysDict) {
+		return sysDictMapper.getCountDictListByParentKey(sysDict);
+	}
+
+	@Override
 	public int getDictCountByParentKey(SysDict sysDict) {
 		return sysDictMapper.getDictCountByParentKey(sysDict);
 	}

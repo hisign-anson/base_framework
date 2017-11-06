@@ -129,6 +129,12 @@ public class SysDictRest implements SysDictService {
     }
 
     @Override
+    @RequestMapping(value = "/getCountDictListByParentKey", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public Long getCountDictListByParentKey(SysDict sysDict) {
+        return sysDictService.getCountDictListByParentKey(sysDict);
+    }
+
+    @Override
     @RequestMapping(value = "/getDictListByRootKey", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public List<SysDict> getDictListByRootKey(@RequestBody SysDict sysDict) {
