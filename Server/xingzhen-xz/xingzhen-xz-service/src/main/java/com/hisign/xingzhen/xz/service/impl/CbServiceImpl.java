@@ -24,9 +24,11 @@ import com.hisign.xingzhen.xz.api.entity.Cb;
 import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
 import com.hisign.xingzhen.xz.api.model.CbModel;
+import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
 import com.hisign.xingzhen.xz.api.service.CbService;
 import com.hisign.xingzhen.xz.mapper.CbMapper;
+import com.hisign.xingzhen.xz.mapper.GroupMapper;
 import com.hisign.xingzhen.xz.mapper.TaskMapper;
 import com.hisign.xingzhen.xz.mapper.XzLogMapper;
 import org.slf4j.Logger;
@@ -50,8 +52,13 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 
 	@Autowired
 	protected CbMapper cbMapper;
+
     @Autowired
     protected TaskMapper taskMapper;
+
+    @Autowired
+    private GroupMapper groupMapper;
+
     @Autowired
     protected XzLogMapper xzLogMapper;
 
@@ -126,6 +133,11 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
             if(taskModel==null|| Constants.DELETE_TRUE.equals(taskModel.getDeleteflag())){
                 return error("任务催办失败,该任务不存在");
             }
+
+            GroupModel group =groupMapper.findById(taskModel.getGroupid());
+            if(group==null){
+                return error("该任务专案组不存在");
+            }
             //获取用户信息
             SysUserInfo loginUser= sysUserService.getUserInfoByUserId(cb.getCreator());
             if (loginUser==null){
@@ -175,6 +187,8 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
                     map.put("jsrName",taskModel.getJsrname());
                     map.put("taskContent",taskModel.getTaskContent());
                     map.put("createTime",cb.getCreatetime());
+                    map.put("groupId",group.getId());
+                    map.put("jmgId",group.getJmgid());
                     jmBean.setMsg_body(JSONObject.toJSONString(map));
                     ntService.sendJM(jmBean);
 

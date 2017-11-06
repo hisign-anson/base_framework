@@ -24,14 +24,12 @@ import com.hisign.xingzhen.xz.api.entity.Task;
 import com.hisign.xingzhen.xz.api.entity.TaskFk;
 import com.hisign.xingzhen.xz.api.entity.TaskfkFile;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
+import com.hisign.xingzhen.xz.api.model.GroupModel;
 import com.hisign.xingzhen.xz.api.model.TaskFkModel;
 import com.hisign.xingzhen.xz.api.model.TaskModel;
 import com.hisign.xingzhen.xz.api.param.TaskfkFileAddParam;
 import com.hisign.xingzhen.xz.api.service.TaskFkService;
-import com.hisign.xingzhen.xz.mapper.TaskFkMapper;
-import com.hisign.xingzhen.xz.mapper.TaskMapper;
-import com.hisign.xingzhen.xz.mapper.TaskfkFileMapper;
-import com.hisign.xingzhen.xz.mapper.XzLogMapper;
+import com.hisign.xingzhen.xz.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -57,6 +55,10 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
 
     @Autowired
     protected TaskMapper taskMapper;
+
+
+    @Autowired
+    protected GroupMapper groupMapper;
 
     @Autowired
     protected TaskfkFileMapper taskfkFileMapper;
@@ -136,6 +138,11 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
             if(taskModel==null || Constants.DELETE_TRUE.equals(taskModel.getDeleteflag())){
                 return error("该任务不存在");
             }
+
+            GroupModel group =groupMapper.findById(taskModel.getGroupid());
+            if(group==null){
+                return error("该任务专案组不存在");
+            }
             //获取用户信息
             SysUserInfo user = sysUserService.getUserInfoByUserId(taskModel.getCreator());
             if (user==null){
@@ -195,6 +202,8 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                     map.put("jsrName",task.getCreatename());
                     map.put("fkxs",taskFk.getFkxs());
                     map.put("createTime",taskFk.getCreatetime());
+                    map.put("groupId",group.getId());
+                    map.put("jmgId",group.getJmgid());
                     jmBean.setMsg_body(JSONObject.toJSONString(map));
                     ntService.sendJM(jmBean);
 

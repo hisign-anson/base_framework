@@ -78,4 +78,16 @@ public class GroupBackupParam implements Serializable{
     public void setBackupStatus(String backupStatus) {
         this.backupStatus = backupStatus;
     }
+
+    @Override
+    public String toString() {
+        return "GroupBackupParam{" +
+                "groupid='" + groupid + '\'' +
+                ", backupReason='" + backupReason + '\'' +
+                ", backupStatus='" + backupStatus + '\'' +
+                ", creator='" + creator + '\'' +
+                ", deparmentcode='" + deparmentcode + '\'' +
+                ", policeId='" + policeId + '\'' +
+                '}';
+    }
 }
