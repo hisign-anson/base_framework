@@ -164,23 +164,23 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
                 try {
                     //发送消息到极光
                     JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_URGE_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_SINGLE, MessageType.CUSTOM.getValue(),
-                            task.getCreator(), task.getJsr());
+                            cb.getCreator(), taskModel.getJsr());
                     Map<String, Object> map = new HashMap<>();
                     map.put("msgType",Constants.SEND_TASK_URGE_INFO);
                     map.put("title","催办任务");
-                    map.put("taskId",task.getId());
+                    map.put("taskId",cb.getTaskid());
                     map.put("creator",cb.getCreator());
                     map.put("createName",cb.getCreatename());
-                    map.put("jsr",task.getJsr());
-                    map.put("jsrName",task.getJsrname());
-                    map.put("taskContent",task.getTaskContent());
+                    map.put("jsr",taskModel.getJsr());
+                    map.put("jsrName",taskModel.getJsrname());
+                    map.put("taskContent",taskModel.getTaskContent());
                     map.put("createTime",cb.getCreatetime());
                     jmBean.setMsg_body(JSONObject.toJSONString(map));
                     ntService.sendJM(jmBean);
 
                     //发送信息提醒
                     MsgBean bean = new MsgBean();
-                    String text = "催办任务:"+cb.getCreatename()+"催您尽快反馈任务，任务编号："+task.getTaskNo();
+                    String text = "催办任务:"+cb.getCreatename()+"催您尽快反馈任务，任务编号："+taskModel.getTaskNo();
                     bean.setMsgId(StringUtils.getUUID());
                     bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
                     bean.setMsgContent(text);
