@@ -141,7 +141,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
             Date now=new Date();
             cb.setId(StringUtils.getUUID());
             cb.setCbTime(now);
-            cb.setCreatename(loginUser.getTrueName());
+            cb.setCreatename(loginUser.getUserName());
             cb.setCreatetime(now);
             cb.setLastupdatetime(now);
             cb.setDeleteflag(Constants.DELETE_FALSE);
