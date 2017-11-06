@@ -63,7 +63,7 @@ public class TaskSelectParam implements Serializable {
     @ApiModelProperty(value = "反馈确认状态，0未确认，1已确认")
     private String fkqrzt;
 
-    @ApiModelProperty(value = "签收状态，0未签收，1已签收")
+    @ApiModelProperty(value = "接收状态，0未查看，1已查看")
     private String qszt;
 
     @ApiModelProperty(value = "分页开始")

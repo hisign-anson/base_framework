@@ -76,8 +76,8 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "催办状态，0未催办，1已催办")
     private String cbzt; //催办状态
 
-    @ApiModelProperty(value = "签收状态，0未签收，1已签收")
-    private String qszt; //签收状态
+    @ApiModelProperty(value = "接收状态，0未查看，1已查看")
+    private String qszt; //接收状态
 
     @ApiModelProperty(value = "签收时间")
     private Date qsTime; //签收时间
@@ -374,13 +374,13 @@ public class TaskModel implements Serializable {
         this.cbzt = cbzt;
     }
     /**
-     * @return QSZT 签收状态
+     * @return QSZT 接收状态
      */
     public String getQszt(){
         return this.qszt;
     }
     /**
-     * @param QSZT 签收状态
+     * @param QSZT 接收状态
      */
     public void setQszt(String qszt){
         this.qszt = qszt;
