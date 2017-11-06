@@ -283,7 +283,7 @@ public class MessageController extends BaseController {
 		}
 		return success(box);
 	}
-	
+
 	
 	@RequestMapping(value="setRead",method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ApiOperation(value = "设置已读",httpMethod ="POST",response = JsonResult.class)
