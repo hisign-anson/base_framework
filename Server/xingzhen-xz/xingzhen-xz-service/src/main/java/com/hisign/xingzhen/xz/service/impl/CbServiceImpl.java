@@ -174,7 +174,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
                     map.put("jsr",task.getJsr());
                     map.put("jsrName",task.getJsrname());
                     map.put("taskContent",task.getTaskContent());
-                    map.put("createTime",task.getCreatetime());
+                    map.put("createTime",cb.getCreatetime());
                     jmBean.setMsg_body(JSONObject.toJSONString(map));
                     ntService.sendJM(jmBean);
 
