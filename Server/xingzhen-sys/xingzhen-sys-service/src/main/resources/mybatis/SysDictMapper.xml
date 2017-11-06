@@ -311,7 +311,7 @@
 	    </if>
     </select>
 
-    <select id="getCountDictListByParentKey" parameterType="com.hisign.xingzhen.sys.api.model.SysDict" resultType="com.hisign.xingzhen.sys.api.model.SysDict">
+    <select id="getCountDictListByParentKey" parameterType="com.hisign.xingzhen.sys.api.model.SysDict" resultType="java.lang.Long">
 	      select
 	          count(1)
 	        from SYS_DICT S where 1=1
