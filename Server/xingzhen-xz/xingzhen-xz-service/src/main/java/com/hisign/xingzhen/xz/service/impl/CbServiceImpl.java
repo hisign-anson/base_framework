@@ -158,7 +158,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , cb.getCreator(), now, cb.getId());
                     xzLogMapper.insertNotNull(xzLog);
                 } catch (Exception e){
-                    log.error(e.getMessage());
+                    log.error(e.getMessage(),e);
                 }
 
                 try {

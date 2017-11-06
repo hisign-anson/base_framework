@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -33,7 +34,7 @@ public class JMTest extends BaseTestCase{
     private final String appkey="a15c1e9bb38c1607b9571eea";
     private final String masterSecret="bd4d826e1e49340aac2d05e2";
 
-    @Autowired
+    @Resource(name="sysUserService")
     private SysUserService sysUserService;
 
     @Test
@@ -73,23 +74,13 @@ public class JMTest extends BaseTestCase{
 
             try {
                 client.registerAdmins(user.getUserId(),"123456");
+                client.updateUserInfo(user.getUserId(),user.getUserName(), null
+                        ,null,user.getSex(),user.getAddress(),user.getAddress());
             } catch (APIConnectionException e) {
                 e.printStackTrace();
             } catch (APIRequestException e) {
                 e.printStackTrace();
             }
         }
-
-
-        for (int i = 0; i < list.size(); i++) {
-            try {
-                SysUserInfo user = list.get(i);
-                client.updateUserInfo(user.getUserId(),user.getUserName(), null
-                        ,null,user.getSex(),user.getAddress(),user.getAddress());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 }

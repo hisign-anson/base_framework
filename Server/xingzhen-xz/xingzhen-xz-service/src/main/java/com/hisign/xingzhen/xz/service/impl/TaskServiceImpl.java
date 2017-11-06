@@ -181,7 +181,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                                 XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , userId, now, taskFkModel.getId());
                                 xzLogMapper.insertNotNull(xzLog);
                             }catch (Exception e) {
-                                log.error(e.getMessage());
+                                log.error(e.getMessage(),e);
                             }
                             //第一次进去现在已确认
                             taskFkModel.setQrzt(Constants.YES);
@@ -206,7 +206,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                          XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskModel.getCreator(), now, taskModel.getId());
                          xzLogMapper.insertNotNull(xzLog);
                      } catch (Exception e) {
-                         log.error(e.getMessage());
+                         log.error(e.getMessage(),e);
                      }
                     taskModel.setQszt(Constants.YES);
                 }
@@ -271,7 +271,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                 XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , task.getCreator(), now, task.getId());
                 xzLogMapper.insertNotNull(xzLog);
             } catch (Exception e){
-                log.error(e.getMessage());
+                log.error(e.getMessage(),e);
             }
 
             try {
@@ -328,7 +328,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                  XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , userId, now, task.getId());
                  xzLogMapper.insertNotNull(xzLog);
              } catch (Exception e){
-                 log.error(e.getMessage());
+                 log.error(e.getMessage(),e);
              }
         }
         return result;
@@ -384,7 +384,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskMoveParam.getCreator(), now, taskMoveParam.getId());
                     xzLogMapper.insertNotNull(xzLog);
                 } catch (Exception e){
-                    log.error(e.getMessage());
+                    log.error(e.getMessage(),e);
                 }
 
                 try {

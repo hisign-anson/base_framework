@@ -179,7 +179,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskFk.getCreator(), now, task.getId());
                     xzLogMapper.insertNotNull(xzLog);
                 } catch (Exception e){
-                    log.error(e.getMessage());
+                    log.error(e.getMessage(),e);
                 }
                 try {
                     //发送消息到极光

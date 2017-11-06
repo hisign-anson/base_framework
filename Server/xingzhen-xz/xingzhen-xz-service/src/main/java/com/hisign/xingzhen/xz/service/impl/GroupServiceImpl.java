@@ -146,7 +146,7 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
             XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()), Constants.XZLogType.GROUP, content, entity.getCreator(), now, entity.getId());
             xzLogMapper.insertNotNull(xzLog);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(),e);
         }
         return success(super.getById(entity.getId()));
     }
