@@ -76,7 +76,7 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "催办状态，0未催办，1已催办")
     private String cbzt; //催办状态
 
-    @ApiModelProperty(value = "签收状态，0未查看，1已查看")
+    @ApiModelProperty(value = "签收状态，0未签收，1已签收")
     private String qszt; //签收状态
 
     @ApiModelProperty(value = "签收时间")
