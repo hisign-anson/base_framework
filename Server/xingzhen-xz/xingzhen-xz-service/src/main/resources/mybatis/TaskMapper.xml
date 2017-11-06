@@ -966,6 +966,9 @@
                 <if test='fkqrzt=="1"'>
                     and exists (select 1 from T_TASK_FK fk where fk.taskid=t.id and fk.qrzt='1')
                 </if>
+                <if test="qszt!=null and qszt!=''">
+                    and qszt=#{qszt,jdbcType=VARCHAR}
+                </if>
                 <if test="taskNo!=null and taskNo!=''">
                     and t.task_no like '%'||#{taskNo,jdbcType=VARCHAR}||'%' escape '\'
                 </if>
@@ -1040,6 +1043,9 @@
                 </if>
                 <if test='fkqrzt=="1"'>
                     and exists (select 1 from T_TASK_FK fk where fk.taskid=t.id and fk.qrzt='1')
+                </if>
+                <if test="qszt!=null and qszt!=''">
+                    and qszt=#{qszt,jdbcType=VARCHAR}
                 </if>
                 <if test="taskNo!=null and taskNo!=''">
                     and t.task_no like '%'||#{taskNo,jdbcType=VARCHAR}||'%' escape '\'

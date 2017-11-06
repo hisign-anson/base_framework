@@ -63,6 +63,9 @@ public class TaskSelectParam implements Serializable {
     @ApiModelProperty(value = "反馈确认状态，0未确认，1已确认")
     private String fkqrzt;
 
+    @ApiModelProperty(value = "签收状态，0未签收，1已签收")
+    private String qszt;
+
     @ApiModelProperty(value = "分页开始")
     private int begin = 0;
 
@@ -202,6 +205,14 @@ public class TaskSelectParam implements Serializable {
 
     public void setFkqrzt(String fkqrzt) {
         this.fkqrzt = fkqrzt;
+    }
+
+    public String getQszt() {
+        return qszt;
+    }
+
+    public void setQszt(String qszt) {
+        this.qszt = qszt;
     }
 
     public int getBegin() {
