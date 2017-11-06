@@ -288,15 +288,18 @@
 	          DICT_PY as py,
 	          OPEN_FLAG as openFlag,
 	          REMARK as remark
-	        from SYS_DICT where 
+	        from SYS_DICT S where 1=1
 	        <choose>
 	          <when test="parentKey !=null and parentKey !='' ">
-	            PARENT_KEY =#{parentKey}
+	           AND PARENT_KEY =#{parentKey}
 	          </when>
 	          <otherwise>
-	           PARENT_KEY is NULL
+	           AND PARENT_KEY is NULL
 	          </otherwise>
 	        </choose>
+            <if test="queryString!=null and queryString!=''">
+                AND S.DICT_VALUE1 like '%'||#{queryString,jdbcType=VARCHAR}||'%' escape '\'
+            </if>
 	        order by DICT_SORT ASC
 	      ) a
 	      <if test="end !=null and end !=0">
@@ -321,15 +324,18 @@
 	          DICT_PY as py,
 	          OPEN_FLAG as openFlag,
 	          REMARK as remark
-	        from SYS_DICT where 
-	        <choose>
-	          <when test="root !=null and root !='' ">
-	            ROOT_KEY =#{root}
-	          </when>
-	          <otherwise>
-	           ROOT_KEY is NULL
-	          </otherwise>
-	        </choose>
+	        from SYS_DICT where 1=1
+            <choose>
+                <when test="parentKey !=null and parentKey !='' ">
+                    AND PARENT_KEY =#{parentKey}
+                </when>
+                <otherwise>
+                    AND PARENT_KEY is NULL
+                </otherwise>
+            </choose>
+            <if test="queryString!=null and queryString!=''">
+                AND S.DICT_VALUE1 like '%'||#{queryString,jdbcType=VARCHAR}||'%' escape '\'
+            </if>
 	        order by DICT_SORT ASC
 	      ) a
 	      <if test="end !=null and end !=0">

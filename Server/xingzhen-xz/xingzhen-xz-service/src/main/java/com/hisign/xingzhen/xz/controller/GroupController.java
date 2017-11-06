@@ -100,7 +100,7 @@ public class GroupController extends BaseController{
      */
     @ApiOperation(value = "获取所有专案组根据用户id",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getAllGroupByUserId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getAllGroupByUserId(@RequestParam String userId) {
-        return groupService.getAllGroupByUserId(userId);
+    public JsonResult getAllGroupByUserId(@RequestParam String userId,@RequestParam(required = false) String groupName) {
+        return groupService.getAllGroupByUserId(userId,groupName);
     }
 }

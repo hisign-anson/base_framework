@@ -19,6 +19,8 @@ public class WebLogAspect {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private Object result;
+	private long startTimie;
+	private String url;
 
 	@Pointcut("execution(public * com.hisign.xingzhen.*.controller..*.*(..))")
 	public void webLog() {
@@ -26,7 +28,7 @@ public class WebLogAspect {
 
 	@Before("webLog()")
 	public void doBefore(JoinPoint joinPoint) {
-
+		startTimie = System.currentTimeMillis();
 		// 接收到请求，记录请求内容
 		logger.debug("\n\n---------------"+joinPoint.getSignature().getDeclaringTypeName()+"-->start---------------");
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
@@ -34,7 +36,8 @@ public class WebLogAspect {
 		HttpServletRequest request = attributes.getRequest();
 
 		// 记录下请求内容
-		logger.debug("URL : " + request.getRequestURL().toString());
+		url = request.getRequestURL().toString();
+		logger.debug("URL : " + url);
 		logger.debug("HTTP_METHOD : " + request.getMethod());
 		logger.debug("IP : " + request.getRemoteAddr());
 		logger.debug("CLASS_METHOD : "
@@ -55,6 +58,8 @@ public class WebLogAspect {
 		// 处理完请求，返回内容
 		if (result!=null) {
 			logger.debug("\n\n返回结果："+result);
+			logger.debug("\n\n运行方法："+url);
+			logger.debug("\n\n消耗时间："+(System.currentTimeMillis()-startTimie)+"毫秒");
 			logger.debug("\n\n");
 		}
 		logger.debug("\n\n---------------"+joinPoint.getSignature().getDeclaringTypeName()+"-->end---------------");
