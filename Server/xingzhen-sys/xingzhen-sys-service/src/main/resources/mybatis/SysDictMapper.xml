@@ -300,6 +300,9 @@
             <if test="queryString!=null and queryString!=''">
                 AND S.DICT_VALUE1 like '%'||#{queryString,jdbcType=VARCHAR}||'%' escape '\'
             </if>
+            <if test="root!=null and root!=''">
+                AND S.ROOT_KEY=#{root,jdbcType=VARCHAR}
+            </if>
 	        order by DICT_SORT ASC
 	      ) a
 	      <if test="end !=null and end !=0">
