@@ -42,7 +42,7 @@ public class AppGroupController {
             List<GroupModel> parentList = (List<GroupModel>) result.getData();
             if (parentList!=null && parentList.size()!=0){
                 for (GroupModel groupModel : parentList) {
-                    JsonResult jr = groupService.getChildGroupList(groupModel.getId(),null);
+                    JsonResult jr = groupService.getChildGroupList(groupModel.getId(),null,groupParam.getUserId());
                     if (jr.isSuccess()){
                         List<GroupModel> chlidList = (List<GroupModel>) jr.getData();
                         if (chlidList!=null && chlidList.size()!=0){

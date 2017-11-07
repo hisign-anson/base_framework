@@ -75,8 +75,8 @@ public class GroupController extends BaseController{
      */
     @ApiOperation(value = "查询子专案组列表",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getChildGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public JsonResult getChildGroupList(@RequestParam String groupId,@RequestParam String memberName) {
-        return groupService.getChildGroupList(groupId,memberName);
+    public JsonResult getChildGroupList(@RequestParam String groupId,@RequestParam String memberName,@RequestParam String userId) {
+        return groupService.getChildGroupList(groupId,memberName,userId);
     }
 
     /**

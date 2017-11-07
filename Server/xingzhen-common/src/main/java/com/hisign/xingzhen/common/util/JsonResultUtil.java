@@ -2,6 +2,8 @@ package com.hisign.xingzhen.common.util;
 
 import com.hisign.xingzhen.common.model.JsonResult;
 
+import java.util.ArrayList;
+
 
 public class JsonResultUtil {
 
@@ -24,6 +26,9 @@ public class JsonResultUtil {
         jsonResult = new JsonResult();
         jsonResult.setFlag(SUCCESS);
         jsonResult.setTotalCount(totalCount);
+        if (data==null){
+            data = new ArrayList<>(0);
+        }
         jsonResult.setData(data);
         return jsonResult;
     }
@@ -37,6 +42,9 @@ public class JsonResultUtil {
     public static JsonResult success(Object data) {
         jsonResult = new JsonResult();
         jsonResult.setFlag(SUCCESS);
+        if (data==null){
+            data = new ArrayList<>(0);
+        }
         jsonResult.setData(data);
         return jsonResult;
     }
@@ -49,6 +57,7 @@ public class JsonResultUtil {
     public static JsonResult success() {
         jsonResult = new JsonResult();
         jsonResult.setFlag(SUCCESS);
+        jsonResult.setData(new ArrayList<>(0));
         return jsonResult;
     }
 

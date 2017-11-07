@@ -209,7 +209,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message,Message, String>
 		}else{
 			message.setRev2(null);
 		}
-	    JsonResult jsonResult = this.updateNotNull(message);
+		JsonResult jsonResult = this.update(message);
 	  //发送消息
 	  	this.pushMsg(message);
 	    return jsonResult;
