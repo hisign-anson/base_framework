@@ -329,8 +329,9 @@
             <if test="queryString!=null and queryString!=''">
                 AND S.DICT_VALUE1 like '%'||#{queryString,jdbcType=VARCHAR}||'%' escape '\'
             </if>
-	        order by DICT_SORT ASC
-
+            <if test="root!=null and root!=''">
+                AND S.ROOT_KEY=#{root,jdbcType=VARCHAR}
+            </if>
     </select>
 
     <select id="getDictListByRootKey" parameterType="com.hisign.xingzhen.sys.api.model.SysDict" resultType="com.hisign.xingzhen.sys.api.model.SysDict">
@@ -382,7 +383,7 @@
 	          REMARK as remark
 	        from SYS_DICT where ID=#{id}
     </select>
-    <select id="getDictCountByParentKey" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <select id="getDictCountByParentKey" parameterType="com.hisign.xingzhen.sys.api.model.SysDict" resultType="java.lang.Integer">
             select
 	          count(1)
 	        from SYS_DICT where
@@ -394,6 +395,9 @@
 	           PARENT_KEY is NULL
 	          </otherwise>
 	        </choose>
+            <if test="root!=null and root!=''">
+                AND ROOT_KEY=#{root,jdbcType=VARCHAR}
+            </if>
     </select>
     
     <delete id="delDictByKey" parameterType="java.lang.String">
