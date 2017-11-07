@@ -256,5 +256,6 @@ public class Constants {
 	public static final String TYPE_CUSTOM_TASK_RECEIVER_KEY = "TYPE_CUSTOM_TASK_RECEIVER_KEY";
 
 
+	public static final String JM_PASSWORD="123456";
 
 }
