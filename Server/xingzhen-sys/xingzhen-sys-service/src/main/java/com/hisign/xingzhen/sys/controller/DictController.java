@@ -7,12 +7,10 @@ import com.hisign.xingzhen.sys.api.model.SysCommonDict;
 import com.hisign.xingzhen.sys.api.model.SysDict;
 import com.hisign.xingzhen.sys.api.model.TreeModel;
 import com.hisign.xingzhen.sys.api.service.SysDictService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import java.net.URLDecoder;
@@ -252,11 +250,12 @@ public class DictController {
     @ApiOperation(value = "根据父key获取字典树",response = JsonResult.class)
     @RequestMapping(value = "/getDictTreeByParentKey", method = RequestMethod.GET,produces={"application/json; charset=UTF-8"})
     @ResponseBody
-    public List<TreeModel> getDictTreeByParentKey(@RequestParam(required = false) String id) {
+    public List<TreeModel> getDictTreeByParentKey(@RequestParam(required = false) String id,@RequestParam(required = false) String rootKey) {
     	
         try {
         	SysDict param = new SysDict();
         	param.setParentKey(id);
+            param.setRoot(rootKey);
             return sysDictService.getDictTreeByParentKey(param);
         } catch (Exception e) {
             return new ArrayList<TreeModel>();
