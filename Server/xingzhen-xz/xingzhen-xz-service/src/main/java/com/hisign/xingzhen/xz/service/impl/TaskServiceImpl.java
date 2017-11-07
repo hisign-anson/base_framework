@@ -288,6 +288,8 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                 map.put("jsrName",task.getJsrname());
                 map.put("taskContent",task.getTaskContent());
                 map.put("createTime",task.getCreatetime());
+                map.put("groupId",group.getId());
+                map.put("jmgId",group.getJmgid());
                 jmBean.setMsg_body(JSONObject.toJSONString(map));
                 ntService.sendJM(jmBean);
 
@@ -347,6 +349,10 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             if(new_task==null || Constants.DELETE_TRUE.equals(new_task.getDeleteflag())){
                 return error("该任务不存在");
             }
+            GroupModel group =groupMapper.findById(new_task.getGroupid());
+            if(group==null){
+                return error("该任务专案组不存在");
+            }
             //获取用户信息
             SysUserInfo user = sysUserService.getUserInfoByUserId(taskMoveParam.getJsr());
             if (user==null){
@@ -401,6 +407,8 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                     map.put("jsrName",entity.getJsrname());
                     map.put("taskContent",entity.getTaskContent());
                     map.put("createTime",entity.getCreatetime());
+                    map.put("groupId",group.getId());
+                    map.put("jmgId",group.getJmgid());
                     jmBean.setMsg_body(JSONObject.toJSONString(map));
                     ntService.sendJM(jmBean);
 

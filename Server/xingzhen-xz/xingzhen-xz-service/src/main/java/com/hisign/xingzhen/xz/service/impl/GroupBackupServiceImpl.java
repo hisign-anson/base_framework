@@ -132,6 +132,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
     @Transactional(rollbackFor=Exception.class)
     public JsonResult backup(GroupBackupParam param) throws BusinessException {
 
+        Date now=new Date();
         //判断是否归档
         GroupBackup entity = new GroupBackup();
         Group group = new Group();
@@ -139,14 +140,13 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
         if (param.getBackupStatus().equals(Constants.YES)){
             BeanUtils.copyProperties(param,entity);
             entity.setId(StringUtils.getUUID());
-            entity.setCreatetime(new Date());
-            entity.setBackupTime(new Date());
+            entity.setCreatetime(now);
+            entity.setBackupTime(now);
             entity.setDeleteflag(Constants.DELETE_FALSE);
             long i = groupBackupMapper.insertNotNull(entity);
             if (i<1){
                 return error(BaseEnum.BusinessExceptionEnum.INSERT.Msg());
             }
-            group.setBackupTime(new Date());
             backupLogMsg = "归档";
         }else {
             param.setBackupStatus(Constants.NO);
@@ -164,13 +164,17 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
         if (gm==null){
             return error("对不起，该专案组不存在!");
         }
-
         BeanUtils.copyProperties(gm,group);
         group.setBackupStatu(param.getBackupStatus());
-        group.setBackupReason(param.getBackupReason());
-        group.setLastupdatetime(new Date());
-
-        long num = groupMapper.updateNotNull(group);
+        group.setLastupdatetime(now);
+        if (param.getBackupStatus().equals(Constants.YES)) {
+            group.setBackupTime(now);
+            group.setBackupReason(param.getBackupReason());
+        }  else{
+            group.setBackupTime(null);
+            group.setBackupReason("");
+        }
+        long num = groupMapper.update(group);
 
         //更新小组信息-子小组全部与父专案组一致
         UpdateParams updateParams = new UpdateParams(Group.class);
@@ -179,8 +183,14 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
         Conditions.Criteria criteria = conditions.createCriteria();
         criteria.add(Group.GroupEnum.pgroupid.get(), BaseEnum.ConditionEnum.EQ,gm.getId())
                 .add(Group.GroupEnum.deleteflag.get(), BaseEnum.ConditionEnum.EQ,Constants.DELETE_FALSE);
-        updateParams.add(new String[]{Group.GroupEnum.backupTime.get(),Group.GroupEnum.backupStatu.get(),Group.GroupEnum.lastupdatetime.get()}
-                ,new Object[]{group.getBackupTime(),param.getBackupStatus(),group.getLastupdatetime()});
+        if (param.getBackupStatus().equals(Constants.YES)) {
+            updateParams.add(new String[]{Group.GroupEnum.backupTime.get(),Group.GroupEnum.backupStatu.get(),Group.GroupEnum.lastupdatetime.get()}
+                    ,new Object[]{group.getBackupTime(),param.getBackupStatus(),group.getLastupdatetime()});
+        }  else{
+            updateParams.add(new String[]{Group.GroupEnum.backupTime.get(),Group.GroupEnum.backupStatu.get(),Group.GroupEnum.lastupdatetime.get()}
+                    ,new Object[]{"",param.getBackupStatus(),group.getLastupdatetime()});
+        }
+
         updateParams.setConditions(conditions);
 
         groupMapper.updateCustom(updateParams);
