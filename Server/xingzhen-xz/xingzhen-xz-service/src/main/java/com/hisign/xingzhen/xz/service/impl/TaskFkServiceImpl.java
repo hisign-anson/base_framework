@@ -183,7 +183,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
             if(result.isSuccess()){
                 try {
                     String content="任务反馈（ID=" + taskFk.getId() + ",TASKID"+ taskFk.getTaskid() + "）";
-                    XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskFk.getCreator(), now, task.getId());
+                    XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskFk.getCreator(), now, taskModel.getId());
                     xzLogMapper.insertNotNull(xzLog);
                 } catch (Exception e){
                     log.error(e.getMessage(),e);
@@ -191,15 +191,15 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                 try {
                     //发送消息到极光
                     JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_FEEDBACK_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_SINGLE, MessageType.CUSTOM.getValue(),
-                            taskFk.getCreator(), task.getCreator());
+                            taskFk.getCreator(), taskModel.getCreator());
                     Map<String, Object> map = new HashMap<>();
                     map.put("msgType",Constants.SEND_TASK_FEEDBACK_INFO);
                     map.put("title","反馈任务");
-                    map.put("taskId",task.getId());
+                    map.put("taskId",taskModel.getId());
                     map.put("creator",taskFk.getCreator());
                     map.put("createName",taskFk.getCreatename());
-                    map.put("jsr",task.getCreator());
-                    map.put("jsrName",task.getCreatename());
+                    map.put("jsr",taskModel.getCreator());
+                    map.put("jsrName",taskModel.getCreatename());
                     map.put("fkxs",taskFk.getFkxs());
                     map.put("createTime",taskFk.getCreatetime());
                     map.put("groupId",group.getId());
@@ -209,7 +209,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
 
                     //发送信息提醒
                     MsgBean bean = new MsgBean();
-                    String text = "反馈任务:"+taskFk.getCreatename()+"反馈了您下发的任务，任务编号："+task.getTaskNo();
+                    String text = "反馈任务:"+taskFk.getCreatename()+"反馈了您下发的任务，任务编号："+taskModel.getTaskNo();
                     bean.setMsgId(StringUtils.getUUID());
                     bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
                     bean.setMsgContent(text);
