@@ -32,8 +32,8 @@ public class JMTest extends BaseTestCase{
 
     private Logger log = LoggerFactory.getLogger(JMTest.class);
 
-    private final String appkey="a15c1e9bb38c1607b9571eea";
-    private final String masterSecret="bd4d826e1e49340aac2d05e2";
+    private final String appkey="13c78e9ee2ac862f30ce0b17";
+    private final String masterSecret="670180c73e6152cf44918e2e";
 
     @Resource(name="sysUserService")
     private SysUserService sysUserService;
