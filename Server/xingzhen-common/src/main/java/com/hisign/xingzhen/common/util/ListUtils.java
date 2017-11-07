@@ -21,6 +21,14 @@ public class ListUtils {
 		return str;
 	}
 
+	public static List<String> obj2str(List<Object> list){
+		ArrayList<String> li = new ArrayList<>(list.size());
+		for (Object o : list) {
+			li.add(o.toString());
+		}
+		return li;
+	}
+
 	
 	public static List<Object> arr2List(Object[] arr){
 		List<Object> list = new ArrayList<Object>();

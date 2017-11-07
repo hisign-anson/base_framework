@@ -541,7 +541,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 
-	public List<SysUserInfo> getUserInfoByIds(List<Object> ids){
+	public List<SysUserInfo> getUserInfoByIds(List<String> ids){
 		return sysUserInfoMapper.findByIds(ids);
 	}
 

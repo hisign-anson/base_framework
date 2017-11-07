@@ -239,10 +239,10 @@
       ) OR ORG_ID=#{superId,jdbcType=VARCHAR})
   </select>
 
-    <select id="findByIds" resultMap="BaseResultMap">
+    <select id="findByIds" parameterType="java.util.List" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
-        FROM SYS_USER_INFO where SYS_USER_INFO.USER_ID IN
+        FROM SYS_USER_INFO o where o.USER_ID IN
         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
             #{item}
         </foreach>

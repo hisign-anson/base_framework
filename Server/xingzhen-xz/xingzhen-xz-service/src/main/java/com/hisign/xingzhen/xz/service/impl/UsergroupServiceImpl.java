@@ -158,7 +158,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 bean.setPublishId(creator);
                 bean.setPublishName(user.getUserName());
 
-                List<SysUserInfo> userList = sysUserService.getUserInfoByIds(ids);
+                List<SysUserInfo> userList = sysUserService.getUserInfoByIds(ListUtils.obj2str(ids));
                 if (userList!=null && userList.size()!=0){
                     bean.setList(userList);
                 }
@@ -296,7 +296,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
             bean.setPublishId(ug.getCreator());
             bean.setPublishName(group.getCreatename());
 
-            List<SysUserInfo> userList = sysUserService.getUserInfoByIds(userIds);
+            List<SysUserInfo> userList = sysUserService.getUserInfoByIds(ListUtils.obj2str(userIds));
             if (userList!=null && userList.size()!=0){
                 bean.setList(userList);
             }

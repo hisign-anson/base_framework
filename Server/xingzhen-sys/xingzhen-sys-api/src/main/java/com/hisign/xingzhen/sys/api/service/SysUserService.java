@@ -7,6 +7,7 @@ import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -180,6 +181,6 @@ public interface SysUserService {
 
     @RequestMapping(value = "/getUserInfoByIds", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public List<SysUserInfo> getUserInfoByIds(List<Object> ids);
+    public List<SysUserInfo> getUserInfoByIds(@RequestBody List<String> ids);
 
 }

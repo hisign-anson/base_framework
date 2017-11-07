@@ -6,14 +6,16 @@ import com.hisign.xingzhen.sys.api.model.SysUser;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/sys/sysUserService")
-@RestController
+@Controller
 public class SysUserRest implements SysUserService {
 
     @Autowired
@@ -175,7 +177,9 @@ public class SysUserRest implements SysUserService {
     }
 
     @Override
-    public List<SysUserInfo> getUserInfoByIds(List<Object> ids) {
+    @RequestMapping(value = "/getUserInfoByIds", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<SysUserInfo> getUserInfoByIds(@RequestBody List<String> ids) {
         return sysUserService.getUserInfoByIds(ids);
     }
 
