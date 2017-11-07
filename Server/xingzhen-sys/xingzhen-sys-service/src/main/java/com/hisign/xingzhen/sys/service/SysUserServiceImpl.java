@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jmessage.api.JMessageClient;
 import cn.jmessage.api.common.model.RegisterInfo;
@@ -498,11 +500,21 @@ public class SysUserServiceImpl implements SysUserService {
 		//更新极光上用户的信息
 		try {
 			//如果极光上没有，重新注册
-			UserInfoResult infoResult = userClient.getUserInfo(userInfo.getUserId());
-			if (!infoResult.isResultOK()){
+			UserInfoResult infoResult = null;
+			try {
+				infoResult = userClient.getUserInfo(userInfo.getUserId());
+			} catch (Exception e) {
+				log.error(e.getMessage());
+				try {
+					jMessageClient.registerAdmins(userInfo.getUserId(),Constants.JM_PASSWORD);
+				} catch (Exception e1) {
+					log.error(e.getMessage());
+				}
+			}
+			if (infoResult!=null && !infoResult.isResultOK()){
 				jMessageClient.registerAdmins(userInfo.getUserId(),Constants.JM_PASSWORD);
 			}
-			UserPayload userPayload = UserPayload.newBuilder().setAddress(userInfo.getAddress()).setBirthday(DateUtil.getDateTime(userInfo.getBirth()))
+			UserPayload userPayload = UserPayload.newBuilder().setAddress(userInfo.getAddress())
                     .setNickname(userInfo.getUserName()).build();
 			ResponseWrapper response = userClient.updateUserInfo(userInfo.getUserId(), userPayload);
 			if (!response.isServerResponse()){
