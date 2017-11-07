@@ -276,7 +276,7 @@ public class UserController {
             //生日
             if (!StringUtils.isEmpty(param.getCid())) {
                 String cid = param.getCid();
-                cid = cid.substring(6, 14);
+                cid = cid.substring(7, 14);
                 int year = Integer.valueOf(cid.substring(0, 4));
                 int month = Integer.valueOf(cid.substring(4, 6));
                 int day = Integer.valueOf(cid.substring(6));
@@ -410,7 +410,7 @@ public class UserController {
 					//生日
 					if (!StringUtils.isEmpty(info.getCid())) {
 						String cid = info.getCid();
-						cid = cid.substring(6, 14);
+						cid = cid.substring(7, 14);
 						int year = Integer.valueOf(cid.substring(0, 4));
 						int month = Integer.valueOf(cid.substring(4, 6));
 						int day = Integer.valueOf(cid.substring(6));

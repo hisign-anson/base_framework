@@ -264,6 +264,7 @@
         <result column="RESERVER37" property="reserver37" jdbcType="VARCHAR"/>
         <result column="YYK_RKSJ" property="yykRksj" jdbcType="TIMESTAMP"/>
         <result column="AB_CN" property="abCn" jdbcType="VARCHAR"/>
+        <result column="AJLXCN" property="ajlxCn" jdbcType="VARCHAR"/>
         <result column="AJSSJQ_CN" property="ajssjqCn" jdbcType="VARCHAR"/>
         <result column="AJSTATE_CN" property="ajstateCn" jdbcType="VARCHAR"/>
         <result column="AJWHCD_CN" property="ajwhcdCn" jdbcType="VARCHAR"/>
@@ -7336,7 +7337,16 @@
     <select id="findAjGroupPage" parameterType="com.hisign.xingzhen.xz.api.param.AsjAjParam" resultMap="BaseResultMap">
         select p.* from(
             select rownum as rn,q.* from (
-                select b.AJBH,b.AB,b.AJMC,b.FADD,b.AJLX,b.AJSTATE,b.ZYAQ,b.AJZBRY
+                select b.AJBH,b.AB,b.AJMC,b.FADD,b.AJLX,b.AJSTATE,b.ZYAQ,b.AJZBRY,
+                (
+                  select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='44' and dict.DICT_KEY=b.AJLX
+                ) as AJLXCN,
+                (
+                  select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='24' and dict.DICT_KEY=b.AB
+                ) as ABCN,
+                (
+                  select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='56' and dict.DICT_KEY=b.ajstate
+                ) as AJSTATE_CN
                 <choose>
                     <when test="isInGroup==true">
                         ,(SELECT aj.ID FROM T_AJGROUP aj WHERE b.ID=aj.AJID AND aj.GROUPID=#{groupId,jdbcType=VARCHAR}
