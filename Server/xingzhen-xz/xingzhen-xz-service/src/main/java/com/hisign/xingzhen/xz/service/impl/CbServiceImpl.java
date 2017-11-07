@@ -211,7 +211,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
             }
             return result;
         }catch (Exception e) {
-            throw new BusinessException(BaseEnum.BusinessExceptionEnum.INSERT,e);
+            throw new BusinessException(BaseEnum.BusinessExceptionEnum.UPDATE,e);
         }
     }
  }
