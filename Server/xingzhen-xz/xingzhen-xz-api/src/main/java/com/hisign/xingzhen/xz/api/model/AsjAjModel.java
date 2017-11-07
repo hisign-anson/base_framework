@@ -40,7 +40,10 @@ public class AsjAjModel implements Serializable {
 	
     @ApiModelProperty(value = "案件类型-字典项＝44")
 	private String ajlx; //案件类型-字典项＝44
-	
+
+    @ApiModelProperty(value = "案件类型-字典项＝44")
+	private String ajlxCn; //案件类型-字典项＝44
+
     @ApiModelProperty(value = "案别/案由-字典项＝24")
 	private String ab; //案别/案由-字典项＝24
 	
@@ -181,7 +184,7 @@ public class AsjAjModel implements Serializable {
 	
     @ApiModelProperty(value = "主要办案人")
 	private String ajzbry; //主要办案人
-	
+
     @ApiModelProperty(value = "案件协办人")
 	private String ajxbry; //案件协办人
 	
@@ -4890,6 +4893,14 @@ public class AsjAjModel implements Serializable {
 
     public void setAjid(String ajid) {
         this.ajid = ajid;
+    }
+
+    public String getAjlxCn() {
+        return ajlxCn;
+    }
+
+    public void setAjlxCn(String ajlxCn) {
+        this.ajlxCn = ajlxCn;
     }
 
     @Override
