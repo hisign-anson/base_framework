@@ -5,6 +5,7 @@ import cn.jiguang.common.resp.APIRequestException;
 import cn.jmessage.api.JMessageClient;
 import cn.jmessage.api.common.model.RegisterInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.DateUtil;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
@@ -73,7 +74,7 @@ public class JMTest extends BaseTestCase{
             RegisterInfo info = RegisterInfo.newBuilder().setUsername(user.getUserId()).setPassword("123456").build();
 
             try {
-                client.registerAdmins(user.getUserId(),"123456");
+                client.registerAdmins(user.getUserId(), Constants.JM_PASSWORD);
                 client.updateUserInfo(user.getUserId(),user.getUserName(), null
                         ,null,user.getSex(),user.getAddress(),user.getAddress());
             } catch (APIConnectionException e) {

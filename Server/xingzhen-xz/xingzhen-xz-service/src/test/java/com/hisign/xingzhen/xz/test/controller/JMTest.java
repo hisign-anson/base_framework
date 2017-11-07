@@ -28,6 +28,7 @@ import com.hisign.xingzhen.xz.api.service.GroupService;
 import com.hisign.xingzhen.xz.api.service.UsergroupService;
 import com.hisign.xingzhen.xz.test.BaseTestCase;
 import com.netflix.discovery.converters.Auto;
+import io.netty.util.Constant;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,7 +112,7 @@ public class JMTest extends BaseTestCase{
     public void testCreateUser() {
         UserClient client = new UserClient(appkey, masterSecret);
         try {
-            RegisterInfo info = RegisterInfo.newBuilder().setPassword("123456").setUsername("1FF443B790E44DD0B705546834BA07BD").build();
+            RegisterInfo info = RegisterInfo.newBuilder().setPassword(Constants.JM_PASSWORD).setUsername("1FF443B790E44DD0B705546834BA07BD").build();
             RegisterPayload load = RegisterPayload.newBuilder().addUsers(info).build();
             client.registerUsers(load);
         } catch (APIConnectionException e) {

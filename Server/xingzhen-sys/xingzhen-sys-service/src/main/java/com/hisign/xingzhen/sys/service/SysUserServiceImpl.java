@@ -7,12 +7,15 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jmessage.api.JMessageClient;
 import cn.jmessage.api.common.model.RegisterInfo;
 import cn.jmessage.api.common.model.RegisterPayload;
 import cn.jmessage.api.common.model.UserPayload;
 import cn.jmessage.api.user.UserClient;
+import cn.jmessage.api.user.UserInfoResult;
 import com.hisign.xingzhen.common.util.*;
 import com.hisign.xingzhen.sys.mapper.SysLogMapper;
 import com.hisign.xingzhen.sys.mapper.SysUserInfoMapper;
@@ -324,7 +327,7 @@ public class SysUserServiceImpl implements SysUserService {
 		}
 		sysUserInfoMapper.insert(userInfo);
 
-		RegisterInfo registerInfo = RegisterInfo.newBuilder().setUsername(userInfo.getUserId()).setPassword("123456").build();
+		RegisterInfo registerInfo = RegisterInfo.newBuilder().setUsername(userInfo.getUserId()).setPassword(Constants.JM_PASSWORD).build();
 		ResponseWrapper response = userClient.registerAdmins(registerInfo);
 		if (!response.isServerResponse()){
 			log.error("极光注册用户失败",response);
@@ -496,7 +499,22 @@ public class SysUserServiceImpl implements SysUserService {
 
 		//更新极光上用户的信息
 		try {
-			UserPayload userPayload = UserPayload.newBuilder().setAddress(userInfo.getAddress()).setBirthday(DateUtil.getDateTime(userInfo.getBirth()))
+			//如果极光上没有，重新注册
+			UserInfoResult infoResult = null;
+			try {
+				infoResult = userClient.getUserInfo(userInfo.getUserId());
+			} catch (Exception e) {
+				log.error(e.getMessage());
+				try {
+					jMessageClient.registerAdmins(userInfo.getUserId(),Constants.JM_PASSWORD);
+				} catch (Exception e1) {
+					log.error(e.getMessage());
+				}
+			}
+			if (infoResult!=null && !infoResult.isResultOK()){
+				jMessageClient.registerAdmins(userInfo.getUserId(),Constants.JM_PASSWORD);
+			}
+			UserPayload userPayload = UserPayload.newBuilder().setAddress(userInfo.getAddress())
                     .setNickname(userInfo.getUserName()).build();
 			ResponseWrapper response = userClient.updateUserInfo(userInfo.getUserId(), userPayload);
 			if (!response.isServerResponse()){
