@@ -170,7 +170,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
         if (param.getBackupStatus().equals(Constants.YES)) {
             group.setBackupTime(now);
             group.setBackupReason(param.getBackupReason());
-        }  else{
+        } else{
             group.setBackupTime(null);
             group.setBackupReason("");
         }
