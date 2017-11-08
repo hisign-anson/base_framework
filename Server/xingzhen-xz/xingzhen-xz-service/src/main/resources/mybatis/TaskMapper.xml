@@ -1133,6 +1133,8 @@
         FQR_LXFS,
         FQR,
         FQRNAME,
+        FQR_DEPT_CODE,
+        FQR_DEPT_NAME,
         JSR_LXFS,
         JSR,
         JSRNAME,
@@ -1149,7 +1151,6 @@
         CREATENAME,
         CREATETIME,
         DEPARMENTCODE,
-        DEPARMENTNAME,
         LASTUPDATETIME,
         DELETEFLAG
         FROM t_task t
