@@ -239,11 +239,11 @@ public class TaskSelectParam implements Serializable {
         this.orderBy = orderBy;
     }
 
-    public boolean getIsDesc() {
+    public boolean isDesc() {
         return isDesc;
     }
 
-    public void setIsDesc(boolean isDesc) {
-        this.isDesc = isDesc;
+    public void setDesc(boolean desc) {
+        isDesc = desc;
     }
 }
