@@ -25,6 +25,10 @@ public class Task extends BaseModel implements Serializable {
     @ApiModelProperty(value = "任务编号")
     private String taskNo; //任务编号
 
+    @Column(value="GROUP_TASK_NO")
+    @ApiModelProperty(value = "专案组任务流水")
+    private String groupTaskNo; //专案组任务流水
+
     @Column(value="TASK_NAME")
     @ApiModelProperty(value = "任务名称")
     private String taskName; //任务名称
@@ -65,6 +69,14 @@ public class Task extends BaseModel implements Serializable {
     @ApiModelProperty(value = "发起人姓名")
     private String fqrname; //发起人姓名
 
+    @Column(value="FQR_DEPT_CODE")
+    @ApiModelProperty(value = "发起人单位代码")
+    private String fqrDeptCode; //发起人单位代码
+
+    @Column(value="FQR_DEPT_NAME")
+    @ApiModelProperty(value = "发起人单位名称")
+    private String fqrDeptName; //发起人单位名称
+
     @Column(value="JSR_LXFS")
     @ApiModelProperty(value = "接收联系方式")
     private String jsrLxfs; //接收联系方式
@@ -98,8 +110,8 @@ public class Task extends BaseModel implements Serializable {
     private String cbzt; //催办状态
 
     @Column(value="QSZT")
-    @ApiModelProperty(value = "接收状态")
-    private String qszt; //接收状态
+    @ApiModelProperty(value = "签收状态")
+    private String qszt; //签收状态
 
     @Column(value="QS_TIME")
     @ApiModelProperty(value = "签收时间")
@@ -128,10 +140,6 @@ public class Task extends BaseModel implements Serializable {
     @Column(value="DEPARMENTCODE")
     @ApiModelProperty(value = "创建人单位")
     private String deparmentcode; //创建人单位
-
-    @Column(value="DEPARMENTNAME")
-    @ApiModelProperty(value = "创建人单位名称")
-    private String deparmentname; //创建人单位名称
 
     @Column(value="LASTUPDATETIME")
     @ApiModelProperty(value = "修改时间")
@@ -187,6 +195,18 @@ public class Task extends BaseModel implements Serializable {
      */
     public void setTaskNo(String taskNo){
         this.taskNo = taskNo;
+    }
+    /**
+     * @return GROUP_TASK_NO 专案组任务流水
+     */
+    public String getGroupTaskNo(){
+        return this.groupTaskNo;
+    }
+    /**
+     * @param GROUP_TASK_NO 专案组任务流水
+     */
+    public void setGroupTaskNo(String groupTaskNo){
+        this.groupTaskNo = groupTaskNo;
     }
     /**
      * @return TASK_NAME 任务名称
@@ -309,6 +329,30 @@ public class Task extends BaseModel implements Serializable {
         this.fqrname = fqrname;
     }
     /**
+     * @return FQR_DEPT_CODE 发起人单位代码
+     */
+    public String getFqrDeptCode(){
+        return this.fqrDeptCode;
+    }
+    /**
+     * @param FQR_DEPT_CODE 发起人单位代码
+     */
+    public void setFqrDeptCode(String fqrDeptCode){
+        this.fqrDeptCode = fqrDeptCode;
+    }
+    /**
+     * @return FQR_DEPT_NAME 发起人单位名称
+     */
+    public String getFqrDeptName(){
+        return this.fqrDeptName;
+    }
+    /**
+     * @param FQR_DEPT_NAME 发起人单位名称
+     */
+    public void setFqrDeptName(String fqrDeptName){
+        this.fqrDeptName = fqrDeptName;
+    }
+    /**
      * @return JSR_LXFS 接收联系方式
      */
     public String getJsrLxfs(){
@@ -405,13 +449,13 @@ public class Task extends BaseModel implements Serializable {
         this.cbzt = cbzt;
     }
     /**
-     * @return QSZT 接收状态
+     * @return QSZT 签收状态
      */
     public String getQszt(){
         return this.qszt;
     }
     /**
-     * @param QSZT 接收状态
+     * @param QSZT 签收状态
      */
     public void setQszt(String qszt){
         this.qszt = qszt;
@@ -501,18 +545,6 @@ public class Task extends BaseModel implements Serializable {
         this.deparmentcode = deparmentcode;
     }
     /**
-     * @return DEPARMENTNAME 创建人单位名称
-     */
-    public String getDeparmentname(){
-        return this.deparmentname;
-    }
-    /**
-     * @param DEPARMENTNAME 创建人单位名称
-     */
-    public void setDeparmentname(String deparmentname){
-        this.deparmentname = deparmentname;
-    }
-    /**
      * @return LASTUPDATETIME 修改时间
      */
     public Date getLastupdatetime(){
@@ -587,6 +619,7 @@ public class Task extends BaseModel implements Serializable {
         builder.append("Task [")
                 .append("id=").append(this.getId())
                 .append(",taskNo=").append(this.getTaskNo())
+                .append(",groupTaskNo=").append(this.getGroupTaskNo())
                 .append(",taskName=").append(this.getTaskName())
                 .append(",taskContent=").append(this.getTaskContent())
                 .append(",groupid=").append(this.getGroupid())
@@ -597,6 +630,8 @@ public class Task extends BaseModel implements Serializable {
                 .append(",fqrLxfs=").append(this.getFqrLxfs())
                 .append(",fqr=").append(this.getFqr())
                 .append(",fqrname=").append(this.getFqrname())
+                .append(",fqrDeptCode=").append(this.getFqrDeptCode())
+                .append(",fqrDeptName=").append(this.getFqrDeptName())
                 .append(",jsrLxfs=").append(this.getJsrLxfs())
                 .append(",jsr=").append(this.getJsr())
                 .append(",jsrname=").append(this.getJsrname())
@@ -613,7 +648,6 @@ public class Task extends BaseModel implements Serializable {
                 .append(",createname=").append(this.getCreatename())
                 .append(",createtime=").append(this.getCreatetime())
                 .append(",deparmentcode=").append(this.getDeparmentcode())
-                .append(",deparmentname=").append(this.getDeparmentname())
                 .append(",lastupdatetime=").append(this.getLastupdatetime())
                 .append(",deleteflag=").append(this.getDeleteflag())
                 .append("]");
@@ -623,6 +657,7 @@ public class Task extends BaseModel implements Serializable {
     public static enum TaskEnum{
         id("ID","任务ID"),
         taskNo("TASK_NO","任务编号"),
+        groupTaskNo("GROUP_TASK_NO","专案组任务流水"),
         taskName("TASK_NAME","任务名称"),
         taskContent("TASK_CONTENT","任务内容"),
         groupid("GROUPID","专案组ID"),
@@ -633,6 +668,8 @@ public class Task extends BaseModel implements Serializable {
         fqrLxfs("FQR_LXFS","发起人联系方式"),
         fqr("FQR","发起人"),
         fqrname("FQRNAME","发起人姓名"),
+        fqrDeptCode("FQR_DEPT_CODE","发起人单位代码"),
+        fqrDeptName("FQR_DEPT_NAME","发起人单位名称"),
         jsrLxfs("JSR_LXFS","接收联系方式"),
         jsr("JSR","接收人"),
         jsrname("JSRNAME","接收人姓名"),
@@ -641,7 +678,7 @@ public class Task extends BaseModel implements Serializable {
         fkzt("FKZT","反馈状态"),
         fkTime("FK_TIME","反馈时间"),
         cbzt("CBZT","催办状态"),
-        qszt("QSZT","接收状态"),
+        qszt("QSZT","签收状态"),
         qsTime("QS_TIME","签收时间"),
         yjzt("YJZT","移交状态"),
         yjTime("YJ_TIME","移交时间"),
@@ -649,7 +686,6 @@ public class Task extends BaseModel implements Serializable {
         createname("CREATENAME","创建人姓名"),
         createtime("CREATETIME","创建时间"),
         deparmentcode("DEPARMENTCODE","创建人单位"),
-        deparmentname("DEPARMENTNAME","创建人单位名称"),
         lastupdatetime("LASTUPDATETIME","修改时间"),
         deleteflag("DELETEFLAG","删除标识");
 

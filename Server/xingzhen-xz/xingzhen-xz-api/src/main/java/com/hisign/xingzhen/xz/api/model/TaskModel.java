@@ -22,6 +22,9 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "任务编号")
     private String taskNo; //任务编号
 
+    @ApiModelProperty(value = "专案组任务流水")
+    private String groupTaskNo; //专案组任务流水
+
     @ApiModelProperty(value = "任务名称")
     private String taskName; //任务名称
 
@@ -52,6 +55,12 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "发起人姓名")
     private String fqrname; //发起人姓名
 
+    @ApiModelProperty(value = "发起人单位代码")
+    private String fqrDeptCode; //发起人单位代码
+
+    @ApiModelProperty(value = "发起人单位名称")
+    private String fqrDeptName; //发起人单位名称
+
     @ApiModelProperty(value = "接收联系方式")
     private String jsrLxfs; //接收联系方式
 
@@ -67,22 +76,22 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "反馈截止时间")
     private Date fkjzTime; //反馈截止时间
 
-    @ApiModelProperty(value = "反馈状态，0未反馈，1已反馈")
+    @ApiModelProperty(value = "反馈状态")
     private String fkzt; //反馈状态
 
     @ApiModelProperty(value = "反馈时间")
     private Date fkTime; //反馈时间
 
-    @ApiModelProperty(value = "催办状态，0未催办，1已催办")
+    @ApiModelProperty(value = "催办状态")
     private String cbzt; //催办状态
 
-    @ApiModelProperty(value = "接收状态，0未查看，1已查看")
-    private String qszt; //接收状态
+    @ApiModelProperty(value = "签收状态")
+    private String qszt; //签收状态
 
     @ApiModelProperty(value = "签收时间")
     private Date qsTime; //签收时间
 
-    @ApiModelProperty(value = "移交状态，0未移交，1已移交")
+    @ApiModelProperty(value = "移交状态")
     private String yjzt; //移交状态
 
     @ApiModelProperty(value = "移交时间")
@@ -100,13 +109,10 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "创建人单位")
     private String deparmentcode; //创建人单位
 
-    @ApiModelProperty(value = "创建人单位名称")
-    private String deparmentname; //创建人单位名称
-
     @ApiModelProperty(value = "修改时间")
     private Date lastupdatetime; //修改时间
 
-    @ApiModelProperty(value = "删除标识，0未删除，1已删除")
+    @ApiModelProperty(value = "删除标识")
     private String deleteflag; //删除标识
 
     //-------------------------返回字段
@@ -124,7 +130,6 @@ public class TaskModel implements Serializable {
 
     @ApiModelProperty(value = "序号")
     private String rn;
-
 
     /**
      *默认空构造函数
@@ -156,6 +161,18 @@ public class TaskModel implements Serializable {
      */
     public void setTaskNo(String taskNo){
         this.taskNo = taskNo;
+    }
+    /**
+     * @return GROUP_TASK_NO 专案组任务流水
+     */
+    public String getGroupTaskNo(){
+        return this.groupTaskNo;
+    }
+    /**
+     * @param GROUP_TASK_NO 专案组任务流水
+     */
+    public void setGroupTaskNo(String groupTaskNo){
+        this.groupTaskNo = groupTaskNo;
     }
     /**
      * @return TASK_NAME 任务名称
@@ -278,6 +295,30 @@ public class TaskModel implements Serializable {
         this.fqrname = fqrname;
     }
     /**
+     * @return FQR_DEPT_CODE 发起人单位代码
+     */
+    public String getFqrDeptCode(){
+        return this.fqrDeptCode;
+    }
+    /**
+     * @param FQR_DEPT_CODE 发起人单位代码
+     */
+    public void setFqrDeptCode(String fqrDeptCode){
+        this.fqrDeptCode = fqrDeptCode;
+    }
+    /**
+     * @return FQR_DEPT_NAME 发起人单位名称
+     */
+    public String getFqrDeptName(){
+        return this.fqrDeptName;
+    }
+    /**
+     * @param FQR_DEPT_NAME 发起人单位名称
+     */
+    public void setFqrDeptName(String fqrDeptName){
+        this.fqrDeptName = fqrDeptName;
+    }
+    /**
      * @return JSR_LXFS 接收联系方式
      */
     public String getJsrLxfs(){
@@ -374,13 +415,13 @@ public class TaskModel implements Serializable {
         this.cbzt = cbzt;
     }
     /**
-     * @return QSZT 接收状态
+     * @return QSZT 签收状态
      */
     public String getQszt(){
         return this.qszt;
     }
     /**
-     * @param QSZT 接收状态
+     * @param QSZT 签收状态
      */
     public void setQszt(String qszt){
         this.qszt = qszt;
@@ -468,18 +509,6 @@ public class TaskModel implements Serializable {
      */
     public void setDeparmentcode(String deparmentcode){
         this.deparmentcode = deparmentcode;
-    }
-    /**
-     * @return DEPARMENTNAME 创建人单位名称
-     */
-    public String getDeparmentname(){
-        return this.deparmentname;
-    }
-    /**
-     * @param DEPARMENTNAME 创建人单位名称
-     */
-    public void setDeparmentname(String deparmentname){
-        this.deparmentname = deparmentname;
     }
     /**
      * @return LASTUPDATETIME 修改时间
