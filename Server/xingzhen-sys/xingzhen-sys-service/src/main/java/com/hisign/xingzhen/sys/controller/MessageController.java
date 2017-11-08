@@ -12,6 +12,7 @@ import com.hisign.xingzhen.common.constant.Constants.MessageStatus;
 import com.hisign.xingzhen.common.constant.Constants.MessageType;
 import com.hisign.xingzhen.common.constant.Constants.ReceiveMessageType;
 import com.hisign.xingzhen.common.controller.BaseController;
+import com.hisign.xingzhen.common.util.DateUtil;
 import com.hisign.xingzhen.common.util.ListUtils;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.sys.api.model.Message;
@@ -39,6 +40,7 @@ import javax.annotation.Resource;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -112,6 +114,10 @@ public class MessageController extends BaseController {
 		//发布人
 		if (StringUtils.isNotBlank(message.getRev2())) {
 			criteria.add(MessageEnum.rev2.get(), ConditionEnum.LIKE,"%"+message.getRev2()+"%");
+		}
+		if (message.getEndTime()!=null){
+			Date endTime = DateUtil.addDay(message.getEndTime(), 1);
+			message.setEndTime(endTime);
 		}
 		if(StringUtils.isNotBlank(message.getType()) && !String.valueOf(MessageType.TYPE_1).equals(message.getType())){
 			//发布时间

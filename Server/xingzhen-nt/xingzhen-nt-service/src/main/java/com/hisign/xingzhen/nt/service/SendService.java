@@ -168,7 +168,7 @@ public class SendService {
 				}else{
 					box.setMsgId(note.getMsgId());
 				}
-				box.setReceiverId((String)map.get("USERNAME"));
+				box.setReceiverId((String)map.get("USER_ID"));
 				box.setReceiverName((String)map.get("TRUE_NAME"));
 				box.setReceiverType(note.getReceiverType()); //消息类型
 				box.setSenderId(note.getPublishId());

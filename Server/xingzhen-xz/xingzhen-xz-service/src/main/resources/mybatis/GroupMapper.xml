@@ -667,12 +667,19 @@
         SELECT a.name,a.num FROM (
         SELECT max(t1.groupname) as name,count(1) as num,max(t1.createtime) as createtime FROM t_group t1,T_AJGROUP t2 WHERE t1.id=t2.groupid
         AND t1.DELETEFLAG=0
-        <if test="backupStatus!=null and backupStatus!=''">
-            AND t1.BACKUP_STATU=#{backupStatus,jdbcType=VARCHAR}
-        </if>
-        <if test="startTime!=null and endTime!=null">
-            AND to_char(t1.BACKUP_TIME,'yyyy-mm-dd hh24:mi:ss') BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
-        </if>
+        <choose>
+            <when test="backupStatus!=null and backupStatus!=''">
+                AND t1.BACKUP_STATU=#{backupStatus,jdbcType=VARCHAR}
+                <if test="startTime!=null and endTime!=null">
+                    AND to_char(t1.BACKUP_TIME,'yyyy-mm-dd hh24:mi:ss') BETWEEN #{startTime,jdbcType=TIMESTAMP} AND #{endTime,jdbcType=TIMESTAMP}
+                </if>
+            </when>
+            <otherwise>
+                <if test="startTime!=null and endTime!=null">
+                    AND to_char(t1.CREATETIME,'yyyy-mm-dd hh24:mi:ss') BETWEEN #{startTime,jdbcType=VARCHAR} AND #{endTime,jdbcType=VARCHAR}
+                </if>
+            </otherwise>
+        </choose>
         GROUP BY t1.id
         ) a ORDER BY a.createtime
     </select>

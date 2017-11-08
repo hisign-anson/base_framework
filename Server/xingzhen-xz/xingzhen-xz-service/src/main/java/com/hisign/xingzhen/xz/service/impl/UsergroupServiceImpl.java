@@ -301,13 +301,17 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 log.error("移除用户：",userIds);
                 jMessageClient.addOrRemoveMembers(Long.valueOf(group.getJmgid()),null,ListUtils.obj2strArr(userIds));
             } catch (APIConnectionException e) {
+
                 log.error("Connection error. Should retry later. ", e);
                 throw new BusinessException("对不起，群组移除成员失败!");
             } catch (APIRequestException e) {
+                int errorCode = e.getErrorCode();
+                if (errorCode!=899014){
+                    throw new BusinessException("对不起，群组移除成员失败!");
+                }
                 log.error("Error response from JPush server. Should review and fix it. ", e);
                 log.info("HTTP Status: " + e.getStatus());
                 log.info("Error Message: " + e.getMessage());
-                throw new BusinessException("对不起，群组移除成员失败!");
             }
         }
 
