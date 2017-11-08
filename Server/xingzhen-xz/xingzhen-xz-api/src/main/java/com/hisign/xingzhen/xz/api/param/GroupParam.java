@@ -15,6 +15,9 @@ public class GroupParam extends BaseParam implements Serializable {
     @ApiModelProperty(value = "当前登陆人id")
     private String userId; //当前登陆人id
 
+    @ApiModelProperty(value = "父专案组id")
+    private String pgroupid; //父专案组id
+
     @ApiModelProperty(value = "专案组名称")
     private String groupname; //专案组名称
 
@@ -122,4 +125,11 @@ public class GroupParam extends BaseParam implements Serializable {
         this.backupStatu = backupStatu;
     }
 
+    public String getPgroupid() {
+        return pgroupid;
+    }
+
+    public void setPgroupid(String pgroupid) {
+        this.pgroupid = pgroupid;
+    }
 }

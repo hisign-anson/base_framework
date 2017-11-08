@@ -370,6 +370,45 @@
 	      where rn >= #{begin,jdbcType=INTEGER}
 	    </if>
     </select>
+    <select id="findDictByPKAndDK" parameterType="com.hisign.xingzhen.sys.api.model.SysDict" resultType="com.hisign.xingzhen.sys.api.model.SysDict">
+       select p.* from(
+	    select
+	      rownum,rownum as rn,a.* from (
+	      select
+	          ID as id,
+	          DICT_KEY as key,
+	          PARENT_KEY as parentKey,
+	          ROOT_KEY as root,
+	          DICT_VALUE1 as value,
+	          DICT_SORT as sort,
+	          DICT_PY as py,
+	          OPEN_FLAG as openFlag,
+	          REMARK as remark
+	        from SYS_DICT where 1=1
+            <choose>
+                <when test="parentKey !=null and parentKey !='' ">
+                    AND PARENT_KEY =#{parentKey}
+                </when>
+                <otherwise>
+                    AND PARENT_KEY is NULL
+                </otherwise>
+            </choose>
+            <if test="dictKey!=null and dictKey!=''">
+                AND S.DICT_KEY like '%'||#{dictKey,jdbcType=VARCHAR}||'%' escape '\'
+            </if>
+            <if test="queryString!=null and queryString!=''">
+                AND S.DICT_VALUE1 like '%'||#{queryString,jdbcType=VARCHAR}||'%' escape '\'
+            </if>
+	        order by DICT_SORT ASC
+	      ) a
+	      <if test="end !=null and end !=0">
+	        where rownum <![CDATA[<=]]> #{end,jdbcType=INTEGER}
+	      </if>
+	      ) p
+	    <if test="begin !=null and begin !=0">
+	      where rn >= #{begin,jdbcType=INTEGER}
+	    </if>
+    </select>
     <select id="selectById" parameterType="java.lang.String"  resultType="com.hisign.xingzhen.sys.api.model.SysDict">
          select
 	          ID as id,

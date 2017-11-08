@@ -27,6 +27,9 @@ public class SysUserInfoParam implements Serializable{
     @ApiModelProperty("全局搜索值-app专用")
     private String searchValue;
 
+    @ApiModelProperty("排除groupId中人员")
+    private String excludeGroupId;
+
     @ApiModelProperty("分页参数")
     private int begin;
 
@@ -117,5 +120,13 @@ public class SysUserInfoParam implements Serializable{
 
     public void setSearchValue(String searchValue) {
         this.searchValue = searchValue;
+    }
+
+    public String getExcludeGroupId() {
+        return excludeGroupId;
+    }
+
+    public void setExcludeGroupId(String excludeGroupId) {
+        this.excludeGroupId = excludeGroupId;
     }
 }

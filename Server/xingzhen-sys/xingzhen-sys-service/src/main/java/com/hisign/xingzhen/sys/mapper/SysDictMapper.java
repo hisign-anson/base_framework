@@ -100,8 +100,7 @@ public interface SysDictMapper {
 
 	int updateDict(SysDict sysDict);
 	
-	
-
+	SysDict findDictByPKAndDK(@Param("parentKey") String parentKey,@Param("dictKey") String dictKey);
 
 }
 

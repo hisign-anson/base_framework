@@ -284,4 +284,9 @@ public class SysDictServiceImpl implements SysDictService {
 		return JsonResultUtil.success();
 	}
 
+    @Override
+    public SysDict getDictByPKAndDK(String parentKey, String dictKey) {
+        return sysDictMapper.findDictByPKAndDK(parentKey,dictKey);
+    }
+
 }

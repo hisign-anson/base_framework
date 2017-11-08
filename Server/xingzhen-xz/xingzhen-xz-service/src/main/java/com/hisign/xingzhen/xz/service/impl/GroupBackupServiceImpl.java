@@ -18,7 +18,9 @@ import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.nt.api.model.JMBean;
 import com.hisign.xingzhen.nt.api.model.MsgBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
+import com.hisign.xingzhen.sys.api.model.SysDict;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.sys.api.service.SysDictService;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.GroupBackup;
@@ -69,6 +71,9 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
 
     @Autowired
     private UsergroupMapper usergroupMapper;
+
+    @Autowired
+    private SysDictService sysDictService;
 
     @Override
     protected BaseMapper<GroupBackup, GroupBackupModel, String> initMapper() {
@@ -171,7 +176,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
         if (param.getBackupStatus().equals(Constants.YES)) {
             group.setBackupTime(now);
             group.setBackupReason(param.getBackupReason());
-        }  else{
+        } else{
             group.setBackupTime(null);
             group.setBackupReason("");
         }
@@ -211,7 +216,13 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
 
             if (param.getBackupStatus().equals(Constants.YES)){
                 map.put("title","专案组归档");
-                map.put("backupReason",param.getBackupReason());
+                //获取归档理由的字典
+                SysDict dict = sysDictService.getDictByPKAndDK("GDYY", param.getBackupReason());
+                if (dict!=null){
+                    map.put("backupReason",dict.getValue());
+                }else{
+                    map.put("backupReason","空");
+                }
             }
             map.put("creator",param.getCreator());
             map.put("createName",user.getUserName());

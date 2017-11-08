@@ -57,6 +57,7 @@ public class IndexServiceImpl implements IndexService {
         Conditions conditions = new Conditions(Group.class);
         Conditions.Criteria criteria = conditions.createCriteria();
         criteria.add(Group.GroupEnum.backupStatu.get(), BaseEnum.ConditionEnum.EQ, Constants.YES)
+                .add(Group.GroupEnum.pgroupid.get(), BaseEnum.IsNullEnum.ISNULL)
                 .add(Group.GroupEnum.deleteflag.get(), BaseEnum.ConditionEnum.EQ, Constants.DELETE_FALSE);
         conditions.setOrderByClause(Group.GroupEnum.backupTime.get(), BaseEnum.DESCEnum.DESC);
 
