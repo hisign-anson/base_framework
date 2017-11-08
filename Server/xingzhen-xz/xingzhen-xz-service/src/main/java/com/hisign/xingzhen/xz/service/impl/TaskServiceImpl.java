@@ -232,7 +232,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         if(!StringUtils.isEmpty(task.getFkid())){
             TaskFkModel t=taskFkMapper.findById(task.getFkid());
             if(t==null){
-                return error("反馈任务不存在");
+                return error("任务反馈不存在");
             }
         }
         GroupModel group=groupMapper.findById(task.getGroupid());
