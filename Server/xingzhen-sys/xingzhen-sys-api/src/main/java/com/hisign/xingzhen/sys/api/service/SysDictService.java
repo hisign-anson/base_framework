@@ -198,6 +198,6 @@ public interface SysDictService {
 
     @RequestMapping(value = "/getDictByPKAndDK", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    SysDict getDictByPKAndDK(@RequestParam String parentKey,@RequestParam String dictKey);
+    SysDict getDictByPKAndDK(@RequestParam("parentKey") String parentKey,@RequestParam("dictKey") String dictKey);
 
 }

@@ -187,4 +187,11 @@ public class SysDictRest implements SysDictService {
     public JsonResult updateDict(@RequestBody SysDict sysDict) {
         return sysDictService.updateDict(sysDict);
     }
+
+    @Override
+    @RequestMapping(value = "/getDictByPKAndDK", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public SysDict getDictByPKAndDK(@RequestParam(value="parentKey") String parentKey, @RequestParam(value="dictKey") String dictKey) {
+        return sysDictService.getDictByPKAndDK(parentKey,dictKey);
+    }
 }
