@@ -24,6 +24,8 @@ public class SysDict extends BaseModel {
 
     private String parentKey;
 
+    private String dictKey;
+
     private String queryString;
 
     private String queryType;
@@ -139,6 +141,12 @@ public class SysDict extends BaseModel {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
-    
+
+	public String getDictKey() {
+		return dictKey;
+	}
+
+	public void setDictKey(String dictKey) {
+		this.dictKey = dictKey;
+	}
 }

@@ -12,12 +12,15 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.util.DateUtil;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.nt.api.model.JMBean;
 import com.hisign.xingzhen.nt.api.model.MsgBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
+import com.hisign.xingzhen.sys.api.model.SysDict;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.sys.api.service.SysDictService;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.GroupBackup;
@@ -68,6 +71,9 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
 
     @Autowired
     private UsergroupMapper usergroupMapper;
+
+    @Autowired
+    private SysDictService sysDictService;
 
     @Override
     protected BaseMapper<GroupBackup, GroupBackupModel, String> initMapper() {
@@ -210,11 +216,17 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
 
             if (param.getBackupStatus().equals(Constants.YES)){
                 map.put("title","专案组归档");
-                map.put("backupReason",param.getBackupReason());
+                //获取归档理由的字典
+                SysDict dict = sysDictService.getDictByPKAndDK("GDYY", param.getBackupReason());
+                if (dict!=null){
+                    map.put("backupReason",dict.getValue());
+                }else{
+                    map.put("backupReason","空");
+                }
             }
             map.put("creator",param.getCreator());
             map.put("createName",user.getUserName());
-            map.put("createTime",group.getCreatetime());
+            map.put("createTime", DateUtil.getDateTime(now));
 
             jmBean.setMsg_body(JSONObject.toJSONString(map));
             ntService.sendJM(jmBean);

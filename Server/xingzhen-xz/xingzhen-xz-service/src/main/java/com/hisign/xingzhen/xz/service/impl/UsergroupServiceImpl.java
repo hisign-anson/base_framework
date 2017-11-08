@@ -264,11 +264,36 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
         if (ug.getUserid().equals(group.getCreator())){
             return error("抱歉,该用户是该专案组的创建人,不能被移除");
         }
-
+        //组装删除小组人员Conditions
         Conditions conditions = new Conditions();
         conditions.createCriteria().add(Usergroup.UsergroupEnum.groupid.get(), BaseEnum.ConditionEnum.EQ,ug.getGroupid())
                 .add(Usergroup.UsergroupEnum.userid.get(), BaseEnum.ConditionEnum.EQ,ug.getUserid());
         usergroupMapper.deleteCustom(conditions);
+
+        //如果是父组，小组也需要移除该人
+        if (!StringUtils.isNotBlank(group.getPgroupid())){
+            //获取所有小组groupid
+            Conditions con = new Conditions(Group.class);
+            con.createCriteria().add(Group.GroupEnum.pgroupid.get(), BaseEnum.ConditionEnum.EQ,group.getId())
+                                .add(Group.GroupEnum.deleteflag.get(), BaseEnum.ConditionEnum.EQ,Constants.DELETE_FALSE);
+
+            con.setReturnFields(new String[]{Group.GroupEnum.id.get()});
+            List<GroupModel> groupList = groupMapper.findList(con);
+
+            if (!ListUtils.isEmpty(groupList)){
+                //组装小组id数组
+                List<Object> groupIds = new ArrayList<>(groupList.size());
+                for (GroupModel groupModel : groupList) {
+                    groupIds.add(groupModel.getId());
+                }
+                //组装删除小组人员Conditions
+                Conditions ugCon = new Conditions(Usergroup.class);
+                ugCon.createCriteria().add(Usergroup.UsergroupEnum.groupid.get(), BaseEnum.IsInEnum.IN,groupIds)
+                                      .add(Usergroup.UsergroupEnum.userid.get(), BaseEnum.IsInEnum.IN,userIds);
+                //把小组中的人员也删除
+                usergroupMapper.deleteCustom(ugCon);
+            }
+        }
 
         //极光群组删除用户
         if (StringUtils.isNotBlank(group.getJmgid())){

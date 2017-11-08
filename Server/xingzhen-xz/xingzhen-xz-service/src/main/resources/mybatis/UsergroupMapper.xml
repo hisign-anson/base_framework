@@ -491,7 +491,11 @@
                     NOT IN
                 </otherwise>
             </choose>
-            (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR} )
+            (select u.USERID from T_USERGROUP u where GROUPID=#{groupId,jdbcType=VARCHAR}
+            <if test="excludeGroupId!=null and excludeGroupId!=''">
+                and u.USERID not in (select uu.USERID from T_USERGROUP uu where GROUPID=#{excludeGroupId,jdbcType=VARCHAR})
+            </if>
+            )
         </if>
         <if test="orderBy!=null and orderBy!=''">
             ORDER BY ${orderBy}

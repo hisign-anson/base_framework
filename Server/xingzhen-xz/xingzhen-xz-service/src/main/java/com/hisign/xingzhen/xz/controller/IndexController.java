@@ -53,7 +53,6 @@ public class IndexController extends BaseController {
 
         criteria2.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
                 .add(Task.TaskEnum.qszt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
-                .add(Task.TaskEnum.fkjzTime.get(), BaseEnum.ConditionEnum.GT, new Date())
                 .add(Task.TaskEnum.jsr.get(), BaseEnum.ConditionEnum.EQ, userId);
 
         Long count2 = taskService.getCount(conditions2);
