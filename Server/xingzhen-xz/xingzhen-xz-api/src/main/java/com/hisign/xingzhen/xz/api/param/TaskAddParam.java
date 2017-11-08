@@ -43,24 +43,24 @@ public class TaskAddParam implements Serializable {
     @ApiModelProperty(value = "反馈截止时间",required = true)
     private Date fkjzTime; //反馈截止时间
 
-    @NotEmpty(message = "创建人不能为空")
-    @ApiModelProperty(value = "创建人",required = true)
-    private String creator; //创建人
+    @NotEmpty(message = "发起人不能为空")
+    @ApiModelProperty(value = "发起人",required = true)
+    private String fqr; //发起人
+
+    @NotEmpty(message = "发起人姓名不能为空")
+    @ApiModelProperty(value = "发起人姓名",required = true)
+    private String fqrname; //发起人
+
+    @NotEmpty(message = "发起人单位不能为空")
+    @ApiModelProperty(value = "发起人单位",required = true)
+    private String fqrDeptCode; //发起人单位
+
+    @NotEmpty(message = "发起人单位名称不能为空")
+    @ApiModelProperty(value = "发起人单位名称",required = true)
+    private String fqrDeptName; //发起人单位名称
 
     @ApiModelProperty(value = "发起人联系方式")
     private String fqrLxfs; //发起人联系方式
-
-    @NotEmpty(message = "创建人姓名不能为空")
-    @ApiModelProperty(value = "创建人姓名",required = true)
-    private String createname; //创建人
-
-    @NotEmpty(message = "创建人单位不能为空")
-    @ApiModelProperty(value = "创建人单位",required = true)
-    private String deparmentcode; //创建人单位
-
-    @NotEmpty(message = "创建人单位名称不能为空")
-    @ApiModelProperty(value = "创建人单位名称",required = true)
-    private String deparmentname; //创建人单位名称
 
     @ApiModelProperty(value = "补充任务ID")
     private String bcrwid; //补充任务ID
@@ -124,12 +124,36 @@ public class TaskAddParam implements Serializable {
         this.fkjzTime = fkjzTime;
     }
 
-    public String getCreator() {
-        return creator;
+    public String getFqr() {
+        return fqr;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
+    public void setFqr(String fqr) {
+        this.fqr = fqr;
+    }
+
+    public String getFqrname() {
+        return fqrname;
+    }
+
+    public void setFqrname(String fqrname) {
+        this.fqrname = fqrname;
+    }
+
+    public String getFqrDeptCode() {
+        return fqrDeptCode;
+    }
+
+    public void setFqrDeptCode(String fqrDeptCode) {
+        this.fqrDeptCode = fqrDeptCode;
+    }
+
+    public String getFqrDeptName() {
+        return fqrDeptName;
+    }
+
+    public void setFqrDeptName(String fqrDeptName) {
+        this.fqrDeptName = fqrDeptName;
     }
 
     public String getFqrLxfs() {
@@ -138,30 +162,6 @@ public class TaskAddParam implements Serializable {
 
     public void setFqrLxfs(String fqrLxfs) {
         this.fqrLxfs = fqrLxfs;
-    }
-
-    public String getCreatename() {
-        return createname;
-    }
-
-    public void setCreatename(String createname) {
-        this.createname = createname;
-    }
-
-    public String getDeparmentcode() {
-        return deparmentcode;
-    }
-
-    public void setDeparmentcode(String deparmentcode) {
-        this.deparmentcode = deparmentcode;
-    }
-
-    public String getDeparmentname() {
-        return deparmentname;
-    }
-
-    public void setDeparmentname(String deparmentname) {
-        this.deparmentname = deparmentname;
     }
 
     public String getBcrwid() {

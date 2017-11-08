@@ -5,6 +5,7 @@
     <resultMap type="com.hisign.xingzhen.xz.api.model.TaskModel" id="BaseResultMap">
         <result column="ID" property="id" jdbcType="VARCHAR"/>
         <result column="TASK_NO" property="taskNo" jdbcType="VARCHAR"/>
+        <result column="GROUP_TASK_NO" property="groupTaskNo" jdbcType="VARCHAR"/>
         <result column="TASK_NAME" property="taskName" jdbcType="VARCHAR"/>
         <result column="TASK_CONTENT" property="taskContent" jdbcType="VARCHAR"/>
         <result column="GROUPID" property="groupid" jdbcType="VARCHAR"/>
@@ -15,6 +16,8 @@
         <result column="FQR_LXFS" property="fqrLxfs" jdbcType="VARCHAR"/>
         <result column="FQR" property="fqr" jdbcType="VARCHAR"/>
         <result column="FQRNAME" property="fqrname" jdbcType="VARCHAR"/>
+        <result column="FQR_DEPT_CODE" property="fqrDeptCode" jdbcType="VARCHAR"/>
+        <result column="FQR_DEPT_NAME" property="fqrDeptName" jdbcType="VARCHAR"/>
         <result column="JSR_LXFS" property="jsrLxfs" jdbcType="VARCHAR"/>
         <result column="JSR" property="jsr" jdbcType="VARCHAR"/>
         <result column="JSRNAME" property="jsrname" jdbcType="VARCHAR"/>
@@ -31,7 +34,6 @@
         <result column="CREATENAME" property="createname" jdbcType="VARCHAR"/>
         <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP"/>
         <result column="DEPARMENTCODE" property="deparmentcode" jdbcType="VARCHAR"/>
-        <result column="DEPARMENTNAME" property="deparmentname" jdbcType="VARCHAR"/>
         <result column="LASTUPDATETIME" property="lastupdatetime" jdbcType="TIMESTAMP"/>
         <result column="DELETEFLAG" property="deleteflag" jdbcType="VARCHAR"/>
     </resultMap>
@@ -75,6 +77,7 @@
     <sql id="Base_Column_List">
         ID,
         TASK_NO,
+        GROUP_TASK_NO,
         TASK_NAME,
         TASK_CONTENT,
         GROUPID,
@@ -85,6 +88,8 @@
         FQR_LXFS,
         FQR,
         FQRNAME,
+        FQR_DEPT_CODE,
+        FQR_DEPT_NAME,
         JSR_LXFS,
         JSR,
         JSRNAME,
@@ -101,86 +106,83 @@
         CREATENAME,
         CREATETIME,
         DEPARMENTCODE,
-        DEPARMENTNAME,
         LASTUPDATETIME,
         DELETEFLAG
     </sql>
 
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
-        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
-            SELECT sys_guid() from DUAL
-        </selectKey>
+    <insert id="insert" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
         INSERT INTO t_task (
-        ID,
-        TASK_NO,
-        TASK_NAME,
-        TASK_CONTENT,
-        GROUPID,
-        PGROUPID,
-        BCRWID,
-        FKID,
-        YJRWID,
-        FQR_LXFS,
-        FQR,
-        FQRNAME,
-        JSR_LXFS,
-        JSR,
-        JSRNAME,
-        FQ_TIME,
-        FKJZ_TIME,
-        FKZT,
-        FK_TIME,
-        CBZT,
-        QSZT,
-        QS_TIME,
-        YJZT,
-        YJ_TIME,
-        CREATOR,
-        CREATENAME,
-        CREATETIME,
-        DEPARMENTCODE,
-        DEPARMENTNAME,
-        LASTUPDATETIME,
-        DELETEFLAG
+		    ID,
+		    TASK_NO,
+		    GROUP_TASK_NO,
+		    TASK_NAME,
+		    TASK_CONTENT,
+		    GROUPID,
+		    PGROUPID,
+		    BCRWID,
+		    FKID,
+		    YJRWID,
+		    FQR_LXFS,
+		    FQR,
+		    FQRNAME,
+		    FQR_DEPT_CODE,
+		    FQR_DEPT_NAME,
+		    JSR_LXFS,
+		    JSR,
+		    JSRNAME,
+		    FQ_TIME,
+		    FKJZ_TIME,
+		    FKZT,
+		    FK_TIME,
+		    CBZT,
+		    QSZT,
+		    QS_TIME,
+		    YJZT,
+		    YJ_TIME,
+		    CREATOR,
+		    CREATENAME,
+		    CREATETIME,
+		    DEPARMENTCODE,
+		    LASTUPDATETIME,
+		    DELETEFLAG
         ) VALUES (
-        #{id,jdbcType=VARCHAR},
-        #{taskNo,jdbcType=VARCHAR},
-        #{taskName,jdbcType=VARCHAR},
-        #{taskContent,jdbcType=VARCHAR},
-        #{groupid,jdbcType=VARCHAR},
-        #{pgroupid,jdbcType=VARCHAR},
-        #{bcrwid,jdbcType=VARCHAR},
-        #{fkid,jdbcType=VARCHAR},
-        #{yjrwid,jdbcType=VARCHAR},
-        #{fqrLxfs,jdbcType=VARCHAR},
-        #{fqr,jdbcType=VARCHAR},
-        #{fqrname,jdbcType=VARCHAR},
-        #{jsrLxfs,jdbcType=VARCHAR},
-        #{jsr,jdbcType=VARCHAR},
-        #{jsrname,jdbcType=VARCHAR},
-        #{fqTime,jdbcType=TIMESTAMP},
-        #{fkjzTime,jdbcType=TIMESTAMP},
-        #{fkzt,jdbcType=VARCHAR},
-        #{fkTime,jdbcType=TIMESTAMP},
-        #{cbzt,jdbcType=VARCHAR},
-        #{qszt,jdbcType=VARCHAR},
-        #{qsTime,jdbcType=TIMESTAMP},
-        #{yjzt,jdbcType=VARCHAR},
-        #{yjTime,jdbcType=TIMESTAMP},
-        #{creator,jdbcType=VARCHAR},
-        #{createname,jdbcType=VARCHAR},
-        #{createtime,jdbcType=TIMESTAMP},
-        #{deparmentcode,jdbcType=VARCHAR},
-        #{deparmentname,jdbcType=VARCHAR},
-        #{lastupdatetime,jdbcType=TIMESTAMP},
-        #{deleteflag,jdbcType=VARCHAR}
+		    #{id,jdbcType=VARCHAR},
+		    #{taskNo,jdbcType=VARCHAR},
+		    #{groupTaskNo,jdbcType=VARCHAR},
+		    #{taskName,jdbcType=VARCHAR},
+		    #{taskContent,jdbcType=VARCHAR},
+		    #{groupid,jdbcType=VARCHAR},
+		    #{pgroupid,jdbcType=VARCHAR},
+		    #{bcrwid,jdbcType=VARCHAR},
+		    #{fkid,jdbcType=VARCHAR},
+		    #{yjrwid,jdbcType=VARCHAR},
+		    #{fqrLxfs,jdbcType=VARCHAR},
+		    #{fqr,jdbcType=VARCHAR},
+		    #{fqrname,jdbcType=VARCHAR},
+		    #{fqrDeptCode,jdbcType=VARCHAR},
+		    #{fqrDeptName,jdbcType=VARCHAR},
+		    #{jsrLxfs,jdbcType=VARCHAR},
+		    #{jsr,jdbcType=VARCHAR},
+		    #{jsrname,jdbcType=VARCHAR},
+		    #{fqTime,jdbcType=TIMESTAMP},
+		    #{fkjzTime,jdbcType=TIMESTAMP},
+		    #{fkzt,jdbcType=VARCHAR},
+		    #{fkTime,jdbcType=TIMESTAMP},
+		    #{cbzt,jdbcType=VARCHAR},
+		    #{qszt,jdbcType=VARCHAR},
+		    #{qsTime,jdbcType=TIMESTAMP},
+		    #{yjzt,jdbcType=VARCHAR},
+		    #{yjTime,jdbcType=TIMESTAMP},
+		    #{creator,jdbcType=VARCHAR},
+		    #{createname,jdbcType=VARCHAR},
+		    #{createtime,jdbcType=TIMESTAMP},
+		    #{deparmentcode,jdbcType=VARCHAR},
+		    #{lastupdatetime,jdbcType=TIMESTAMP},
+		    #{deleteflag,jdbcType=VARCHAR}
         )
     </insert>
 
-    <insert id="insertNotNull" keyProperty="id" useGeneratedKeys="true" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
-        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
-            SELECT sys_guid() from DUAL
-        </selectKey>
+    <insert id="insertNotNull" parameterType="com.hisign.xingzhen.xz.api.entity.Task">
         insert into t_task
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id !=null  and id != '' ">
@@ -188,6 +190,9 @@
             </if>
             <if test="taskNo !=null  and taskNo != '' ">
                 TASK_NO,
+            </if>
+            <if test="groupTaskNo !=null  and groupTaskNo != '' ">
+                GROUP_TASK_NO,
             </if>
             <if test="taskName !=null  and taskName != '' ">
                 TASK_NAME,
@@ -218,6 +223,12 @@
             </if>
             <if test="fqrname !=null  and fqrname != '' ">
                 FQRNAME,
+            </if>
+            <if test="fqrDeptCode !=null  and fqrDeptCode != '' ">
+                FQR_DEPT_CODE,
+            </if>
+            <if test="fqrDeptName !=null  and fqrDeptName != '' ">
+                FQR_DEPT_NAME,
             </if>
             <if test="jsrLxfs !=null  and jsrLxfs != '' ">
                 JSR_LXFS,
@@ -267,9 +278,6 @@
             <if test="deparmentcode !=null  and deparmentcode != '' ">
                 DEPARMENTCODE,
             </if>
-            <if test="deparmentname !=null  and deparmentname != '' ">
-                DEPARMENTNAME,
-            </if>
             <if test="lastupdatetime !=null ">
                 LASTUPDATETIME,
             </if>
@@ -284,6 +292,9 @@
             </if>
             <if test="taskNo !=null  and taskNo != '' ">
                 #{taskNo,jdbcType=VARCHAR},
+            </if>
+            <if test="groupTaskNo !=null  and groupTaskNo != '' ">
+                #{groupTaskNo,jdbcType=VARCHAR},
             </if>
             <if test="taskName !=null  and taskName != '' ">
                 #{taskName,jdbcType=VARCHAR},
@@ -314,6 +325,12 @@
             </if>
             <if test="fqrname !=null  and fqrname != '' ">
                 #{fqrname,jdbcType=VARCHAR},
+            </if>
+            <if test="fqrDeptCode !=null  and fqrDeptCode != '' ">
+                #{fqrDeptCode,jdbcType=VARCHAR},
+            </if>
+            <if test="fqrDeptName !=null  and fqrDeptName != '' ">
+                #{fqrDeptName,jdbcType=VARCHAR},
             </if>
             <if test="jsrLxfs !=null  and jsrLxfs != '' ">
                 #{jsrLxfs,jdbcType=VARCHAR},
@@ -363,9 +380,6 @@
             <if test="deparmentcode !=null  and deparmentcode != '' ">
                 #{deparmentcode,jdbcType=VARCHAR},
             </if>
-            <if test="deparmentname !=null  and deparmentname != '' ">
-                #{deparmentname,jdbcType=VARCHAR},
-            </if>
             <if test="lastupdatetime !=null ">
                 #{lastupdatetime,jdbcType=TIMESTAMP},
             </if>
@@ -379,6 +393,7 @@
         INSERT INTO t_task (
         ID,
         TASK_NO,
+        GROUP_TASK_NO,
         TASK_NAME,
         TASK_CONTENT,
         GROUPID,
@@ -389,6 +404,8 @@
         FQR_LXFS,
         FQR,
         FQRNAME,
+        FQR_DEPT_CODE,
+        FQR_DEPT_NAME,
         JSR_LXFS,
         JSR,
         JSRNAME,
@@ -405,7 +422,6 @@
         CREATENAME,
         CREATETIME,
         DEPARMENTCODE,
-        DEPARMENTNAME,
         LASTUPDATETIME,
         DELETEFLAG
         )
@@ -413,6 +429,7 @@
             select
             #{item.id,jdbcType=VARCHAR},
             #{item.taskNo,jdbcType=VARCHAR},
+            #{item.groupTaskNo,jdbcType=VARCHAR},
             #{item.taskName,jdbcType=VARCHAR},
             #{item.taskContent,jdbcType=VARCHAR},
             #{item.groupid,jdbcType=VARCHAR},
@@ -423,6 +440,8 @@
             #{item.fqrLxfs,jdbcType=VARCHAR},
             #{item.fqr,jdbcType=VARCHAR},
             #{item.fqrname,jdbcType=VARCHAR},
+            #{item.fqrDeptCode,jdbcType=VARCHAR},
+            #{item.fqrDeptName,jdbcType=VARCHAR},
             #{item.jsrLxfs,jdbcType=VARCHAR},
             #{item.jsr,jdbcType=VARCHAR},
             #{item.jsrname,jdbcType=VARCHAR},
@@ -439,7 +458,6 @@
             #{item.createname,jdbcType=VARCHAR},
             #{item.createtime,jdbcType=TIMESTAMP},
             #{item.deparmentcode,jdbcType=VARCHAR},
-            #{item.deparmentname,jdbcType=VARCHAR},
             #{item.lastupdatetime,jdbcType=TIMESTAMP},
             #{item.deleteflag,jdbcType=VARCHAR}
             from dual
@@ -451,6 +469,7 @@
         UPDATE t_task
         <trim prefix="SET" suffixOverrides=",">
             TASK_NO=#{taskNo,jdbcType=VARCHAR},
+            GROUP_TASK_NO=#{groupTaskNo,jdbcType=VARCHAR},
             TASK_NAME=#{taskName,jdbcType=VARCHAR},
             TASK_CONTENT=#{taskContent,jdbcType=VARCHAR},
             GROUPID=#{groupid,jdbcType=VARCHAR},
@@ -461,6 +480,8 @@
             FQR_LXFS=#{fqrLxfs,jdbcType=VARCHAR},
             FQR=#{fqr,jdbcType=VARCHAR},
             FQRNAME=#{fqrname,jdbcType=VARCHAR},
+            FQR_DEPT_CODE=#{fqrDeptCode,jdbcType=VARCHAR},
+            FQR_DEPT_NAME=#{fqrDeptName,jdbcType=VARCHAR},
             JSR_LXFS=#{jsrLxfs,jdbcType=VARCHAR},
             JSR=#{jsr,jdbcType=VARCHAR},
             JSRNAME=#{jsrname,jdbcType=VARCHAR},
@@ -477,7 +498,6 @@
             CREATENAME=#{createname,jdbcType=VARCHAR},
             CREATETIME=#{createtime,jdbcType=TIMESTAMP},
             DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR},
-            DEPARMENTNAME=#{deparmentname,jdbcType=VARCHAR},
             LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP},
             DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
         </trim>
@@ -490,6 +510,9 @@
         <trim prefix="SET" suffixOverrides=",">
             <if test="taskNo !=null  and taskNo != '' ">
                 TASK_NO = #{taskNo,jdbcType=VARCHAR},
+            </if>
+            <if test="groupTaskNo !=null  and groupTaskNo != '' ">
+                GROUP_TASK_NO = #{groupTaskNo,jdbcType=VARCHAR},
             </if>
             <if test="taskName !=null  and taskName != '' ">
                 TASK_NAME = #{taskName,jdbcType=VARCHAR},
@@ -520,6 +543,12 @@
             </if>
             <if test="fqrname !=null  and fqrname != '' ">
                 FQRNAME = #{fqrname,jdbcType=VARCHAR},
+            </if>
+            <if test="fqrDeptCode !=null  and fqrDeptCode != '' ">
+                FQR_DEPT_CODE = #{fqrDeptCode,jdbcType=VARCHAR},
+            </if>
+            <if test="fqrDeptName !=null  and fqrDeptName != '' ">
+                FQR_DEPT_NAME = #{fqrDeptName,jdbcType=VARCHAR},
             </if>
             <if test="jsrLxfs !=null  and jsrLxfs != '' ">
                 JSR_LXFS = #{jsrLxfs,jdbcType=VARCHAR},
@@ -568,9 +597,6 @@
             </if>
             <if test="deparmentcode !=null  and deparmentcode != '' ">
                 DEPARMENTCODE = #{deparmentcode,jdbcType=VARCHAR},
-            </if>
-            <if test="deparmentname !=null  and deparmentname != '' ">
-                DEPARMENTNAME = #{deparmentname,jdbcType=VARCHAR},
             </if>
             <if test="lastupdatetime !=null ">
                 LASTUPDATETIME = #{lastupdatetime,jdbcType=TIMESTAMP},
@@ -624,6 +650,7 @@
     </select>
 
     <select id="findByEntity" parameterType="com.hisign.xingzhen.xz.api.entity.Task" resultMap="BaseResultMap">
+        SELECT * FROM (
         SELECT
         <include refid="Base_Column_List" />
         FROM t_task
@@ -633,6 +660,9 @@
         </if>
         <if test="taskNo != null  and taskNo != '' ">
             and TASK_NO=#{taskNo,jdbcType=VARCHAR}
+        </if>
+        <if test="groupTaskNo != null  and groupTaskNo != '' ">
+            and GROUP_TASK_NO=#{groupTaskNo,jdbcType=VARCHAR}
         </if>
         <if test="taskName != null  and taskName != '' ">
             and TASK_NAME=#{taskName,jdbcType=VARCHAR}
@@ -663,6 +693,12 @@
         </if>
         <if test="fqrname != null  and fqrname != '' ">
             and FQRNAME=#{fqrname,jdbcType=VARCHAR}
+        </if>
+        <if test="fqrDeptCode != null  and fqrDeptCode != '' ">
+            and FQR_DEPT_CODE=#{fqrDeptCode,jdbcType=VARCHAR}
+        </if>
+        <if test="fqrDeptName != null  and fqrDeptName != '' ">
+            and FQR_DEPT_NAME=#{fqrDeptName,jdbcType=VARCHAR}
         </if>
         <if test="jsrLxfs != null  and jsrLxfs != '' ">
             and JSR_LXFS=#{jsrLxfs,jdbcType=VARCHAR}
@@ -712,15 +748,19 @@
         <if test="deparmentcode != null  and deparmentcode != '' ">
             and DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR}
         </if>
-        <if test="deparmentname != null  and deparmentname != '' ">
-            and DEPARMENTNAME=#{deparmentname,jdbcType=VARCHAR}
-        </if>
         <if test="lastupdatetime != null ">
             and LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP}
         </if>
         <if test="deleteflag != null  and deleteflag != '' ">
             and DELETEFLAG=#{deleteflag,jdbcType=VARCHAR}
         </if>
+        <if test="orderBy!=null and orderBy!=''">
+            order by ${orderBy}
+            <if test="isDesc==true">
+                DESC
+            </if>
+        </if>
+        )
         and rownum = 1
     </select>
 
@@ -735,6 +775,9 @@
         <if test="taskNo != null  and taskNo != '' ">
             and TASK_NO=#{taskNo,jdbcType=VARCHAR}
         </if>
+        <if test="groupTaskNo != null  and groupTaskNo != '' ">
+            and GROUP_TASK_NO=#{groupTaskNo,jdbcType=VARCHAR}
+        </if>
         <if test="taskName != null  and taskName != '' ">
             and TASK_NAME=#{taskName,jdbcType=VARCHAR}
         </if>
@@ -764,6 +807,12 @@
         </if>
         <if test="fqrname != null  and fqrname != '' ">
             and FQRNAME=#{fqrname,jdbcType=VARCHAR}
+        </if>
+        <if test="fqrDeptCode != null  and fqrDeptCode != '' ">
+            and FQR_DEPT_CODE=#{fqrDeptCode,jdbcType=VARCHAR}
+        </if>
+        <if test="fqrDeptName != null  and fqrDeptName != '' ">
+            and FQR_DEPT_NAME=#{fqrDeptName,jdbcType=VARCHAR}
         </if>
         <if test="jsrLxfs != null  and jsrLxfs != '' ">
             and JSR_LXFS=#{jsrLxfs,jdbcType=VARCHAR}
@@ -812,9 +861,6 @@
         </if>
         <if test="deparmentcode != null  and deparmentcode != '' ">
             and DEPARMENTCODE=#{deparmentcode,jdbcType=VARCHAR}
-        </if>
-        <if test="deparmentname != null  and deparmentname != '' ">
-            and DEPARMENTNAME=#{deparmentname,jdbcType=VARCHAR}
         </if>
         <if test="lastupdatetime != null ">
             and LASTUPDATETIME=#{lastupdatetime,jdbcType=TIMESTAMP}
@@ -855,7 +901,6 @@
         select
         rownum,rownum as rn,a.* from (
         select t.* from (
-
         SELECT
         <if test="distinct!=false">
             DISTINCT
@@ -908,6 +953,10 @@
     <!--========================================以上为生成器生成,新加代码请在下面书写============================================================-->
 
     <select id="findMaxNo" parameterType="java.lang.String" resultType="java.lang.String" >
+       SELECT max(group_task_no) FROM t_task t WHERE t.group_task_no is not NULL AND t.groupid=#{groupId,jdbcType=VARCHAR}
+	</select>
+
+    <select id="findGroupTaskMaxNo" parameterType="java.lang.String" resultType="java.lang.String" >
         SELECT substr(TASK_NO,19) as TASK_NO FROM (
             SELECT TASK_NO FROM t_task t
             WHERE TASK_NO is not NULL AND SUBSTR (TASK_NO, 15,4)=TO_CHAR(SYSDATE,'YYYY')
@@ -942,14 +991,14 @@
                 <if test="groupid !=null and groupid !=''">
                     and t.groupid=#{groupid,jdbcType=VARCHAR}
                 </if>
-                <if test="creator !=null and creator !=''">
-                    and t.creator=#{creator,jdbcType=VARCHAR}
+                <if test="fqr !=null and fqr !=''">
+                    and t.fqr=#{fqr,jdbcType=VARCHAR}
                 </if>
                 <if test="jsr !=null and jsr !=''">
                     and t.jsr=#{jsr,jdbcType=VARCHAR}
                 </if>
                 <if test="startTime!=null and endTime!=null">
-                    and t.createtime between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+                    and t.fq_time between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
                 </if>
                 <if test="fkzt!=null and fkzt!=''">
                     and t.fkzt=#{fkzt,jdbcType=VARCHAR}
@@ -972,8 +1021,11 @@
                 <if test="taskNo!=null and taskNo!=''">
                     and t.task_no like '%'||#{taskNo,jdbcType=VARCHAR}||'%' escape '\'
                 </if>
-                <if test="deparmentcode!=null and deparmentcode!=''">
-                    and t.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
+                <if test="groupTaskNo!=null and groupTaskNo!=''">
+                    and t.group_task_no like '%'||#{groupTaskNo,jdbcType=VARCHAR}||'%' escape '\'
+                </if>
+                <if test="fqrDeptCode!=null and fqrDeptCode!=''">
+                    and t.fqr_dept_code=#{fqrDeptCode,jdbcType=VARCHAR}
                 </if>
                 <if test="fkjzstartTime!=null and fkjzendTime!=null">
                     and t.fkjz_time between #{fkjzstartTime,jdbcType=TIMESTAMP} and #{fkjzendTime,jdbcType=TIMESTAMP}
@@ -1020,14 +1072,14 @@
                 <if test="groupid !=null and groupid !=''">
                     and t.groupid=#{groupid,jdbcType=VARCHAR}
                 </if>
-                <if test="creator !=null and creator !=''">
-                    and t.creator=#{creator,jdbcType=VARCHAR}
+                <if test="fqr !=null and fqr !=''">
+                    and t.fqr=#{fqr,jdbcType=VARCHAR}
                 </if>
                 <if test="jsr !=null and jsr !=''">
                     and t.jsr=#{jsr,jdbcType=VARCHAR}
                 </if>
                 <if test="startTime!=null and endTime!=null">
-                    and t.createtime between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+                    and t.fq_time between #{startTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
                 </if>
                 <if test="fkzt!=null and fkzt!=''">
                     and t.fkzt=#{fkzt,jdbcType=VARCHAR}
@@ -1050,8 +1102,11 @@
                 <if test="taskNo!=null and taskNo!=''">
                     and t.task_no like '%'||#{taskNo,jdbcType=VARCHAR}||'%' escape '\'
                 </if>
-                <if test="deparmentcode!=null and deparmentcode!=''">
-                    and t.deparmentcode=#{deparmentcode,jdbcType=VARCHAR}
+                <if test="groupTaskNo!=null and groupTaskNo!=''">
+                    and t.group_task_no like '%'||#{groupTaskNo,jdbcType=VARCHAR}||'%' escape '\'
+                </if>
+                <if test="fqrDeptCode!=null and fqrDeptCode!=''">
+                    and t.fqr_dept_code=#{fqrDeptCode,jdbcType=VARCHAR}
                 </if>
                 <if test="fkjzstartTime!=null and fkjzendTime!=null">
                     and t.fkjz_time between #{fkjzstartTime,jdbcType=TIMESTAMP} and #{fkjzendTime,jdbcType=TIMESTAMP}
@@ -1078,6 +1133,8 @@
         FQR_LXFS,
         FQR,
         FQRNAME,
+        FQR_DEPT_CODE,
+        FQR_DEPT_NAME,
         JSR_LXFS,
         JSR,
         JSRNAME,
@@ -1094,7 +1151,6 @@
         CREATENAME,
         CREATETIME,
         DEPARMENTCODE,
-        DEPARMENTNAME,
         LASTUPDATETIME,
         DELETEFLAG
         FROM t_task t

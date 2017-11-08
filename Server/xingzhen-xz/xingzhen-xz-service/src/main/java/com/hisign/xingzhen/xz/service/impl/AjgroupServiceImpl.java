@@ -12,6 +12,7 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.util.DateUtil;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.nt.api.exception.NoticeException;
@@ -135,14 +136,14 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
                 return error("抱歉，该用户不存在，请刷新页面再试!");
             }
 
-            Date date = new Date();
+            Date now = new Date();
             for (Ajgroup ajgroup : ajgroupList) {
                 ids.add(ajgroup.getAjid());
                 ajgroup.setGroupid(groupId);
                 ajgroup.setPgroupid(groupModel.getPgroupid());
                 ajgroup.setDeleteflag(Constants.DELETE_FALSE);
-                ajgroup.setCreatetime(date);
-                ajgroup.setLastupdatetime(date);
+                ajgroup.setCreatetime(now);
+                ajgroup.setLastupdatetime(now);
                 ajgroup.setId(StringUtils.getUUID());
                 ajgroup.setPgroupid(null);
             }
@@ -191,7 +192,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
                 map.put("caseName",sb.toString());
                 map.put("creator",creator);
                 map.put("createName",user.getUserName());
-                map.put("createTime",date);
+                map.put("createTime", DateUtil.getDateTime(now));
 
                 jmBean.setMsg_body(JSONObject.toJSONString(map));
                 ntService.sendJM(jmBean);
@@ -329,7 +330,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
             map.put("caseName",sb.toString());
             map.put("creator",aj.getCreator());
             map.put("createName",user.getUserName());
-            map.put("createTime",new Date());
+            map.put("createTime",DateUtil.getDateTime(new Date()));
 
             jmBean.setMsg_body(JSONObject.toJSONString(map));
             ntService.sendJM(jmBean);
@@ -351,7 +352,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
                 bean.setList(userList);
             }
             ntService.sendMsg(bean);
-        } catch (NoticeException e) {
+        } catch (Exception e) {
             //不做回滚
             log.error("推送消息到移动端失败",e);
         }

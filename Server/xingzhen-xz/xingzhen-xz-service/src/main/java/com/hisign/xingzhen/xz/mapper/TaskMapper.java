@@ -18,6 +18,8 @@ public interface TaskMapper extends BaseMapper<Task,TaskModel,String> {
 
     public String findMaxNo(String deparmentcode);
 
+    public String findGroupTaskMaxNo(String groupId);
+
     public List<TaskModel> findTaskByEntity(Task task);
 
     public long findCountTaskByEntity(Task task);

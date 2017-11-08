@@ -66,11 +66,11 @@ public class TaskRestTest extends BaseTestCase {
         taskAddParam.setJsr("7E723A46EA984E74BB187E5215BECA81");
         taskAddParam.setJsrname("江露露");
         taskAddParam.setFkjzTime(new SimpleDateFormat("yyyyMMdd").parse("20171130"));
-        taskAddParam.setCreator("A086DFFAEE494F158F3C692A4ACC079F");
+        taskAddParam.setFqr("A086DFFAEE494F158F3C692A4ACC079F");
         taskAddParam.setFqrLxfs("12122222222");
-        taskAddParam.setCreatename("张三");
-        taskAddParam.setDeparmentcode("440000190101");
-        taskAddParam.setDeparmentname("秘书科");
+        taskAddParam.setFqrname("张三");
+        taskAddParam.setFqrDeptCode("440000190101");
+        taskAddParam.setFqrDeptName("秘书科");
 
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(taskAddParam);

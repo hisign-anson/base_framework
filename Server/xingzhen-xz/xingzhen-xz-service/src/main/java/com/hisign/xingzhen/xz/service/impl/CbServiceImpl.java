@@ -12,6 +12,7 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.util.DateUtil;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.nt.api.exception.NoticeException;
@@ -186,7 +187,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
                     map.put("jsr",taskModel.getJsr());
                     map.put("jsrName",taskModel.getJsrname());
                     map.put("taskContent",taskModel.getTaskContent());
-                    map.put("createTime",cb.getCreatetime());
+                    map.put("createTime", DateUtil.getDateTime(now));
                     map.put("groupId",group.getId());
                     map.put("jmgId",group.getJmgid());
                     jmBean.setMsg_body(JSONObject.toJSONString(map));

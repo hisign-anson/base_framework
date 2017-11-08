@@ -21,6 +21,9 @@ public class TaskSelectParam implements Serializable {
     @ApiModelProperty(value = "任务编号")
     private String taskNo; //任务编号
 
+    @ApiModelProperty(value = "专案组任务流水")
+    private String groupTaskNo; //专案组任务流水
+
     @ApiModelProperty(value = "任务名称")
     private String taskName; //任务名称
 
@@ -36,17 +39,17 @@ public class TaskSelectParam implements Serializable {
     @ApiModelProperty(value = "移交状态，0未移交，1已移交")
     private String yjzt; //移交状态
 
-    @ApiModelProperty(value = "创建人")
-    private String creator; //创建人
+    @ApiModelProperty(value = "发起人")
+    private String fqr; //发起人
 
-    @ApiModelProperty(value = "创建开始时间")
+    @ApiModelProperty(value = "发起开始时间")
     private Date startTime;
 
-    @ApiModelProperty(value = "创建结束时间")
+    @ApiModelProperty(value = "发起结束时间")
     private Date endTime;
 
-    @ApiModelProperty(value = "创建人单位")
-    private String deparmentcode; //创建人单位
+    @ApiModelProperty(value = "发起人所属单位")
+    private String fqrDeptCode; //发起人所属单位
 
     @ApiModelProperty(value = "接受字段-超期标示 1表示超期")
     private String  overdue;//1表示超期
@@ -95,6 +98,14 @@ public class TaskSelectParam implements Serializable {
         this.taskNo = taskNo;
     }
 
+    public String getGroupTaskNo() {
+        return groupTaskNo;
+    }
+
+    public void setGroupTaskNo(String groupTaskNo) {
+        this.groupTaskNo = groupTaskNo;
+    }
+
     public String getTaskName() {
         return taskName;
     }
@@ -135,12 +146,12 @@ public class TaskSelectParam implements Serializable {
         this.yjzt = yjzt;
     }
 
-    public String getCreator() {
-        return creator;
+    public String getFqr() {
+        return fqr;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
+    public void setFqr(String fqr) {
+        this.fqr = fqr;
     }
 
     public Date getStartTime() {
@@ -159,12 +170,12 @@ public class TaskSelectParam implements Serializable {
         this.endTime = endTime;
     }
 
-    public String getDeparmentcode() {
-        return deparmentcode;
+    public String getFqrDeptCode() {
+        return fqrDeptCode;
     }
 
-    public void setDeparmentcode(String deparmentcode) {
-        this.deparmentcode = deparmentcode;
+    public void setFqrDeptCode(String fqrDeptCode) {
+        this.fqrDeptCode = fqrDeptCode;
     }
 
     public String getOverdue() {

@@ -12,6 +12,7 @@ import com.hisign.bfun.bmodel.JsonResult;
 import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.util.DateUtil;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.nt.api.exception.NoticeException;
@@ -251,9 +252,11 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
         Date now=new Date();
         task.setId(StringUtils.getUUID());
         task.setTaskNo(createTaskNo(group.getDeparmentcode()));
+        task.setGroupTaskNo(createGroupTaskNo(group.getId()));
         task.setPgroupid(group.getPgroupid());
-        task.setFqr(task.getCreator());
-        task.setFqrname(task.getCreatename());
+        task.setCreator(task.getFqr());
+        task.setCreatename(task.getFqrname());
+        task.setDeparmentcode(task.getFqrDeptCode());
         task.setFqTime(now);
         task.setCreatetime(now);
         task.setLastupdatetime(now);
@@ -287,7 +290,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                 map.put("jsr",task.getJsr());
                 map.put("jsrName",task.getJsrname());
                 map.put("taskContent",task.getTaskContent());
-                map.put("createTime",task.getCreatetime());
+                map.put("createTime",DateUtil.getDateTime(now));
                 map.put("groupId",group.getId());
                 map.put("jmgId",group.getJmgid());
                 jmBean.setMsg_body(JSONObject.toJSONString(map));
@@ -305,7 +308,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                 userList.add(user);
                 bean.setList(userList);
                 ntService.sendMsg(bean);
-            } catch (NoticeException e){
+            } catch (Exception e){
                 //不做回滚
                 log.error("推送消息到移动端失败",e);
             }
@@ -406,7 +409,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                     map.put("jsr",entity.getJsr());
                     map.put("jsrName",entity.getJsrname());
                     map.put("taskContent",entity.getTaskContent());
-                    map.put("createTime",entity.getCreatetime());
+                    map.put("createTime",DateUtil.getDateTime(now));
                     map.put("groupId",group.getId());
                     map.put("jmgId",group.getJmgid());
                     jmBean.setMsg_body(JSONObject.toJSONString(map));
@@ -448,5 +451,19 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             }
         }
         return "RW" + deparmentcode+new SimpleDateFormat("yyyy").format(new Date())+nextNumber;
+    }
+
+    private String createGroupTaskNo(String groupId) {
+        String maxNo = taskMapper.findGroupTaskMaxNo(groupId);
+        String nextNumber;
+        if(StringUtils.isEmpty(maxNo)){
+            nextNumber="001";
+        }  else{
+            nextNumber=String.valueOf(Integer.parseInt(maxNo)+1);
+            while (nextNumber.length()<3){
+                nextNumber="0"+nextNumber;
+            }
+        }
+        return nextNumber;
     }
 }
