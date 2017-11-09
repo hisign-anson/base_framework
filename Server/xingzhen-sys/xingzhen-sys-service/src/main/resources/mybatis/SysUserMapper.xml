@@ -409,7 +409,7 @@
   </update>
   
   <select id="getReceiverList" resultType="java.util.HashMap" parameterType="java.util.HashMap" >  
-      SELECT s.USERNAME,s.TRUE_NAME,UI.ORG_ID FROM SYS_USER s,SYS_USER_INFO ui where s.USER_ID = ui.USER_ID and s.OPEN_FLAG = 1
+      SELECT s.USER_ID,s.USERNAME,s.TRUE_NAME,UI.ORG_ID FROM SYS_USER s,SYS_USER_INFO ui where s.USER_ID = ui.USER_ID and s.OPEN_FLAG = 1
       <if test="orgIds !=null and orgIds.size() > 0">
        AND  ui.ORG_ID IN(SELECT ORG_ID FROM SYS_ORGANIZATION S  START WITH
            S.ORG_ID IN

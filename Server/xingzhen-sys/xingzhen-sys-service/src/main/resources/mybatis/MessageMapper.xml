@@ -22,24 +22,22 @@
       <result column="TSLB" property="tslb" jdbcType="VARCHAR"/>
       <result column="ATT_ID" property="attId" jdbcType="VARCHAR"/>
 	</resultMap>
-	
+
 	<sql id="Conditions_Where_Clause">
- 	  <foreach collection="oredCriteria" open="where" item="o" separator="or">
-	   <if test="o.valid">
-	    (
-	     <trim suffixOverrides="and">
-	     <foreach collection="o.criteriaWithoutValue" item="oc" >${oc} and </foreach>
-	     <foreach collection="o.criteriaWithSingleValue" item="os">${os.condition} #{os.val} and </foreach>
-	     <foreach collection="o.criteriaWithBetweenValue" item="ob" >
-	     ${ob.condition} #{ob.val[0]} and #{ob.val[1]} and 
-	     </foreach>
-	     <foreach collection="o.criteriaWithListValue" item="ol" separator="and">${ol.condition}
-	       <foreach collection="ol.val" open="(" close=")" item="olv" separator=",">#{olv}</foreach>
-	     </foreach>
-	     </trim>
-	    )
-	   </if>
- 	  </foreach>
+		<foreach collection="oredCriteria" open="where" item="o" separator="or">
+			<if test="o.valid">
+				(
+				<trim suffixOverrides="and">
+					<foreach collection="o.criteriaWithoutValue" item="oc" separator=" and ">${oc} and </foreach>
+					<foreach collection="o.criteriaWithSingleValue" item="os">${os.condition} #{os.val} and </foreach>
+					<foreach collection="o.criteriaWithBetweenValue" item="ob">${ob.condition} #{ob.val[0]} and #{ob.val[1]} and </foreach>
+					<foreach collection="o.criteriaWithListValue" item="ol" separator=" and ">${ol.condition}
+						<foreach collection="ol.val" open="(" close=")" item="olv" separator=",">#{olv}</foreach>
+					</foreach>
+				</trim>
+				)
+			</if>
+		</foreach>
 	</sql>
 	
 	<sql id="Update_Conditions_Where_Clause">
@@ -53,7 +51,7 @@
 	     <foreach collection="o.criteriaWithBetweenValue" item="ob" >
 	     ${ob.condition} #{ob.val[0]} and #{ob.val[1]} and 
 	     </foreach>
-	     <foreach collection="o.criteriaWithListValue" item="ol" separator="and">${ol.condition}
+	     <foreach collection="o.criteriaWithListValue" item="ol" separator=" and ">${ol.condition}
 	       <foreach collection="ol.val" open="(" close=")" item="olv" separator=",">#{olv}</foreach>
 	     </foreach>
 	     </trim>
@@ -284,23 +282,23 @@
     <update id="update" parameterType="com.hisign.xingzhen.sys.api.model.Message">
         UPDATE sys_message
         <trim prefix="SET" suffixOverrides=",">
-		    SUBJECT=#{subject},
-		    CONTENT=#{content},
-		    TYPE=#{type},
-		    MSG_LEVEL=#{msgLevel},
-		    DEL=#{del},
-		    SECRECY=#{secrecy},
-		    CREATE_DATE=#{createDate},
-		    CREATE_PID=#{createPid},
-		    MODIFY_DATE=#{modifyDate},
-		    MODIFY_PID=#{modifyPid},
-		    REV1=#{rev1},
-		    REV2=#{rev2},
-		    REV3=#{rev3},
-		    REV4=#{rev4},
-		    MSG_VEST=#{msgVest},
-		    TSLB=#{tslb},
-		    ATT_ID=#{attId}
+		    SUBJECT=#{subject,jdbcType=VARCHAR},
+		    CONTENT=#{content,jdbcType=VARCHAR},
+		    TYPE=#{type,jdbcType=VARCHAR},
+		    MSG_LEVEL=#{msgLevel,jdbcType=VARCHAR},
+		    DEL=#{del,jdbcType=VARCHAR},
+		    SECRECY=#{secrecy,jdbcType=VARCHAR},
+		    CREATE_DATE=#{createDate,jdbcType=TIMESTAMP},
+		    CREATE_PID=#{createPid,jdbcType=VARCHAR},
+		    MODIFY_DATE=#{modifyDate,jdbcType=TIMESTAMP},
+		    MODIFY_PID=#{modifyPid,jdbcType=VARCHAR},
+		    REV1=#{rev1,jdbcType=VARCHAR},
+		    REV2=#{rev2,jdbcType=VARCHAR},
+		    REV3=#{rev3,jdbcType=TIMESTAMP},
+		    REV4=#{rev4,jdbcType=VARCHAR},
+		    MSG_VEST=#{msgVest,jdbcType=VARCHAR},
+		    TSLB=#{tslb,jdbcType=VARCHAR},
+		    ATT_ID=#{attId,jdbcType=VARCHAR}
         </trim>
         WHERE
         ID = #{id,jdbcType=VARCHAR}

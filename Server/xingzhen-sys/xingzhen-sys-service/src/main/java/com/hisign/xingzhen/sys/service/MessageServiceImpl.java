@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.sys.mapper.MessageMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -204,13 +205,26 @@ public class MessageServiceImpl extends BaseServiceImpl<Message,Message, String>
 	@Override
 	@Transactional
 	public JsonResult updateAndPush(Message message) throws BusinessException {
-		if("1".equals(message.getRev4())){
-			message.setRev3(new Date());
-		}else{
-			message.setRev2(null);
+		Message msg = this.getById(message.getId());
+		msg.setSubject(message.getSubject());
+		msg.setMsgLevel(message.getMsgLevel());
+		msg.setType(message.getType());
+		msg.setTslb(message.getTslb());
+		msg.setRev1(message.getRev1());
+		msg.setRev2(message.getRev2());
+		msg.setRev3(message.getRev3());
+		msg.setRev4(message.getRev4());
+		msg.setMsgVest(message.getMsgVest());
+
+		if (!StringUtils.isNotBlank(message.getSecrecy())){
+			msg.setSecrecy("1");
 		}
-		JsonResult jsonResult = this.update(message);
-	  //发送消息
+		if (!StringUtils.isNotBlank(message.getMsgLevel())){
+			msg.setMsgLevel("1");
+		}
+
+		JsonResult jsonResult = this.update(msg);
+	    //发送消息
 	  	this.pushMsg(message);
 	    return jsonResult;
 	}

@@ -27,10 +27,10 @@
             <if test="o.valid">
                 (
                 <trim suffixOverrides="and">
-                    <foreach collection="o.criteriaWithoutValue" item="oc" separator="and">${oc} and </foreach>
+                    <foreach collection="o.criteriaWithoutValue" item="oc" separator=" and ">${oc} and </foreach>
                     <foreach collection="o.criteriaWithSingleValue" item="os">${os.condition} #{os.val} and </foreach>
                     <foreach collection="o.criteriaWithBetweenValue" item="ob">${ob.condition} #{ob.val[0]} and #{ob.val[1]} and </foreach>
-                    <foreach collection="o.criteriaWithListValue" item="ol">${ol.condition}
+                    <foreach collection="o.criteriaWithListValue" item="ol" separator=" and ">${ol.condition}
                         <foreach collection="ol.val" open="(" close=")" item="olv" separator=",">#{olv}</foreach>
                     </foreach>
                 </trim>
