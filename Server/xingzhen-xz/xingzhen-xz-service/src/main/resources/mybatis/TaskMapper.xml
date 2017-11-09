@@ -952,11 +952,11 @@
 
     <!--========================================以上为生成器生成,新加代码请在下面书写============================================================-->
 
-    <select id="findMaxNo" parameterType="java.lang.String" resultType="java.lang.String" >
+    <select id="findGroupTaskMaxNo" parameterType="java.lang.String" resultType="java.lang.String" >
        SELECT max(group_task_no) FROM t_task t WHERE t.group_task_no is not NULL AND t.groupid=#{groupId,jdbcType=VARCHAR}
 	</select>
 
-    <select id="findGroupTaskMaxNo" parameterType="java.lang.String" resultType="java.lang.String" >
+    <select id="findMaxNo" parameterType="java.lang.String" resultType="java.lang.String" >
         SELECT substr(TASK_NO,19) as TASK_NO FROM (
             SELECT TASK_NO FROM t_task t
             WHERE TASK_NO is not NULL AND SUBSTR (TASK_NO, 15,4)=TO_CHAR(SYSDATE,'YYYY')
@@ -1123,6 +1123,7 @@
         SELECT
         ID,
         TASK_NO,
+        GROUP_TASK_NO,
         TASK_NAME,
         TASK_CONTENT,
         GROUPID,
