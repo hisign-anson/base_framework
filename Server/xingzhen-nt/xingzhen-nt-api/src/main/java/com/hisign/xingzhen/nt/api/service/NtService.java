@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Map;
+
 /**
  * 发送消息接口
  * @author lqf
@@ -31,7 +33,20 @@ public interface NtService {
 	@RequestMapping(value = "/sendMsg", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	public void sendMsg(@RequestBody MsgBean bean) throws NoticeException;
 
+	/**
+	 * 推送极光消息
+	 * @param bean
+	 * @throws NoticeException
+	 */
 	@RequestMapping(value = "/sendJM", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	public void sendJM(@RequestBody JMBean bean)throws NoticeException;
-	
+
+	/**
+	 * 推送极光移除人员消息
+	 * @param bean
+	 * @throws NoticeException
+	 */
+	@RequestMapping(value = "/sendJMOperate", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	public void sendJMOperate(@RequestBody Map<String,Object> bean)throws NoticeException;
+
 }

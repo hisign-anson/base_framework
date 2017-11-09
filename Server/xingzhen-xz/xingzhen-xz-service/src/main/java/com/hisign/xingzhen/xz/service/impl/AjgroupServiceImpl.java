@@ -181,6 +181,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
                 map.put("msgType",Constants.SEND_CONNECT_CASE_INFO);
                 map.put("title","关联案件");
                 map.put("groupId",groupId);
+                map.put("pGroupId",groupModel.getPgroupid());
 
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < list.size(); i++) {
@@ -319,6 +320,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
             map.put("msgType",Constants.SEND_REMOVE_CASE_INFO);
             map.put("title","关联案件");
             map.put("groupId",aj.getGroupid());
+            map.put("pGroupId",groupModel.getPgroupid());
 
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < ajgroupList.size(); i++) {

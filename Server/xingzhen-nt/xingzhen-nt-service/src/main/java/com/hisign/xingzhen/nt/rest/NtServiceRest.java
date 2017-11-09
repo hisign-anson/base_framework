@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 @RequestMapping("/nt/ntService")
 @RestController
@@ -37,5 +38,11 @@ public class NtServiceRest implements NtService {
     @RequestMapping(value = "/sendJM", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public void sendJM(@RequestBody JMBean bean) throws NoticeException {
         ntService.sendJM(bean);
+    }
+
+    @Override
+    @RequestMapping(value = "/sendJMOperate", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public void sendJMOperate(Map<String, Object> bean) throws NoticeException {
+        ntService.sendJMOperate(bean);
     }
 }

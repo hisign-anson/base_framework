@@ -7337,13 +7337,13 @@
     <select id="findAjGroupPage" parameterType="com.hisign.xingzhen.xz.api.param.AsjAjParam" resultMap="BaseResultMap">
         select p.* from(
             select rownum as rn,q.* from (
-                select b.AJBH,b.AB,b.AJMC,b.FADD,b.AJLX,b.AJSTATE,b.ZYAQ,b.AJZBRY,
+                select b.AJBH,b.AB,b.AJMC,b.FADD,b.AJLX,b.AJSTATE,b.ZYAQ,b.AJZBRY,b.FASJCZ,b.FASJZZ,
                 (
                   select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='44' and dict.DICT_KEY=b.AJLX
                 ) as AJLXCN,
                 (
                   select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='24' and dict.DICT_KEY=b.AB
-                ) as ABCN,
+                ) as AB_CN,
                 (
                   select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='56' and dict.DICT_KEY=b.ajstate
                 ) as AJSTATE_CN

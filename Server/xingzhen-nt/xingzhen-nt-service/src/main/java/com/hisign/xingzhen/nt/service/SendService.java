@@ -16,6 +16,8 @@ import cn.jmessage.api.common.model.message.MessagePayload;
 import cn.jmessage.api.message.MessageClient;
 import cn.jmessage.api.message.MessageType;
 import cn.jmessage.api.message.SendMessageResult;
+import com.hisign.bfun.benum.BaseEnum;
+import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.nt.api.model.JMBean;
 import org.apache.http.NameValuePair;
@@ -148,6 +150,39 @@ public class SendService {
 			throw new NoticeException(e.getMessage(), 0);
 		}
 		return RespCode.SUCCESS.name();
+	}
+
+	public String sendJMOperate(Map<String,Object> map) throws NoticeException{
+		try {
+			sendJMRemoveMember(map);
+		} catch (Exception e) {
+			logger.debug("推送任务信息异常", e);
+			throw new NoticeException(e.getMessage(), 0);
+		}
+		return RespCode.SUCCESS.name();
+	}
+
+	private void sendJMRemoveMember(Map<String,Object> map) throws NoticeException {
+		List<Long> jmGids = (List<Long>) map.get("jmGids");
+		List<String> userIds = (List<String>) map.get("userIds");
+
+		for (Long jmGid : jmGids) {
+			//把小组人员也从极光删除
+			try {
+				jMessageClient.addOrRemoveMembers(jmGid,null,ListUtils.list2Array(userIds));
+			} catch (APIConnectionException e) {
+				logger.error("连接极光失败！e={}",e);
+				throw new NoticeException(e.getMessage(), 0);
+			} catch (APIRequestException e) {
+				if (899002==e.getErrorCode()){
+					//该用户不存在
+				}else{
+					logger.error("移除失败！e={}",e);
+					throw new NoticeException(e.getMessage(), 0);
+				}
+			}
+		}
+
 	}
 
 	private List<ReceiveBox> createBoxListOfMsg(MsgBean note) {

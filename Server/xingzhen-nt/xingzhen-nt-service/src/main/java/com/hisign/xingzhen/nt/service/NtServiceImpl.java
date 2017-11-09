@@ -54,6 +54,14 @@ public class NtServiceImpl implements RabbitTemplate.ConfirmCallback,NtService{
 	}
 
 	@Override
+	public void sendJMOperate(Map<String, Object> bean) throws NoticeException {
+		String msg = JSON.toJSONString(bean);
+		logger.info("发送通知消息："+msg);
+		CorrelationData correlationData = new CorrelationData((String) bean.get("msgId"));
+		rabbitTemplate.convertAndSend(RabbitMQConfig.JM_OPERATE_EXCHANGE, RabbitMQConfig.JM_OPERATE_ROUTINGKEY, msg, correlationData);
+	}
+
+	@Override
 	public void confirm(CorrelationData correlationData, boolean ack,
 			String cause) {
 		if(ack){//消息成功消费

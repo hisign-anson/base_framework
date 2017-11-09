@@ -192,7 +192,7 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
         if (param.getBackupStatus().equals(Constants.YES)) {
             updateParams.add(new String[]{Group.GroupEnum.backupTime.get(),Group.GroupEnum.backupStatu.get(),Group.GroupEnum.lastupdatetime.get()}
                     ,new Object[]{group.getBackupTime(),param.getBackupStatus(),group.getLastupdatetime()});
-        }  else{
+        } else{
             updateParams.add(new String[]{Group.GroupEnum.backupTime.get(),Group.GroupEnum.backupStatu.get(),Group.GroupEnum.lastupdatetime.get()}
                     ,new Object[]{"",param.getBackupStatus(),group.getLastupdatetime()});
         }

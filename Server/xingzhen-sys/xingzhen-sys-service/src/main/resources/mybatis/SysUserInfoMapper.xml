@@ -241,8 +241,8 @@
 
     <select id="findByIds" parameterType="java.util.List" resultMap="BaseResultMap">
         SELECT
-        <include refid="Base_Column_List" />
-        FROM SYS_USER_INFO o where o.USER_ID IN
+        *
+        FROM SYS_USER_INFO  where USER_ID IN
         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
             #{item}
         </foreach>

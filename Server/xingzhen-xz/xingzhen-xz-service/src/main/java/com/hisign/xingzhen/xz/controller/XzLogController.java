@@ -90,7 +90,7 @@ public class XzLogController extends BaseController {
 		 Conditions.Criteria criteria1 = condition1.createCriteria();
 		 criteria1.add(Group.GroupEnum.id.get(), BaseEnum.IsInEnum.IN,groupIds)
 				  .add(Group.GroupEnum.deleteflag.get(), BaseEnum.ConditionEnum.EQ,Constants.DELETE_FALSE);
-		 condition1.setReturnFields(new String[]{Group.GroupEnum.id.get(),Group.GroupEnum.groupname.get()});
+		 condition1.setReturnFields(new String[]{Group.GroupEnum.id.get(),Group.GroupEnum.groupname.get(),Group.GroupEnum.jmgid.get()});
 		 List<GroupModel> groupList = groupService.getList(condition1);
 		 return JsonResultUtil.success(groupList);
 	 }

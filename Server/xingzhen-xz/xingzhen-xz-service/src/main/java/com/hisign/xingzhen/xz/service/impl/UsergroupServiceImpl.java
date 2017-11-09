@@ -17,6 +17,7 @@ import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
 import com.hisign.xingzhen.common.util.ListUtils;
 import com.hisign.xingzhen.common.util.StringUtils;
+import com.hisign.xingzhen.nt.api.exception.NoticeException;
 import com.hisign.xingzhen.nt.api.model.MsgBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
@@ -38,9 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -146,7 +145,21 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
             }
 
             //添加用户到极光群组
-            jMessageClient.addOrRemoveMembers(Long.valueOf(groupModel.getJmgid()),ListUtils.obj2strArr(ids),null);
+            try {
+                jMessageClient.addOrRemoveMembers(Long.valueOf(groupModel.getJmgid()),ListUtils.obj2strArr(ids),null);
+            } catch (APIConnectionException e) {
+                log.error("连接极光失败！e={}",e);
+                throw new BusinessException(BaseEnum.BusinessExceptionEnum.SYSBUSYEXCEPTION);
+            } catch (APIRequestException e) {
+                if (899011==e.getErrorCode()){
+                    //重复关联用户
+                }else{
+                    log.error("关联失败！e={}",e);
+                    throw new BusinessException(BaseEnum.BusinessExceptionEnum.SYSBUSYEXCEPTION);
+                }
+            } catch (NumberFormatException e) {
+                throw new BusinessException(BaseEnum.BusinessExceptionEnum.PARAMSEXCEPTION);
+            }
 
             try {
                 MsgBean bean = new MsgBean();
@@ -277,14 +290,16 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
             con.createCriteria().add(Group.GroupEnum.pgroupid.get(), BaseEnum.ConditionEnum.EQ,group.getId())
                                 .add(Group.GroupEnum.deleteflag.get(), BaseEnum.ConditionEnum.EQ,Constants.DELETE_FALSE);
 
-            con.setReturnFields(new String[]{Group.GroupEnum.id.get()});
+            con.setReturnFields(new String[]{Group.GroupEnum.id.get(), Group.GroupEnum.jmgid.get()});
             List<GroupModel> groupList = groupMapper.findList(con);
 
             if (!ListUtils.isEmpty(groupList)){
                 //组装小组id数组
                 List<Object> groupIds = new ArrayList<>(groupList.size());
+                List<Long> jmGIds = new ArrayList<>(groupList.size());
                 for (GroupModel groupModel : groupList) {
                     groupIds.add(groupModel.getId());
+                    jmGIds.add(Long.parseLong(groupModel.getJmgid()));
                 }
                 //组装删除小组人员Conditions
                 Conditions ugCon = new Conditions(Usergroup.class);
@@ -292,6 +307,16 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                                       .add(Usergroup.UsergroupEnum.userid.get(), BaseEnum.IsInEnum.IN,userIds);
                 //把小组中的人员也删除
                 usergroupMapper.deleteCustom(ugCon);
+                Map<String, Object> map = new HashMap<>();
+                map.put("msgId",StringUtils.getUUID());
+                map.put("jmGids",jmGIds);
+                map.put("userIds",userIds);
+
+                try {
+                    ntService.sendJMOperate(map);
+                } catch (NoticeException e) {
+                    log.error("删除极光小组用户失败,jmGids=[{}],userIds=[{}]",jmGIds,userIds);
+                }
             }
         }
 
@@ -301,7 +326,6 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                 log.error("移除用户：",userIds);
                 jMessageClient.addOrRemoveMembers(Long.valueOf(group.getJmgid()),null,ListUtils.obj2strArr(userIds));
             } catch (APIConnectionException e) {
-
                 log.error("Connection error. Should retry later. ", e);
                 throw new BusinessException("对不起，群组移除成员失败!");
             } catch (APIRequestException e) {
@@ -310,15 +334,18 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
                     throw new BusinessException("对不起，群组移除成员失败!");
                 }
                 log.error("Error response from JPush server. Should review and fix it. ", e);
-                log.info("HTTP Status: " + e.getStatus());
-                log.info("Error Message: " + e.getMessage());
             }
         }
 
         try {
             MsgBean bean = new MsgBean();
             //发送信息提醒
-            String text = StringUtils.concat("被移除:您已被专案组[", group.getGroupname(), "]移除");
+            String text ="";
+            if (!StringUtils.isNotBlank(group.getPgroupid())){
+                text = StringUtils.concat("被移除:您已被专案组[", group.getGroupname(), "]及所属全部小组移除");
+            }else{
+                text = StringUtils.concat("被移除:您已被专案组[", group.getGroupname(), "]移除");
+            }
             bean.setMsgId(StringUtils.getUUID());
             bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
             bean.setMsgContent(text);

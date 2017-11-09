@@ -1,10 +1,12 @@
 package com.hisign.xingzhen.nt;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hisign.xingzhen.nt.api.model.JMBean;
 import com.hisign.xingzhen.nt.service.SendService;
+import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AcknowledgeMode;
@@ -46,6 +48,10 @@ public class RabbitMQConfig {
 	public static final String JM_EXCHANGE = "exchange.jm";
 	public static final String JM_ROUTINGKEY = "routingkey.jm";
 	public static final String JM_QUEUE = "queue.jm";
+
+	public static final String JM_OPERATE_EXCHANGE = "exchange.jm.operate";
+	public static final String JM_OPERATE_ROUTINGKEY = "routingkey.jm.operate";
+	public static final String JM_OPERATE_QUEUE = "queue.jm.operate";
 
 	@Value("${spring.rabbitmq.addresses}")
 	private String addresses;
@@ -101,6 +107,11 @@ public class RabbitMQConfig {
 	}
 
 	@Bean
+	public DirectExchange jmOperateExchange() {
+		return new DirectExchange(JM_OPERATE_EXCHANGE, true, false);
+	}
+
+	@Bean
     public Queue noteQueue() {  
        return new Queue(NOTE_QUEUE, true); 
     }
@@ -114,7 +125,12 @@ public class RabbitMQConfig {
 		return new Queue(JM_QUEUE, true);
 	}
     
-    @Bean  
+	@Bean
+	public Queue jmOperateQueue() {
+		return new Queue(JM_OPERATE_QUEUE, true);
+	}
+
+    @Bean
     public Binding noteBinding() {  
         return BindingBuilder.bind(noteQueue()).to(noteExchange()).with(NOTE_ROUTINGKEY);  
     } 
@@ -127,8 +143,14 @@ public class RabbitMQConfig {
 	public Binding jmBinding() {
 		return BindingBuilder.bind(jmQueue()).to(jmExchange()).with(JM_ROUTINGKEY);
 	}
+
+	@Bean
+	public Binding jmOperateBinding() {
+		return BindingBuilder.bind(jmQueue()).to(jmExchange()).with(JM_OPERATE_ROUTINGKEY);
+	}
+
     private static ConcurrentHashMap<String, Integer> cacheMap = new ConcurrentHashMap<String, Integer>();
-   
+
     /**
      * 接受消息的监听
      * @return
@@ -337,6 +359,79 @@ public class RabbitMQConfig {
 						channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
 						count++;
 						cacheMap.put(msgBean.getMsgId(), count);
+					}
+				}
+			}
+		});
+		return container;
+	}
+
+	/**
+	 * 接受消息的监听
+	 * @return
+	 */
+	@Bean
+	public SimpleMessageListenerContainer jmOperateMessageContainer() {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory());
+		container.setQueues(jmOperateQueue());
+		container.setExposeListenerChannel(true);
+		container.setMaxConcurrentConsumers(1);
+		container.setConcurrentConsumers(1);
+		container.setAcknowledgeMode(AcknowledgeMode.MANUAL); //设置确认模式手工确认
+		container.setMessageListener(new ChannelAwareMessageListener() {
+			public void onMessage(Message message, Channel channel) throws Exception {
+				String msg = new String(message.getBody());
+				logger.info("收到消息={0}", msg);
+				Map<String,Object> msgBean = JSON.parseObject(msg, Map.class);
+				try {
+					String ret = sendService.sendJMOperate(msgBean);
+					
+					if(RespCode.SUCCESS.name().equals(ret)){//发送成功
+						channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+						if(cacheMap.containsKey(msgBean.get("msgId"))){
+							cacheMap.remove(msgBean.get("msgId"));
+						}
+					}else{//发送失败，重新发送
+						//重发消息
+						if(cacheMap.containsKey(msgBean.get("msgId"))){
+							Integer count = cacheMap.get(msgBean.get("msgId"));
+							if(count.intValue() <= retryCount){
+								//重发消息
+								channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+								count++;
+								cacheMap.put((String) msgBean.get("msgId"), count);
+							}else{
+								channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+								cacheMap.remove(msgBean.get("msgId"));
+							}
+						}else{
+							Integer count = 0;
+							//重发消息
+							channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+							count++;
+							cacheMap.put((String) msgBean.get("msgId"), count);
+						}
+					}
+
+				} catch (NoticeException e) {
+					//重发消息
+					if(cacheMap.containsKey(msgBean.get("msgId"))){
+						Integer count = cacheMap.get(msgBean.get("msgId"));
+						if(count.intValue() <= retryCount){
+							//重发消息
+							channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+							count++;
+							cacheMap.put((String) msgBean.get("msgId"), count);
+						}else{
+							channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+							cacheMap.remove(msgBean.get("msgId"));
+						}
+					}else{
+						Integer count = 0;
+						//重发消息
+						channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+						count++;
+						cacheMap.put((String) msgBean.get("msgId"), count);
 					}
 				}
 			}
