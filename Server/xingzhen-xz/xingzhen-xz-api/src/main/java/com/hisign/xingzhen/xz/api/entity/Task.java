@@ -150,7 +150,7 @@ public class Task extends BaseModel implements Serializable {
     private String deleteflag; //删除标识
 
     //-------------------------------------- 接受字段
-    @ApiModelProperty(value = "接受字段-超期标示 1表示超期")
+    @ApiModelProperty(value = "接受字段-超期状态 1表示超期")
     private String  overdue;//1表示超期
 
     @ApiModelProperty(value = "接受字段-任务类型 1表示本人接收，2表示本人下发")

@@ -969,6 +969,7 @@
         select p.*,
         (select count(1) from T_TASK_FK fk where fk.taskid=p.id and qrzt='0' and deleteFlag='0') as noFkqrCount,
         (select count(1) from T_TASK_FK fk where fk.taskid=p.id and deleteFlag='0') as fkCount,
+        case when fkzt=0 and to_char(sysdate,'yyyyMMdd')>to_char(fkjz_time,'yyyyMMdd') THEN '1' else '0' end as overdue,
         (select groupName from T_GROUP g where g.id=p.groupid and deleteFlag='0') as groupName from(
         select rownum as rn,q.* from (
         select t.* from T_TASK  t where t.deleteFlag='0'

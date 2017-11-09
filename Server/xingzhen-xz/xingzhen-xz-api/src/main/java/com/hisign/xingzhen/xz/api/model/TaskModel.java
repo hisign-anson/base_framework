@@ -128,6 +128,9 @@ public class TaskModel implements Serializable {
     @ApiModelProperty(value = "专案组名称")
     private String groupName;
 
+    @ApiModelProperty(value = "超期状态:1表示超期，0未超期")
+    private String  overdue;//1表示超期
+
     @ApiModelProperty(value = "序号")
     private String rn;
 
@@ -565,6 +568,14 @@ public class TaskModel implements Serializable {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public String getOverdue() {
+        return overdue;
+    }
+
+    public void setOverdue(String overdue) {
+        this.overdue = overdue;
     }
 
     public String getRn() {
