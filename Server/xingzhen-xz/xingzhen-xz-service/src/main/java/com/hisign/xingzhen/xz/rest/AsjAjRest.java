@@ -54,4 +54,11 @@ public class AsjAjRest extends BaseRest<AsjAj,AsjAjModel, String, AsjAjService> 
     public AsjAjModel getFirstCaseByGroupId(@RequestParam String id) {
         return baseService.getFirstCaseByGroupId(id);
     }
+
+    @Override
+    @ApiOperation(value = "获取案件详情",httpMethod ="POST",response = AsjAjModel.class)
+    @RequestMapping(value = "/getCaseById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public AsjAjModel getCaseById(@RequestParam String id) {
+        return baseService.getCaseById(id);
+    }
 }

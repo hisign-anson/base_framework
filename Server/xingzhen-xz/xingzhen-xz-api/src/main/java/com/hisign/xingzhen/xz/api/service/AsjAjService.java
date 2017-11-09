@@ -18,4 +18,6 @@ public interface AsjAjService extends BaseService<AsjAj,AsjAjModel, String> {
 
     public AsjAjModel getFirstCaseByGroupId(String id);
 
+    public AsjAjModel getCaseById(String id);
+
 }

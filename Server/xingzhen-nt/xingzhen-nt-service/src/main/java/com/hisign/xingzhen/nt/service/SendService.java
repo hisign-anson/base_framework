@@ -242,8 +242,11 @@ public class SendService {
 						box.setMsgId(note.getMsgId());
 					}
 					box.setReceiverId(sysUser.getUserId());
-					box.setReceiverName(sysUser.getUserName());
 					box.setReceiverType(note.getReceiverType()); //消息类型
+					box.setReceiverName(sysUser.getTrueName());
+					if(note.getReceiverType().equals(String.valueOf(Constants.ReceiveMessageType.TYPE_3))){
+						box.setReceiverName(sysUser.getUserName());
+					}
 					box.setMsgState(String.valueOf(Constants.MessageStatus.STATUS_0));
 					box.setSenderName(note.getPublishName());
 					box.setDel(String.valueOf(Constants.IsDel.DEL_0));

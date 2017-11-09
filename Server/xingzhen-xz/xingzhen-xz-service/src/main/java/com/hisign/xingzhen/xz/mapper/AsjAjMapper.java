@@ -17,10 +17,12 @@ import java.util.List;
 @Repository
 public interface AsjAjMapper extends BaseMapper<AsjAj,AsjAjModel, String> {
 
-    List<AsjAjModel> findAjGroupPage(AsjAjParam aj);
+    public List<AsjAjModel> findAjGroupPage(AsjAjParam aj);
 
-    long findAjGroupPageCount(AsjAjParam aj);
+    public long findAjGroupPageCount(AsjAjParam aj);
 
-    AsjAjModel findFirstCaseByGroupId(String id);
+    public AsjAjModel findFirstCaseByGroupId(String id);
+
+    public AsjAjModel findCaseById(String id);
 
 }

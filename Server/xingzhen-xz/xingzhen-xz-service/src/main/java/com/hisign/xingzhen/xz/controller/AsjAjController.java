@@ -114,6 +114,13 @@ public class AsjAjController extends BaseController{
         return success(ajModel);
     }
 
+    @ApiOperation(value = "根据案件id获取案件详情",httpMethod ="POST",response = AsjAjModel.class)
+    @RequestMapping(value = "/getCaseById", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult getCaseById(@RequestParam String id){
+        AsjAjModel ajModel = asjAjService.getCaseById(id);
+        return success(ajModel);
+    }
+
     /**
      *@Author: 何建辉
      *@Description: 根据专案组id获取最早关联案件

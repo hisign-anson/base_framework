@@ -7449,4 +7449,130 @@
     <select id="findFirstCaseByGroupId" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * FROM (SELECT t2.* FROM T_AJGROUP t1,b_asj_aj t2 WHERE t1.ajid=t2.id and t1.groupid=#{id,jdbcType=VARCHAR} ORDER BY t1.createtime)a WHERE ROWNUM=1
     </select>
+
+    <select id="findCaseById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        b.ID,b.AJBH,b.AJMC,b.AJLX,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='44' and dict.DICT_KEY=b.AJLX
+        ) as AJLXCN,
+            b.AB,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='24' and dict.DICT_KEY=b.AB
+        ) as AB_CN,
+            b.AJSTATE,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='56' and dict.DICT_KEY=b.ajstate
+        ) as AJSTATE_CN,
+        b.AJWHCD,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='43' and dict.DICT_KEY=b.AJWHCD
+        ) as AJWHCD_CN,
+        b.ZAZT,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='131' and dict.DICT_KEY=b.ZAZT
+        ) as ZAZT_CN,
+        b.ZABZ,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='48' and dict.DICT_KEY=b.ZABZ
+        ) as ZABZ_CN,
+        b.FADY,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='45' and dict.DICT_KEY=b.FADY
+        ) as FADY_CN,
+        b.FADY,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='45' and dict.DICT_KEY=b.FADY
+        ) as FADY_CN,
+        b.FADD_QX,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='07' and dict.DICT_KEY=b.FADD_QX
+        ) as FADD_QX_CN,
+        b.FADD_JD,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='107' and dict.DICT_KEY=b.FADD_JD
+        ) as FADD_JD_CN,
+        b.SSSQ,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='109' and dict.DICT_KEY=b.SSSQ
+        ) as SSSQ_CN,
+        b.SLFACS,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='135' and dict.DICT_KEY=b.SLFACS
+        ) as SLFACS_CN,
+        b.XZSJ,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='29' and dict.DICT_KEY=b.XZSJ
+        ) as XZSJ_CN,
+        b.XZCS,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='30' and dict.DICT_KEY=b.XZCS
+        ) as XZCS_CN,
+        b.XZDX,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='31' and dict.DICT_KEY=b.XZDX
+        ) as XZDX_CN,
+        b.XZWP,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='33' and dict.DICT_KEY=b.XZWP
+        ) as XZWP_CN,
+        b.ZAGJ,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='33' and dict.DICT_KEY=b.ZAGJ
+        ) as ZAGJ_CN,
+        b.XZBW,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='30' and dict.DICT_KEY=b.XZBW
+        ) as XZBW_CN,
+        b.SDTD,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='36' and dict.DICT_KEY=b.SDTD
+        ) as SDTD_CN,
+        b.LADW,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='06' and dict.DICT_KEY=b.LADW
+        ) as LADW_NAME,
+        b.SL_JJFS,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='81' and dict.DICT_KEY=b.SL_JJFS
+        ) as SL_JJFS_CN,
+        b.SLJSDW,
+        (
+            select dict.DICT_VALUE1 from sys_dict dict where dict.PARENT_KEY='06' and dict.DICT_KEY=b.SLJSDW
+        ) as SLJSDW_CN,
+        b.AJZBRY,
+        b.AJXBRY,
+        b.AJBARP,
+        b.ZBDW,
+        b.FASJCZ,
+        b.FASJZZ,
+        b.PASJ,
+        b.JA_JASJ,
+        b.XA_XASJ,
+        b.ZYAQ,
+        b.SL_BJSLH,
+        b.SL_LRSJ,
+        b.SLJJSJ,
+        b.SLFXRQ,
+        b.SL_SLRXM,
+        b.SL_SLSJ,
+        b.RESERVER3,
+        b.RESERVER4,
+        b.SLFAQH,
+        b.FADD,
+        b.ZARS,
+        b.SWRS,
+        b.SSRS,
+        b.AJLARY,
+        b.LA_LRSJ,
+        b.LA_LRR,
+        b.LASJ,
+        b.LA_PSSTATE,
+        b.AJLY,
+        b.LA_ZHXGR,
+        b.DBJB,
+        b.DBXX,
+        b.BZ
+        FROM B_ASJ_AJ b WHERE b.ID=#{id,jdbcType=VARCHAR}
+    </select>
 </mapper>
