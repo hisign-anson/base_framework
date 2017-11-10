@@ -21,6 +21,7 @@ import com.hisign.xingzhen.nt.api.model.MsgBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
 import com.hisign.xingzhen.sys.api.model.SysUser;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.sys.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
@@ -264,11 +265,13 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
             bean.setPublishId(userId);
             bean.setPublishName(user.getUserName());
 
-            SysUserInfo userInfo = sysUserService.getUserInfoByUserId(userId);
-            if (userInfo!=null){
-                ArrayList<SysUserInfo> sysUserInfos = new ArrayList<>();
-                sysUserInfos.add(userInfo);
-                bean.setList(sysUserInfos);
+            //获取组内成员
+            SysUserInfoParam info = new SysUserInfoParam();
+            info.setGroupId(groupModel.getId());
+            info.setInGroup(true);
+            List<SysUserInfo> userList = usergroupMapper.findGroupUserList(info);
+            if (userList!=null && userList.size()!=0){
+                bean.setList(userList);
             }
             ntService.sendMsg(bean);
             //保存操作日志
