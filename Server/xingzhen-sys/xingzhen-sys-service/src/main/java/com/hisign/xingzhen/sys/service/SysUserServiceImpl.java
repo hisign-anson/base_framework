@@ -138,7 +138,7 @@ public class SysUserServiceImpl implements SysUserService {
 
 	/**
 	 * 获得登录用户信息列表
-	 * 
+	 *
 	 * @param sysUser
 	 * @return
 	 */
@@ -488,7 +488,12 @@ public class SysUserServiceImpl implements SysUserService {
 		if (oldSysUserInfo==null) {
 			return JsonResultUtil.error("该用户不存在，请刷新页面再试");
 		}
-		
+		if(StringUtils.isEmpty(userInfo.getAvatar())){
+            userInfo.setAvatar(oldSysUserInfo.getAvatar());
+        }
+        if(StringUtils.isEmpty(userInfo.getPoliceId())) {
+            userInfo.setPoliceId(oldSysUserInfo.getPoliceId());
+        }
 		if(!oldSysUserInfo.getCid().equals(userInfo.getCid())){
 			int count = sysUserInfoMapper.queryCountByCondition(new SysUserInfo(userInfo.getCid()));
 			if(count > 0){
