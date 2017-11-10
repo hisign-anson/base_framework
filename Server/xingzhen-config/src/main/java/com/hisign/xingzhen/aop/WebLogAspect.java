@@ -21,6 +21,7 @@ public class WebLogAspect {
 	private Object result;
 	private long startTimie;
 	private String url;
+	private StringBuffer sb = new StringBuffer();
 
 	@Pointcut("execution(public * com.hisign.xingzhen.*.controller..*.*(..))")
 	public void webLog() {
@@ -30,39 +31,31 @@ public class WebLogAspect {
 	public void doBefore(JoinPoint joinPoint) {
 		startTimie = System.currentTimeMillis();
 		// 接收到请求，记录请求内容
-		logger.debug("\n\n---------------"+joinPoint.getSignature().getDeclaringTypeName()+"-->start---------------");
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
 				.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
 
 		// 记录下请求内容
 		url = request.getRequestURL().toString();
-		logger.debug("URL : " + url);
-		logger.debug("HTTP_METHOD : " + request.getMethod());
-		logger.debug("IP : " + request.getRemoteAddr());
-		logger.debug("CLASS_METHOD : "
+		sb.append("\r\n\r\n 请求地址 : " + url);
+		sb.append("\r\n 请求方法 : " + request.getMethod());
+		sb.append("\r\n 请求IP : " + request.getRemoteAddr());
+		sb.append("\r\n 目标方法 : "
 				+ joinPoint.getSignature().getDeclaringTypeName() + "."
 				+ joinPoint.getSignature().getName());
-		logger.debug("ARGS : " + Arrays.toString(joinPoint.getArgs()));
-		// 获取所有参数方法一：
-		Enumeration<String> enu = request.getParameterNames();
-		while (enu.hasMoreElements()) {
-			String paraName = (String) enu.nextElement();
-			System.out
-					.println(paraName + ": " + request.getParameter(paraName));
-		}
+		sb.append("\r\n 请求参数 : " + Arrays.toString(joinPoint.getArgs()));
 	}
 
 	@After("webLog()")
 	public void doAfter(JoinPoint joinPoint) {
 		// 处理完请求，返回内容
 		if (result!=null) {
-			logger.debug("\n\n返回结果："+result);
-			logger.debug("\n\n运行方法："+url);
-			logger.debug("\n\n消耗时间："+(System.currentTimeMillis()-startTimie)+"毫秒");
-			logger.debug("\n\n");
+			sb.append("\r\n 返回结果："+result);
+			sb.append("\r\n 运行方法："+url);
+			sb.append("\r\n 消耗时间："+(System.currentTimeMillis()-startTimie)+"毫秒\r\n\r\n");
 		}
-		logger.debug("\n\n---------------"+joinPoint.getSignature().getDeclaringTypeName()+"-->end---------------");
+		logger.debug(sb.toString());
+
 	}
 	
 	@Around(value = "webLog()")
