@@ -191,8 +191,8 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                 }
                 try {
                     //发送消息到极光
-                    JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_FEEDBACK_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_SINGLE, MessageType.CUSTOM.getValue(),
-                            taskFk.getCreator(), taskModel.getCreator());
+                    JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_FEEDBACK_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_GROUP, MessageType.CUSTOM.getValue(),
+                            taskFk.getCreator(), group.getJmgid());
                     Map<String, Object> map = new HashMap<>();
                     map.put("msgType",Constants.SEND_TASK_FEEDBACK_INFO);
                     map.put("title","反馈任务");

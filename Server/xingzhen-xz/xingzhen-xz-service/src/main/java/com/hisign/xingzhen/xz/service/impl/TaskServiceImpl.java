@@ -279,8 +279,8 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
             try {
                 //发送消息到极光
-                JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_SINGLE, MessageType.CUSTOM.getValue(),
-                        task.getCreator(), task.getJsr());
+                JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_GROUP, MessageType.CUSTOM.getValue(),
+                        task.getCreator(), group.getJmgid());
                 Map<String, Object> map = new HashMap<>();
                 map.put("msgType",Constants.SEND_TASK_INFO);
                 map.put("title","新增任务");
@@ -398,8 +398,8 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
                 try {
                     //发送消息到极光
-                    JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_MOVE_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_SINGLE, MessageType.CUSTOM.getValue(),
-                            entity.getCreator(), entity.getJsr());
+                    JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_MOVE_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_GROUP, MessageType.CUSTOM.getValue(),
+                            entity.getCreator(), group.getJmgid());
                     Map<String, Object> map = new HashMap<>();
                     map.put("msgType",Constants.SEND_TASK_MOVE_INFO);
                     map.put("title","移交任务");
