@@ -156,7 +156,6 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             TaskFk fk=new TaskFk();
             fk.setTaskid(id);
             fk.setOrderBy("createtime");
-            fk.setDesc(true);
             List<TaskFkModel> taskFkModels=taskFkMapper.findListByEntity(fk);
             if(taskFkModels!=null && taskFkModels.size()>0){
                 Date now=new Date();

@@ -15,7 +15,7 @@ import java.util.Date;
 public class TaskSelectParam implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "登陆用户ID",required = true)
+    @ApiModelProperty(value = "登陆用户ID")
     private String userId;
 
     @ApiModelProperty(value = "任务编号")
