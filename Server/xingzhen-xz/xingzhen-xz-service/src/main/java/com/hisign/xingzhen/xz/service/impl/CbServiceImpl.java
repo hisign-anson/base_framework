@@ -176,8 +176,8 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 
                 try {
                     //发送消息到极光
-                    JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_URGE_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_SINGLE, MessageType.CUSTOM.getValue(),
-                            cb.getCreator(), taskModel.getJsr());
+                    JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_URGE_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_GROUP, MessageType.CUSTOM.getValue(),
+                            cb.getCreator(), group.getJmgid());
                     Map<String, Object> map = new HashMap<>();
                     map.put("msgType",Constants.SEND_TASK_URGE_INFO);
                     map.put("title","催办任务");
