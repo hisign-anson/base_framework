@@ -77,7 +77,7 @@ public class IndexServiceImpl implements IndexService {
 
             //获取最新归档记录
             GroupBackup groupBackup = new GroupBackup();
-            groupBackup.setGroupid(model.getPgroupid());
+            groupBackup.setGroupid(model.getId());
             groupBackup.setDeleteflag(Constants.DELETE_FALSE);
             groupBackup.setOrderBy(GroupBackup.GroupBackupEnum.backupTime.get());
             groupBackup.setDesc(true);
