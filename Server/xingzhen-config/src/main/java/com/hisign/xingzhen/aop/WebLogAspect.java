@@ -38,24 +38,23 @@ public class WebLogAspect {
 		// 记录下请求内容
 		url = request.getRequestURL().toString();
 		sb.append("\r\n\r\n 请求地址 : " + url);
-		sb.append("\r\n 请求方法 : " + request.getMethod());
-		sb.append("\r\n 请求IP : " + request.getRemoteAddr());
-		sb.append("\r\n 目标方法 : "
+		sb.append("请求方法 : " + request.getMethod());
+		sb.append("请求IP : " + request.getRemoteAddr());
+		sb.append("目标方法 : "
 				+ joinPoint.getSignature().getDeclaringTypeName() + "."
 				+ joinPoint.getSignature().getName());
-		sb.append("\r\n 请求参数 : " + Arrays.toString(joinPoint.getArgs()));
+		sb.append("请求参数 : " + Arrays.toString(joinPoint.getArgs()));
 	}
 
 	@After("webLog()")
 	public void doAfter(JoinPoint joinPoint) {
 		// 处理完请求，返回内容
 		if (result!=null) {
-			sb.append("\r\n 返回结果："+result);
-			sb.append("\r\n 运行方法："+url);
-			sb.append("\r\n 消耗时间："+(System.currentTimeMillis()-startTimie)+"毫秒\r\n\r\n");
+			sb.append("返回结果："+result);
+			sb.append("运行方法："+url);
+			sb.append("消耗时间："+(System.currentTimeMillis()-startTimie)+"毫秒\r\n\r\n");
 		}
 		logger.debug(sb.toString());
-
 	}
 	
 	@Around(value = "webLog()")
