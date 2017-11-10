@@ -21,6 +21,7 @@ public class WebLogAspect {
 	private Object result;
 	private long startTimie;
 	private String url;
+	private StringBuffer sb = new StringBuffer();
 
 	@Pointcut("execution(public * com.hisign.xingzhen.*.controller..*.*(..))")
 	public void webLog() {
@@ -37,32 +38,24 @@ public class WebLogAspect {
 
 		// 记录下请求内容
 		url = request.getRequestURL().toString();
-		logger.debug("URL : " + url);
-		logger.debug("HTTP_METHOD : " + request.getMethod());
-		logger.debug("IP : " + request.getRemoteAddr());
-		logger.debug("CLASS_METHOD : "
+		sb.append("URL : " + url);
+		sb.append("HTTP_METHOD : " + request.getMethod());
+		sb.append("IP : " + request.getRemoteAddr());
+		sb.append("CLASS_METHOD : "
 				+ joinPoint.getSignature().getDeclaringTypeName() + "."
 				+ joinPoint.getSignature().getName());
-		logger.debug("ARGS : " + Arrays.toString(joinPoint.getArgs()));
-		// 获取所有参数方法一：
-		Enumeration<String> enu = request.getParameterNames();
-		while (enu.hasMoreElements()) {
-			String paraName = (String) enu.nextElement();
-			System.out
-					.println(paraName + ": " + request.getParameter(paraName));
-		}
+		sb.append("ARGS : " + Arrays.toString(joinPoint.getArgs()));
 	}
 
 	@After("webLog()")
 	public void doAfter(JoinPoint joinPoint) {
 		// 处理完请求，返回内容
 		if (result!=null) {
-			logger.debug("\n\n返回结果："+result);
-			logger.debug("\n\n运行方法："+url);
-			logger.debug("\n\n消耗时间："+(System.currentTimeMillis()-startTimie)+"毫秒");
-			logger.debug("\n\n");
+			sb.append("返回结果："+result);
+			sb.append("运行方法："+url);
+			sb.append("消耗时间："+(System.currentTimeMillis()-startTimie)+"毫秒");
 		}
-		logger.debug("\n\n---------------"+joinPoint.getSignature().getDeclaringTypeName()+"-->end---------------");
+		logger.debug(sb.toString());
 	}
 	
 	@Around(value = "webLog()")
