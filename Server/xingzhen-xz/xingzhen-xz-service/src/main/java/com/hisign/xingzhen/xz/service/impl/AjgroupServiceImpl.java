@@ -318,7 +318,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
             //msgBody
             Map<String, Object> map = new HashMap<>();
             map.put("msgType",Constants.SEND_REMOVE_CASE_INFO);
-            map.put("title","关联案件");
+            map.put("title","移除案件");
             map.put("groupId",aj.getGroupid());
             map.put("pGroupId",groupModel.getPgroupid());
 
