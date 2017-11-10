@@ -61,4 +61,11 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
     public JsonResult getAllGroupByUserId(@RequestParam String userId,@RequestParam String groupName) {
         return baseService.getAllGroupByUserId(userId,groupName);
     }
+
+    @Override
+    @ApiOperation(value = "发送广播信息提醒",httpMethod ="POST",response = GroupModel.class)
+    @RequestMapping(value = "/sendBroadcast", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult sendBroadcast(String userId, String groupId, String msgContent) throws Exception {
+        return baseService.sendBroadcast(userId,groupId,msgContent);
+    }
 }

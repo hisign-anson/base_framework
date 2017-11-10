@@ -21,7 +21,7 @@ public class WebLogAspect {
 	private Object result;
 	private long startTimie;
 	private String url;
-	private ThreadLocal<StringBuffer> sb = new ThreadLocal<StringBuffer>();
+	private StringBuffer sb = new StringBuffer();
 
 	@Pointcut("execution(public * com.hisign.xingzhen.*.controller..*.*(..))")
 	public void webLog() {
@@ -37,30 +37,26 @@ public class WebLogAspect {
 
 		// 记录下请求内容
 		url = request.getRequestURL().toString();
-		StringBuffer stringBuffer = sb.get();
-		stringBuffer.append("\r\n[start]");
-		stringBuffer.append("\r\n请求地址 : " + url);
-		stringBuffer.append("\r\n请求方法 : " + request.getMethod());
-		stringBuffer.append("\r\n请求IP : " + request.getRemoteAddr());
-		stringBuffer.append("\r\n目标方法 : "
+		logger.debug("\r\n[start]");
+		logger.debug("\r\n请求地址 : " + url);
+		logger.debug("\r\n请求方法 : " + request.getMethod());
+		logger.debug("\r\n请求IP : " + request.getRemoteAddr());
+		logger.debug("\r\n目标方法 : "
 				+ joinPoint.getSignature().getDeclaringTypeName() + "."
 				+ joinPoint.getSignature().getName());
-		stringBuffer.append("\r\n请求参数 : " + Arrays.toString(joinPoint.getArgs()));
-
-		sb.set(stringBuffer);
+		logger.debug("\r\n请求参数 : " + Arrays.toString(joinPoint.getArgs()));
 	}
 
 	@After("webLog()")
 	public void doAfter(JoinPoint joinPoint) {
 		// 处理完请求，返回内容
-		StringBuffer stringBuffer = sb.get();
 		if (result!=null) {
-			stringBuffer.append("\r\n返回结果："+result);
-			stringBuffer.append("\r\n运行方法："+url);
-			stringBuffer.append("\r\n消耗时间："+(System.currentTimeMillis()-startTimie)+"毫秒");
-			stringBuffer.append("\r\n[end]\r\n");
+			logger.debug("\r\n返回结果："+result);
+			logger.debug("\r\n运行方法："+url);
+			logger.debug("\r\n消耗时间："+(System.currentTimeMillis()-startTimie)+"毫秒");
+			logger.debug("\r\n[end]\r\n");
 		}
-		logger.debug(stringBuffer.toString());
+		logger.debug(sb.toString());
 	}
 	
 	@Around(value = "webLog()")
