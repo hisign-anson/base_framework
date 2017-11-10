@@ -431,7 +431,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                     if (fqrUser!=null){
                         //发送信息提醒发起人
                         MsgBean bean2 = new MsgBean();
-                        String text = "移交任务:"+entity.getCreatename()+"将您发布的认为移交了任务给了"+taskMoveParam.getJsrname();
+                        String text = "移交任务:"+entity.getCreatename()+"将您发布的任务移交给了"+taskMoveParam.getJsrname();
                         bean2.setMsgId(StringUtils.getUUID());
                         bean2.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
                         bean2.setMsgContent(text);
