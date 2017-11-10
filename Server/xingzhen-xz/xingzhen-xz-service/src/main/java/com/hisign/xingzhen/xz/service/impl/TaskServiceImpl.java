@@ -413,18 +413,37 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                     jmBean.setMsg_body(JSONObject.toJSONString(map));
                     ntService.sendJM(jmBean);
 
-                    //发送信息提醒
-                    MsgBean bean = new MsgBean();
-                    String text = "移交任务:"+entity.getCreatename()+"移交了任务给您";
-                    bean.setMsgId(StringUtils.getUUID());
-                    bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
-                    bean.setMsgContent(text);
-                    bean.setPublishId(entity.getCreator());
-                    bean.setPublishName(entity.getCreatename());
-                    List<SysUserInfo> userList=new ArrayList<>();
-                    userList.add(user);
-                    bean.setList(userList);
-                    ntService.sendMsg(bean);
+                    //发送信息提醒接收人
+                    MsgBean bean1 = new MsgBean();
+                    String text1 = "移交任务:"+entity.getCreatename()+"移交了任务给您";
+                    bean1.setMsgId(StringUtils.getUUID());
+                    bean1.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
+                    bean1.setMsgContent(text1);
+                    bean1.setPublishId(entity.getCreator());
+                    bean1.setPublishName(entity.getCreatename());
+                    List<SysUserInfo> userList1=new ArrayList<>();
+                    userList1.add(user);
+                    bean1.setList(userList1);
+                    ntService.sendMsg(bean1);
+
+                    //获取用户信息
+                    SysUserInfo fqrUser = sysUserService.getUserInfoByUserId(entity.getFqr());
+                    if (fqrUser!=null){
+                        //发送信息提醒发起人
+                        MsgBean bean2 = new MsgBean();
+                        String text = "移交任务:"+entity.getCreatename()+"将您发布的认为移交了任务给了"+taskMoveParam.getJsrname();
+                        bean2.setMsgId(StringUtils.getUUID());
+                        bean2.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
+                        bean2.setMsgContent(text);
+                        bean2.setPublishId(entity.getCreator());
+                        bean2.setPublishName(entity.getCreatename());
+                        List<SysUserInfo> userList2=new ArrayList<>();
+                        userList2.add(fqrUser);
+                        bean2.setList(userList2);
+                        ntService.sendMsg(bean2);
+                    }
+
+
                 } catch (NoticeException e){
                     //不做回滚
                     log.error("推送消息到移动端失败",e);
