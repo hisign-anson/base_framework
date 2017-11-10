@@ -39,7 +39,7 @@ public class TaskfkFileServiceImpl extends BaseServiceImpl<TaskfkFile,TaskfkFile
     @Autowired
     protected XzLogMapper xzLogMapper;
 
-     @Override
+    @Override
 	protected BaseMapper<TaskfkFile, TaskfkFileModel, String> initMapper() {
 		return taskfkFileMapper;
 	}

@@ -57,7 +57,6 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
     @Autowired
     protected TaskMapper taskMapper;
 
-
     @Autowired
     protected GroupMapper groupMapper;
 
@@ -147,7 +146,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
             //获取用户信息
             SysUserInfo user = sysUserService.getUserInfoByUserId(taskModel.getCreator());
             if (user==null){
-                log.error("该用户不存在，[user=?]",user);
+                log.error("该用户不存在，[user={}]",user);
                 return error("抱歉，该任务创建人不存在，请联系管理员!");
             }
             Date now=new Date();
@@ -186,10 +185,6 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                     String content="任务反馈（ID=" + taskFk.getId() + ",TASKID"+ taskFk.getTaskid() + "）";
                     XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.TASK,content , taskFk.getCreator(), now, taskModel.getId());
                     xzLogMapper.insertNotNull(xzLog);
-                } catch (Exception e){
-                    log.error(e.getMessage(),e);
-                }
-                try {
                     //发送消息到极光
                     JMBean jmBean = new JMBean(StringUtils.getUUID(), Constants.SEND_TASK_FEEDBACK_INFO,Constants.JM_FROM_TYPE_ADMIN, Constants.JM_TARGET_TYPE_GROUP, MessageType.CUSTOM.getValue(),
                             taskFk.getCreator(), group.getJmgid());
