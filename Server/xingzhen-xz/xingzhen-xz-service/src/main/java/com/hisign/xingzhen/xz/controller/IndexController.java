@@ -63,7 +63,7 @@ public class IndexController extends BaseController {
         Conditions.Criteria criteria3 = conditions3.createCriteria();
 
         criteria3.add(Task.TaskEnum.fkzt.get(), BaseEnum.ConditionEnum.EQ, Constants.NO)
-                .add(Task.TaskEnum.fkjzTime.get(), BaseEnum.ConditionEnum.LTE, DateUtil.addDay(new Date(),1))
+                .add(Task.TaskEnum.fkjzTime.get(), BaseEnum.ConditionEnum.LTE, DateUtil.getNowDate())
                 .add(Task.TaskEnum.jsr.get(), BaseEnum.ConditionEnum.EQ, userId);
 
         Long count3 = taskService.getCount(conditions3);
