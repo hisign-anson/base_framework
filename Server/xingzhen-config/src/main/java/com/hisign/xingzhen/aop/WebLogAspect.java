@@ -37,24 +37,24 @@ public class WebLogAspect {
 
 		// 记录下请求内容
 		url = request.getRequestURL().toString();
-		sb.append("\r\n[start]");
-		sb.append("\r\n请求地址 : " + url);
-		sb.append("\r\n请求方法 : " + request.getMethod());
-		sb.append("\r\n请求IP : " + request.getRemoteAddr());
-		sb.append("\r\n目标方法 : "
+		logger.debug("\r\n[start]");
+		logger.debug("\r\n请求地址 : " + url);
+		logger.debug("\r\n请求方法 : " + request.getMethod());
+		logger.debug("\r\n请求IP : " + request.getRemoteAddr());
+		logger.debug("\r\n目标方法 : "
 				+ joinPoint.getSignature().getDeclaringTypeName() + "."
 				+ joinPoint.getSignature().getName());
-		sb.append("\r\n请求参数 : " + Arrays.toString(joinPoint.getArgs()));
+		logger.debug("\r\n请求参数 : " + Arrays.toString(joinPoint.getArgs()));
 	}
 
 	@After("webLog()")
 	public void doAfter(JoinPoint joinPoint) {
 		// 处理完请求，返回内容
 		if (result!=null) {
-			sb.append("\r\n返回结果："+result);
-			sb.append("\r\n运行方法："+url);
-			sb.append("\r\n消耗时间："+(System.currentTimeMillis()-startTimie)+"毫秒");
-			sb.append("\r\n[end]\r\n");
+			logger.debug("\r\n返回结果："+result);
+			logger.debug("\r\n运行方法："+url);
+			logger.debug("\r\n消耗时间："+(System.currentTimeMillis()-startTimie)+"毫秒");
+			logger.debug("\r\n[end]\r\n");
 		}
 		logger.debug(sb.toString());
 	}
