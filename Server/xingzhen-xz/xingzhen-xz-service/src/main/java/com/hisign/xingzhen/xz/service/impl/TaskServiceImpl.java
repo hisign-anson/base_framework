@@ -69,7 +69,6 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
     @Autowired
     protected XzLogMapper xzLogMapper;
 
-
     @Autowired
     private SysUserService sysUserService;
 

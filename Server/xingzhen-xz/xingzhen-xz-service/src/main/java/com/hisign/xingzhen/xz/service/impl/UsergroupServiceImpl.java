@@ -280,7 +280,7 @@ public class UsergroupServiceImpl extends BaseServiceImpl<Usergroup,UsergroupMod
         //组装删除小组人员Conditions
         Conditions conditions = new Conditions();
         conditions.createCriteria().add(Usergroup.UsergroupEnum.groupid.get(), BaseEnum.ConditionEnum.EQ,ug.getGroupid())
-                .add(Usergroup.UsergroupEnum.userid.get(), BaseEnum.ConditionEnum.EQ,ug.getUserid());
+                .add(Usergroup.UsergroupEnum.userid.get(), BaseEnum.IsInEnum.IN,userIds);
         usergroupMapper.deleteCustom(conditions);
 
         //如果是父组，小组也需要移除该人
