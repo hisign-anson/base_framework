@@ -321,6 +321,12 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	@Transactional
 	public JsonResult addUserInfo(SysUserInfo userInfo) throws Exception {
+		SysUserInfo usr = new SysUserInfo();
+		usr.setPoliceId(userInfo.getPoliceId());
+		int num = sysUserInfoMapper.queryCountByCondition(usr);
+		if(num > 0){
+			return JsonResultUtil.error("警号已存在,请重新输入");
+		}
 		int count = sysUserInfoMapper.queryCountByCondition(new SysUserInfo(userInfo.getCid()));
 		if(count > 0){
 			return JsonResultUtil.error("身份证号已存在,请重新输入");
