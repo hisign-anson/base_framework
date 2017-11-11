@@ -15,7 +15,14 @@ import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
+import com.hisign.xingzhen.common.util.ListUtils;
 import com.hisign.xingzhen.common.util.StringUtils;
+import com.hisign.xingzhen.nt.api.model.MsgBean;
+import com.hisign.xingzhen.nt.api.service.NtService;
+import com.hisign.xingzhen.sys.api.model.SysUser;
+import com.hisign.xingzhen.sys.api.model.SysUserInfo;
+import com.hisign.xingzhen.sys.api.param.SysUserInfoParam;
+import com.hisign.xingzhen.sys.api.service.SysUserService;
 import com.hisign.xingzhen.xz.api.entity.Group;
 import com.hisign.xingzhen.xz.api.entity.Usergroup;
 import com.hisign.xingzhen.xz.api.entity.XzLog;
@@ -32,6 +39,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -56,6 +64,12 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
 
     @Autowired
     private JMessageClient jMessageClient;
+
+    @Autowired
+    private SysUserService sysUserService;
+
+    @Autowired
+    private NtService ntService;
 
     Logger log = LoggerFactory.getLogger(GroupServiceImpl.class);
 
@@ -227,6 +241,47 @@ public class GroupServiceImpl extends BaseServiceImpl<Group, GroupModel, String>
     @Override
     public JsonResult getAllGroupByUserId(String userId,String groupName) {
         return JsonResultUtil.success(groupMapper.findAllGroupByUserId(userId,groupName));
+    }
+
+    @Override
+    public JsonResult sendBroadcast(String userId, String groupId, String msgContent) throws Exception {
+        //获取当前人对象
+        SysUserInfo user = sysUserService.getUserInfoByUserId(userId);
+        if (user==null){
+            return error("登陆人用户不存在");
+        }
+        GroupModel groupModel = groupMapper.findById(groupId);
+        if (groupModel==null){
+            return error("改专案组不存在");
+        }
+
+        try {
+            MsgBean bean = new MsgBean();
+            //发送信息提醒
+            String text = StringUtils.concat("广播:[",user.getUserName(),"]在专案组[", groupModel.getGroupname(), "]发了一条广播[内容：",msgContent,"]");
+            bean.setMsgId(StringUtils.getUUID());
+            bean.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
+            bean.setMsgContent(text);
+            bean.setPublishId(userId);
+            bean.setPublishName(user.getUserName());
+
+            //获取组内成员
+            SysUserInfoParam info = new SysUserInfoParam();
+            info.setGroupId(groupModel.getId());
+            info.setInGroup(true);
+            List<SysUserInfo> userList = usergroupMapper.findGroupUserList(info);
+            if (userList!=null && userList.size()!=0){
+                bean.setList(userList);
+            }
+            ntService.sendMsg(bean);
+            //保存操作日志
+            StringBuilder sb = new StringBuilder();
+            sb.append("用户(ID:").append(userId).append(")在专案组(ID:").append(groupId).append(")发了一条广播");
+            XzLog xzLog = new XzLog(IpUtil.getRemotIpAddr(BaseRest.getRequest()),Constants.XZLogType.GROUP, sb.toString(), userId, new Date(), groupId);
+        } catch (Exception e) {
+            log.error("发送广播-操作日志失败",e);
+        }
+        return success();
     }
 
     @Override

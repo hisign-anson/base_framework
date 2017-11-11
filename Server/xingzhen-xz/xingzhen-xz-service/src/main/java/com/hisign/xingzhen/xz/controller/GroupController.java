@@ -103,4 +103,16 @@ public class GroupController extends BaseController{
     public JsonResult getAllGroupByUserId(@RequestParam String userId,@RequestParam(required = false) String groupName) {
         return groupService.getAllGroupByUserId(userId,groupName);
     }
+
+    /**
+     *@Author: 何建辉
+     *@Description: 发广播提醒
+     *@Date: 2017/11/1 17:06
+     *@Email: hejianhui@hisign.com.cn
+     */
+    @ApiOperation(value = "发广播提醒",httpMethod ="POST",response = GroupModel.class)
+    @RequestMapping(value = "/sendBroadcast", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public JsonResult sendBroadcast(@RequestParam String userId,@RequestParam String groupId,@RequestParam String msgContent) throws Exception {
+        return groupService.sendBroadcast(userId,groupId,msgContent);
+    }
 }
