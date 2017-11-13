@@ -375,7 +375,8 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             cbMapper.updateCbTaskid(cb);
 
             entity.setId(taskMoveParam.getId());
-            entity.setQszt(Constants.SFDM_F);
+            entity.setQszt(Constants.NO);
+            entity.setQsTime(null);
             entity.setJsr(taskMoveParam.getJsr());
             entity.setJsrname(taskMoveParam.getJsrname());
             entity.setJsrLxfs(taskMoveParam.getJsrLxfs());
@@ -416,7 +417,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
 
                     //发送信息提醒接收人
                     MsgBean bean1 = new MsgBean();
-                    String text1 = "移交任务:"+entity.getCreatename()+"移交了任务给您";
+                    String text1 = "移交任务:"+entity.getCreatename()+"移交了任务给您，任务编号："+entity.getTaskNo();
                     bean1.setMsgId(StringUtils.getUUID());
                     bean1.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
                     bean1.setMsgContent(text1);
@@ -432,7 +433,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                     if (fqrUser!=null){
                         //发送信息提醒发起人
                         MsgBean bean2 = new MsgBean();
-                        String text = "移交任务:"+entity.getCreatename()+"将您发布的任务移交给了"+taskMoveParam.getJsrname();
+                        String text = "移交任务:"+entity.getCreatename()+"将您发布的任务移交给了"+taskMoveParam.getJsrname()+"，任务编号："+entity.getTaskNo();
                         bean2.setMsgId(StringUtils.getUUID());
                         bean2.setReceiverType(String.valueOf(Constants.ReceiveMessageType.TYPE_3));
                         bean2.setMsgContent(text);
