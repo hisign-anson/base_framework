@@ -375,6 +375,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
             cbMapper.updateCbTaskid(cb);
 
             entity.setId(taskMoveParam.getId());
+            entity.setQszt(Constants.SFDM_F);
             entity.setJsr(taskMoveParam.getJsr());
             entity.setJsrname(taskMoveParam.getJsrname());
             entity.setJsrLxfs(taskMoveParam.getJsrLxfs());
