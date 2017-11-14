@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.alibaba.druid.pool.DruidDataSource;
 
 @ConditionalOnMissingBean(value = DataSource.class)
-@Configuration
+//@Configuration
 @EnableTransactionManagement
 public class DatabaseConfig  {
 	private static final Logger logger = LoggerFactory.getLogger(MyBatisConfig.class);

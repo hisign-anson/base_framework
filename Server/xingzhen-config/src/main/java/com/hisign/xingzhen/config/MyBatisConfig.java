@@ -19,7 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
-@Configuration  
+//@Configuration
 @AutoConfigureAfter({ DatabaseConfig.class })  
 @MapperScan(basePackages={"com.hisign.xingzhen.sys.mapper","com.hisign.xingzhen.xz.mapper"})
 @EnableTransactionManagement

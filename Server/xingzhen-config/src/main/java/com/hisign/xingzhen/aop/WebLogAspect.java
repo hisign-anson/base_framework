@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Enumeration;
 
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class WebLogAspect {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
