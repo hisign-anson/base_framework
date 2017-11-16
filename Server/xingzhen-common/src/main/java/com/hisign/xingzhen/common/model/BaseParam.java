@@ -12,10 +12,10 @@ import java.io.Serializable;
 public class BaseParam implements Serializable{
 
     @ApiModelProperty(value = "分页参数 开始序号")
-    private int begin; //开始序号
+    private int begin=0; //开始序号
 
     @ApiModelProperty(value = "分页参数 结束序号")
-    private int end; //结束序号
+    private int end=60; //结束序号
 
     @ApiModelProperty(value = "排序字段")
     private String orderBy; //排序字段

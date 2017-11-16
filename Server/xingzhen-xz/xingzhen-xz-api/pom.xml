@@ -20,6 +20,11 @@
         </dependency>
         <dependency>
             <groupId>com.hisign.xingzhen</groupId>
+            <artifactId>xingzhen-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hisign.xingzhen</groupId>
             <artifactId>xingzhen-sys-api</artifactId>
             <version>${project.version}</version>
         </dependency>
