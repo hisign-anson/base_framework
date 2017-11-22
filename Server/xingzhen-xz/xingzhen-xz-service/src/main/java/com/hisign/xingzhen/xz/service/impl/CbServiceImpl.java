@@ -180,7 +180,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
                             cb.getCreator(), group.getJmgid());
                     Map<String, Object> map = new HashMap<>();
                     map.put("msgType",Constants.SEND_TASK_URGE_INFO);
-                    map.put("title","催办任务");
+                    map.put("text","催办任务");
                     map.put("taskId",cb.getTaskid());
                     map.put("creator",cb.getCreator());
                     map.put("createName",cb.getCreatename());

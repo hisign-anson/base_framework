@@ -20,6 +20,9 @@ import com.hisign.bfun.benum.BaseEnum;
 import com.hisign.bfun.bexception.BusinessException;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.nt.api.model.JMBean;
+import com.hisign.xingzhen.nt.api.model.JMessage;
+import com.hisign.xingzhen.xz.api.entity.IMessage;
+import com.hisign.xingzhen.xz.api.service.es.IMessageService;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -77,6 +80,9 @@ public class SendService {
 
 	@Autowired
 	private JMessageClient jMessageClient;
+
+	@Autowired
+	private IMessageService iMessageService;
 
 	public String sendSms(NoteBean note) throws NoticeException{
 		if(note!=null){
@@ -184,6 +190,21 @@ public class SendService {
 		}
 
 	}
+
+	public String sendIMMsg(List<IMessage> list) throws NoticeException{
+		logger.debug("接收到的对象JMessage=[{}]", list);
+		if(list!=null && list.size()>0){
+			try {
+				iMessageService.save(list);
+				return RespCode.SUCCESS.name();
+			} catch (Exception e) {
+				logger.debug("发布信息异常", e);
+				throw new NoticeException(e.getMessage(), 0);
+			}
+		}
+		return RespCode.SUCCESS.name();
+	}
+
 
 	private List<ReceiveBox> createBoxListOfMsg(MsgBean note) {
 		

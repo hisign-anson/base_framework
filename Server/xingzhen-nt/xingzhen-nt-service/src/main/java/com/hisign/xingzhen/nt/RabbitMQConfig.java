@@ -1,6 +1,5 @@
 package com.hisign.xingzhen.nt;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -171,49 +170,59 @@ public class RabbitMQConfig {
                 NoteBean noteBean = JSON.parseObject(msg, NoteBean.class);
                 try {
 					String ret = sendService.sendSms(noteBean);
-					handleResult(message, channel, ret, noteBean.getMsgId());
+					if(RespCode.SUCCESS.name().equals(ret)){//发送成功
+						channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+						if(cacheMap.containsKey(noteBean.getMsgId())){
+							cacheMap.remove(noteBean.getMsgId());
+						}
+					}else{//发送失败，重新发送
+						if(!cacheMap.isEmpty() && cacheMap.containsKey(noteBean.getMsgId())){
+							Integer count = cacheMap.get(noteBean.getMsgId());
+							if(count.intValue() <= retryCount){
+								//重发消息
+								channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+								count++;
+								cacheMap.put(noteBean.getMsgId(), count);
+							}else{
+								channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+								cacheMap.remove(noteBean.getMsgId());
+							}
+						}else{
+							Integer count = 0;
+							//重发消息
+							channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+							count++;
+							cacheMap.put(noteBean.getMsgId(), count);
+						}
+
+					}
 				} catch (NoticeException e) {
 					//重发消息
-					reTry(message, channel, noteBean.getMsgId());
+					if(!cacheMap.isEmpty() &&cacheMap.containsKey(noteBean.getMsgId())){
+						Integer count = cacheMap.get(noteBean.getMsgId());
+						if(count.intValue() <= retryCount){
+							//重发消息
+							channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+							count++;
+							cacheMap.put(noteBean.getMsgId(), count);
+						}else{
+							channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+							cacheMap.remove(noteBean.getMsgId());
+						}
+					}else{
+						Integer count = 0;
+						//重发消息
+						channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+						count++;
+						cacheMap.put(noteBean.getMsgId(), count);
+					}
 				}
             }
         });
         return container;  
     }
 
-	private void handleResult(Message message, Channel channel, String ret, String msgId) throws IOException {
-		if (RespCode.SUCCESS.name().equals(ret)) {//发送成功
-			channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-			if (cacheMap.containsKey(msgId)) {
-				cacheMap.remove(msgId);
-			}
-		} else {//发送失败，重新发送
-			reTry(message, channel, msgId);
-		}
-	}
-
-	private void reTry(Message message, Channel channel, String msgId) throws IOException {
-		if(!cacheMap.isEmpty() && cacheMap.containsKey(msgId)){
-            Integer count = cacheMap.get(msgId);
-            if(count.intValue() <= retryCount){
-                //重发消息
-                channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
-                count++;
-                cacheMap.put(msgId, count);
-            }else{
-                channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-                cacheMap.remove(msgId);
-            }
-        }else{
-            Integer count = 0;
-            //重发消息
-            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
-            count++;
-            cacheMap.put(msgId, count);
-        }
-	}
-
-	/**
+    /**
      * 接受消息的监听
      * @return
      */
@@ -232,10 +241,53 @@ public class RabbitMQConfig {
                 MsgBean msgBean = JSON.parseObject(msg, MsgBean.class);
                 try {
 					String ret = sendService.sendMsg(msgBean);
-					handleResult(message, channel, ret, msgBean.getMsgId());
+					if(RespCode.SUCCESS.name().equals(ret)){//发送成功
+						channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+						if(cacheMap.containsKey(msgBean.getMsgId())){
+							cacheMap.remove(msgBean.getMsgId());
+						}
+					}else{//发送失败，重新发送
+						//重发消息
+						if(cacheMap.containsKey(msgBean.getMsgId())){
+							Integer count = cacheMap.get(msgBean.getMsgId());
+							if(count.intValue() <= retryCount){
+								//重发消息
+								channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+								count++;
+								cacheMap.put(msgBean.getMsgId(), count);
+							}else{
+								channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+								cacheMap.remove(msgBean.getMsgId());
+							}
+						}else{
+							Integer count = 0;
+							//重发消息
+							channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+							count++;
+							cacheMap.put(msgBean.getMsgId(), count);
+						}
+					}
+
 				} catch (NoticeException e) {
 					//重发消息
-					reTry(message, channel, msgBean.getMsgId());
+					if(cacheMap.containsKey(msgBean.getMsgId())){
+						Integer count = cacheMap.get(msgBean.getMsgId());
+						if(count.intValue() <= retryCount){
+							//重发消息
+							channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+							count++;
+							cacheMap.put(msgBean.getMsgId(), count);
+						}else{
+							channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+							cacheMap.remove(msgBean.getMsgId());
+						}
+					}else{
+						Integer count = 0;
+						//重发消息
+						channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+						count++;
+						cacheMap.put(msgBean.getMsgId(), count);
+					}
 				}
             }  
         });  
@@ -261,10 +313,53 @@ public class RabbitMQConfig {
 				JMBean msgBean = JSON.parseObject(msg, JMBean.class);
 				try {
 					String ret = sendService.sendJM(msgBean);
-					handleResult(message, channel, ret, msgBean.getMsgId());
+					if(RespCode.SUCCESS.name().equals(ret)){//发送成功
+						channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+						if(cacheMap.containsKey(msgBean.getMsgId())){
+							cacheMap.remove(msgBean.getMsgId());
+						}
+					}else{//发送失败，重新发送
+						//重发消息
+						if(cacheMap.containsKey(msgBean.getMsgId())){
+							Integer count = cacheMap.get(msgBean.getMsgId());
+							if(count.intValue() <= retryCount){
+								//重发消息
+								channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+								count++;
+								cacheMap.put(msgBean.getMsgId(), count);
+							}else{
+								channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+								cacheMap.remove(msgBean.getMsgId());
+							}
+						}else{
+							Integer count = 0;
+							//重发消息
+							channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+							count++;
+							cacheMap.put(msgBean.getMsgId(), count);
+						}
+					}
+
 				} catch (NoticeException e) {
 					//重发消息
-					reTry(message, channel, msgBean.getMsgId());
+					if(cacheMap.containsKey(msgBean.getMsgId())){
+						Integer count = cacheMap.get(msgBean.getMsgId());
+						if(count.intValue() <= retryCount){
+							//重发消息
+							channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+							count++;
+							cacheMap.put(msgBean.getMsgId(), count);
+						}else{
+							channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+							cacheMap.remove(msgBean.getMsgId());
+						}
+					}else{
+						Integer count = 0;
+						//重发消息
+						channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+						count++;
+						cacheMap.put(msgBean.getMsgId(), count);
+					}
 				}
 			}
 		});
@@ -290,10 +385,54 @@ public class RabbitMQConfig {
 				Map<String,Object> msgBean = JSON.parseObject(msg, Map.class);
 				try {
 					String ret = sendService.sendJMOperate(msgBean);
-					handleResult(message, channel, ret, (String) msgBean.get("msgId"));
+
+					if(RespCode.SUCCESS.name().equals(ret)){//发送成功
+						channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+						if(cacheMap.containsKey(msgBean.get("msgId"))){
+							cacheMap.remove(msgBean.get("msgId"));
+						}
+					}else{//发送失败，重新发送
+						//重发消息
+						if(cacheMap.containsKey(msgBean.get("msgId"))){
+							Integer count = cacheMap.get(msgBean.get("msgId"));
+							if(count.intValue() <= retryCount){
+								//重发消息
+								channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+								count++;
+								cacheMap.put((String) msgBean.get("msgId"), count);
+							}else{
+								channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+								cacheMap.remove(msgBean.get("msgId"));
+							}
+						}else{
+							Integer count = 0;
+							//重发消息
+							channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+							count++;
+							cacheMap.put((String) msgBean.get("msgId"), count);
+						}
+					}
+
 				} catch (NoticeException e) {
 					//重发消息
-					reTry(message, channel, (String) msgBean.get("msgId"));
+					if(cacheMap.containsKey(msgBean.get("msgId"))){
+						Integer count = cacheMap.get(msgBean.get("msgId"));
+						if(count.intValue() <= retryCount){
+							//重发消息
+							channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+							count++;
+							cacheMap.put((String) msgBean.get("msgId"), count);
+						}else{
+							channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+							cacheMap.remove(msgBean.get("msgId"));
+						}
+					}else{
+						Integer count = 0;
+						//重发消息
+						channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+						count++;
+						cacheMap.put((String) msgBean.get("msgId"), count);
+					}
 				}
 			}
 		});

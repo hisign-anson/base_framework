@@ -212,10 +212,10 @@ public class GroupBackupServiceImpl extends BaseServiceImpl<GroupBackup, GroupBa
             Map<String, Object> map = new HashMap<>();
             map.put("groupId",param.getGroupid());
             map.put("msgType",Constants.SEND_GROUP_BACKUP_INFO);
-            map.put("title","专案组撤销归档");
+            map.put("text","专案组撤销归档");
 
             if (param.getBackupStatus().equals(Constants.YES)){
-                map.put("title","专案组归档");
+                map.put("text","专案组归档");
                 //获取归档理由的字典
                 SysDict dict = sysDictService.getDictByPKAndDK("GDYY", param.getBackupReason());
                 if (dict!=null){

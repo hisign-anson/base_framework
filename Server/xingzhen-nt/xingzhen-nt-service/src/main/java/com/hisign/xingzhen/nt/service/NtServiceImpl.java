@@ -1,6 +1,9 @@
 package com.hisign.xingzhen.nt.service;
 
+import com.hisign.xingzhen.nt.IMRabbitMQConfig;
 import com.hisign.xingzhen.nt.api.model.JMBean;
+import com.hisign.xingzhen.nt.api.model.JMessage;
+import com.hisign.xingzhen.xz.api.entity.IMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -16,6 +19,7 @@ import com.hisign.xingzhen.nt.api.model.NoteBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 import java.util.Map;
 
 @Service("ntService")

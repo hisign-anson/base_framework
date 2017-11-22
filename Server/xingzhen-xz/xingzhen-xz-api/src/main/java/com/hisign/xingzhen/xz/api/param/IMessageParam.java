@@ -1,8 +1,10 @@
 package com.hisign.xingzhen.xz.api.param;
 
-import cn.jmessage.api.common.model.message.MessageBody;
+import com.hisign.xingzhen.common.model.BaseParam;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Date;
 
 /**
  * @Author: 何建辉
@@ -24,6 +26,20 @@ public class IMessageParam implements Serializable {
     private String create_time;//秒
     private String msg_ctime;// 服务器接收到消息的时间，单位毫秒
     private String msgid;//群组id
+    private String msgText;//消息文本
+
+    private Date beginTime;
+    private Date endTime;
+
+    private boolean useRegexp=false;//使用正则
+
+    private int page;//分页 第几页
+    private int begin;
+    private int size=15;//分页 一页多少条
+    private String[] orderBy= new String[]{"create_time"};//排序字段
+    private String direction="desc";//排序方向
+
+    private String scrollId;//滚动id
 
     public String getId() {
         return id;
@@ -127,5 +143,111 @@ public class IMessageParam implements Serializable {
 
     public void setMsgid(String msgid) {
         this.msgid = msgid;
+    }
+
+    public String getMsgText() {
+        return msgText;
+    }
+
+    public void setMsgText(String msgText) {
+        this.msgText = msgText;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public String[] getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String[] orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public String getScrollId() {
+        return scrollId;
+    }
+
+    public void setScrollId(String scrollId) {
+        this.scrollId = scrollId;
+    }
+
+    public int getBegin() {
+        return begin;
+    }
+
+    public void setBegin(int begin) {
+        this.begin = begin;
+    }
+
+    public Date getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public boolean isUseRegexp() {
+        return useRegexp;
+    }
+
+    public void setUseRegexp(boolean useRegexp) {
+        this.useRegexp = useRegexp;
+    }
+
+    @Override
+    public String toString() {
+        return "IMessageParam{" +
+                "id='" + id + '\'' +
+                ", version=" + version +
+                ", target_type='" + target_type + '\'' +
+                ", target_name='" + target_name + '\'' +
+                ", target_id='" + target_id + '\'' +
+                ", from_type='" + from_type + '\'' +
+                ", from_name='" + from_name + '\'' +
+                ", from_id='" + from_id + '\'' +
+                ", msg_type='" + msg_type + '\'' +
+                ", msg_body='" + msg_body + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", msg_ctime='" + msg_ctime + '\'' +
+                ", msgid='" + msgid + '\'' +
+                ", msgText='" + msgText + '\'' +
+                ", page=" + page +
+                ", begin=" + begin +
+                ", size=" + size +
+                ", orderBy=" + Arrays.toString(orderBy) +
+                ", direction='" + direction + '\'' +
+                ", scrollId='" + scrollId + '\'' +
+                '}';
     }
 }

@@ -1,9 +1,6 @@
 package com.hisign.xingzhen.xz.api.entity;
 
-import cn.jmessage.api.common.model.message.MessageBody;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-
 import java.util.Date;
 
 /**
@@ -11,11 +8,12 @@ import java.util.Date;
  * @Description:极光消息
  * @Date: Created in 15:26 2017/11/16
  */
-@Document(indexName = "xingji", type = "imessage", indexStoreType = "fs", shards = 5, replicas = 1, refreshInterval = "-1")
 public class IMessage {
 
-    @Id
-    private String id;
+    public final static String INDEX="xingji";
+    public final static String TYPE="imessage";
+
+    private String msgid;//消息id
     private Integer version;
     private String target_type;
     private String target_name;
@@ -25,17 +23,9 @@ public class IMessage {
     private String from_id;
     private String msg_type;
     private String msg_body;
-    private String create_time;//秒
-    private String msg_ctime;// 服务器接收到消息的时间，单位毫秒
-    private String msgid;//群组id
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private Long create_time;//秒
+    private Long msg_ctime;// 服务器接收到消息的时间，单位毫秒
+    private String msgText;//文本消息
 
     public Integer getVersion() {
         return version;
@@ -109,19 +99,27 @@ public class IMessage {
         this.msg_body = msg_body;
     }
 
-    public String getCreate_time() {
+    public static String getINDEX() {
+        return INDEX;
+    }
+
+    public static String getTYPE() {
+        return TYPE;
+    }
+
+    public Long getCreate_time() {
         return create_time;
     }
 
-    public void setCreate_time(String create_time) {
+    public void setCreate_time(Long create_time) {
         this.create_time = create_time;
     }
 
-    public String getMsg_ctime() {
+    public Long getMsg_ctime() {
         return msg_ctime;
     }
 
-    public void setMsg_ctime(String msg_ctime) {
+    public void setMsg_ctime(Long msg_ctime) {
         this.msg_ctime = msg_ctime;
     }
 
@@ -131,5 +129,32 @@ public class IMessage {
 
     public void setMsgid(String msgid) {
         this.msgid = msgid;
+    }
+
+    public String getMsgText() {
+        return msgText;
+    }
+
+    public void setMsgText(String msgText) {
+        this.msgText = msgText;
+    }
+
+    @Override
+    public String toString() {
+        return "IMessage{" +
+                "msgid='" + msgid + '\'' +
+                ", version=" + version +
+                ", target_type='" + target_type + '\'' +
+                ", target_name='" + target_name + '\'' +
+                ", target_id='" + target_id + '\'' +
+                ", from_type='" + from_type + '\'' +
+                ", from_name='" + from_name + '\'' +
+                ", from_id='" + from_id + '\'' +
+                ", msg_type='" + msg_type + '\'' +
+                ", msg_body='" + msg_body + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", msg_ctime='" + msg_ctime + '\'' +
+                ", msgText='" + msgText + '\'' +
+                '}';
     }
 }

@@ -281,7 +281,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                         task.getCreator(), group.getJmgid());
                 Map<String, Object> map = new HashMap<>();
                 map.put("msgType",Constants.SEND_TASK_INFO);
-                map.put("title","新增任务");
+                map.put("text","新增任务");
                 map.put("taskId",task.getId());
                 map.put("creator",task.getCreator());
                 map.put("createName",task.getCreatename());
@@ -402,7 +402,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
                             entity.getCreator(), group.getJmgid());
                     Map<String, Object> map = new HashMap<>();
                     map.put("msgType",Constants.SEND_TASK_MOVE_INFO);
-                    map.put("title","移交任务");
+                    map.put("text","移交任务");
                     map.put("taskId",entity.getId());
                     map.put("creator",entity.getCreator());
                     map.put("createName",entity.getCreatename());

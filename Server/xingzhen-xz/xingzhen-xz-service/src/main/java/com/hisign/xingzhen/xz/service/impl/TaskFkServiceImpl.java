@@ -190,7 +190,7 @@ public class TaskFkServiceImpl extends BaseServiceImpl<TaskFk,TaskFkModel, Strin
                             taskFk.getCreator(), group.getJmgid());
                     Map<String, Object> map = new HashMap<>();
                     map.put("msgType",Constants.SEND_TASK_FEEDBACK_INFO);
-                    map.put("title","反馈任务");
+                    map.put("text","反馈任务");
                     map.put("taskId",taskModel.getId());
                     map.put("creator",taskFk.getCreator());
                     map.put("createName",taskFk.getCreatename());

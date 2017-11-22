@@ -15,11 +15,9 @@ import com.hisign.bfun.bmodel.UpdateParams;
 import com.hisign.bfun.butils.JsonResultUtil;
 import com.hisign.xingzhen.common.constant.Constants;
 import com.hisign.xingzhen.common.util.IpUtil;
-import com.hisign.xingzhen.common.util.ListUtils;
 import com.hisign.xingzhen.common.util.StringUtils;
 import com.hisign.xingzhen.nt.api.model.MsgBean;
 import com.hisign.xingzhen.nt.api.service.NtService;
-import com.hisign.xingzhen.sys.api.model.SysUser;
 import com.hisign.xingzhen.sys.api.model.SysUserInfo;
 import com.hisign.xingzhen.sys.api.param.SysUserInfoParam;
 import com.hisign.xingzhen.sys.api.service.SysUserService;
@@ -39,10 +37,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 
 /**

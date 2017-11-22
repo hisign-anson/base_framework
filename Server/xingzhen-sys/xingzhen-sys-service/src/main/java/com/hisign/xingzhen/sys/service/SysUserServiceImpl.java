@@ -1,25 +1,19 @@
 package com.hisign.xingzhen.sys.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Resource;
-
-import cn.jiguang.common.resp.APIConnectionException;
-import cn.jiguang.common.resp.APIRequestException;
 import cn.jiguang.common.resp.ResponseWrapper;
 import cn.jmessage.api.JMessageClient;
 import cn.jmessage.api.common.model.RegisterInfo;
-import cn.jmessage.api.common.model.RegisterPayload;
 import cn.jmessage.api.common.model.UserPayload;
 import cn.jmessage.api.user.UserClient;
 import cn.jmessage.api.user.UserInfoResult;
+import com.hisign.xingzhen.common.constant.Constants;
+import com.hisign.xingzhen.common.model.JsonResult;
 import com.hisign.xingzhen.common.util.*;
-import com.hisign.xingzhen.sys.mapper.SysLogMapper;
-import com.hisign.xingzhen.sys.mapper.SysUserInfoMapper;
-import com.hisign.xingzhen.sys.mapper.SysUserMapper;
+import com.hisign.xingzhen.sys.api.model.*;
+import com.hisign.xingzhen.sys.api.service.SysDictService;
+import com.hisign.xingzhen.sys.api.service.SysOrgInfoService;
+import com.hisign.xingzhen.sys.api.service.SysUserService;
+import com.hisign.xingzhen.sys.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -27,20 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hisign.xingzhen.common.constant.Constants;
-import com.hisign.xingzhen.common.model.JsonResult;
-import com.hisign.xingzhen.sys.api.model.SysDict;
-import com.hisign.xingzhen.sys.api.model.SysOrgInfo;
-import com.hisign.xingzhen.sys.api.model.SysRole;
-import com.hisign.xingzhen.sys.api.model.SysUser;
-import com.hisign.xingzhen.sys.api.model.SysUserInfo;
-import com.hisign.xingzhen.sys.api.model.SysUserRole;
-import com.hisign.xingzhen.sys.api.model.SysUserToken;
-import com.hisign.xingzhen.sys.api.service.SysDictService;
-import com.hisign.xingzhen.sys.api.service.SysOrgInfoService;
-import com.hisign.xingzhen.sys.api.service.SysUserService;
-import com.hisign.xingzhen.sys.mapper.SysOrgInfoMapper;
-import com.hisign.xingzhen.sys.mapper.SysRoleMapper;
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author liangqifu
