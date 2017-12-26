@@ -311,7 +311,7 @@ public class ExcelUtils {
 	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Workbook createWorkBook(List li,String []keys,String columnNames[]) {
+	public static Workbook createWorkBook(List li, String []keys, String[] columnNames) {
 		
 		List<Map<String,Object>> list = ClassUtils.list2Map(li);
 		
@@ -441,7 +441,7 @@ public class ExcelUtils {
 	
 	
 	@SuppressWarnings("deprecation")
-	public static Object createWorkBook(List<List<String>> li,String columnNames[]) {
+	public static Object createWorkBook(List<List<String>> li, String[] columnNames) {
         // 创建excel工作簿
 		HSSFWorkbook wb = new HSSFWorkbook();
         // 创建第一个sheet（页），并命名

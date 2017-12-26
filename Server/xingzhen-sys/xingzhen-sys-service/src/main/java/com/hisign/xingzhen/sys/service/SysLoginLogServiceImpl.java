@@ -31,6 +31,7 @@ public class SysLoginLogServiceImpl implements SysLoginLogService {
      * @param sysLoginLog 登录日志model
      * @return
      */
+    @Override
     public List<SysLoginLog> findSysLoginLogList(SysLoginLog sysLoginLog) throws Exception{
         return sysLoginLogMapper.findSysLoginLogList(sysLoginLog);
     }
@@ -40,6 +41,7 @@ public class SysLoginLogServiceImpl implements SysLoginLogService {
      * @param sysLoginLog 登录日志model
      * @return
      */
+    @Override
     public int findSysLoginLogListForCount(SysLoginLog sysLoginLog) throws Exception{
         return sysLoginLogMapper.findSysLoginLogListForCount(sysLoginLog);
     }

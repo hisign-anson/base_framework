@@ -154,8 +154,9 @@ public class PaginatedList<T> implements Serializable{
 	 * @return 该页第一条数据
 	 */
 	public static int computeSkipResult(int pageIndex, int pageSize) {
-		if (pageIndex < 1)
+		if (pageIndex < 1) {
 			pageIndex = 1;
+		}
 		return (pageIndex - 1) * pageSize;
 	}
 	
@@ -177,10 +178,11 @@ public class PaginatedList<T> implements Serializable{
 	public static int computePageCount(long totalCount, int pageSize) {
 		int pageCount = 0;
 		if (pageSize > 0) {
-			if (totalCount % pageSize == 0)
+			if (totalCount % pageSize == 0) {
 				pageCount = (int) (totalCount / pageSize);
-			else
+			}else {
 				pageCount = (int) (totalCount / pageSize + 1);
+			}
 		}
 		return pageCount;
 	}
@@ -197,6 +199,7 @@ public class PaginatedList<T> implements Serializable{
 		System.out.println(computePageIndex(0, pageSize));
 	}
 	
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer("共").append(this.totalCount).append("记录,").append(this.pageCount + "页,每页").append(this.pageSize).append("条记录,");
 		sb.append("本页有").append(this.list.size()).append("条记录");

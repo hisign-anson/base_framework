@@ -28,7 +28,7 @@ public interface BaseMapper<T,M, PK> {
 	/**
 	 * 批量保存对象
 	 * 
-	 * @param entity
+	 * @param list
 	 *            
 	 * @return id 
 	 */
@@ -55,7 +55,7 @@ public interface BaseMapper<T,M, PK> {
 	/**
 	 * @category 更新不为空的值 效率最高 
 	 * @author hejianhui@wegooooo.com
-	 * @param entity
+	 * @param list
 	 * @return
 	 * @time 2016年10月11日 下午9:58:43
 	 */
@@ -72,7 +72,7 @@ public interface BaseMapper<T,M, PK> {
 
 	/**
 	 * @category 根据主键删除，慎用
-	 * @param params
+	 * @param id
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
@@ -96,7 +96,7 @@ public interface BaseMapper<T,M, PK> {
 
 	/**
 	 * @category 根据主键查询
-	 * @param params
+	 * @param id
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
@@ -104,7 +104,7 @@ public interface BaseMapper<T,M, PK> {
 	
 	/**
 	 * @category 根据对象查询
-	 * @param params
+	 * @param entity
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
@@ -113,7 +113,7 @@ public interface BaseMapper<T,M, PK> {
 	/**
 	 * @category 自定义查询
 	 * @author hejianhui@wegooooo.com
-	 * @param params
+	 * @param condition
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
@@ -121,7 +121,7 @@ public interface BaseMapper<T,M, PK> {
 
 	/**
 	 * @category 自定义查询
-	 * @param params
+	 * @param condition
 	 * @return
 	 * @time 2016年10月13日 下午5:18:52
 	 */
@@ -148,7 +148,6 @@ public interface BaseMapper<T,M, PK> {
     /**
      * @category 查找列表
      * @param entity
-     * @param params
      * @return
      * @time 2017年10月14日 下午8:13:05
      */

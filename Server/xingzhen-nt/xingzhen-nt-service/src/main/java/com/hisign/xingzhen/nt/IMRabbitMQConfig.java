@@ -113,6 +113,7 @@ public class IMRabbitMQConfig {
         container.setConcurrentConsumers(1);
         container.setAcknowledgeMode(AcknowledgeMode.MANUAL); //设置确认模式手工确认
         container.setMessageListener(new ChannelAwareMessageListener() {
+            @Override
             public void onMessage(Message message, Channel channel) throws Exception {
                 String msg = new String(message.getBody());
                 logger.info("收到消息=[{}]", msg);

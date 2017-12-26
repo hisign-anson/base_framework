@@ -139,6 +139,7 @@ public class SysUserInfo extends BaseModel {
     /**
      * @return the userId
      */
+    @Override
     public String getUserId() {
         return userId;
     }
@@ -146,6 +147,7 @@ public class SysUserInfo extends BaseModel {
     /**
      * @param userId the userId to set
      */
+    @Override
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -167,6 +169,7 @@ public class SysUserInfo extends BaseModel {
     /**
      * @return the orgId
      */
+    @Override
     public String getOrgId() {
         return orgId;
     }
@@ -174,6 +177,7 @@ public class SysUserInfo extends BaseModel {
     /**
      * @param orgId the orgId to set
      */
+    @Override
     public void setOrgId(String orgId) {
         this.orgId = orgId;
     }

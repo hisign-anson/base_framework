@@ -43,7 +43,8 @@ public class SysModuleServiceImpl implements SysModuleService {
      * @return
      * @throws Exception
      */
-    public List<SysModule> findSysModuleInfoById( String moduelId) throws Exception{
+    @Override
+    public List<SysModule> findSysModuleInfoById(String moduelId) throws Exception{
         List<SysModule> list = new ArrayList<SysModule>();
         list = sysModuleMapper.findSysModuleInfoById(moduelId);
         return list;
@@ -54,6 +55,7 @@ public class SysModuleServiceImpl implements SysModuleService {
      * @param moduelId 模块id
      * @throws Exception
      */
+    @Override
     public void deleteResource(String moduelId) throws Exception{
         sysModuleMapper.deleteResource(moduelId);
     }
@@ -63,6 +65,7 @@ public class SysModuleServiceImpl implements SysModuleService {
      * @param moduelId 模块id
      * @throws Exception
      */
+    @Override
     public void deletePermisRes(String moduelId) throws Exception{
         sysModuleMapper.deletePermisRes(moduelId);
     }
@@ -72,6 +75,7 @@ public class SysModuleServiceImpl implements SysModuleService {
      * @param moduelId 模块id
      * @throws Exception
      */
+    @Override
     public void deletePermission(String moduelId) throws Exception{
         sysModuleMapper.deletePermission(moduelId);
     }
@@ -81,6 +85,7 @@ public class SysModuleServiceImpl implements SysModuleService {
      * @param moduelId 模块id
      * @throws Exception
      */
+    @Override
     public void deleteModule(String moduelId) throws Exception{
         sysModuleMapper.deleteModule(moduelId);
     }
@@ -90,6 +95,7 @@ public class SysModuleServiceImpl implements SysModuleService {
      * @param sysModule 模块model
      * @throws Exception
      */
+    @Override
     public void upDateModuleInfo(SysModule sysModule) throws Exception{
         //设置进入模块权限名称
         sysModule.setPermissionDescription("进入"+sysModule.getDescription());
@@ -121,6 +127,7 @@ public class SysModuleServiceImpl implements SysModuleService {
      * @param sysModule 模块model
      * @throws Exception
      */
+    @Override
     public void addModuleInfo(SysModule sysModule) throws Exception{
         sysModule.setResourceType("FUNC");
         sysModule.setPermissionDescription("进入"+sysModule.getDescription());
@@ -155,6 +162,7 @@ public class SysModuleServiceImpl implements SysModuleService {
      * @return
      * @throws Exception
      */
+    @Override
     public List<SysModule> findLogUserPower(String userName) throws Exception{
         List<SysModule> list = new ArrayList<SysModule>();
         list = sysModuleMapper.findLogUserPower(userName);
@@ -167,6 +175,7 @@ public class SysModuleServiceImpl implements SysModuleService {
      * @return
      * @throws Exception
      */
+    @Override
     public List<SysModule> findLogUserPowerLimt(String userName) throws Exception{
         List<SysModule> list = new ArrayList<SysModule>();
         list = sysModuleMapper.findLogUserPowerLimt(userName);
@@ -180,6 +189,7 @@ public class SysModuleServiceImpl implements SysModuleService {
      * @param childNodeList 三级模块权限
      * @return
      */
+    @Override
     public List<SysModule> toolsForList(Map<String,List<SysModule>> lists) throws Exception{
         List<SysModule> parentList = lists.get("parentList");
         List<SysModule> childList = lists.get("childList");
@@ -235,6 +245,7 @@ public class SysModuleServiceImpl implements SysModuleService {
      * @param userName 用户名
      * @return
      */
+    @Override
     public List<Map<String,String>> findRoleList(String userName) throws Exception{
         List<Map<String,String>> list = new ArrayList<Map<String,String>>();
         list = sysModuleMapper.findRoleList(userName);
@@ -253,7 +264,7 @@ public class SysModuleServiceImpl implements SysModuleService {
             String[] descriptionArray = sysModule.getDescriptionArray().split(",");
             String[] resourceArray = sysModule.getResourceArray().split(",");
             for (int i = 0; i < descriptionArray.length; i++) {
-                if (null != descriptionArray[i] && !descriptionArray[i].equals("") && null != resourceArray[i] && !resourceArray[i].equals("")) {
+                if (null != descriptionArray[i] && !"".equals(descriptionArray[i]) && null != resourceArray[i] && !"".equals(resourceArray[i])) {
                     sysModule.setPermissionDescription(descriptionArray[i]);
                     sysModule.setResourceStr(resourceArray[i]);
                     sysModule.setPermissionFlag(1);

@@ -130,8 +130,8 @@ public class ZipUtil {
                 ZipEntry ze = (ZipEntry) e.nextElement();  
   
                 comment = ze.getComment();  
-                if (comment != null && !comment.equals("")  
-                        && !comment.equals("null")) {  
+                if (comment != null && !"".equals(comment)
+                        && !"null".equals(comment)) {
                     break;  
                 }  
             }  

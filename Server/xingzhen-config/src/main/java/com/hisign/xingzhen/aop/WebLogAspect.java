@@ -13,15 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Enumeration;
 
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class WebLogAspect {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private Object result;
 	private long startTimie;
 	private String url;
-	private StringBuffer sb = new StringBuffer();
 
 	@Pointcut("execution(public * com.hisign.xingzhen.*.controller..*.*(..))")
 	public void webLog() {
@@ -56,7 +55,6 @@ public class WebLogAspect {
 			logger.debug("\r\n消耗时间："+(System.currentTimeMillis()-startTimie)+"毫秒");
 			logger.debug("\r\n[end]\r\n");
 		}
-		logger.debug(sb.toString());
 	}
 	
 	@Around(value = "webLog()")

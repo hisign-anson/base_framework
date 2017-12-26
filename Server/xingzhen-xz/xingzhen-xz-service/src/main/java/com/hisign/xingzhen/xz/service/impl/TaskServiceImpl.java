@@ -343,7 +343,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task,TaskModel, String> imp
      * 本方法移交是创建一条新数据用来保存历史，修改旧数据作为移交后的数据，移交后需要修改提醒记录中的taskid
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public JsonResult moveTask(TaskMoveParam taskMoveParam) {
         try {
             Task new_task  = super.getEntityById(taskMoveParam.getId());

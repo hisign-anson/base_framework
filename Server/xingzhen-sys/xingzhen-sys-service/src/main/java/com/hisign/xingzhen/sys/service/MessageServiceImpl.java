@@ -87,7 +87,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message,Message, String>
 
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult add(List<Message> list) throws BusinessException {
 		try {
 			messageMapper.batchInsert(list);
@@ -98,7 +98,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message,Message, String>
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult update(UpdateParams params) throws BusinessException {
 		try {
 			messageMapper.updateCustom(params);
@@ -109,7 +109,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message,Message, String>
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delByIds(List<String> ids) throws BusinessException {
 		try {
 			messageMapper.deleteByIds(ids);
@@ -120,7 +120,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message,Message, String>
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delBy(Conditions conditions) throws BusinessException {
 		try {
 			messageMapper.deleteCustom(conditions);
@@ -130,7 +130,8 @@ public class MessageServiceImpl extends BaseServiceImpl<Message,Message, String>
 		return JsonResultUtil.success();
 	}
 
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
+	@Override
 	public JsonResult delByMessages(String[] ids) throws BusinessException {
 		
 		Conditions conditions = new Conditions();
@@ -158,7 +159,8 @@ public class MessageServiceImpl extends BaseServiceImpl<Message,Message, String>
 	 * 创建时间: 2017年6月13日
 	 * 最后修改时间: 2017年6月13日
 	 */
-	@Transactional
+	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult publishMsg(String id,String publishId,String publishName,List<String> orgIds) throws BusinessException{
 		Message message = getById(id);
 		if (message==null) {
@@ -186,7 +188,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message,Message, String>
 
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult saveAndPush(Message message) throws BusinessException {
 		message.setId(UUID.randomUUID().toString().replace("-", "").toUpperCase());
 		if("1".equals(message.getRev4())){
@@ -203,7 +205,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message,Message, String>
 
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult updateAndPush(Message message) throws BusinessException {
 		Message msg = this.getById(message.getId());
 		msg.setSubject(message.getSubject());

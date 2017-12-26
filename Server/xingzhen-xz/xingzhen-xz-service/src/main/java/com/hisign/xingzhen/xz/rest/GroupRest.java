@@ -39,6 +39,7 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
      * @param groupParam 专案组
      * @return 返回JsonResult
      */
+    @Override
     @ApiOperation(value = "专案组查询分页",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getGroupPage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getGroupPage(@RequestBody GroupParam groupParam) {
@@ -50,12 +51,14 @@ public class GroupRest extends BaseRest<Group,GroupModel, String, GroupService> 
      * @param groupId 父专案组ID
      * @return JsonResult
      */
+    @Override
     @ApiOperation(value = "查询子专案组列表",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getChildGroupList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getChildGroupList(@RequestParam String groupId,@RequestParam String memberName,@RequestParam String userId) {
         return baseService.getChildGroupList(groupId,memberName,userId);
     }
 
+    @Override
     @ApiOperation(value = "获取所有专案组根据用户id",httpMethod ="POST",response = GroupModel.class)
     @RequestMapping(value = "/getAllGroupByUserId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public JsonResult getAllGroupByUserId(@RequestParam String userId,@RequestParam String groupName) {

@@ -105,6 +105,7 @@ public class SysDictServiceImpl implements SysDictService {
      * @param rootKey
      * @return
      */
+    @Override
     public List<SysCommonDict> findCommDictList(String userId, String rootKey){
         Map<String,String> map = new HashMap<String,String>();
         map.put("userId", userId);
@@ -116,6 +117,7 @@ public class SysDictServiceImpl implements SysDictService {
      * 删除常用字典
      * @return
      */
+    @Override
     public int deleteCommon(String id){
         return sysDictMapper.deleteCommon(id);
     }
@@ -123,6 +125,7 @@ public class SysDictServiceImpl implements SysDictService {
     /**
      * 插入常用字典
      */
+    @Override
     public int insertCommon(Map<String,String> node){
         return sysDictMapper.insertCommon(node);
     }
@@ -130,6 +133,7 @@ public class SysDictServiceImpl implements SysDictService {
     /**
      * 新建组
      */
+    @Override
     public String addDictGroup(Map<String,String> map){
         sysDictMapper.addDictGroup(map);
         return map.get("id");
@@ -139,6 +143,7 @@ public class SysDictServiceImpl implements SysDictService {
      * 根据id删除常用节点
      * @param groupId
      */
+    @Override
     public void deleteCommDictById(String groupId){
         sysDictMapper.deleteCommDictById(groupId);
     }
@@ -147,6 +152,7 @@ public class SysDictServiceImpl implements SysDictService {
      * 根据id删除常用组
      * @param groupId
      */
+    @Override
     public void deleteDictInGroup(String groupId){
         sysDictMapper.deleteDictInGroup(groupId);
     }
@@ -156,7 +162,8 @@ public class SysDictServiceImpl implements SysDictService {
      * @param groupId
      * @param groupName
      */
-    public void renameDictGroup(String groupId,String groupName){
+    @Override
+    public void renameDictGroup(String groupId, String groupName){
         Map<String,String> map = new HashMap<String,String>();
         map.put("groupId",groupId);
         map.put("groupName",groupName);
@@ -172,6 +179,7 @@ public class SysDictServiceImpl implements SysDictService {
      * @return
      * @throws Exception
      */
+    @Override
     public String addCommDict(String rootKey, String dictKey, String groupId, String userId) throws Exception{
         Map<String, String> map = new HashMap<String, String>();
         map.put("rootKey", rootKey);
@@ -180,7 +188,9 @@ public class SysDictServiceImpl implements SysDictService {
         map.put("groupId", groupId);
         //判断要插入的字典在字典表中存在，且在常用字典中当前用户下不存在
         SysDict sysDict = sysDictMapper.findDictInfoForCommonDict( map);
-        if(sysDict == null) return null;
+        if(sysDict == null) {
+            return null;
+        }
         map.put("dictId", sysDict.getId());
         //map.put("id","");//作为返回值
         //插入常用字典表
@@ -188,6 +198,7 @@ public class SysDictServiceImpl implements SysDictService {
         return map.get("id");
     }
 
+    @Override
     public String getGuid(){
         return sysDictMapper.getGuid();
     }
@@ -198,6 +209,7 @@ public class SysDictServiceImpl implements SysDictService {
      * @return
      * @throws Exception
      */
+    @Override
     public List<SysCommonDict> initDictForGXSDM(String userUnit) throws Exception{
         List<SysCommonDict> list;
         if(null==userUnit||"".equals(userUnit)){

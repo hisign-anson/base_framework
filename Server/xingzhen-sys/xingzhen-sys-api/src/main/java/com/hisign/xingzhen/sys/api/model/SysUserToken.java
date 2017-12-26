@@ -33,10 +33,12 @@ public class SysUserToken extends BaseModel {
         this.token = token;
     }
 
+    @Override
     public String getUserId() {
         return userId;
     }
 
+    @Override
     public void setUserId(String userId) {
         this.userId = userId;
     }

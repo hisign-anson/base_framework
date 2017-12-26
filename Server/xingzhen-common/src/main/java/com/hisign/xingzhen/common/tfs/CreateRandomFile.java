@@ -74,10 +74,12 @@ public class CreateRandomFile {
 							^ random.nextInt() ^ (((long) request.hashCode()) << 32))
 					: random.nextLong();
 			r ^= System.currentTimeMillis();
-			if (request != null && request.getRemoteAddr() != null)
+			if (request != null && request.getRemoteAddr() != null) {
 				r ^= request.getRemoteAddr().hashCode();
-			if (r < 0)
+			}
+			if (r < 0) {
 				r = -r;
+			}
 			name = Long.toString(r, 36);
 		}
 		return name;
@@ -89,8 +91,9 @@ public class CreateRandomFile {
 	       fourRandom = randomNum +"";
 	       int randLength =  fourRandom.length();
 	       if(randLength <4){
-	           for(int i=1; i <=4-randLength; i++)
-	               fourRandom = fourRandom + "0";
+	           for(int i=1; i <=4-randLength; i++) {
+				   fourRandom = fourRandom + "0";
+			   }
 	       } 
 	       StringBuilder sb = new StringBuilder("");
 	       Date date = new Date();

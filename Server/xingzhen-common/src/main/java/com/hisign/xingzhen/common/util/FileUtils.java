@@ -33,7 +33,9 @@ public class FileUtils {
             throw e;
         } finally {
             bis.close();
-            if (bos != null)  bos.close();
+            if (bos != null)  {
+                bos.close();
+            }
         }
     }
 

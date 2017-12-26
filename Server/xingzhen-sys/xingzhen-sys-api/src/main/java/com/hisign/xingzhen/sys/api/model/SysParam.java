@@ -135,6 +135,7 @@ public class SysParam extends BaseModel {
         return englishName;
     }
 
+    @Override
     public String getValue() {
         return value;
     }
@@ -171,6 +172,7 @@ public class SysParam extends BaseModel {
         this.englishName = englishName;
     }
 
+    @Override
     public void setValue(String value) {
         this.value = value;
     }
@@ -199,10 +201,12 @@ public class SysParam extends BaseModel {
         this.paramType = paramType;
     }
 
+    @Override
     public String getRownum() {
         return rownum;
     }
 
+    @Override
     public void setRownum(String rownum) {
         this.rownum = rownum;
     }

@@ -79,6 +79,7 @@ public class SysOrgInfo extends BaseModel{
 	/**
 	 * @return the orgId
 	 */
+	@Override
 	public String getOrgId() {
 		return orgId;
 	}
@@ -86,6 +87,7 @@ public class SysOrgInfo extends BaseModel{
 	/**
 	 * @param orgId the orgId to set
 	 */
+	@Override
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
 	}
@@ -121,6 +123,7 @@ public class SysOrgInfo extends BaseModel{
 	/**
 	 * @return the superId
 	 */
+	@Override
 	public String getSuperId() {
 		return superId;
 	}
@@ -128,6 +131,7 @@ public class SysOrgInfo extends BaseModel{
 	/**
 	 * @param superId the superId to set
 	 */
+	@Override
 	public void setSuperId(String superId) {
 		this.superId = superId;
 	}
@@ -246,12 +250,14 @@ public class SysOrgInfo extends BaseModel{
 	/**
 	 * @return the orgLevel
 	 */
+	@Override
 	public Integer getOrgLevel() {
 		return orgLevel;
 	}
 	/**
 	 * @param orgLevel the orgLevel to set
 	 */
+	@Override
 	public void setOrgLevel(Integer orgLevel) {
 		this.orgLevel = orgLevel;
 	}

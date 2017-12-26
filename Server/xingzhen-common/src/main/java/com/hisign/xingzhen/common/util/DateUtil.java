@@ -270,14 +270,15 @@ public class DateUtil {
 		String d1 = getDateTime(datePattern, date1);
 		String d2 = getDateTime(datePattern, date2);
 
-		if (d1 == null && d2 != null)
+		if (d1 == null && d2 != null) {
 			return -1;
-		else if (d1 != null && d2 == null)
+		}else if (d1 != null && d2 == null) {
 			return 1;
-		else if (d1 == null && d2 == null)
+		}else if (d1 == null && d2 == null){
 			return 0;
-		else
+		}else {
 			return d1.compareTo(d2);
+		}
 	}
 
 	/**
@@ -325,7 +326,7 @@ public class DateUtil {
 	 */
 	public static long getMillisOfDate(Date p_date) {
 		Calendar c = Calendar.getInstance();
-		long longTime = 0l;
+		long longTime = 0L;
 		if (null != p_date) {
 			c.setTime(p_date);
 			longTime = c.getTimeInMillis();

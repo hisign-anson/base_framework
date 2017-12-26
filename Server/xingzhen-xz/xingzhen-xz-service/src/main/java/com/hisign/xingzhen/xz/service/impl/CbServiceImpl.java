@@ -97,7 +97,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delByIds(List<String> ids) throws BusinessException {
 		try {
 			cbMapper.deleteByIds(ids);
@@ -108,7 +108,7 @@ public class CbServiceImpl extends BaseServiceImpl<Cb,CbModel, String> implement
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delBy(Conditions conditions) throws BusinessException {
 		try {
 			cbMapper.deleteCustom(conditions);

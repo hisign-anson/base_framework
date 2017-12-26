@@ -146,8 +146,9 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void insertUserRole(String id, String selectUserId) throws Exception {
-        if(StringUtils.isEmpty(selectUserId)) 
-        	return;
+        if(StringUtils.isEmpty(selectUserId)) {
+            return;
+        }
         String[] strs = selectUserId.split(",");
         List<SysUserRole> sysUserRoles = new ArrayList<SysUserRole>(strs.length);
         for (int i = 0; i < strs.length; i++) {

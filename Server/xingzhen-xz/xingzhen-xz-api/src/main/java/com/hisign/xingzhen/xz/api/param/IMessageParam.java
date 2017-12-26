@@ -20,7 +20,7 @@ public class IMessageParam implements Serializable {
     private String target_id;
     private String from_type;
     private String from_name;
-    private String from_id;
+    private String[] from_id;
     private String msg_type;
     private String msg_body;
     private String create_time;//秒
@@ -95,14 +95,6 @@ public class IMessageParam implements Serializable {
 
     public void setFrom_name(String from_name) {
         this.from_name = from_name;
-    }
-
-    public String getFrom_id() {
-        return from_id;
-    }
-
-    public void setFrom_id(String from_id) {
-        this.from_id = from_id;
     }
 
     public String getMsg_type() {
@@ -249,5 +241,13 @@ public class IMessageParam implements Serializable {
                 ", direction='" + direction + '\'' +
                 ", scrollId='" + scrollId + '\'' +
                 '}';
+    }
+
+    public String[] getFrom_id() {
+        return from_id;
+    }
+
+    public void setFrom_id(String[] from_id) {
+        this.from_id = from_id;
     }
 }

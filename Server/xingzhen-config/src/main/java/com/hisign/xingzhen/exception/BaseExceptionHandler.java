@@ -21,22 +21,14 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(BusinessException.class)
 	@ResponseBody
 	public JsonResult exceptionHandler(BusinessException e,HttpServletResponse response) {
-		try {
-			StringWriter sw = new StringWriter();
-			e.getOrgException().printStackTrace(new PrintWriter(sw, true));
-			logger.error(sw.toString());
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		logger.error("异常信息：",e);
 		return JsonResultUtil.error(e.getMsg());
 	}
 
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
 	public JsonResult defaultExceptionHandler(Exception e,HttpServletResponse response) {
-		StringWriter sw = new StringWriter();
-		e.printStackTrace(new PrintWriter(sw, true));
-		logger.error(sw.toString());
+		logger.error("异常信息：",e);
 		return JsonResultUtil.error(e.getMessage());
 	}
 

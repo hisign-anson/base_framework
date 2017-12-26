@@ -48,21 +48,6 @@ public class BaseEnum {
 		}
 	}
 	
-	/*public enum LikeEnum{
-		LIKE(" like "),
-		NOTLIKE(" not like ");
-		
-		private String msg;
-		
-		LikeEnum(String msg){
-			this.msg = msg;
-		}
-		
-		public String get(){
-			return msg;
-		}
-	}*/
-	
 	public enum DESCEnum{
 		DESC(" desc "),
 		ASC(" asc ");

@@ -16,6 +16,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <swagger-maven-plugin-version>3.1.1</swagger-maven-plugin-version>
     </properties>
 
     <dependencies>
@@ -92,11 +93,6 @@
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>5.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
             <version>5.6.0</version>
         </dependency>
 
@@ -112,6 +108,43 @@
                     <fork>true</fork>
                     <mainClass>com.hisign.xingzhen.XZServerStartApplication</mainClass>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.kongchen</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>${swagger-maven-plugin-version}</version>
+                <configuration>
+                    <apiSources>
+                        <apiSource>
+                            <springmvc>true</springmvc> <!-- false为JAX-RS -->
+                            <locations>
+                                com.hisign.xingzhen.xz.controller
+                            </locations>
+                            <schemes>http</schemes>
+                            <basePath>/api</basePath>
+                            <info>
+                                <title>刑侦模块接口文档</title>
+                                <version>v1</version>
+                                <description>
+                                    刑侦模块-API
+                                </description>
+                            </info>
+                            <templatePath>${basedir}/src/main/resources/templates/strapdown.html.hbs</templatePath>
+                            <outputPath>${basedir}/generated/document.html</outputPath>
+                            <swaggerDirectory>generated/swagger-ui</swaggerDirectory>
+                        </apiSource>
+                    </apiSources>
+                </configuration>
+                <!-- 这里很重要，简单说就是配置在maven的compile生命周期执行时触发swagger插件的generate命令 -->
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -87,6 +87,7 @@ public class SysOrgInfoServiceImpl implements SysOrgInfoService {
 		return sysOrgInfoMapper.findOrgIn(orgIds);
 	}
 
+	@Override
 	public JsonResult getTreeListBySuperId(String superId){
 		SysOrgInfo orgInfo = new SysOrgInfo();
 		orgInfo.setSuperId(superId);

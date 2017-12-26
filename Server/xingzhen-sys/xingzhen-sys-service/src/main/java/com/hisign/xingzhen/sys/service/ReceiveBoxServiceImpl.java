@@ -41,35 +41,36 @@ public class ReceiveBoxServiceImpl extends BaseServiceImpl<ReceiveBox,ReceiveBox
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult add(List<ReceiveBox> list) throws BusinessException {
 		receiveBoxMapper.batchInsert(list);
 		return JsonResultUtil.success();
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult update(UpdateParams params) throws BusinessException {
 		receiveBoxMapper.updateCustom(params);
 		return JsonResultUtil.success();
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delByIds(List<String> ids) throws BusinessException {
 		receiveBoxMapper.deleteByIds(ids);
 		return JsonResultUtil.success();
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delBy(Conditions conditions) throws BusinessException {
 		receiveBoxMapper.deleteCustom(conditions);
 		return JsonResultUtil.success();
 	}
 	
 	
-	@Transactional
+	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult setRead(String[] ids)  throws BusinessException{
 		try {
 			UpdateParams updateParams = new UpdateParams(ReceiveBox.class);
@@ -85,7 +86,8 @@ public class ReceiveBoxServiceImpl extends BaseServiceImpl<ReceiveBox,ReceiveBox
 		return success();
 	}
 
-	@Transactional
+	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult delMsg(String[] ids)  throws BusinessException{
 		try {
 			List<Object> list = ListUtils.arr2List(ids);

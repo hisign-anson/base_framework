@@ -58,7 +58,7 @@ public class IMessageServiceImpl implements IMessageService{
                 String json = mapper.writeValueAsString(iMessage);
                 bulkRequest.add(client.prepareIndex(IMessage.INDEX,IMessage.TYPE,iMessage.getMsgid()).setSource(json).request());
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                log.error("批量创建索引出错，e={}",e);
             }
         }
         BulkResponse bulkResponse = bulkRequest.execute().actionGet();
@@ -79,6 +79,7 @@ public class IMessageServiceImpl implements IMessageService{
             result.setMsg(scrollId);
             return result;
         }*/
+
         SearchRequestBuilder searchRequestBuilder = client.prepareSearch();
         searchRequestBuilder.setIndices(IMessage.INDEX)
         .setTypes(IMessage.TYPE)
@@ -103,7 +104,7 @@ public class IMessageServiceImpl implements IMessageService{
         }
 
         //发送人
-        if (StringUtils.isNotBlank(msg.getFrom_id())){
+        if (msg.getFrom_id()!=null && msg.getFrom_id().length>0){
             queryBuilder.filter(QueryBuilders.matchQuery("from_id", msg.getFrom_id()));
         }
 

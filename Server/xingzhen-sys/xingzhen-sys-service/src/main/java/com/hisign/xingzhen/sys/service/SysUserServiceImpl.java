@@ -189,11 +189,13 @@ public class SysUserServiceImpl implements SysUserService {
 	public String appendSysUser(SysUser sysUser)
 			throws Exception {
 		// MD5加密
-		if (!StringUtils.isEmpty(sysUser.getUserPwd()))
+		if (!StringUtils.isEmpty(sysUser.getUserPwd())) {
 			sysUser.setUserPwd(Md5Helper.getMD5(sysUser.getUserPwd()));
+		}
 		int count = sysUserMapper.checkExistByUserName(sysUser.getUserName());
-		if (count > 0)
+		if (count > 0) {
 			return "error";
+		}
 		String id = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
 		sysUser.setId(id);
 		sysUser.setUserLevel("1");
@@ -267,6 +269,7 @@ public class SysUserServiceImpl implements SysUserService {
 	 * @param user
 	 *            当前用户
 	 */
+	@Override
 	public void updatePassword(SysUser user) throws Exception {
 		sysUserMapper.updatePassword(user);
 	}
@@ -304,7 +307,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public JsonResult addUserInfo(SysUserInfo userInfo) throws Exception {
 		SysUserInfo usr = new SysUserInfo();
 		usr.setPoliceId(userInfo.getPoliceId());
@@ -537,6 +540,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 
+	@Override
 	public List<SysUserInfo> getUserInfoByIds(List<String> ids){
 		return sysUserInfoMapper.findByIds(ids);
 	}

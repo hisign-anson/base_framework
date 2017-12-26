@@ -46,10 +46,12 @@ public class SysUserRole extends BaseModel {
         this.sysUserRoleIds = sysUserRoleIds;
     }
 
+    @Override
     public String getUserId() {
         return userId;
     }
 
+    @Override
     public void setUserId(String userId) {
         this.userId = userId;
     }

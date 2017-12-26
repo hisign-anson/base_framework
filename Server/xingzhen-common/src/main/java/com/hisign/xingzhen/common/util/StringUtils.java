@@ -138,11 +138,13 @@ public class StringUtils {
         if (array != null) {
             for (int i = 0; i < array.size(); i++) {
                 String temp = array.get(i).toString();
-                if (temp != null && temp.trim().length() > 0)
+                if (temp != null && temp.trim().length() > 0) {
                     result += (temp + symbol);
+                }
             }
-            if (result.length() > 1)
+            if (result.length() > 1) {
                 result = result.substring(0, result.length() - 1);
+            }
         }
         return result;
     }
@@ -239,11 +241,13 @@ public class StringUtils {
         if (array != null) {
             for (int i = 0; i < array.length; i++) {
                 String temp = array[i];
-                if (temp != null && temp.trim().length() > 0)
+                if (temp != null && temp.trim().length() > 0) {
                     result += (temp + symbol);
+                }
             }
-            if (result.length() > 1)
+            if (result.length() > 1) {
                 result = result.substring(0, result.length() - 1);
+            }
         }
         return result;
     }
@@ -274,11 +278,13 @@ public class StringUtils {
 
         String sIllegal = "'\"";
         int len = sIllegal.length();
-        if (null == str)
+        if (null == str) {
             return false;
+        }
         for (int i = 0; i < len; i++) {
-            if (str.indexOf(sIllegal.charAt(i)) != -1)
+            if (str.indexOf(sIllegal.charAt(i)) != -1) {
                 return true;
+            }
         }
 
         return false;
@@ -316,8 +322,9 @@ public class StringUtils {
     public static String repeat(String src, int num) {
 
         StringBuffer s = new StringBuffer();
-        for (int i = 0; i < num; i++)
+        for (int i = 0; i < num; i++) {
             s.append(src);
+        }
         return s.toString();
     }
 
@@ -328,8 +335,9 @@ public class StringUtils {
      */
     public static List<String> parseString2ListByCustomerPattern(String pattern, String src) {
 
-        if (src == null)
+        if (src == null) {
             return null;
+        }
         List<String> list = new ArrayList<String>();
         String[] result = src.split(pattern);
         for (int i = 0; i < result.length; i++) {
@@ -368,7 +376,7 @@ public class StringUtils {
      */
     public static boolean isEmpty(String s) {
 
-        if (s != null && !s.trim().equals("")) {
+        if (s != null && !"".equals(s.trim())) {
             return false;
         }
         return true;
@@ -427,7 +435,7 @@ public class StringUtils {
             while (it.hasNext()) {
                 String name = (String) it.next();
                 String value = map.get(name);
-                result += (result.equals("")) ? "" : "&";
+                result += ("".equals(result)) ? "" : "&";
                 result += String.format("%s=%s", name, value);
             }
             return result;
@@ -444,7 +452,7 @@ public class StringUtils {
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static LinkedHashMap<String, String> toLinkedHashMap(String str) {
 
-        if (str != null && !str.equals("") && str.indexOf("=") > 0) {
+        if (str != null && !"".equals(str) && str.indexOf("=") > 0) {
             LinkedHashMap result = new LinkedHashMap();
 
             String name = null;
@@ -457,7 +465,7 @@ public class StringUtils {
                         value = "";
                         break;
                     case 38: // &
-                        if (name != null && value != null && !name.equals("")) {
+                        if (name != null && value != null && !"".equals(name)) {
                             result.put(name, value);
                         }
                         name = null;
@@ -474,7 +482,7 @@ public class StringUtils {
 
             }
 
-            if (name != null && value != null && !name.equals("")) {
+            if (name != null && value != null && !"".equals(name)) {
                 result.put(name, value);
             }
 
@@ -492,7 +500,7 @@ public class StringUtils {
      */
     public static String getCaption(String captions, int index) {
 
-        if (index > 0 && captions != null && !captions.equals("")) {
+        if (index > 0 && captions != null && !"".equals(captions)) {
             String[] ss = captions.split(",");
             if (ss != null && ss.length > 0 && index < ss.length) {
                 return ss[index];
@@ -535,7 +543,7 @@ public class StringUtils {
         if (money != null && style != null && (money instanceof Double || money instanceof Float)) {
             Double num = (Double) money;
 
-            if (style.equalsIgnoreCase("default")) {
+            if ("default".equalsIgnoreCase(style)) {
                 // 缺省样式 0 不输出 ,如果没有输出小数位则不输出.0
                 if (num == 0) {
                     // 不输出0
@@ -566,8 +574,9 @@ public class StringUtils {
 
         if (sou != null && finds != null && finds.length > 0) {
             for (int i = 0; i < finds.length; i++) {
-                if (sou.indexOf(finds[i]) > -1)
+                if (sou.indexOf(finds[i]) > -1) {
                     return true;
+                }
             }
         }
         return false;
@@ -583,8 +592,9 @@ public class StringUtils {
 
         if (sou != null && finds != null && finds.size() > 0) {
             for (String s : finds) {
-                if (sou.indexOf(s) > -1)
+                if (sou.indexOf(s) > -1) {
                     return true;
+                }
             }
         }
         return false;
@@ -677,8 +687,9 @@ public class StringUtils {
     public static long toLong(String s) {
 
         try {
-            if (s != null && !"".equals(s.trim()))
+            if (s != null && !"".equals(s.trim())) {
                 return Long.parseLong(s);
+            }
         } catch (Exception e) {
 
         }
@@ -693,8 +704,9 @@ public class StringUtils {
     public static short toShort(Object obj) {
         String str = String.valueOf(obj);
         try {
-            if (str != null && !"".equals(str.trim()))
+            if (str != null && !"".equals(str.trim())) {
                 return Short.parseShort(str);
+            }
         } catch (Exception e) {
 
         }
@@ -710,8 +722,9 @@ public class StringUtils {
      */
     public static String getRandom(int bit) {
 
-        if (bit == 0)
+        if (bit == 0) {
             bit = 6; // 默认6位
+        }
         // 因为o和0,l和1很难区分,所以,去掉大小写的o和l
         String str = "";
         str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz";// 初始化种子
@@ -1141,17 +1154,20 @@ public class StringUtils {
      */
     public static <T> String listTtoString(List<T> list) {
 
-        if (list == null || list.size() < 1)
+        if (list == null || list.size() < 1) {
             return "";
+        }
         Iterator<T> i = list.iterator();
-        if (!i.hasNext())
+        if (!i.hasNext()) {
             return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (; ; ) {
             T e = i.next();
             sb.append(e);
-            if (!i.hasNext())
+            if (!i.hasNext()) {
                 return sb.toString();
+            }
             sb.append(",");
         }
     }
@@ -1165,16 +1181,19 @@ public class StringUtils {
      */
     public static String intArraytoString(int[] a) {
 
-        if (a == null)
+        if (a == null) {
             return "";
+        }
         int iMax = a.length - 1;
-        if (iMax == -1)
+        if (iMax == -1) {
             return "";
+        }
         StringBuilder b = new StringBuilder();
         for (int i = 0; ; i++) {
             b.append(a[i]);
-            if (i == iMax)
+            if (i == iMax) {
                 return b.toString();
+            }
             b.append(",");
         }
     }
@@ -1195,29 +1214,33 @@ public class StringUtils {
         boolean result = false;
         float endNum = (float) 0.0;
         if (content != null && content.length() > 0) {
-            if (content.length() % 1000 > 0)
+            if (content.length() % 1000 > 0) {
                 thousandNum = (int) Math.floor(content.length() / 1000) + 1;
-            else
+            } else {
                 thousandNum = (int) Math.floor(content.length() / 1000);
-            if (thousandNum < 3)
+            }
+            if (thousandNum < 3) {
                 subNum = 100 * thousandNum;
-            else if (thousandNum < 6)
+            } else if (thousandNum < 6) {
                 subNum = 200 * thousandNum;
-            else if (thousandNum < 9)
+            } else if (thousandNum < 9) {
                 subNum = 300 * thousandNum;
-            else
+            } else {
                 subNum = 3000;
+            }
             for (int j = 1; j < subNum; j++) {
-                if (content.length() % j > 0)
+                if (content.length() % j > 0) {
                     forNum = (int) Math.floor(content.length() / j) + 1;
-                else
+                } else {
                     forNum = (int) Math.floor(content.length() / j);
-                if (result || j >= content.length())
+                }
+                if (result || j >= content.length()) {
                     break;
-                else {
+                } else {
                     for (int m = 0; m < forNum; m++) {
-                        if (m * j > content.length() || (m + 1) * j > content.length() || (m + 2) * j > content.length())
+                        if (m * j > content.length() || (m + 1) * j > content.length() || (m + 2) * j > content.length()) {
                             break;
+                        }
                         startStr = content.substring(m * j, (m + 1) * j);
                         nextStr = content.substring((m + 1) * j, (m + 2) * j);
                         if (startStr.equals(nextStr)) {
@@ -1227,8 +1250,9 @@ public class StringUtils {
                                 result = true;
                                 break;
                             }
-                        } else
+                        } else {
                             similarNum = 0;
+                        }
                     }
                 }
             }
@@ -1243,7 +1267,7 @@ public class StringUtils {
      */
     public static String isEmpty(String s, String result) {
 
-        if (s != null && !s.equals("")) {
+        if (s != null && !"".equals(s)) {
             return s;
         }
         return result;
@@ -1257,7 +1281,7 @@ public class StringUtils {
     public static boolean isNotBlank(String str) {
 
         boolean flag = true;
-        if (str != null && !str.equals("")) {
+        if (str != null && !"".equals(str)) {
             if (str.length() > 0) {
                 flag = true;
             }
@@ -1276,17 +1300,19 @@ public class StringUtils {
      */
     public static String full2Half(String str) {
 
-        if (str == null || "".equals(str))
+        if (str == null || "".equals(str)) {
             return "";
+        }
         StringBuffer sb = new StringBuffer();
 
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
 
-            if (c >= 65281 && c < 65373)
+            if (c >= 65281 && c < 65373) {
                 sb.append((char) (c - 65248));
-            else
+            } else {
                 sb.append(str.charAt(i));
+            }
         }
 
         return sb.toString();
@@ -1381,10 +1407,11 @@ public class StringUtils {
                 returnStr.append(list.get(i)).append(slipStr);
             }
         }
-        if (returnStr.toString().length() > 0)
+        if (returnStr.toString().length() > 0) {
             return returnStr.toString().substring(0, returnStr.toString().lastIndexOf(slipStr));
-        else
+        } else {
             return "";
+        }
     }
 
     /**
@@ -1401,10 +1428,11 @@ public class StringUtils {
                 returnStr.append(args[i]).append(slipStr);
             }
         }
-        if (returnStr.toString().length() > 0)
+        if (returnStr.toString().length() > 0) {
             return returnStr.toString().substring(0, returnStr.toString().lastIndexOf(slipStr));
-        else
+        } else {
             return "";
+        }
     }
 
     /**
@@ -1453,8 +1481,9 @@ public class StringUtils {
      */
     public static List<String> stringToStringListBySlipStr(String slipStr, String src) {
 
-        if (src == null)
+        if (src == null) {
             return null;
+        }
         List<String> list = new ArrayList<String>();
         String[] result = src.split(slipStr);
         for (int i = 0; i < result.length; i++) {
@@ -1597,10 +1626,11 @@ public class StringUtils {
      * @category 首字母大写
      */
     public static String firstUpperCase(String s) {
-        if (Character.isUpperCase(s.charAt(0)))
+        if (Character.isUpperCase(s.charAt(0))) {
             return s;
-        else
+        } else {
             return (new StringBuilder()).append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).toString();
+        }
     }
 
 
@@ -1611,10 +1641,11 @@ public class StringUtils {
      */
 
     public static String firstLowerCase(String s) {
-        if (Character.isLowerCase(s.charAt(0)))
+        if (Character.isLowerCase(s.charAt(0))) {
             return s;
-        else
+        } else {
             return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0))).append(s.substring(1)).toString();
+        }
     }
 
 
@@ -1628,7 +1659,7 @@ public class StringUtils {
         boolean isBaseClass = false;
         if (clazz.isArray()) {
             isBaseClass = false;
-        } else if (clazz.isPrimitive() || clazz.getPackage() == null || clazz.getPackage().getName().equals("java.lang") || clazz.getPackage().getName().equals("java.math") || clazz.getPackage().getName().equals("java.util")) {
+        } else if (clazz.isPrimitive() || clazz.getPackage() == null || "java.lang".equals(clazz.getPackage().getName()) || "java.math".equals(clazz.getPackage().getName()) || "java.util".equals(clazz.getPackage().getName())) {
             isBaseClass = true;
         }
         return isBaseClass;
@@ -1660,8 +1691,9 @@ public class StringUtils {
      */
     public final static void debug(Object[] obj) {
 
-        for (Object tmp : obj)
+        for (Object tmp : obj) {
             debug(tmp);
+        }
     }
 
     /**
@@ -1671,8 +1703,9 @@ public class StringUtils {
      */
     public static String toXMLFilter(Object obj) {
 
-        if (trim(obj).equals(""))
+        if ("".equals(trim(obj))) {
             return " ";
+        }
         return trim(obj).replaceAll("<!\\[CDATA\\[", "&lt;!CDATA").replaceAll("\\]\\]>", "]] >");
     }
 
@@ -1693,8 +1726,9 @@ public class StringUtils {
      */
     public final static String[] trim(String[] aStr) {
 
-        if (aStr == null)
+        if (aStr == null) {
             return null;
+        }
         for (int i = 0; i < aStr.length; i++) {
             aStr[i] = trim(aStr[i]);
         }
@@ -1736,7 +1770,7 @@ public class StringUtils {
     public final static Integer parseInteger(String str, int defaultVal) {
 
         try {
-            if (null == str || str.trim().equals("")) {
+            if (null == str || "".equals(str.trim())) {
                 return new Integer(defaultVal);
             } else {
                 return Integer.valueOf(str);
@@ -1833,8 +1867,9 @@ public class StringUtils {
      */
     public final static Long[] parseLong(String[] str) {
 
-        if (str == null || str.length < 1)
+        if (str == null || str.length < 1) {
             return new Long[0];
+        }
         Long[] result = new Long[str.length];
         for (int i = 0; i < str.length; i++) {
             result[i] = parseLong(str[i]);
@@ -1851,8 +1886,9 @@ public class StringUtils {
      */
     public final static Integer[] parseInteger(String[] str, int defaultVal) {
 
-        if (str == null || str.length < 1)
+        if (str == null || str.length < 1) {
             return new Integer[0];
+        }
         Integer[] result = new Integer[str.length];
         for (int i = 0; i < str.length; i++) {
             result[i] = parseInteger(str[i], defaultVal);
@@ -1869,8 +1905,9 @@ public class StringUtils {
      */
     public final static int[] parseInt(String[] str, int defaultVal) {
 
-        if (str == null || str.length < 1)
+        if (str == null || str.length < 1) {
             return new int[0];
+        }
         int[] result = new int[str.length];
         for (int i = 0; i < str.length; i++) {
             result[i] = parseInt(str[i], defaultVal);
@@ -1887,18 +1924,21 @@ public class StringUtils {
      */
     public final static int[] exclude(int[] src, int[] target) {
 
-        if (target == null || target.length < 1)
+        if (target == null || target.length < 1) {
             return src;
+        }
         StringBuilder tmp = new StringBuilder();
         for (int tt : src) {
-            if (!include(target, tt))
+            if (!include(target, tt)) {
                 tmp.append(tt + ",");
+            }
         }
         if (tmp.length() > 1 && tmp.charAt(tmp.length() - 1) == ',') {
             tmp.deleteCharAt(tmp.length() - 1);
         }
-        if (tmp.toString().trim().length() < 1)
+        if (tmp.toString().trim().length() < 1) {
             return new int[0];
+        }
         String[] array = tmp.toString().split(",");
         return parseInt(array, 0);
     }
@@ -1912,18 +1952,21 @@ public class StringUtils {
      */
     public final static String[] exclude(String[] src, String[] target) {
 
-        if (target == null || target.length < 1)
+        if (target == null || target.length < 1) {
             return src;
+        }
         StringBuilder tmp = new StringBuilder();
         for (String str : src) {
-            if (!include(target, str))
+            if (!include(target, str)) {
                 tmp.append(str + ",");
+            }
         }
         if (tmp.length() > 1 && tmp.charAt(tmp.length() - 1) == ',') {
             tmp.deleteCharAt(tmp.length() - 1);
         }
-        if (tmp.toString().trim().length() < 1)
+        if (tmp.toString().trim().length() < 1) {
             return new String[0];
+        }
         return tmp.toString().split(",");
     }
 
@@ -1935,15 +1978,17 @@ public class StringUtils {
      */
     public final static String join(Object[] src, String spliter) {
 
-        if (src == null || src.length < 1)
+        if (src == null || src.length < 1) {
             return "";
+        }
         StringBuffer tmp = new StringBuffer();
         // String mySpliter = trim(spliter).intern() == "" ? "," : spliter;
         String mySpliter = trim(spliter);
         for (int i = 0; i < src.length; i++) {
             tmp.append(src[i]);
-            if (i < src.length - 1)
+            if (i < src.length - 1) {
                 tmp.append(mySpliter);
+            }
         }
         return tmp.toString();
     }
@@ -1956,8 +2001,9 @@ public class StringUtils {
      */
     public final static String join(int[] src, String spliter) {
 
-        if (src == null || src.length < 1)
+        if (src == null || src.length < 1) {
             return "";
+        }
         StringBuffer tmp = new StringBuffer();
         String mySpliter = trim(spliter).intern() == "" ? "," : spliter;
         for (int i = 0; i < src.length; i++) {
@@ -1975,8 +2021,9 @@ public class StringUtils {
      */
     public final static String[] arround(String[] src, String str) {
 
-        if (src == null || src.length < 1)
+        if (src == null || src.length < 1) {
             return src;
+        }
         String[] result = new String[src.length];
         for (int i = 0; i < src.length; i++) {
             result[i] = str + src[i] + str;
@@ -2003,8 +2050,9 @@ public class StringUtils {
     public final static String toMethodName(String name) {
 
         String tmp = trim(name).intern();
-        if (tmp == "")
+        if (tmp == "") {
             return "";
+        }
         if (tmp.length() < 2) {
             return "set" + name.toUpperCase();
         } else {
@@ -2020,8 +2068,9 @@ public class StringUtils {
      */
     public final static String reflectObj(Object obj) {
 
-        if (obj == null)
+        if (obj == null) {
             return "";
+        }
         return ToStringBuilder.reflectionToString(obj);
     }
 
@@ -2031,8 +2080,9 @@ public class StringUtils {
 
     public final static String mapToString(Map<?, ?> map) {
 
-        if (map == null)
+        if (map == null) {
             return null;
+        }
         StringBuilder buf = new StringBuilder("[");
         Iterator<?> it = map.keySet().iterator();
         while (it.hasNext()) {
@@ -2052,20 +2102,25 @@ public class StringUtils {
      */
     public final static boolean sameLength(String[]... array) {
 
-        if (array.length <= 1)
+        if (array.length <= 1) {
             return true;
+        }
         for (int i = 0; i < array.length; i++) {
             String[] str1 = array[i];
             for (int j = i + 1; j < array.length; j++) {
                 String[] str2 = array[j];
-                if (str1 == null && str2 == null)
+                if (str1 == null && str2 == null) {
                     continue;
-                if (str1 == null && str2 != null)
+                }
+                if (str1 == null && str2 != null) {
                     return false;
-                if (str1 != null && str2 == null)
+                }
+                if (str1 != null && str2 == null) {
                     return false;
-                if (str1.length != str2.length)
+                }
+                if (str1.length != str2.length) {
                     return false;
+                }
             }
         }
         return true;
@@ -2079,11 +2134,13 @@ public class StringUtils {
      */
     public final static boolean include(int[] source, int test) {
 
-        if (source == null || source.length < 1)
+        if (source == null || source.length < 1) {
             return false;
+        }
         for (int tmp : source) {
-            if (tmp == test)
+            if (tmp == test) {
                 return true;
+            }
         }
         return false;
     }
@@ -2096,13 +2153,16 @@ public class StringUtils {
      */
     public final static boolean include(String[] source, String test) {
 
-        if (source == null || source.length < 1)
+        if (source == null || source.length < 1) {
             return false;
+        }
         for (String tmp : source) {
-            if (tmp == null && test == null)
+            if (tmp == null && test == null) {
                 return true;
-            if (tmp != null && tmp.equals(test))
+            }
+            if (tmp != null && tmp.equals(test)) {
                 return true;
+            }
         }
         return false;
     }
@@ -2115,13 +2175,16 @@ public class StringUtils {
      */
     public final static boolean includeIgnoreCase(String[] source, String test) {
 
-        if (source == null || source.length < 1)
+        if (source == null || source.length < 1) {
             return false;
+        }
         for (String tmp : source) {
-            if (tmp == null && test == null)
+            if (tmp == null && test == null) {
                 return true;
-            if (tmp != null && tmp.equalsIgnoreCase(test))
+            }
+            if (tmp != null && tmp.equalsIgnoreCase(test)) {
                 return true;
+            }
         }
         return false;
     }
@@ -2134,10 +2197,12 @@ public class StringUtils {
      */
     public final static boolean includeIgnoreCaseStrings(String[] source1, String[] source2) {
 
-        if (source1 == null || source1.length < 1)
+        if (source1 == null || source1.length < 1) {
             return false;
-        if (source2 == null || source2.length < 1)
+        }
+        if (source2 == null || source2.length < 1) {
             return false;
+        }
 
         for (String tmp2 : source2) {
             boolean isFind1 = false; // 记录2中的某一个是否存在1中
@@ -2161,10 +2226,12 @@ public class StringUtils {
      */
     public final static String capitalize(String str) {
 
-        if (str == null || str.length() < 1)
+        if (str == null || str.length() < 1) {
             return str;
-        if (str.length() == 1)
+        }
+        if (str.length() == 1) {
             return str.toUpperCase();
+        }
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
@@ -2175,10 +2242,12 @@ public class StringUtils {
      */
     public final static String unCapitalize(String str) {
 
-        if (str == null || str.length() < 1)
+        if (str == null || str.length() < 1) {
             return str;
-        if (str.length() == 1)
+        }
+        if (str.length() == 1) {
             return str.toLowerCase();
+        }
         return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
 
@@ -2189,8 +2258,9 @@ public class StringUtils {
      */
     public final static String reverse(String str) {
 
-        if (trim(str).equals(""))
+        if ("".equals(trim(str))) {
             return str;
+        }
         return new StringBuilder(str).reverse().toString();
     }
 
@@ -2225,7 +2295,7 @@ public class StringUtils {
      */
     public final static String ObjecttoString(Object obj) {
 
-        if (obj == null || obj.equals("")) {
+        if (obj == null || "".equals(obj)) {
             return " ";
         } else {
             return obj.toString();
@@ -2239,7 +2309,7 @@ public class StringUtils {
      */
     public final static Integer StringToInteger(String str) {
 
-        if (str.equals("null") || str.equals("") || str == null) {
+        if ("null".equals(str) || "".equals(str) || str == null) {
             return 0;
         } else {
             return Integer.parseInt(str);
@@ -2296,8 +2366,9 @@ public class StringUtils {
     public static String stringAddOne(String arg1) {
 
         // 不符合要求的数据，直接返回0。
-        if (arg1.length() != 3 || arg1.equals("999"))
+        if (arg1.length() != 3 || "999".equals(arg1)) {
             return "0";
+        }
 
         // 符合要求的数据，+1
         Integer strInt = Integer.parseInt(arg1) + 1;
@@ -2355,7 +2426,7 @@ public class StringUtils {
         if (StringUtils.isNullAndBlank(maxSameFather)) {
             //表示没有同级组织    则  父号 +10
             //如果 父号码是 0 就直接是10 了
-            if (fatherCode == null || fatherCode.equals("0") || fatherCode.equals("")) {
+            if (fatherCode == null || "0".equals(fatherCode) || "".equals(fatherCode)) {
                 result = "11";
             } else {
                 // 如果不存在同级组织的最大内码，则在上级组织尾巴增加11变成本级组织的内码
@@ -2392,7 +2463,7 @@ public class StringUtils {
      */
     public static String getBigStr(String sourceStr) {
         String newStr = "";
-        if (sourceStr.substring(sourceStr.length() - 1, sourceStr.length()).equals("0")) {
+        if ("0".equals(sourceStr.substring(sourceStr.length() - 1, sourceStr.length()))) {
             String newStrTemp = sourceStr.substring(0, sourceStr.length() - 1);
             newStr = getBigStr(newStrTemp);
         } else {
@@ -2437,7 +2508,7 @@ public class StringUtils {
      */
     public static String getReduO(String sourceStr) {
         String newStr = "";
-        if (sourceStr.substring(sourceStr.length() - 1, sourceStr.length()).equals("0")) {
+        if ("0".equals(sourceStr.substring(sourceStr.length() - 1, sourceStr.length()))) {
             String newStrTemp = sourceStr.substring(0, sourceStr.length() - 1);
             newStr = getReduO(newStrTemp);
         } else {

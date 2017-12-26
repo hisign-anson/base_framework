@@ -164,7 +164,8 @@ public class RabbitMQConfig {
         container.setConcurrentConsumers(1);  
         container.setAcknowledgeMode(AcknowledgeMode.MANUAL); //设置确认模式手工确认  
         container.setMessageListener(new ChannelAwareMessageListener() {
-            public void onMessage(Message message, com.rabbitmq.client.Channel channel) throws Exception {
+            @Override
+			public void onMessage(Message message, com.rabbitmq.client.Channel channel) throws Exception {
                 String msg = new String(message.getBody());  
                 logger.info("收到消息={0}", msg);
                 NoteBean noteBean = JSON.parseObject(msg, NoteBean.class);
@@ -235,7 +236,8 @@ public class RabbitMQConfig {
         container.setConcurrentConsumers(1);  
         container.setAcknowledgeMode(AcknowledgeMode.MANUAL); //设置确认模式手工确认  
         container.setMessageListener(new ChannelAwareMessageListener() {
-            public void onMessage(Message message, com.rabbitmq.client.Channel channel) throws Exception {
+            @Override
+			public void onMessage(Message message, com.rabbitmq.client.Channel channel) throws Exception {
                 String msg = new String(message.getBody());  
                 logger.info("收到消息={0}", msg);
                 MsgBean msgBean = JSON.parseObject(msg, MsgBean.class);
@@ -307,6 +309,7 @@ public class RabbitMQConfig {
 		container.setConcurrentConsumers(1);
 		container.setAcknowledgeMode(AcknowledgeMode.MANUAL); //设置确认模式手工确认
 		container.setMessageListener(new ChannelAwareMessageListener() {
+			@Override
 			public void onMessage(Message message, com.rabbitmq.client.Channel channel) throws Exception {
 				String msg = new String(message.getBody());
 				logger.info("收到消息={0}", msg);
@@ -379,6 +382,7 @@ public class RabbitMQConfig {
 		container.setConcurrentConsumers(1);
 		container.setAcknowledgeMode(AcknowledgeMode.MANUAL); //设置确认模式手工确认
 		container.setMessageListener(new ChannelAwareMessageListener() {
+			@Override
 			public void onMessage(Message message, Channel channel) throws Exception {
 				String msg = new String(message.getBody());
 				logger.info("收到消息={0}", msg);

@@ -27,6 +27,7 @@ public class SysLogServiceImpl implements SysLogService {
      * @Author xiaohuiwen
      * @param sysUser 用户Model
      */
+    @Override
     public void insertLogUserInfo(SysUser sysUser){
         sysLogMapper.insertLogUserInfo(sysUser);
     }
@@ -48,7 +49,8 @@ public class SysLogServiceImpl implements SysLogService {
      * @param sysUser
      * @return
      */
-    public String insertOperLog(String paraStr,String requestPath,String ip,SysUser sysUser) throws Exception{
+    @Override
+    public String insertOperLog(String paraStr, String requestPath, String ip, SysUser sysUser) throws Exception{
         String[] arr = requestPath.split("/");
         OperationLog operationLog = new OperationLog();
         operationLog.setModule(arr[0]);

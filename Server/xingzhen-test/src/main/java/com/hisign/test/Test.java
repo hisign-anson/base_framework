@@ -103,7 +103,7 @@ public class Test {
         // 声明一个队列
         channel.queueDeclare("queue.im.appmsgcallback", false, false, false, null);
 
-        for (int i = 1; i <= 100000 ; i++) {
+        for (int i = 1; i <= 10000 ; i++) {
             int number = new Random().nextInt(member.length);
             String pingYin = PingYinUtil.getPingYin(member[number]);
             IMessage msg = new IMessage();

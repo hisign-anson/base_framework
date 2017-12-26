@@ -78,7 +78,7 @@ public class IpUtil {
 		long bEnd = getIpNum("172.31.255.255");
 		long cBegin = getIpNum("192.168.0.0");
 		long cEnd = getIpNum("192.168.255.255");
-		isInnerIp = isInner(ipNum, aBegin, aEnd) || isInner(ipNum, bBegin, bEnd) || isInner(ipNum, cBegin, cEnd) || ipAddress.equals("127.0.0.1");
+		isInnerIp = isInner(ipNum, aBegin, aEnd) || isInner(ipNum, bBegin, bEnd) || isInner(ipNum, cBegin, cEnd) || "127.0.0.1".equals(ipAddress);
 		return isInnerIp;
 	}
 

@@ -67,19 +67,23 @@ public class BusinessException extends BaseException {
 		this.className = clazz.getName();
 	}
 
+	@Override
 	public int getCode() {
 		return code;
 	}
 
+	@Override
 	public String getMsg() {
 		return msg;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public Class getClazz() {
 		return clazz;
 	}
 
+	@Override
 	public String getClassName() {
 		return className;
 	}

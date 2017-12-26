@@ -266,6 +266,7 @@ public class AjgroupServiceImpl extends BaseServiceImpl<Ajgroup, AjgroupModel, S
      * @return
      * @throws BusinessException
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public JsonResult removeCaseList(List<AjgroupParam> ajgroupList) throws BusinessException {
 
